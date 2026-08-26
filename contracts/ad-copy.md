@@ -1,89 +1,98 @@
 # Output Contract: Ad Copy
 locked: 2026-08-26
-version: 1.0.0
+version: 2.0.0
 
-Primary text, headlines, descriptions and CTAs for one ad.
+Primary text, headlines, descriptions, and one Meta CTA for one approved ad execution.
 
 ## Artefact
-Markdown block per ad, or a table when a full batch is delivered at once.
+
+A Markdown block per ad. A batch may use a table only when every required field remains visible.
 
 ## Sections, in order
 
-1. **Ad reference** - concept code, awareness code, format, destination
-2. **The job** - one line: what this ad's copy has to make the reader believe or feel
-3. **Primary text, option A** - with its lead type named
-4. **Primary text, option B** - a meaningfully different lead type, not a reworded A
-5. **Headlines** - 2 options
-6. **Descriptions** - 2 options
-7. **CTA button** - the Meta CTA selected, from the standard list
-8. **Rationale** - 3 to 5 lines: the lead types chosen and why, the belief targeted, the proof
-   used, the objection pre-empted
-9. **Claim check** - every claim in the copy listed against its approved wording, or marked
-   as needing approval
+1. **Ad reference** - brand, market, product, concept code, awareness state, format, destination
+2. **The job** - the single belief or feeling this copy must create
+3. **Lead route A** - named lead type, hook source, and body structure
+4. **Primary text A, Short version**
+5. **Primary text A, Medium version**
+6. **Primary text A, Long version**
+7. **Lead route B** - a meaningfully different named lead type, hook source, and body structure
+8. **Primary text B, Short version**
+9. **Primary text B, Medium version**
+10. **Primary text B, Long version**
+11. **Headlines** - five distinct options
+12. **Descriptions** - two distinct options
+13. **CTA button** - one standard Meta CTA
+14. **Rationale** - the routes, awareness fit, proof, objection, and destination logic
+15. **Claim check** - each claim, its approved wording or evidence, and approval status
 
-## Counts
+## Counts and length bands
 
-- Primary text options: exactly 2
-- Headline options: exactly 2
-- Description options: exactly 2
-- Primary text length: 50 to 150 words, unless the awareness state justifies otherwise and the
-  rationale says so
-- Headline length: keep the meaning complete inside the first 40 characters
+- Lead routes: exactly 2
+- Short version: 30 to 60 words per route
+- Medium version: 80 to 140 words per route
+- Long version: 180 to 300 words per route
+- Headlines: exactly 5
+- Descriptions: exactly 2
+- CTA: exactly 1
+
+The three lengths within a route carry the same core argument at different depths. They are not
+three unrelated ideas. A justified format constraint may change a length band, but the rationale
+must state the reason and the actual word count.
 
 ## Structural rules
 
-**Primary text.** The first line is the whole game. Meta truncates the primary text on mobile
-feed behind a "See more", and the cut lands early. Front-load: the complete idea must survive
-if the reader never expands. Check `references/12-meta-platform.md` for the current counts
-before treating any specific character number as fact.
+**Line one is a complete hook.** It must survive mobile truncation without the reader expanding the
+copy. It may name the situation, make a supportable promise, open a curiosity gap, present proof, or
+answer an objection. It never starts with the brand name or "Introducing".
 
-**Line one** does one of: names the situation, states the promise, or opens the curiosity gap.
-It never opens with the brand name, and it never opens with "Introducing".
+**Route A and route B enter through different arguments.** A promise lead and a confession lead are
+meaningfully different. Two synonyms inside the same sentence are not.
 
-**Body** follows one named structure from `references/05-copy-craft.md`. The structure is named
-in the rationale, not guessed at.
+**Body structure is named.** Use a structure from `references/05-copy-craft.md`, adapted to the
+awareness state and length. Proof appears before the ask.
 
-**Close** gives one instruction. One CTA, not three.
+**One close.** Give one instruction and one CTA. Do not add competing asks.
 
-**Headline.** Selects the prospect and completes an idea. It is not the primary text's first
-line repeated. It passes the 4U test.
-
-**The two options must differ at the lead level.** Option A promise lead and option B story
-lead is a real variation. Option A and option B with two adjectives swapped is not.
+**Headlines are independently useful.** Each selects the right prospect or completes a supportable
+idea. Do not repeat the primary text's first line five times.
 
 ## Awareness rules
 
-| Awareness | Primary text opens with | Never |
+| Awareness | Strong opening routes | Avoid |
 |---|---|---|
-| UWA | Situation, story or unexpected cause | The product name in line one |
-| PRA | The problem named precisely, or its cost | Generic problem description |
-| SLA | The mechanism, comparison or demonstration | Assuming they prefer this category |
-| PDA | Proof, differentiation, offer terms | Re-teaching the category |
+| Unaware | situation, story, POV, unexpected observation | product name in line one |
+| Problem aware | precise problem, cost, unexpected cause | generic problem language |
+| Solution aware | mechanism, comparison, demonstration | assuming category preference |
+| Product aware | proof, differentiation, objection | re-teaching the category |
+| Most aware | offer, terms, urgency supported by fact | a long educational preamble |
 
 ## Formatting rules
 
-- Written to one person
-- Real numbers over adjectives
-- No em dashes, no en dashes
-- No AI-signal vocabulary, per `references/10-voice-and-claims.md`
-- Voice rules come from the Brand Context Pack and override anything here that conflicts,
-  except the claim gate, which never bends
+- Write to one person.
+- Prefer specific evidence and real numbers to adjectives.
+- Use no em dashes or en dashes.
+- Apply `references/10-voice-and-claims.md` and approved brand-folder voice rules.
+- Brand voice may change style, never the claim gate.
+- Keep the important meaning early in every length.
 
 ## Never
 
-- Invented statistics, testimonials, reviews or scarcity
-- A claim without an approved wording entry when the category is marked regulated
-- Emoji unless the brand voice explicitly allows them
-- Engagement bait or comment bait
-- Two options that are the same lead type reworded
+- Invented statistics, testimonials, reviews, scarcity, or urgency
+- A regulated claim without approved wording
+- Two routes that are the same lead reworded
+- A long version padded with repetition
+- Emoji unless the approved brand voice permits it
+- Engagement bait, comment bait, or multiple CTAs
 
 ## Self-check before presenting
 
-- [ ] Exactly 2 primary texts, 2 headlines, 2 descriptions
-- [ ] The two primary texts use different lead types, both named
-- [ ] Line one carries the idea without needing the expand
-- [ ] Body structure named in the rationale
-- [ ] One CTA only
-- [ ] Every claim listed in the claim check
-- [ ] Zero banned words and zero em dashes
-- [ ] You Test and So What Test both pass
+- [ ] Exactly 2 lead routes and 6 primary-text versions
+- [ ] Each route has a Short version, Medium version, and Long version
+- [ ] The two lead types differ strategically and are named
+- [ ] Exactly 5 headlines, 2 descriptions, and 1 CTA
+- [ ] Every first line stands alone before truncation
+- [ ] Every body structure is named and proof precedes the ask
+- [ ] Every claim appears in the claim check
+- [ ] No banned vocabulary, em dashes, or en dashes
+- [ ] The You Test and So What Test both pass

@@ -1,69 +1,101 @@
 # Output Contract: Customer Intelligence Brief
 locked: 2026-08-26
-version: 1.0.0
+version: 2.0.0
 
-Produced by the intelligence pass. Every downstream output reads it. If this is thin,
-everything after it is guesswork.
+The evidence base for strategy. Thin evidence produces a clearly limited brief, not invented certainty.
 
 ## Artefact
-Markdown document. `customer-intelligence-{{brand.slug}}-YYYYMMDD.md`
+
+Markdown document. `customer-intelligence-BRAND-YYYYMMDD.md`
 
 ## Sections, in order
 
-1. **Evidence base** - what was harvested, from where, how much, with links. Table: source,
-   type, volume, date pulled. Also lists what could not be harvested and why.
-2. **Business guardrails** - target CAC, AOV, contribution margin, break-even CAC, test budget.
-   Straight from config. If a value is missing, the row says MISSING and the brief flags it.
-3. **Market sophistication** - the stage, 1 to 5, with the count of distinct promises across
-   the competitor set and the reasoning. One paragraph plus the evidence table.
-4. **Awareness distribution** - where the bulk of the market sits, with the language evidence
-   that shows it. One paragraph plus at least three verbatim quotes.
-5. **Competitor message map** - table: brand, dominant promise, named mechanism, dominant
-   format, longest-running ad and its run length, link.
-6. **Personas** - 2 to 4, behavioural only. Each: name, the situation that activates the need,
-   what they already do and believe, what they distrust, purchase criteria. No demographics
-   unless they diagnose the behaviour.
-7. **Outcomes by persona** - each persona's 2 to 4 problems or desired outcomes, ranked by how
-   often the language appears in the evidence.
-8. **Voice of Customer bank** - the six-part structure: situation, problem language, desired
-   outcome, failed alternatives, objections, proof language. Minimum 8 verbatim quotes per
-   part, each with a source link.
-9. **Objection ranking** - the objection families present, ranked by frequency, each with the
-   necessary belief it maps to and 2 or more verbatim examples.
-10. **Claim ceiling** - what can and cannot be said in this category and market, and which
-    claims already have approved wording.
-11. **White space** - what nobody in the competitor set is saying that the evidence supports.
-    2 to 5 items, each with the evidence that supports it.
-12. **What is thin** - explicit list of anything under-evidenced, and what would fix it.
+1. **Research header** - brand, market, product, retrieval window, website crawl status, connectors
+   used, and important limitations
+2. **Evidence ledger** - source, evidence class, owner or publisher, volume, date, URL or file,
+   confidence, and what it can legitimately support
+3. **Current brand truth** - product, mechanism, offer, proof, claims, constraints, and material
+   website changes since the prior snapshot
+4. **Business guardrails** - supplied AOV, margins, target CAC, break-even CAC, test budget, and
+   missing values; recommendations are provisional where inputs are missing
+5. **Demand and customer language** - situations, problems, desired outcomes, failed alternatives,
+   objections, proof language, and search or community signals
+6. **Behavioural learning** - supplied sales, support, returns, approved manual ad results, and prior
+   brand learning; omit the section only when no behavioural data exists and state that absence
+7. **Market sophistication** - stage hypothesis, observed promise patterns, mechanisms, and evidence
+8. **Awareness distribution** - the states evidenced in the sample, supporting language, confidence,
+   and sampling limitations
+9. **Competitor message map** - brand, promise, mechanism, offer, format, destination, observed date,
+   source, and confidence
+10. **Behavioural personas** - 2 to 4 when evidence supports them; situation, current behaviour,
+    belief, distrust, criteria, and evidence strength
+11. **Outcomes by persona** - problems and desired outcomes ranked within the observed evidence, not
+    claimed as population prevalence
+12. **Voice of Customer bank** - exact quotes grouped into the six demand categories, source-linked
+13. **Objection and belief map** - observed objection families, examples, evidence class, necessary
+    belief, and confidence
+14. **Claim ceiling** - approved wording, prohibited wording, substantiation, market, and owner
+15. **Opportunity hypotheses** - competitor-set gaps and underused arguments the evidence could
+    support, with disconfirming evidence and a validation step
+16. **What remains thin** - gaps, consequences, and the next-best research action
+
+## Evidence classes
+
+Use the source classes in `references/13-brand-folder.md` without blending them. A competitor review
+is market evidence. It does not become a statement about the active brand's customers. A brand web
+page is a brand assertion until product evidence or an owner validates the fact.
+
+Confidence labels:
+
+- **High:** direct, current, corroborated evidence suitable for the stated claim
+- **Medium:** relevant evidence with one material limitation
+- **Low:** directional evidence, a small or biased sample, or strategist judgement
+
+Every synthesis statement carries a source class and confidence. Include contradictions instead of
+averaging them away.
 
 ## Counts
 
-- Personas: 2 to 4
+- Personas: 2 to 4 when evidence supports segmentation; fewer is valid for an early brand
 - Outcomes per persona: 2 to 4
-- Verbatim quotes in the VoC bank: 8 or more per part
-- Competitors in the message map: 5 or more, or a stated reason why fewer
-- White space items: 2 to 5
+- Competitors: 5 or more where the market offers them; otherwise explain the actual set
+- Quotes per Voice of Customer category: target 8; use fewer and label the gap rather than padding
+- Opportunity hypotheses: 2 to 5 when supported; zero is valid
+
+## New-brand rule
+
+When the brand has no reviews or customers, use product truth, founder hypotheses, competitor sites,
+competitor reviews, public communities, search language, and category evidence. Label all external
+findings as market evidence and keep customer conclusions provisional until first-party evidence
+arrives.
 
 ## Formatting rules
 
-- Every quote is verbatim, uncorrected, with a source link
-- Every claim carries a source or the tag `[UNSOURCED, strategist judgement]`
-- Tables for anything comparative, prose only where reasoning is being shown
-- No em dashes
+- Preserve quotes verbatim and link or identify the source.
+- Mark unavailable or inaccessible sources explicitly.
+- Put comparative facts in tables and reasoning in prose.
+- Use no em dashes or en dashes.
+- Use observed-sample language such as "within the reviewed sources" rather than population claims.
 
 ## Never
 
-- A persona defined by age or gender alone
-- A quote that was cleaned up, paraphrased or invented
-- A sophistication or awareness call without the count or the language behind it
-- Filling section 8 to hit the quote count with near-duplicates
+- Demographic-only personas
+- Cleaned, paraphrased, duplicated, or invented quotes presented as verbatim
+- A sophistication or awareness conclusion without its evidence and limitation
+- "Nobody says this" when the actual finding is limited to the reviewed competitor set
+- Market evidence presented as active-brand customer evidence
+- Frequency rankings without a defined sample
+- Padding a section to hit a count
 
 ## Self-check before presenting
 
-- [ ] Section order matches exactly
-- [ ] Every persona is behavioural, not demographic
-- [ ] Every quote has a source link and is verbatim
-- [ ] Sophistication stage has a promise count behind it
-- [ ] Awareness call has at least three quotes behind it
-- [ ] Section 12 is honest, not empty by default
-- [ ] No brand value used that did not come from config or the Brand Context Pack
+- [ ] Crawl freshness and connector success are stated
+- [ ] Every source has an evidence class, date, and confidence
+- [ ] Material website changes are surfaced
+- [ ] Brand facts, brand assertions, customer evidence, market evidence, behaviour, and judgement stay separate
+- [ ] Every persona is behavioural and evidence-backed
+- [ ] Quotes are verbatim and traceable
+- [ ] Awareness and sophistication are bounded hypotheses, not universal claims
+- [ ] Opportunity hypotheses name the reviewed set and a validation action
+- [ ] Missing first-party evidence lowers confidence explicitly
+- [ ] Section 16 is honest and actionable

@@ -1,17 +1,20 @@
 # Output Contract: Ad Diagnosis
 locked: 2026-08-26
-version: 1.0.0
+version: 1.1.0
 
 Reading performance data and returning what to do about it. Not a dashboard, not a summary.
+This workflow accepts manually supplied Meta exports, screenshots or tables. It does not require a live Meta connection.
 
 ## Artefact
 Markdown report. `diagnosis-{{brand.slug}}-YYYYMMDD.md`
 
 ## Sections, in order
 
-1. **Read validity** - spend, purchases and days elapsed against the minimum thresholds in
-   config. States plainly whether this is a verdict, a direction, or too early to call. This
-   section comes first because it governs how much weight everything after it carries.
+1. **Input audit and read validity** - names every manual file, screenshot or table supplied, its
+   date range, attribution setting, currency, level of aggregation and missing fields. Then checks
+   spend, purchases and days elapsed against the minimum thresholds in the brand folder. States
+   plainly whether this is a verdict, a direction, or too early to call. This section comes first
+   because it governs how much weight everything after it carries.
 2. **Business result** - table by concept: spend, purchases, CAC against target, revenue,
    contribution after advertising
 3. **Funnel result** - table by concept or ad: outbound CTR, landing page view rate, add to
@@ -41,14 +44,17 @@ Every row carries a number in the number column. A row without one does not get 
 
 ## Hard rules
 
-1. Every recommendation names the metric and the threshold it crossed
-2. No verdict called below the minimum spend or purchase count in config. "Needs N more
+1. Manual input is accepted as the current source of truth. Do not imply direct account access
+2. Preserve the supplied date range, attribution setting, currency and level of aggregation
+3. Do not combine screenshots or exports whose scopes differ without showing the reconciliation
+4. Every recommendation names the metric and the threshold it crossed
+5. No verdict called below the minimum spend or purchase count in config. "Needs N more
    purchases" is the correct output in that case
-3. Never attribute a result to a variable the test did not isolate. Write "associated with",
+6. Never attribute a result to a variable the test did not isolate. Write "associated with",
    not "caused by"
-4. Distinguish concept results from execution results. One losing video does not kill a
+7. Distinguish concept results from execution results. One losing video does not kill a
    concept whose other three executions were never funded
-5. Losers get analysed, not skipped. Section 8 covers them
+8. Losers get analysed, not skipped. Section 8 covers them
 
 ## Never
 
@@ -62,6 +68,8 @@ Every row carries a number in the number column. A row without one does not get 
 ## Self-check before presenting
 
 - [ ] Section 1 states validity before any conclusion is drawn
+- [ ] Every manual source, date range, attribution setting and missing field is listed
+- [ ] The report never implies live Meta access
 - [ ] Every change list row has a number
 - [ ] Every concept that spent money appears in the tables
 - [ ] No causal language on a non-isolated variable

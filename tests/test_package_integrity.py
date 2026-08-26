@@ -102,6 +102,41 @@ class PackageIntegrityTests(unittest.TestCase):
 
         self.assertEqual(set(), missing)
 
+    def test_v02_contracts_and_frozen_examples_exist(self):
+        required = {
+            "contracts/brand-readiness.md",
+            "contracts/hook-batch.md",
+            "contracts/learning-update.md",
+            "examples/brand-readiness.md",
+            "examples/hook-batch.md",
+            "examples/learning-update.md",
+        }
+
+        missing = {relative for relative in required if not (ROOT / relative).is_file()}
+
+        self.assertEqual(set(), missing)
+
+    def test_ad_copy_contract_requires_length_variants(self):
+        contract = (ROOT / "contracts" / "ad-copy.md").read_text()
+
+        self.assertIn("Short version", contract)
+        self.assertIn("Medium version", contract)
+        self.assertIn("Long version", contract)
+        self.assertIn("exactly 5", contract)
+
+    def test_concept_contract_uses_portfolio_awareness_coverage(self):
+        contract = (ROOT / "contracts" / "concept-batch.md").read_text()
+
+        self.assertIn("portfolio", contract.lower())
+        self.assertIn("Most aware", contract)
+        self.assertNotIn("exactly 4, one per awareness state", contract)
+
+    def test_diagnosis_contract_accepts_manual_exports(self):
+        contract = (ROOT / "contracts" / "ad-diagnosis.md").read_text()
+
+        self.assertIn("manual", contract.lower())
+        self.assertIn("does not require a live Meta connection", contract)
+
 
 if __name__ == "__main__":
     unittest.main()
