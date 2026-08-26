@@ -1,0 +1,12 @@
+config/brand.yml
+config/*.local.yml
+output/
+.env
+.DS_Store
+__pycache__/
+*.pyc
+node_modules/
+dist/
+.fuse_hidden*
+_to_delete/
+_source/
