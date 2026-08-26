@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://joekatf-ops.github.io/agent-marketing-strategist/schemas/learning-event.schema.json",
+  "title": "Marketing strategist learning event",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "brand_slug",
+    "market",
+    "product_id",
+    "source_asset_id",
+    "before",
+    "after",
+    "reason",
+    "scope",
+    "classification",
+    "status",
+    "confidence",
+    "author",
+    "timestamp"
+  ],
+  "properties": {
+    "event_id": {"type": "string", "pattern": "^LEARN-[A-Z0-9]+$"},
+    "brand_slug": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "market": {"type": "string", "minLength": 2},
+    "product_id": {"type": "string", "minLength": 1},
+    "source_asset_id": {"type": "string", "minLength": 1},
+    "before": {"type": "string"},
+    "after": {"type": "string"},
+    "reason": {"type": "string", "minLength": 1},
+    "scope": {
+      "enum": ["execution", "product", "market", "brand", "editor", "universal_candidate"]
+    },
+    "classification": {
+      "enum": [
+        "factual_correction",
+        "compliance_correction",
+        "voice_rule",
+        "preference",
+        "execution_specific",
+        "strategic_learning",
+        "editor_preference",
+        "accidental_edit"
+      ]
+    },
+    "status": {"enum": ["proposed", "approved", "rejected", "experimental"]},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "author": {"type": "string", "minLength": 1},
+    "timestamp": {"type": "string", "format": "date-time"}
+  }
+}
