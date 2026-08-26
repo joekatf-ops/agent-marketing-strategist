@@ -1,118 +1,166 @@
 # agent-marketing-strategist
 
-The marketing strategist. Researches the customer, builds the concepts, writes the copy and
-scripts, and reads what happened.
+An evidence-led direct-response Meta strategist for DTC brands. One universal method serves many
+brands. Each brand keeps its own connected folder, evidence, decisions, creative, and approved
+learning.
 
-**Status:** In Build
-**Function:** Create
-**Version:** see `VERSION`
+**Version:** 0.2.0
+**Status:** build candidate
 
----
+## The operating model
 
-## What it does
-
-Most creative agents start at the wrong end. They write a hook, then look for a reason.
-
-This one starts with evidence. It mines competitor ads and customer reviews, works out how the
-market actually talks, calls where the market sits on awareness and sophistication, and only
-then builds concepts. Everything it writes afterwards traces back to something someone actually
-said.
-
-Then it reads what happened and decides what to make next.
-
-## What you get back
-
-Six artefacts, each governed by a locked contract in `contracts/`.
-
-| Artefact | What it is |
-|---|---|
-| Customer Intelligence Brief | Personas, Voice of Customer bank, objection ranking, competitor message map, white space |
-| Concept Batch | Three concepts, each with a hypothesis, its evidence, and four awareness executions |
-| Ad Copy | Two primary texts, two headlines, two descriptions, CTA, with lead types named |
-| Video Script | Beat-by-beat table, three-part opening, shot list, captions |
-| Static and Carousel Spec | Layout, copy, visual direction, ready to build |
-| Ad Diagnosis | Read validity first, then a ranked change list where every row carries a number |
-
-## The concept model
-
-**Concept = Persona x Outcome x Angle.** Change any one and it is a new concept. Nothing else
-is a concept axis.
-
-- **Persona** is behavioural, never demographic
-- **Outcome** is one problem escaped or desire achieved
-- **Angle** is a one-sentence strategic argument that never restates the outcome
-- **Angle type**, exactly one of: How it works, The reframe, Vs the old way, Proof you can see
-
-Format, hook, length, creator and awareness are execution variables, not concept axes.
-
-Every concept ships four awareness executions: unaware, problem aware, solution aware, product
-aware. Each makes a complete standalone argument, because Meta does not sequence ads for you.
-
-## What you need before you run it
-
-| Requirement | Why |
-|---|---|
-| A Brand Context Pack | Voice, palette, product, proof, price, guarantee, claim ceiling |
-| `config/brand.yml` | Economics, naming codes, production limits, test thresholds |
-| Competitor URLs and seed terms | The research pass has to start somewhere |
-| Competitor ad research capability | Foreplay, Trendtrack or the Meta Ad Library |
-| Review and community mining capability | Any scraper that reaches reviews, Reddit, comments |
-
-If a required input is missing, the agent names it and stops. It does not guess.
-
-## Install
-
-**Claude Code or Cowork**
-```bash
-git clone https://github.com/joekatf-ops/agent-marketing-strategist.git ~/.claude/skills/agent-marketing-strategist
+```text
+Universal strategist
+├── Joe's method, contracts, hook formats, and research rules
+├── Optional connectors: Firecrawl, TrendTrack, Foreplay
+└── One active brand folder per run
+    ├── brand and product truth
+    ├── website snapshots and external evidence
+    ├── customer intelligence and concepts
+    ├── outputs and approved claims
+    └── append-only learning and approved rules
 ```
 
-**Claude Desktop**
-Add the cloned folder as a project folder, or upload `SKILL.md` and `references/` into a Project.
+The universal skill never absorbs one brand's preferences automatically. The brand folder is the
+durable brain for that brand and travels between LLMs through direct folder access or a generated
+brand bundle.
 
-**Codex, Cursor, Zed, Aider**
+## What it produces
+
+| Artefact | What it does |
+|---|---|
+| Brand Readiness | Checks identity, evidence, website freshness, claims, connectors, and mode limits |
+| Customer Intelligence | Separates first-party truth, customer evidence, market evidence, behaviour, and judgement |
+| Concept Batch | Builds an evidence-backed Persona x Outcome x Angle portfolio |
+| Hook Batch | Creates six strategically different hooks across at least four formats |
+| Ad Copy | Creates two lead routes, each in short, medium, and long form, plus five headlines |
+| Video Script | Produces a shootable beat-by-beat script, opening, shot list, and claim check |
+| Static and Carousel Spec | Produces an executable layout, copy, visual direction, and claim check |
+| Ad Diagnosis | Reads manually supplied Meta exports or screenshots without requiring live access |
+| Learning Update | Captures approved human revisions without turning every edit into a permanent rule |
+
+Each output has a versioned contract in [`contracts/`](contracts/).
+
+## Start a brand
+
+Create one folder for every brand:
+
+```bash
+python3 scripts/init-brand-folder.py /path/to/brands/example-brand \
+  --name "Example Brand" \
+  --slug example-brand
+```
+
+Then fill the folder in this order:
+
+1. `brand.yml`: identity, market, website, ownership, naming, and crawl state
+2. `context/brand-core.md`: positioning and current brand assertions
+3. `context/voice.md` and `context/visual.md`: approved rules and examples
+4. `products/`: catalog, offers, economics, proof, approved claims, and prohibited claims
+5. `connectors/capabilities.yml`: what is configured and what actually passed preflight
+6. `research/`: first-party evidence, market evidence, evidence ledger, and intelligence brief
+7. `learning/`: approved rules, raw append-only events, conflicts, and preferences
+
+Do not put API keys, passwords, or tokens in the brand folder.
+
+The previous `config/brand.example.yml` is a legacy migration adapter, not the v0.2 source of truth.
+
+## Website freshness
+
+Firecrawl is preferred. The strategist:
+
+- checks the site whenever the brand folder opens;
+- retrieves new and changed pages;
+- runs a full crawl when the last full snapshot is seven or more days old;
+- forces a fresh crawl before major research, concepts, positioning, or launch work;
+- records added, changed, and removed pages without silently replacing approved facts.
+
+For a new brand without reviews, it researches competitor sites, reviews, communities, search
+language, and ads. Those findings stay labelled as market evidence until first-party evidence exists.
+
+## Connector setup
+
+Start with [`connectors/README.md`](connectors/README.md), then use the provider guide:
+
+- [`connectors/firecrawl.md`](connectors/firecrawl.md)
+- [`connectors/trendtrack.md`](connectors/trendtrack.md)
+- [`connectors/foreplay.md`](connectors/foreplay.md)
+
+A connector is available only after a successful read-only call in the current runtime. Missing
+connectors trigger an explicit fallback, never simulated results.
+
+## Runtime setup
+
+Clone the repository once:
+
 ```bash
 git clone https://github.com/joekatf-ops/agent-marketing-strategist.git
 ```
-`AGENTS.md` is picked up automatically from the workspace root.
 
-**ChatGPT, Gemini, Grok**
-Paste `PROMPT.md` as the system prompt or Custom GPT instructions, then upload
-`dist/knowledge-bundle.md` as a knowledge file. Rebuild the bundle with
-`python3 scripts/build-knowledge-bundle.py` after any change to `references/` or `contracts/`.
+Use the guide for the chosen surface:
 
-## Configure
+- [Codex](connectors/runtime-codex.md)
+- [Claude](connectors/runtime-claude.md)
+- [Claude Code](connectors/runtime-claude-code.md)
+- [ChatGPT](connectors/runtime-chatgpt.md)
+- [Gemini](connectors/runtime-gemini.md)
+- [Grok](connectors/runtime-grok.md)
+- [Grok Agents](connectors/runtime-grok-agents.md)
+
+Writable runtimes open the strategist and exactly one active brand folder. Upload-only runtimes use
+two generated files:
 
 ```bash
-cp config/brand.example.yml config/brand.yml
+python3 scripts/build-knowledge-bundle.py
+python3 scripts/build-brand-bundle.py /path/to/brands/example-brand /path/to/example-brand-bundle.md
 ```
 
-Fill it in, or run `agent-brand-context` once for the brand and let it generate both the Brand
-Context Pack and this file. `config/brand.yml` is gitignored. Never commit a real one.
+Upload `PROMPT.md`, `dist/knowledge-bundle.md`, and the generated brand bundle. The canonical brand
+folder remains the source of truth.
 
-Everything brand-specific lives in that file. If a brand name, theme, account ID or house
-naming convention appears anywhere else in this repo, that is a bug.
+## Working loop
 
-## How to run it
+1. Resolve one active brand, market, and product.
+2. Run Brand Readiness and refresh the website when required.
+3. Research and classify the evidence.
+4. Pause after customer intelligence for human direction.
+5. Build and select concepts.
+6. Pause before full creative production.
+7. Build hook batches, scripts, statics, and Meta copy.
+8. Diagnose manually supplied performance data when available.
+9. Record approved human revisions as scoped learning events.
 
-Point it at the brand and say what you want:
+Live Meta performance connection is intentionally deferred. Manual exports, screenshots, or tables
+remain the current diagnosis input.
 
-- "Research the market for [product]" gives a Customer Intelligence Brief
-- "Build me three concepts" gives a Concept Batch
-- "Write the copy for CONTST001_PRA_VID" gives Ad Copy
-- "Script the unaware execution" gives a Video Script
-- "Why is this ad not working?" plus data gives an Ad Diagnosis
+## Learning without drift
 
-It pauses twice: after the intelligence pass, and after the concept batch. Everything else runs
-end to end.
+Use `scripts/record-learning.py` for approved revisions. Each event stores before, after, reason,
+classification, scope, status, confidence, author, and timestamp.
 
-## Consistency
+- Factual and compliance corrections can become approved scoped rules after explicit approval.
+- Voice rules require explicit approval.
+- Preferences need three consistent approved signals before they can be proposed.
+- Execution and editor preferences remain narrow.
+- Brand learning never crosses brands automatically.
+- Promotion into Joe's universal method is a separate decision.
 
-Governed by `OUTPUT-CONTRACT.md` and the six contracts in `contracts/`. Section order, counts
-and format are locked. The same brief run twice produces the same shape, in any tool.
+Upload-only runtimes return the Learning Update contract as a patch. They cannot claim the brand has
+learned until the canonical folder is updated.
+
+## Validate and build
+
+```bash
+python3 -m unittest discover -s tests -v
+python3 scripts/validate-package.py .
+python3 scripts/build-knowledge-bundle.py
+```
+
+Frozen examples live in [`examples/`](examples/).
 
 ## Changelog
 
 | Version | Date | Change |
 |---|---|---|
-| 0.1.0 | 2026-08-26 | Built. Absorbs the former ads-creative and copywriting agents. Twelve reference files, six output contracts, three install surfaces. |
+| 0.2.0 | 2026-08-26 | Added multi-brand folders, recurring website refresh, evidence classes, six-hook batches, copy lengths, approved-revision learning, upload bundles, and seven runtime guides. |
+| 0.1.0 | 2026-08-26 | Initial strategist with research, concepts, creative production, and diagnosis contracts. |

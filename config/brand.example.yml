@@ -1,148 +1,38 @@
-# Brand config
+# Legacy v0.1 single-file adapter
 #
-# Copy to config/brand.yml and fill in. Never commit a real brand.yml.
+# New work should use a portable brand folder created with:
+# python3 scripts/init-brand-folder.py /path/to/brands/example-brand --name "Example Brand" --slug example-brand
 #
-# This file is the ONLY place brand-specific values are allowed to live. If a brand
-# name, colour, voice rule, product claim or account ID appears anywhere else in this
-# repo, that is a bug.
+# The folder's brand.yml is the canonical manifest. Context, products, research, website snapshots,
+# outputs and retained learning live in their versioned subfolders. This file remains only to help
+# older installations identify the brand folder while they migrate.
+
+schema_version: 1
+legacy: true
 
 brand:
-  name: "{{Brand Name}}"
-  slug: "{{brand-name}}"                 # lowercase, hyphenated. Used in filenames.
-  url: "{{https://example.com}}"
-  category: "{{e.g. sleep, skincare, pet}}"
-  markets: ["{{AU}}", "{{US}}"]
-  currency: "{{AUD}}"
-  stage: "{{pre-launch | launched | scaling}}"
+  name: "Example Brand"
+  slug: "example-brand"
+  market: "AU"
+  product_id: "example-product"
 
-# Path or URL to the Brand Context Pack produced by agent-brand-context.
-context_pack: "{{./brand-context-pack.md}}"
+brand_folder: "/path/to/brands/example-brand"
 
-positioning:
-  one_liner: "{{What it is, for whom, and why it is different. One sentence.}}"
-  promise: "{{The core promise made to the customer.}}"
-  mechanism: "{{The named reason it works.}}"
-  category_entry_point: "{{The moment the customer decides they need this.}}"
-  differentiators: ["{{point 1}}", "{{point 2}}"]
+# Optional path to an older context pack that has not yet been split into the brand folder.
+legacy_context_pack: "/path/to/brand-context-pack.md"
 
-customer:
-  primary_avatar: "{{Short behavioural description.}}"
-  secondary_avatars: ["{{...}}"]
-  awareness_stage: "{{unaware | problem | solution | product | most}}"
-  sophistication_stage: "{{1 | 2 | 3 | 4 | 5}}"
-  top_desires: ["{{...}}"]
-  top_fears: ["{{...}}"]
-  top_objections: ["{{...}}"]
+# These are starting seeds, not validated customer conclusions.
+founder_hypotheses:
+  category: ""
+  likely_customer_situations: []
+  likely_outcomes: []
+  competitor_urls: []
 
-voice:
-  tone: ["{{e.g. direct}}", "{{warm}}", "{{specific}}"]
-  reading_level: "{{e.g. grade 7}}"
-  person: "{{first | second | third}}"
-  banned_words: ["{{...}}"]
-  banned_punctuation: ["em dash"]
-  writing_rules:
-    - "{{e.g. Lead with the benefit, never the feature.}}"
-  examples_of_good: ["{{paste a real on-voice line}}"]
-  examples_of_bad: ["{{paste a real off-voice line}}"]
+# Never put API keys or access tokens here. Configure connectors in the runtime's secret storage.
+connector_intent:
+  firecrawl: true
+  trendtrack: true
+  foreplay: true
 
-visual:
-  logo_files: ["{{path or url}}"]
-  colours:
-    primary: "{{#000000}}"
-    secondary: "{{#FFFFFF}}"
-    accent: "{{#000000}}"
-    background: "{{#FFFFFF}}"
-    text: "{{#000000}}"
-  fonts:
-    heading: "{{Font Name}}"
-    body: "{{Font Name}}"
-  photography_direction: "{{e.g. natural light, in-home, no studio white}}"
-  do_not: ["{{e.g. never stretch the logo}}", "{{never place text on the product}}"]
-
-product:
-  name: "{{Product Name}}"
-  price: "{{0.00}}"
-  offers: ["{{1 pack}}", "{{2 pack}}", "{{3 pack}}"]
-  key_ingredients_or_specs: ["{{...}}"]
-  proof: ["{{study, certification, guarantee, review count}}"]
-  claim_ceiling: "{{What can and cannot be claimed in this category and market.}}"
-  shipping: "{{terms}}"
-  guarantee: "{{terms}}"
-
-# ---------------------------------------------------------------------------
-# Marketing Strategist additions
-# Without these the agent stops and asks rather than guessing.
-# ---------------------------------------------------------------------------
-
-# Naming codes. The agent will never invent one of these.
-naming:
-  brand_code: "{{CDN}}"          # 2 to 4 letters. Campaign level ONLY, never a concept code.
-  concept_code: "{{CONTST}}"     # concept prefix, locked per brand. Sequential: CONTST001.
-  countries: ["{{AU}}", "{{US}}"]
-  next_concept_number: 1         # bump on every new concept. Never reuse a number.
-
-# Economics. Every recommendation is priced against these. Missing values halt the run.
-economics:
-  target_cac: "{{110}}"
-  break_even_cac: "{{0}}"
-  aov: "{{0}}"
-  contribution_margin_pct: "{{0}}"
-  target_roas: "{{0}}"
-  target_mer: "{{0}}"
-
-# Test design. The agent refuses to call a verdict below these thresholds.
-testing:
-  concepts_per_batch: 3
-  budget_per_concept_per_day: "{{100}}"
-  observation_window_days: 7
-  min_spend_before_verdict: "{{700}}"
-  min_purchases_before_verdict: 5
-  allocation:                    # must total 100
-    nnt_pct: 50
-    inspo_pct: 50
-    itr_pct: 0
-
-# Creative production. The agent will not spec a format the brand cannot shoot.
-production:
-  can_produce: ["static", "carousel", "ugc_video", "founder_video", "product_demo"]
-  cannot_produce: ["{{studio_shoot}}", "{{vox_pop}}"]
-  default_mix: "3 video + 1 static per concept"
-  creators_available: "{{true|false}}"
-  founder_on_camera: "{{true|false}}"
-
-# Destinations the ads can point at.
-destinations:
-  pdp: "{{https://example.com/products/x}}"
-  persona_pages: ["{{https://example.com/pages/persona-a}}"]
-  homepage: "{{https://example.com}}"
-
-# Research sources for the intelligence pass.
-research:
-  competitor_urls: ["{{https://competitor.com}}"]
-  competitor_meta_pages: ["{{page_id_or_name}}"]
-  seed_subreddits: ["{{r/example}}"]
-  seed_keywords: ["{{keyword}}"]
-  review_sources: ["{{trustpilot}}", "{{amazon}}", "{{on_site}}"]
-
-# Claim gate. If regulated is true, no claim ships without an approved wording entry.
-claims:
-  regulated: "{{true|false}}"
-  claim_library: "{{./claims.md}}"
-  restricted_terms: ["{{cure}}", "{{treat}}", "{{guaranteed results}}"]
-
-# Compliance.
-compliance:
-  restricted_claims: ["{{...}}"]
-  required_disclaimers: ["{{...}}"]
-
-# Never commit secrets. Reference env vars.
-tools:
-  shopify_store: "{{store.myshopify.com}}"
-  meta_ad_account: "{{act_000000}}"
-  klaviyo_account: "{{id}}"
-  analytics: "{{ga4 property id}}"
-
-run:
-  output_dir: "{{./output}}"
-  language: "{{en-AU}}"
-  verbosity: "{{normal | detailed}}"
+# Migration is complete when the canonical folder contains brand.yml, context, products, research,
+# sources, strategy, outputs, learning and connector capability records.

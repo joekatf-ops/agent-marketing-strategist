@@ -15,7 +15,7 @@ Markdown. One spec block per asset.
 3. **Layout** - zone by zone, top to bottom, with what sits in each
 4. **Copy on the asset** - every word that appears, with its zone and hierarchy level
 5. **Visual direction** - subject, composition, lighting, palette and type, all drawn from the
-   Brand Context Pack
+   active brand folder's approved visual context
 6. **Carousel frames** - if carousel, one row per frame with its job and its copy
 7. **Claim check** - every claim against its approved wording
 8. **Rationale** - the format chosen and why, the proof used, the objection pre-empted
@@ -41,7 +41,7 @@ Markdown. One spec block per asset.
 - Every copy line specified exactly as it will appear, including capitalisation
 - Every visual instruction specific enough to execute
 - No em dashes
-- Palette, type and photography direction come from the Brand Context Pack, never invented
+- Palette, type and photography direction come from `context/visual.md`, never invented
 
 ## Never
 
@@ -56,7 +56,7 @@ Markdown. One spec block per asset.
 - [ ] Exactly one primary line
 - [ ] Word count inside the limit for the format
 - [ ] All copy clear of safe zones in every ratio
-- [ ] Every visual value traces to the Brand Context Pack
+- [ ] Every visual value traces to the active brand folder's visual context
 - [ ] Every claim in the claim check
 - [ ] Carousel frames each carry one job
 - [ ] Readable at thumbnail

@@ -1,9 +1,9 @@
 # Naming conventions
 
-Brand-agnostic. Every token in braces comes from `config/brand.yml`. Never invent a code.
-If a required token is missing from config, stop and ask for it.
+Brand-agnostic. Every token in braces comes from the active brand folder's `brand.yml` and
+`strategy/concept-register.yml`. Never invent a code. If a required token is missing, stop and ask.
 
-## Config tokens this reference uses
+## Brand-folder tokens this reference uses
 
 ```yaml
 naming:
@@ -36,7 +36,7 @@ Example: `{{BRAND}}_CT_ABO_AU_20260901`
 - **Brand:** `{{BRAND}}`
 - **Campaign type:** CT (creative testing), SC (scale), RM (remarketing)
 - **Budget type:** ABO, CBO, COSTCAP, BIDCAP
-- **Country:** two-letter code from config
+- **Country:** two-letter code from the brand manifest
 - **Date:** YYYYMMDD
 
 ## Level 2: ad set
@@ -61,7 +61,7 @@ Rules:
 **Production name**, used in the tracker and asset folders:
 
 ```
-[CONCEPT###]_[UWA|PRA|SLA|PDA]_[VID|IMG|CAR]
+[CONCEPT###]_[UWA|PRA|SLA|PDA|MWA]_[VID|IMG|CAR]
 ```
 
 Examples: `{{CONCEPT}}001_UWA_VID`, `{{CONCEPT}}001_PDA_IMG`
@@ -69,7 +69,7 @@ Examples: `{{CONCEPT}}001_UWA_VID`, `{{CONCEPT}}001_PDA_IMG`
 **Optional Ads Manager extension:**
 
 ```
-[CONCEPT###]_[UWA|PRA|SLA|PDA]_[VID|IMG|CAR]_[FORMAT]_[URLTYPE]_[POSTID]
+[CONCEPT###]_[UWA|PRA|SLA|PDA|MWA]_[VID|IMG|CAR]_[FORMAT]_[URLTYPE]_[POSTID]
 ```
 
 Example: `{{CONCEPT}}001_UWA_VID_UGC_LP_POSTXXX`
@@ -82,6 +82,7 @@ Example: `{{CONCEPT}}001_UWA_VID_UGC_LP_POSTXXX`
 | PRA | Problem aware |
 | SLA | Solution aware |
 | PDA | Product aware |
+| MWA | Most aware |
 
 ### Media codes
 
@@ -98,16 +99,15 @@ Tracker / asset folder:  {{CONCEPT}}001
 Campaign:                {{BRAND}}_CT_ABO_AU_20260901
 Ad set:                  {{CONCEPT}}001_NNT_BioHackers_BetterSleep
 Ads:                     {{CONCEPT}}001_UWA_VID
-                         {{CONCEPT}}001_PRA_VID
                          {{CONCEPT}}001_SLA_VID
-                         {{CONCEPT}}001_PDA_IMG
+                         {{CONCEPT}}001_MWA_IMG
 ```
 
 ## Locked rules
 
 1. Tracker name equals asset folder name equals `{{CONCEPT}}###` only.
 2. Meta ad set equals `{{CONCEPT}}###_SOURCE_Persona_Outcome`.
-3. Production ad equals `{{CONCEPT}}###_UWA|PRA|SLA|PDA_VID|IMG|CAR`.
+3. Production ad equals `{{CONCEPT}}###_UWA|PRA|SLA|PDA|MWA_VID|IMG|CAR`.
 4. The brand code is campaign level only. Never use it as a concept code.
 5. Hooks live in the record body, never in names.
 6. No em dashes in names or documents.
@@ -116,6 +116,5 @@ Ads:                     {{CONCEPT}}001_UWA_VID
 
 ## Register
 
-Keep a live register mapping concept code to ad set name to angle type, so nobody
-reconstructs a name from memory. Minimum columns: concept code, Meta ad set, angle type,
-status.
+Keep the live register in `strategy/concept-register.yml`, mapping concept code to ad set name,
+angle type, selected awareness states and status. Never reconstruct a name from memory.

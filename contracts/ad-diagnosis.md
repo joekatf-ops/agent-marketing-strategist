@@ -48,12 +48,12 @@ Every row carries a number in the number column. A row without one does not get 
 2. Preserve the supplied date range, attribution setting, currency and level of aggregation
 3. Do not combine screenshots or exports whose scopes differ without showing the reconciliation
 4. Every recommendation names the metric and the threshold it crossed
-5. No verdict called below the minimum spend or purchase count in config. "Needs N more
+5. No verdict called below the minimum spend or purchase count in the active brand folder. "Needs N more
    purchases" is the correct output in that case
 6. Never attribute a result to a variable the test did not isolate. Write "associated with",
    not "caused by"
 7. Distinguish concept results from execution results. One losing video does not kill a
-   concept whose other three executions were never funded
+   concept when its other selected executions received no meaningful delivery
 8. Losers get analysed, not skipped. Section 8 covers them
 
 ## Never

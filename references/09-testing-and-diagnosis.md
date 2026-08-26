@@ -5,13 +5,14 @@ Benchmarks and thresholds with sources live in `12-meta-platform.md`. This file 
 ## The launch creative test
 
 A performance-led market test, not a laboratory experiment. Budgets below come from
-`config/brand.yml`. The shape is fixed; the numbers are not.
+the active brand folder's economics and testing records. The shape is governed; the numbers are
+brand-specific.
 
 | Level | Structure |
 |---|---|
 | Campaign | Creative testing sales campaign |
 | Ad sets | One per concept, equal daily budget |
-| Ads per ad set | Four awareness executions |
+| Ads per ad set | One to four selected executions that preserve the concept and test question |
 | Default | Three concepts at `{{testing.budget_per_concept_per_day}}` for `{{testing.observation_window_days}}` |
 | Observation window | Seven days default |
 
@@ -28,7 +29,7 @@ gives direction, not a verdict, and the report must say so.
 
 ### What it does not guarantee
 
-- Equal spend across the four ads
+- Equal spend across selected ads
 - A fair controlled read on every awareness level
 - A statistically conclusive winner after seven days
 - Proof that one variable caused the result
@@ -85,12 +86,13 @@ the strength of the evidence, and the next action.
 
 1. Every recommendation names the number behind it and the threshold it crossed. No number,
    no recommendation.
-2. Refuse to call a test that has not reached the minimum spend or purchase count in config.
+2. Refuse to call a test that has not reached the minimum spend or purchase count in the active
+   brand folder.
    "Not enough data yet, needs N more" is a valid and often correct output.
 3. Never attribute a result to a single variable in a test that did not isolate it. Say
    "associated with", not "caused by".
 4. Distinguish a concept result from an execution result. One losing video does not kill the
-   concept if the other three were never funded.
+   concept when its other selected executions received no meaningful delivery.
 5. An agent that always finds something to change is worse than useless.
 
 ## Monthly operating rhythm
@@ -100,7 +102,7 @@ the strength of the evidence, and the next action.
 3. Define the most important questions for the month
 4. Set the NNT, INSPO and ITR allocation
 5. Select and prioritise concepts
-6. Create concept cards and four awareness executions
+6. Create concept cards and choose evidence-supported awareness coverage across the portfolio
 7. Produce creative and landing page requirements
 8. Launch with budget, window and target CAC
 9. Review business, funnel and creative results

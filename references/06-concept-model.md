@@ -1,162 +1,144 @@
 # The concept model
 
-This is the operating core. Everything the agent produces hangs off it.
-
 ## Concept = Persona x Outcome x Angle
 
-Change any one of the three and it is a new concept. Nothing else is a concept axis.
+Change any one of the three and it is a new concept. Format, creator, hook, awareness, length, and
+destination are execution variables.
 
-| Element | Definition | Example |
+| Element | Definition | Guardrail |
 |---|---|---|
-| **Persona** | A behavioural identity with shared beliefs, habits, motivations and purchase criteria. Not an age or a demographic. | Biohackers |
-| **Outcome** | The specific problem escaped or desired result achieved | Better sleep |
-| **Angle** | A one-sentence strategic argument connecting product to outcome | The overlooked environmental input in an otherwise optimised routine |
+| Persona | A behavioural identity with shared beliefs, habits, motivations, and criteria | Demographics may describe, never define |
+| Outcome | One specific problem escaped or desired result achieved | One concept does not carry several outcomes |
+| Angle | One strategic argument connecting product truth to the outcome | It never merely restates the outcome |
 
-### Persona guardrail
+### Persona
 
-Personas are behavioural. Demographics may describe or help diagnose one, but never define it.
+A useful persona records what the person already does, believes, values, notices, distrusts, and
+uses to decide. "People who label and separate every item in their travel bag" is strategic.
+"Women aged 25 to 44" is not.
 
-- **Good:** people who actively measure, experiment with and optimise their own health
-- **Weak:** men aged 30 to 45
+### Outcome
 
-A useful persona captures what the person already does, believes, values, notices, distrusts,
-and uses to decide.
+One persona can have several outcomes. Each persona-outcome combination becomes a separate concept
+when the argument and learning question are materially different.
 
-### Outcome guardrail
+### Angle
 
-One persona can have several outcomes. Each combination is a separate concept.
-Persona A x Outcome 1, Persona A x Outcome 2, and so on.
+Pick exactly one primary angle type:
 
-### Angle guardrail
+1. **How it works:** mechanism or process, inside the claim gate
+2. **The reframe:** a defensible belief or missing input that changes interpretation
+3. **Vs the old way:** a fair contrast with the status quo, DIY stack, or category alternative
+4. **Proof you can see:** a demonstration, test, verified result, or approved social proof
 
-The angle is the persuasion route: interpretation, promise, mechanism, belief, contrast or
-visible proof. Never put the outcome in the angle field. If Outcome is "better sleep", Angle
-cannot be "better sleep".
+Offer, objection, identity, and job-to-be-done sharpen the persona, outcome, or primary angle. They
+do not create additional concept axes.
 
-**Pick exactly one angle type:**
-
-1. **How it works**: mechanism or process. Must pass the claim gate.
-2. **The reframe**: a new belief, missing input, or insight that changes how they see the problem.
-3. **Vs the old way**: status quo, DIY stack, or category alternative.
-4. **Proof you can see**: demo, test, durability, tribe proof.
-
-Offer, objection, identity and JTBD fold into persona, outcome, or one of those four. Do not
-invent extra concept axes.
-
-## Fixed versus variable
+## Fixed and variable layers
 
 | Layer | Elements | Rule |
 |---|---|---|
-| Fixed within concept | Persona, outcome, angle, central product truth | Changing one creates a new concept |
-| Execution variables | Awareness, message, hook, structure, format, length, destination | May change across ads inside the concept |
-| Delivery variations | Two headlines and two primary texts per ad | Optimisation inputs, not separate strategic tests |
-| Learning output | Concept result, execution result, why, next action | Recorded after the test |
+| Fixed within concept | Persona, outcome, angle, central product truth | Change one and create a new concept |
+| Execution | Awareness, message job, hook, structure, format, length, destination | Select only what tests or expresses the concept well |
+| Delivery copy | Two lead routes, three lengths per route, five headlines, two descriptions, one CTA | Optimisation inputs, not separate concepts |
+| Learning | Concept result, execution result, approved revision, next action | Store with evidence and scope |
 
-**Format is not part of the concept.** A concept must survive across video, static, carousel,
-founder and UGC. A production batch may still be deliberately video-led or image-led.
+Format is not a concept. A good concept may survive across video, static, carousel, founder, and UGC,
+but the first batch should build only the formats the hypothesis and production reality require.
 
 ## Sources of creative
 
 | Code | Meaning | Purpose |
 |---|---|---|
-| **NNT** | Net-New Test. A genuinely new persona, outcome, angle or strategic idea | Explore new opportunity |
-| **INSPO** | Inspiration. A proven external pattern or format adapted to the brand | Borrow structure without copying the brand or message |
-| **ITR** | Iteration. A meaningful follow-up based on evidence from an existing test | Develop a signal or repair a diagnosed weakness |
+| NNT | Net-New Test | Explore a new persona, outcome, angle, or strategic idea |
+| INSPO | Inspiration | Adapt an external pattern without copying its message or execution |
+| ITR | Iteration | Develop or repair a signal found in prior brand evidence |
 
-**Iteration rule.** An iteration is not a minor word change, and not a bank of hooks made
-before the first test. It is a new concept batch created because previous data produced a
-meaningful signal.
+An iteration is not a small wording change made before any signal exists. It is a deliberate
+follow-up tied to an observed result or approved qualitative lesson.
 
-- Winning concept, produce new hooks, messaging, creators, formats or proof
-- Promising concept with weak conversion, repair ad-to-page congruence
-- Strong format with weak angle, reuse as INSPO or apply to a new NNT
-- Small delivery edits do not count as major creative tests
+- Winning concept: explore hooks, proof, creators, formats, or messages without changing its core
+- Promising concept with weak conversion: inspect claim, offer, destination, and congruence
+- Strong format with weak concept: reuse the structure as INSPO for another idea
+- Minor delivery edits: record as revisions, not major creative tests
 
-**Allocation guardrail.** At launch, 50% NNT and 50% INSPO is a reasonable start. ITR grows
-only after meaningful signals appear. Allocation shifts with account maturity.
+At launch, a 50 percent NNT and 50 percent INSPO split is a useful starting hypothesis. ITR grows
+only after the brand has meaningful signals. The connected brand folder may override the allocation.
 
-## Awareness executions
+## Awareness across the portfolio
 
-Every launch concept covers four awareness states. Awareness determines the messaging job, not
-a rigid format, length or a manually separated funnel campaign.
+Awareness changes the messaging job. It does not demand a separate campaign, rigid length, or one
+execution of every state inside every concept.
 
-| Awareness | Customer state | Messaging job | Typical content | Rough guide | Destination |
-|---|---|---|---|---|---|
-| Unaware (UWA) | Experiencing something but not defining it as a problem | Reflect the experience, create curiosity | Story, observation, insight, relatable experience | Usually video, often 60 to 90 sec | Persona educational page |
-| Problem aware (PRA) | Recognises the problem, may misunderstand its cause | Name and explain the underlying problem | Problem explanation, agitation, education, mechanism intro | Usually video, often 30 to 60 sec | Persona educational page |
-| Solution aware (SLA) | Knows solutions exist, comparing approaches | Explain the category and why it may work | Mechanism, demonstration, founder, evidence, comparison | Usually video, often 20 to 45 sec | Educational page or PDP |
-| Product aware (PDA) | Knows the product or category | Give a reason to choose this brand and act | Differentiation, proof, guarantee, offer, gifts | Static or short video, often 6 to 30 sec | PDP |
+| Awareness | Customer state | Messaging job | Useful routes | Destination |
+|---|---|---|---|---|
+| Unaware | Feels a situation without naming the problem | Build recognition and curiosity | story, POV, observation, unexpected cause | educational page or congruent PDP |
+| Problem aware | Names the problem or its cost | Clarify the problem and why it persists | problem, agitation, reframe, mechanism introduction | educational page or PDP |
+| Solution aware | Knows approaches exist | Explain the route and why it differs | mechanism, demonstration, comparison, founder | education or PDP |
+| Product aware | Knows the product or close alternatives | Give a reason to choose this product | differentiation, objection, proof, guarantee | PDP |
+| Most aware | Is close to purchase and needs terms or a reason to act | Make the offer and next step complete | price, bundle, offer, verified urgency, reminder | exact offer destination |
 
-### Awareness guardrails
+Choose awareness coverage across the batch portfolio:
 
-- Every execution works independently. It cannot assume the viewer saw another ad.
-- Awareness describes how the message is framed, not where the ad sits in a funnel.
-- Make the ad only as long as the messaging job requires.
-- A short unaware ad or a long product-aware demonstration is valid when the message needs it.
-- Most-aware offer messaging sits inside product-aware at launch, to keep the model simple.
+- A default three-concept batch covers at least three evidence-supported states.
+- Include Most aware when a verified offer, approved proof, and purchase-ready destination exist.
+- A concept may have one to four executions. Build only the states that preserve the concept.
+- State why an important awareness state was excluded.
+- Every execution must stand alone because delivery order is not guaranteed.
 
-## Default launch mix
+## Execution and hook selection
 
-Three videos and one static per concept, covering UWA, PRA, SLA and PDA. A starting guardrail,
-not a permanent rule. Video-led suits unfamiliar categories that need explanation. Static-led
-suits familiar categories where the job is offer, proof or comparison.
+After a concept is approved:
 
-## Hook strategy
+1. select the execution with the clearest learning value;
+2. choose an awareness state and destination that continue the same argument;
+3. build six strategically different hook packages across at least four formats;
+4. select the hooks that are supportable and producible;
+5. build scripts, statics, and delivery copy from the chosen route.
 
-The hook belongs to each awareness execution. Invest heavily in the opening idea, visual and
-spoken line. Avoid large banks of minor hook variants until the central concept produces a
-signal.
+A hook package includes the feed pattern, opening visual, spoken or written line, on-screen anchor,
+body handoff, proof burden, and risk. The body must cash the hook's promise. Avoid cosmetic banks of
+synonyms.
 
-- One primary hook direction per initial execution
-- Hook iterations follow evidence
-- The body must deliver what the hook promises
+## Delivery copy
 
-## Meta delivery reality
+Each selected ad receives:
 
-We create awareness coverage. We do not assume ad sequencing.
+- two strategically different lead routes;
+- short, medium, and long primary-text versions for each route;
+- five headlines;
+- two descriptions;
+- one CTA.
 
-Do not manually split top, middle and bottom of funnel. Each concept supplies diverse messages
-for different awareness states, and Meta decides which ad is most relevant to each person.
+All variants match the concept, awareness state, creative promise, claim ceiling, and destination.
+They are delivery options, not six new concepts.
 
-- A person may see only one execution
-- A person may see several, in a different order
-- A product-aware ad may be the first exposure
-- One or two executions may take most of the spend
+## Portfolio diversity
 
-Every ad must therefore make a complete, standalone argument while staying congruent with the
-concept.
+Real diversity changes the person, situation, desire, objection, mechanism, proof, expression, or
+feed object. A crop, colour, or adjective change is delivery variation.
 
-**Platform context.** Meta's Andromeda retrieval system evaluates an enormous ad pool and
-captures interactions between people and ad features. Creative carries audience and relevance
-signals. Real diversity means different people, situations, desires, objections, mechanisms,
-proof and expressions, not cosmetic variations of the same ad. This is context, not a licence
-to abandon strategy. More creative only helps when the ideas are meaningfully different.
+Use the portfolio coverage table to make duplication visible across:
 
-## Ad copy variations
+- persona and activating situation;
+- outcome and necessary belief;
+- angle type and evidence source;
+- awareness state and destination;
+- format and hook route;
+- proof burden and production constraint.
 
-Every ad launches with two headline options and two primary text options.
+## Nine-part strategy loop
 
-- Both match the awareness level and the creative promise
-- They are delivery inputs, not four independent tests
-- Ad, copy and destination communicate the same central idea
-- Variations may differ meaningfully without changing the concept
-
-## The eight pillars
-
-The strategy loop this agent operates inside:
-
-**Business truth, Customer insight, Hypothesis, Concept, Executions, Test, Decision, Iteration, Retained learning**
-
-| Pillar | Question | Output |
+| Stage | Question | Output |
 |---|---|---|
-| 1. Business guardrails | What can we afford to pay for a customer? | Target CAC, contribution margin, break-even CAC, MER, test budget |
-| 2. Product truth | What can we truthfully and safely say? | Product profile, evidence, approved claim library |
-| 3. Customer intelligence | Who is buying and why? | Behavioural personas, problems, desires, objections, language |
-| 4. Market intelligence | What is already being communicated? | Competitor patterns, inspiration, white space |
-| 5. Creative strategy | What do we need to learn next? | Prioritised personas, outcomes, angles, hypotheses |
-| 6. Concept development | What is the central advertising idea? | Concept card and awareness executions |
-| 7. Testing and measurement | Did it work economically, and why? | CAC, funnel result, creative diagnosis |
-| 8. Learning and iteration | What should we repeat, change or stop? | Scale, iterate, new test, or archived learning |
+| 1. Business truth | What can the brand afford and support? | Economics and constraints |
+| 2. Product truth | What may be said? | Facts, proof, claims, offers |
+| 3. Customer insight | Who is experiencing what, in their words? | Evidence-led personas and demand language |
+| 4. Market insight | What arguments and patterns are already visible? | Competitor map and opportunity hypotheses |
+| 5. Hypothesis | What should be learned next? | Expected response and evidence-backed reason |
+| 6. Concept | What is the central advertising idea? | Persona x Outcome x Angle |
+| 7. Executions | Which expressions best test it? | Awareness, hooks, formats, copy, destinations |
+| 8. Decision | What did supplied evidence show? | Scale, iterate, stop, or gather more data |
+| 9. Retained learning | What should change next time? | Approved, scoped brand memory |
 
-Quality data produces quality decisions. Creative strategy starts with accurate economics,
-reliable tracking, product truth and customer insight.
+The loop improves only when its evidence and approvals are preserved in the brand folder.

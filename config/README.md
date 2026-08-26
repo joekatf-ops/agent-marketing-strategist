@@ -1,30 +1,20 @@
-# config
+# Legacy configuration adapter
 
-Everything brand-specific lives here. Nothing brand-specific lives anywhere else.
-
-## Setup
+Version 0.2 uses one portable brand folder per brand. Create it with:
 
 ```bash
-cp brand.example.yml brand.yml
+python3 scripts/init-brand-folder.py /path/to/brands/example-brand \
+  --name "Example Brand" \
+  --slug example-brand
 ```
 
-Fill in `brand.yml`, or run `agent-brand-context` once for the brand and let it generate both
-the Brand Context Pack and this file.
+`config/brand.example.yml` remains only for older v0.1 installations that need to point the
+strategist to a brand folder during migration. New installations should not copy it to
+`config/brand.yml`.
 
-`brand.yml` is gitignored. Never commit a real one.
+The portable folder keeps identity, product truth, approved claims, context, website snapshots,
+research, outputs and retained learning in separate controlled records. This lets one universal
+skill serve many brands without mixing their memory.
 
-## Why it works this way
-
-The same agent runs on our brands and on client brands. If brand values were baked into the
-instructions, every brand would need a fork, and every fork would drift. Injecting them means
-one agent, one version, many brands.
-
-## Secrets
-
-Never put API keys, tokens or passwords in this file. Reference an environment variable
-instead:
-
-```yaml
-tools:
-  meta_access_token: "${META_ACCESS_TOKEN}"
-```
+Never put API keys, access tokens or passwords in either configuration. Store connector secrets in
+the selected runtime's secure environment or credential store.

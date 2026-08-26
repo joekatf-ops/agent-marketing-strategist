@@ -21,8 +21,8 @@ Assets needed: product image, brand assets, proof and copy inputs.
 | Comparison / us versus them | Two-column criteria, clear contrast, substantiated takeaway | Differentiation and switching | SLA, PDA |
 | Testimonial / review | Quote hook, reviewer context, rating or proof, product | Trust and objection handling | SLA, PDA |
 | Benefit stack | Product hero, three to five benefit hierarchy, CTA | Multiple reasons to choose | SLA, PDA |
-| Product hero | Strong product focal point, one core benefit, CTA or offer | Product recognition, launch, offer support | PDA |
-| Offer / promotion | Offer hierarchy, product, terms, CTA | Sale, bundle, launch, urgency | PDA |
+| Product hero | Strong product focal point, one core benefit, CTA or offer | Product recognition, launch, offer support | PDA, MWA |
+| Offer / promotion | Offer hierarchy, product, terms, CTA | Sale, bundle, launch, verified urgency | MWA |
 
 ## Video formats
 
@@ -48,11 +48,12 @@ Second-by-second beat structures and retention data for these shapes are in
 
 1. Start from the messaging job set by awareness.
 2. Shortlist formats whose awareness column matches.
-3. Cut anything the brand cannot actually produce. Check the Needs column against config.
+3. Cut anything the brand cannot actually produce. Check the Needs column against the active brand
+   folder's production constraints.
 4. Prefer the format that makes the angle visible. A "proof you can see" angle wants
    demonstration or comparison, not a talking head.
-5. Within one concept, vary format across the four executions so the batch is not one idea
-   filmed four ways.
+5. Across the selected portfolio, vary format only where it creates a different expression or
+   learning value. Do not force a format count inside every concept.
 
 ## Visual persuasion principles
 

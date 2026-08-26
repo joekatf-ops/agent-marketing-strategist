@@ -1,108 +1,136 @@
 # Research tools and the intelligence pass
 
-Every run starts here. The agent does not write a hook before it knows how the customer
-speaks, what the market has already heard, and what is currently working.
+Research begins with the active brand folder, not a blank search box. The goal is to separate what
+the brand knows, what the market suggests, what customers have actually said, and what the
+strategist is inferring.
 
-The standard describes **capabilities**. The named tools are what satisfies them today. If a
-tool is unavailable, name the capability that is missing and say what the output will lack.
-Never substitute invention for evidence.
+The standard describes capabilities. Named tools are current ways to satisfy them. A connector is
+available only after a successful preflight call in the current runtime.
 
-## The four capabilities
+## Evidence hierarchy
 
-| Capability | What it answers | Tools that satisfy it |
+Use the most direct source that can legitimately support the claim:
+
+1. Verified internal product, offer, policy, economics, and claim records
+2. Current active-brand customer evidence: reviews, interviews, support, surveys, returns
+3. Active-brand behavioural evidence: purchases, supplied manual ad results, retention, returns
+4. Current active-brand website assertions and dated change history
+5. Competitor and category evidence: sites, ads, reviews, communities, search language
+6. Strategist judgement, clearly labelled and paired with a validation step
+
+Higher in this list does not always mean better quality. It means more direct to the active brand.
+Record recency, sample limitations, contradictions, and confidence for every synthesis.
+
+## Required capability map
+
+| Capability | What it answers | Current routes |
 |---|---|---|
-| Competitor ad intelligence | What is the market already saying, and what is scaling? | Foreplay, Trendtrack, Meta Ad Library |
-| Customer voice | How does the customer actually talk about this? | Review scraping, Reddit, YouTube comments, support tickets |
-| Demand signal | Is the desire growing, flat or seasonal? | Google Trends, keyword volume |
-| Own-account performance | What has this brand already learned? | Meta Ads reporting, the brand's own test archive |
+| Brand-site truth | What does the brand say now, and what changed? | Firecrawl, browser, manual export |
+| Customer voice | What words do customers use? | Brand reviews, interviews, support, competitor reviews, communities |
+| Competitor creative | What arguments, formats, and offers are visible? | Foreplay, TrendTrack, public ad libraries |
+| Demand signal | Which situations and queries appear or change? | Search language, trend tools, communities, retailer demand evidence |
+| Own-brand learning | What has this brand already learned? | Brand folder, approved human revisions, supplied manual performance data |
 
-## Foreplay: competitor ads and swipe
+## Website crawl with Firecrawl
 
-| Job | Tool |
+Firecrawl is preferred for brand and competitor websites. Follow `connectors/firecrawl.md` and
+`references/13-brand-folder.md`.
+
+When the brand folder opens:
+
+1. Read the crawl state.
+2. Check the current URL set and change identifiers.
+3. Retrieve every changed or new high-priority page.
+4. Run a full crawl when the last successful full crawl is seven or more days old.
+5. Force a full crawl before major research, concept work, positioning, or launch decisions.
+6. Preserve the prior normalized snapshot and create a dated change summary.
+
+Prioritise home, collection, product, offer, FAQ, about, review, shipping, returns, guarantee,
+policy, and advertorial pages. Treat site copy as a brand assertion unless another record verifies
+the fact. Never let a crawl silently overwrite an approved price, claim, offer, or rule.
+
+If Firecrawl is unavailable, use browser retrieval or manual page exports and state what was not
+checked. A fallback crawl is not complete unless its source URLs and dates were captured.
+
+## Foreplay
+
+Use discovered live tool descriptions as authoritative. Current integrations can expose:
+
+| Job | Common capability |
 |---|---|
-| Find brands advertising in a category | `search_discovery_brands`, `discover_brands_by_ads` |
-| Pull a specific brand's live ads | `get_brands_by_domain`, then `get_brands_ads_by_page_id` |
-| Search the discovery index by attributes | `search_discovery_ads` |
-| Track a competitor over time | `get_spyder_brand_ads`, `get_spyder_brands` |
-| See what a brand is scaling into | `display_creative_velocity`, `get_brands_analytics` |
-| Find duplicate or iterated variants of one ad | `get_group_duplicates_by_ad_id` |
-| Read the brand's own saved swipe | `get_boards`, `get_board_ads`, `get_swipefile_ads` |
-| Performance lenses on connected accounts | `get_lenses`, `get_lens_insights`, `get_lens_metrics`, `get_lens_timeseries` |
+| Find brands | category, keyword, domain, or ad discovery |
+| Retrieve ads | domain or page-ID brand lookup and ad retrieval |
+| Read saved evidence | swipe files, boards, and lenses |
+| Compare patterns | creative velocity, duplicates, analytics, and time series |
 
-Every ad object returns a `foreplay_url`. Cite it as a markdown link whenever you reference a
-specific ad, so the reader can open it in one click. Never construct that URL by hand.
+Every cited ad keeps the connector's returned URL or identifier. Do not construct a Foreplay URL.
+Longevity and repeated variation can suggest commitment, but neither proves profitability.
 
-**How to read a competitor set.** Longevity is the strongest available signal. An ad running
-for months is more likely to be working than a new one. Creative velocity shows what a brand
-is committing to. Neither proves profitability.
+## TrendTrack
 
-## Trendtrack: market, shops and ad libraries
+Use discovered live tool descriptions as authoritative. Current integrations can expose ad, shop,
+product, advertiser, transcript, email, and tracked-brand research, plus usage or credit checks.
 
-| Job | Tool |
-|---|---|
-| Search ads across libraries | `search_ads`, `search_google_ads_library`, `search_tiktok_library` |
-| Find and profile advertisers | `search_advertisers`, `brief_competitor` |
-| Find and compare stores | `search_shops`, `find_similar_shops` |
-| Track a brand and see what changed | `add_to_brandtracker`, `analyze_tracked_brand`, `analyze_brand_changes` |
-| See what a tracked brand is scaling | `get_brandtracker_scaling_ads` |
-| Pull ad transcripts for structure analysis | `get_brandtracker_transcripts` |
-| Email and lifecycle intelligence | `search_emails`, `analyze_shop_emails`, `get_email_html` |
-| Product-level demand | `find_winning_products` |
-| Daily market movement | `daily_radar` |
-| Creative inspiration by theme | `creative_inspiration_pack` |
-| Deep-read one ad | `scan_ad` |
-
-`lookup` and `lookup_filter_ids` resolve filter values before a search. Use them rather than
-guessing filter IDs.
-
-**Transcripts are the highest-value output here.** A transcript lets you reverse-engineer
-structure: where the hook lands, when the mechanism appears, how long before the offer. Pull
-transcripts for the three longest-running competitor ads before writing any script.
+Resolve filter values through the connector rather than guessing identifiers. Transcripts are
+useful for structure analysis, but do not treat the longest-running ad as a confirmed winner. Record
+the observed dates and the limitations of the signal.
 
 ## Customer voice
 
-| Job | Capability |
-|---|---|
-| Mine competitor store reviews | Review scraping, Trustpilot and Amazon scrapers, on-site review widgets |
-| Community language | Reddit search and scraping |
-| Video comment language | YouTube comment retrieval, transcripts |
-| Search intent | Keyword volume, Google Trends |
+Preferred first-party sources:
 
-**Minimum viable customer voice pass.** Two competitor review sets, one community source, one
-search-intent source. Under that, the output says so and marks its persona and objection
-sections as thin.
+- the active brand's reviews;
+- interviews and survey responses;
+- support tickets and chat transcripts;
+- return reasons and post-purchase feedback;
+- approved human edits that reveal customer-language constraints.
 
-**Tag every extract** into the six-part language bank in `10-voice-and-claims.md`: situation,
-problem language, desired outcome, failed alternatives, objections, proof language. Keep the
-verbatim. Keep the source link.
+For a pre-customer brand, use competitor reviews, public communities, video comments, search
+language, and retailer feedback. Label each item as market evidence. It can shape hypotheses but
+cannot prove what this brand's customers believe.
 
-## The intelligence pass, in order
+Tag exact quotes into:
 
-1. **Business guardrails.** Read target CAC, AOV, margin and test budget from config. If they
-   are missing, ask. Everything downstream is priced against them.
-2. **Product truth.** Read the approved claim library. Note the claim ceiling before any angle
-   is written.
-3. **Competitor sweep.** Pull the ad set for the category. Note distinct promises, named
-   mechanisms, dominant formats, and how long the top ads have run.
-4. **Sophistication call.** Count distinct promises across the competitor set and state the
-   stage, with the evidence that led you there.
-5. **Customer voice harvest.** Reviews, community, comments. Tag into the six-part bank.
-6. **Awareness call.** From the language harvested, state where the bulk of the market sits.
-7. **White space.** Name what nobody in the set is saying that the evidence supports.
-8. **Brief the concepts.** Only now does persona, outcome and angle get written.
+1. activating situation;
+2. problem language;
+3. desired outcome;
+4. failed alternatives;
+5. objections;
+6. proof language.
 
-Skipping steps 3 to 7 and going straight to concepts is the single most common failure. It
-produces ads that sound like every other ad in the category, because they were written from
-the same place: the model's prior, not the market's evidence.
+Keep the exact wording, source, date, evidence class, and any usage restriction. Never clean or
+merge a quote presented as verbatim.
 
-## Citing evidence
+## Demand and own-brand learning
 
-Every persona, objection, angle and proof point in any output traces to a source. Use this
-inline form:
+Demand evidence can include search trends, recurring queries, seasonality, community activity,
+retailer signals, and repeated review situations. State the geography, date range, query, and tool.
+Do not convert a directional trend into a market-size claim.
 
-```
-[claim or quote] source: <link or "competitor review, Brand X, 2026-08">
-```
+Own-brand learning currently comes from the brand folder, approved revisions, and manually supplied
+performance exports. A live Meta connection is not required. Do not claim a performance lesson when
+the supplied test did not isolate it.
 
-If a line cannot be sourced, either cut it or mark it `[UNSOURCED, strategist judgement]`.
-Never quietly present judgement as evidence.
+## Intelligence pass, in order
+
+1. **Resolve and preflight.** Confirm brand, market, product, folder version, crawl freshness, and
+   connectors.
+2. **Read internal truth.** Load product, claims, offers, economics, production limits, destination,
+   approved rules, and unresolved conflicts.
+3. **Refresh the active website.** Capture changes before treating current positioning as fact.
+4. **Read first-party customer and behavioural evidence.** Record what exists and what does not.
+5. **Sweep the market.** Competitor sites, ads, reviews, communities, search language, and demand.
+6. **Build the evidence ledger.** Class, source, date, finding, confidence, contradiction, permitted use.
+7. **Synthesize cautiously.** Sophistication, awareness, personas, outcomes, objections, and language.
+8. **Propose opportunities.** Name the reviewed competitor set, supporting evidence, contrary
+   evidence, confidence, and validation step.
+9. **Publish what remains thin.** Missing evidence and the best next research action.
+
+## Evidence ledger row
+
+| ID | Finding or quote | Source class | Source | Retrieved | Confidence | Contradiction | Permitted use |
+|---|---|---|---|---|---|---|---|
+
+Every persona, objection, angle, and proof point must trace to one or more ledger rows. Use
+`[UNSOURCED, strategist judgement]` only when the judgement is necessary and include a validation
+step. Never quietly present judgement as evidence.

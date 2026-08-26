@@ -50,8 +50,8 @@ Rules:
 - Ads and landing pages use congruent claims
 - Testimonials do not override evidence or advertising requirements
 - A compelling angle never excuses an inaccurate claim
-- If `config/brand.yml` marks the category regulated, no claim ships without an approved
-  wording entry. Missing entry means stop and ask, not guess
+- If the active brand folder marks the category or market regulated, no claim ships without an
+  approved wording entry in `products/claims.yml`. Missing entry means stop and ask, not guess
 
 Platform-specific policy, including what Meta currently rejects in health, wellness, supplement
 and beauty, is in `12-meta-platform.md`.
@@ -68,8 +68,8 @@ Before a concept is expressed, check:
 
 ## Writing quality
 
-Voice rules come from the Brand Context Pack. These are the floor, applied on top of whatever
-the brand's voice is.
+Voice rules come from `context/voice.md` and `learning/approved-rules.yml` in the active brand
+folder. These are the floor, applied on top of the approved brand voice.
 
 **Structure.** Write to one person. One dominant idea per ad. Short sentences carry pressure;
 long sentences carry explanation. Vary them. The first line earns the second.

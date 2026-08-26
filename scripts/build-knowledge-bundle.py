@@ -17,7 +17,7 @@ HEADER = """# Marketing Strategist: knowledge bundle
 Generated file. Do not edit by hand. Rebuild with `scripts/build-knowledge-bundle.py`.
 
 Upload this alongside `PROMPT.md` on any surface that has no filesystem. It carries the full
-reference library and every output contract.
+reference library, every output contract, and the connector and runtime guides.
 
 """
 
@@ -33,10 +33,16 @@ def collect(folder, title):
     return "".join(parts)
 
 
-def main():
+def build_body():
     body = HEADER
     body += collect("references", "REFERENCE LIBRARY")
     body += collect("contracts", "OUTPUT CONTRACTS")
+    body += collect("connectors", "CONNECTOR AND RUNTIME GUIDES")
+    return body
+
+
+def main():
+    body = build_body()
     OUT.parent.mkdir(exist_ok=True)
     OUT.write_text(body + "\n")
     kb = len(body) / 1024

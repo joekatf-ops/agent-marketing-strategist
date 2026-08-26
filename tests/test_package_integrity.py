@@ -6,12 +6,20 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "scripts" / "validate-package.py"
+BUNDLE_SCRIPT = ROOT / "scripts" / "build-knowledge-bundle.py"
 
 
 def load_validator():
     if not SCRIPT.exists():
         raise AssertionError("scripts/validate-package.py should exist")
     spec = importlib.util.spec_from_file_location("validate_package", SCRIPT)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def load_bundle_builder():
+    spec = importlib.util.spec_from_file_location("build_knowledge_bundle", BUNDLE_SCRIPT)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
@@ -136,6 +144,37 @@ class PackageIntegrityTests(unittest.TestCase):
 
         self.assertIn("manual", contract.lower())
         self.assertIn("does not require a live Meta connection", contract)
+
+    def test_package_declares_v02_and_portable_brand_folder(self):
+        self.assertEqual("0.2.0", (ROOT / "VERSION").read_text().strip())
+        readme = (ROOT / "README.md").read_text()
+
+        self.assertIn("brand folder", readme.lower())
+        self.assertIn("Firecrawl", readme)
+        self.assertIn("Grok Agents", readme)
+
+    def test_concept_reference_removes_rigid_launch_mix(self):
+        reference = (ROOT / "references" / "06-concept-model.md").read_text()
+
+        self.assertNotIn("Every launch concept covers four awareness states", reference)
+        self.assertNotIn("Three videos and one static per concept", reference)
+        self.assertIn("Most aware", reference)
+        self.assertIn("portfolio", reference.lower())
+
+    def test_legacy_config_points_to_portable_brand_folder(self):
+        config = (ROOT / "config" / "brand.example.yml").read_text()
+
+        self.assertIn("scripts/init-brand-folder.py", config)
+        self.assertIn("legacy", config.lower())
+        self.assertNotIn("This file is the ONLY place", config)
+
+    def test_universal_bundle_includes_connector_guides(self):
+        builder = load_bundle_builder()
+
+        content = builder.build_body()
+
+        self.assertIn("# PART: CONNECTOR AND RUNTIME GUIDES", content)
+        self.assertIn("<!-- source: connectors/runtime-grok-agents.md -->", content)
 
 
 if __name__ == "__main__":
