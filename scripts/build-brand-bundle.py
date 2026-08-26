@@ -25,11 +25,27 @@ ALLOWED_EXACT = {
 ALLOWED_PREFIXES = ("context/", "products/", "strategy/")
 ALLOWED_SUFFIXES = {".md", ".yml", ".yaml", ".json"}
 SECRET_ASSIGNMENT = re.compile(
-    r"(?im)^\s*[\"']?(?:api[_-]?key|access[_-]?token|refresh[_-]?token|"
-    r"client[_-]?secret|private[_-]?key|secret|password)[\"']?\s*[:=]\s*\S+"
+    r"(?im)^\s*[\"']?[A-Za-z0-9_.-]*(?:api[_-]?key|access[_-]?token|"
+    r"refresh[_-]?token|client[_-]?secret|private[_-]?key|secret|password)"
+    r"[\"']?\s*[:=]\s*\S+"
 )
 AUTHORIZATION_VALUE = re.compile(
     r"(?im)^\s*[\"']?authorization[\"']?\s*[:=]\s*[\"']?(?:bearer|basic)\s+\S+"
+)
+PRIVATE_KEY_BLOCK = re.compile(
+    r"-----BEGIN (?:RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----"
+)
+SENSITIVE_KEY_SUFFIXES = (
+    "apikey",
+    "accesstoken",
+    "refreshtoken",
+    "clientsecret",
+    "privatekey",
+    "password",
+    "authorization",
+    "secretaccesskey",
+    "accesskeyid",
+    "sessiontoken",
 )
 MANIFEST_SLUG = re.compile(r'(?m)^\s*slug:\s*["\']?([^"\'\s,}]+)')
 BRAND_SLUG_FIELD = re.compile(
@@ -75,6 +91,23 @@ def digest_files(folder: pathlib.Path, files: list[pathlib.Path]) -> str:
     return digest.hexdigest()
 
 
+def normalized_key(value: object) -> str:
+    return re.sub(r"[^a-z0-9]", "", str(value).lower())
+
+
+def structured_contains_secret(value: object) -> bool:
+    if isinstance(value, dict):
+        for key, nested in value.items():
+            key_name = normalized_key(key)
+            if key_name.endswith(SENSITIVE_KEY_SUFFIXES) and nested not in (None, "", False):
+                return True
+            if structured_contains_secret(nested):
+                return True
+    elif isinstance(value, list):
+        return any(structured_contains_secret(item) for item in value)
+    return False
+
+
 def build_bundle(folder: pathlib.Path, output: pathlib.Path) -> pathlib.Path:
     folder = pathlib.Path(folder).resolve()
     output = pathlib.Path(output)
@@ -105,6 +138,7 @@ def build_bundle(folder: pathlib.Path, output: pathlib.Path) -> pathlib.Path:
     for path in files:
         relative = path.relative_to(folder).as_posix()
         content = path.read_text().strip()
+        structured = None
         if path.suffix.lower() == ".json":
             try:
                 structured = json.loads(content)
@@ -121,7 +155,12 @@ def build_bundle(folder: pathlib.Path, output: pathlib.Path) -> pathlib.Path:
                 f"{relative} brand {scoped_slug_value} does not match manifest brand "
                 f"{manifest_slug}"
             )
-        if SECRET_ASSIGNMENT.search(content) or AUTHORIZATION_VALUE.search(content):
+        if (
+            SECRET_ASSIGNMENT.search(content)
+            or AUTHORIZATION_VALUE.search(content)
+            or PRIVATE_KEY_BLOCK.search(content)
+            or structured_contains_secret(structured)
+        ):
             raise ValueError(f"possible secret found in bundle source: {relative}")
         parts.extend(
             [

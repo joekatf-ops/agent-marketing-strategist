@@ -7,7 +7,7 @@ The audit trail produced after a human edits or approves strategist work.
 ## Sections, in order
 
 1. **Source revision** - brand, market, product, asset ID, generated version, approved version,
-   editor, approval timestamp
+   editor, approver, approval timestamp
 2. **Meaning-level changes** - one row per material change, including before, after, edit reason,
    normalized learning and memory key
 3. **Learning events recorded** - event ID, classification, scope, status, confidence, and file
@@ -19,12 +19,14 @@ The audit trail produced after a human edits or approves strategist work.
 
 ## Event row
 
-| Event ID | Before | After | Edit reason | Normalized learning | Memory key | Classification | Scope | Status | Confidence | Destination |
-|---|---|---|---|---|---|---|---|---|---:|---|
+| Event ID | Before | After | Edit reason | Normalized learning | Memory key | Classification | Scope | Status | Recorded by | Approved by | Confidence | Destination |
+|---|---|---|---|---|---|---|---|---|---|---|---:|---|
 
 Use the exact enums and fields in `schemas/learning-event.schema.json`.
 The normalized learning is the future instruction. Never use the approved replacement line as the
 rule unless the human explicitly confirms that exact line is the reusable instruction.
+`author` records who created the event. `approved_by` is separate and required for approved events;
+it must match an authorized rule approver in the active brand manifest.
 
 ## Promotion rules
 

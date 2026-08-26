@@ -5,12 +5,15 @@ The brand gets smarter through traceable approved changes, not through general c
 ## Learning event
 
 Every event records brand, market, product, source asset, before, after, edit reason, normalized
-learning, memory key, scope, classification, status, confidence, author and timestamp. The schema is
+learning, memory key, scope, classification, status, confidence, author, approver and timestamp. The schema is
 `schemas/learning-event.schema.json`.
 
 `after` is the approved asset copy. `learning` is the generalized instruction that may affect a
 future run. Never turn the replacement copy itself into a permanent rule. `memory_key` gives related
 signals and conflicts one stable identity, for example `claims.loss_prevention`.
+`author` records who prepared the event. `approved_by` records the authorized human decision and is
+required when status is approved. Historical approved events are rechecked against the current
+brand approver list before active memory is rebuilt.
 
 ## Classifications
 
@@ -57,7 +60,8 @@ signals and conflicts one stable identity, for example `claims.loss_prevention`.
 
 Do not silently use the newest event. When approved rules conflict, show both, their scope and their
 dates. Prefer the narrower valid scope until an approver resolves the conflict. Supersede the old
-rule rather than deleting it. `supersedes` must point to an existing event in the same brand ledger.
+rule rather than deleting it. `supersedes` must point to an existing event with the same memory key
+in the same brand ledger.
 
 ## Active memory
 

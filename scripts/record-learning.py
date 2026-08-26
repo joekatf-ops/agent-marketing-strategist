@@ -46,6 +46,7 @@ HARD_RULE_CLASSIFICATIONS = {
 }
 SLUG = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 EVENT_ID = re.compile(r"^LEARN-[A-Z0-9]+$")
+MEMORY_KEY = re.compile(r"^[a-z0-9]+(?:[._-][a-z0-9]+)*$")
 
 
 def validate_event(event: dict) -> list[str]:
@@ -74,9 +75,9 @@ def validate_event(event: dict) -> list[str]:
             errors.append(f"{field} must be a string")
     memory_key = event.get("memory_key")
     if memory_key is not None and (
-        not isinstance(memory_key, str) or not memory_key.strip()
+        not isinstance(memory_key, str) or not MEMORY_KEY.fullmatch(memory_key)
     ):
-        errors.append("memory_key must be a non-empty string")
+        errors.append("memory_key must use lowercase dot, underscore or hyphen tokens")
     supersedes = event.get("supersedes")
     if supersedes is not None and (
         not isinstance(supersedes, str) or not EVENT_ID.fullmatch(supersedes)
@@ -89,6 +90,15 @@ def validate_event(event: dict) -> list[str]:
         and (not isinstance(memory_key, str) or not memory_key.strip())
     ):
         errors.append("approved hard rules and preferences require memory_key")
+    approved_by = event.get("approved_by")
+    if event["status"] == "approved" and (
+        not isinstance(approved_by, str) or not approved_by.strip()
+    ):
+        errors.append("approved events require approved_by")
+    elif approved_by is not None and (
+        not isinstance(approved_by, str) or not approved_by.strip()
+    ):
+        errors.append("approved_by must be a non-empty string")
     if (
         not isinstance(event["classification"], str)
         or event["classification"] not in CLASSIFICATIONS
@@ -160,6 +170,7 @@ def load_events(folder: pathlib.Path) -> list[dict]:
     if not ledger.is_file():
         return []
     events = []
+    approvers = configured_rule_approvers(folder)
     for line_number, line in enumerate(ledger.read_text().splitlines(), start=1):
         if not line.strip():
             continue
@@ -179,6 +190,14 @@ def load_events(folder: pathlib.Path) -> list[dict]:
                 f"event brand {event['brand_slug']} does not match connected brand "
                 f"{connected_slug} at line {line_number}"
             )
+        if event["status"] == "approved":
+            if not approvers:
+                raise ValueError("no rule approvers configured in brand.yml")
+            if event["approved_by"] not in approvers:
+                raise ValueError(
+                    "approved_by is not a configured rule approver: "
+                    f"{event['approved_by']} at line {line_number}"
+                )
         events.append(event)
     return events
 
@@ -194,7 +213,8 @@ def memory_record(event: dict) -> dict:
         "value": event["learning"],
         "reason": event["reason"],
         "confidence": event["confidence"],
-        "approved_by": event["author"],
+        "recorded_by": event["author"],
+        "approved_by": event["approved_by"],
         "approved_at": event["timestamp"],
     }
     if event.get("memory_key"):
@@ -233,18 +253,21 @@ def rebuild_active_memory(folder: pathlib.Path) -> pathlib.Path:
         elif event["classification"] in {"execution_specific", "editor_preference"}:
             scoped_notes.append(record)
 
-    grouped_preferences: dict[tuple[str, str, str, str], list[dict]] = {}
+    grouped_preferences: dict[tuple[str, str, str, str, str], list[dict]] = {}
     for record in preference_signals:
         normalized = " ".join(record["value"].lower().split())
         key = (
             record["scope"],
             record["market"],
             record["product_id"],
-            f"{record['memory_key']}:{normalized}",
+            record["memory_key"],
+            normalized,
         )
         grouped_preferences.setdefault(key, []).append(record)
     preference_candidates = []
-    for (scope, market, product_id, _), records in sorted(grouped_preferences.items()):
+    for (scope, market, product_id, memory_key, _), records in sorted(
+        grouped_preferences.items()
+    ):
         distinct_assets = {record["source_asset_id"] for record in records}
         if len(distinct_assets) < 3:
             continue
@@ -254,6 +277,7 @@ def rebuild_active_memory(folder: pathlib.Path) -> pathlib.Path:
                 "scope": scope,
                 "market": market,
                 "product_id": product_id,
+                "memory_key": memory_key,
                 "signal_count": len(distinct_assets),
                 "source_event_ids": [record["event_id"] for record in records],
                 "status": "proposed",
@@ -307,13 +331,14 @@ def append_event(folder: pathlib.Path, event: dict) -> str:
         raise ValueError(
             f"event brand {event['brand_slug']} does not match connected brand {connected_slug}"
         )
-    if event["status"] == "approved" and event["classification"] != "accidental_edit":
+    if event["status"] == "approved":
         approvers = configured_rule_approvers(folder)
         if not approvers:
             raise ValueError("no rule approvers configured in brand.yml")
-        if event["author"] not in approvers:
+        if event["approved_by"] not in approvers:
             raise ValueError(
-                f"author is not an approved rule approver: {event['author']}"
+                "approved_by is not a configured rule approver: "
+                f"{event['approved_by']}"
             )
 
     stored = dict(event)
@@ -324,10 +349,19 @@ def append_event(folder: pathlib.Path, event: dict) -> str:
     existing_events = load_events(folder)
     if any(existing.get("event_id") == event_id for existing in existing_events):
         raise ValueError(f"event_id already exists: {event_id}")
-    if stored.get("supersedes") and not any(
-        existing.get("event_id") == stored["supersedes"] for existing in existing_events
-    ):
-        raise ValueError(f"supersedes event does not exist: {stored['supersedes']}")
+    if stored.get("supersedes"):
+        superseded_event = next(
+            (
+                existing
+                for existing in existing_events
+                if existing.get("event_id") == stored["supersedes"]
+            ),
+            None,
+        )
+        if superseded_event is None:
+            raise ValueError(f"supersedes event does not exist: {stored['supersedes']}")
+        if superseded_event.get("memory_key") != stored.get("memory_key"):
+            raise ValueError("supersedes must reference an event with the same memory_key")
     with ledger.open("a", encoding="utf-8") as handle:
         handle.write(json.dumps(stored, ensure_ascii=False, sort_keys=True) + "\n")
     rebuild_active_memory(folder)

@@ -22,11 +22,11 @@
 
 ## 3. Learning events recorded
 
-| Event ID | Before | After | Edit reason | Normalized learning | Memory key | Classification | Scope | Status | Confidence | Destination |
-|---|---|---|---|---|---|---|---|---|---:|---|
-| LEARN-20260826A | Never lose another charging cable. | See your charging cables at a glance. | Remove an unsupported guaranteed outcome | Never promise that SnapGrid prevents lost or forgotten cables | `claims.snapgrid.loss_prevention` | compliance_correction | product | approved | 1.00 | `learning/learning-events.jsonl` |
-| LEARN-20260826B | Six dedicated slots for every cable. | Six elastic cable loops. | Stay inside verified product fit | Describe SnapGrid as having six elastic cable loops | `product.snapgrid.cable_loops` | factual_correction | product | approved | 1.00 | `learning/learning-events.jsonl` |
-| LEARN-20260826C | Upgrade your setup today. | See how SnapGrid is laid out. | Match CTA language to an educational destination | Match educational CTA language to the information available at the destination | `cta.educational_destination_match` | strategic_learning | execution | proposed | 0.75 | `learning/learning-events.jsonl` |
+| Event ID | Before | After | Edit reason | Normalized learning | Memory key | Classification | Scope | Status | Recorded by | Approved by | Confidence | Destination |
+|---|---|---|---|---|---|---|---|---|---|---|---:|---|
+| LEARN-20260826A | Never lose another charging cable. | See your charging cables at a glance. | Remove an unsupported guaranteed outcome | Never promise that SnapGrid prevents lost or forgotten cables | `claims.snapgrid.loss_prevention` | compliance_correction | product | approved | Joe | Joe | 1.00 | `learning/learning-events.jsonl` |
+| LEARN-20260826B | Six dedicated slots for every cable. | Six elastic cable loops. | Stay inside verified product fit | Describe SnapGrid as having six elastic cable loops | `product.snapgrid.cable_loops` | factual_correction | product | approved | Joe | Joe | 1.00 | `learning/learning-events.jsonl` |
+| LEARN-20260826C | Upgrade your setup today. | See how SnapGrid is laid out. | Match CTA language to an educational destination | Match educational CTA language to the information available at the destination | `cta.educational_destination_match` | strategic_learning | execution | proposed | Joe | Not approved | 0.75 | `learning/learning-events.jsonl` |
 
 ### Machine-copyable events
 
@@ -47,6 +47,7 @@
   "status": "approved",
   "confidence": 1.0,
   "author": "Joe",
+  "approved_by": "Joe",
   "timestamp": "2026-08-26T11:42:00+10:00"
 }
 ```
@@ -68,6 +69,7 @@
   "status": "approved",
   "confidence": 1.0,
   "author": "Joe",
+  "approved_by": "Joe",
   "timestamp": "2026-08-26T11:42:00+10:00"
 }
 ```

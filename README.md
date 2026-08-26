@@ -139,9 +139,9 @@ remain the current diagnosis input.
 ## Learning without drift
 
 Use `scripts/record-learning.py` for approved revisions. Each event stores before, after, edit
-reason, normalized learning, memory key, classification, scope, status, confidence, author and
-timestamp. The script rebuilds `learning/active-memory.json`, which is included in the next brand
-bundle.
+reason, normalized learning, memory key, classification, scope, status, confidence, event author,
+approver and timestamp. The script rebuilds `learning/active-memory.json`, which is included in the
+next brand bundle.
 
 - Factual and compliance corrections can become approved scoped rules after explicit approval.
 - Voice rules require explicit approval.

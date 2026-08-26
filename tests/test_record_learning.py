@@ -34,6 +34,7 @@ def valid_event(**overrides):
         "status": "approved",
         "confidence": 1.0,
         "author": "Joe",
+        "approved_by": "Joe",
         "timestamp": "2026-08-26T10:00:00+10:00",
     }
     event.update(overrides)
@@ -113,7 +114,7 @@ class LearningRecorderTests(unittest.TestCase):
         self.assertIn("invalid classification: []", errors)
         self.assertIn("invalid status: {}", errors)
         self.assertIn("invalid scope: 1", errors)
-        self.assertIn("memory_key must be a non-empty string", errors)
+        self.assertIn("memory_key must use lowercase dot, underscore or hyphen tokens", errors)
 
         approved_bad_classification = recorder.validate_event(
             valid_event(classification=[])
@@ -174,6 +175,18 @@ class LearningRecorderTests(unittest.TestCase):
                 valid_event(supersedes="LEARN-UNKNOWN1"),
             )
 
+        first_id = recorder.append_event(folder, valid_event(event_id="LEARN-BASE1"))
+        with self.assertRaisesRegex(ValueError, "same memory_key"):
+            recorder.append_event(
+                folder,
+                valid_event(
+                    event_id="LEARN-WRONGKEY1",
+                    source_asset_id="ACME002_PRA_VID",
+                    memory_key="voice.hype",
+                    supersedes=first_id,
+                ),
+            )
+
     def test_refuses_unconfigured_or_unauthorized_approvers(self):
         recorder = load_recorder()
         temp, folder = self.make_brand_folder(approvers=())
@@ -184,8 +197,31 @@ class LearningRecorderTests(unittest.TestCase):
 
         temp_allowed, allowed_folder = self.make_brand_folder(approvers=("Alice",))
         self.addCleanup(temp_allowed.cleanup)
-        with self.assertRaisesRegex(ValueError, "author is not an approved rule approver"):
-            recorder.append_event(allowed_folder, valid_event(author="Joe"))
+        with self.assertRaisesRegex(ValueError, "approved_by is not a configured rule approver"):
+            recorder.append_event(allowed_folder, valid_event(approved_by="Joe"))
+
+    def test_refuses_unauthorized_historical_approved_events(self):
+        recorder = load_recorder()
+        temp, folder = self.make_brand_folder(approvers=("Joe",))
+        self.addCleanup(temp.cleanup)
+        event = valid_event(event_id="LEARN-MALLORY1", approved_by="Mallory")
+        (folder / "learning" / "learning-events.jsonl").write_text(
+            json.dumps(event) + "\n"
+        )
+
+        with self.assertRaisesRegex(
+            ValueError, "approved_by is not a configured rule approver"
+        ):
+            recorder.rebuild_active_memory(folder)
+
+    def test_rejects_noncanonical_memory_keys(self):
+        recorder = load_recorder()
+
+        errors = recorder.validate_event(valid_event(memory_key="claims:loss prevention"))
+
+        self.assertIn(
+            "memory_key must use lowercase dot, underscore or hyphen tokens", errors
+        )
 
     def test_surfaces_conflicting_active_rules_by_memory_key(self):
         recorder = load_recorder()

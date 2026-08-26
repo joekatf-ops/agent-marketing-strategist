@@ -103,6 +103,12 @@ class BrandBundleTests(unittest.TestCase):
         cases = {
             "products/private.yml": 'client_secret: "hidden-value"\n',
             "strategy/auth.md": "Authorization: Bearer hidden-token\n",
+            "products/private.json": '{"oauth":{"clientSecret":"hidden-json"}}\n',
+            "context/environment.md": "FIRECRAWL_API_KEY=hidden-prefixed\n",
+            "context/private-key.md": (
+                "-----BEGIN PRIVATE KEY-----\nsecret-material\n"
+                "-----END PRIVATE KEY-----\n"
+            ),
         }
 
         for relative, content in cases.items():
