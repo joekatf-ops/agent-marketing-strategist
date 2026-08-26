@@ -5,24 +5,39 @@ capabilities:
     preferred: "firecrawl"
     fallbacks: ["web_browser", "supplied_export"]
     required_for: ["website_refresh"]
-    last_verified: ""
+    configured: false
+    status: "unknown"
+    last_preflight: ""
+    last_error: ""
   competitor_ad_intelligence:
     preferred: "trendtrack"
     fallbacks: ["foreplay", "meta_ad_library", "web_browser"]
     required_for: ["market_research"]
-    last_verified: ""
+    configured: false
+    status: "unknown"
+    last_preflight: ""
+    last_error: ""
   customer_review_mining:
     preferred: "firecrawl"
     fallbacks: ["supplied_export", "web_browser"]
     required_for: ["customer_research"]
-    last_verified: ""
+    configured: false
+    status: "unknown"
+    last_preflight: ""
+    last_error: ""
   community_research:
     preferred: "public_web_search"
     fallbacks: ["supplied_export"]
     required_for: ["customer_research"]
-    last_verified: ""
+    configured: false
+    status: "unknown"
+    last_preflight: ""
+    last_error: ""
   meta_performance:
     preferred: "manual_upload"
     fallbacks: []
     required_for: ["ad_diagnosis"]
-    last_verified: ""
+    configured: true
+    status: "available"
+    last_preflight: ""
+    last_error: ""

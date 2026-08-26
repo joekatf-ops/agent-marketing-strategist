@@ -134,3 +134,9 @@ the supplied test did not isolate it.
 Every persona, objection, angle, and proof point must trace to one or more ledger rows. Use
 `[UNSOURCED, strategist judgement]` only when the judgement is necessary and include a validation
 step. Never quietly present judgement as evidence.
+
+Whenever evidence rows are appended or materially replaced, increment `evidence_version`, update
+`entry_count`, `last_evidence_id` and `last_refresh` in
+`research/evidence-ledger/manifest.json`. Upload bundles also provide a deterministic SHA-256
+evidence version across the included state. If a legacy folder has no version record, label it
+unversioned rather than inventing one.

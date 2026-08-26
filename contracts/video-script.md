@@ -1,6 +1,6 @@
 # Output Contract: Video Script
 locked: 2026-08-26
-version: 1.0.0
+version: 1.1.0
 
 One script for one awareness execution.
 
@@ -45,6 +45,7 @@ CTA. Every row has a beat. A row that cannot be named is a row that gets cut.
 | PRA | Name the problem precisely | Explain the underlying cause, introduce the mechanism | To education or PDP |
 | SLA | Mechanism, comparison or demonstration | Why this route works and alternatives fall short | To PDP |
 | PDA | Proof or differentiation | Objection handling, offer terms | Direct, to PDP |
+| MWA | Verified offer, terms or proof reminder | Remove the final purchase friction without re-teaching | Direct, to the exact offer |
 
 ## Formatting rules
 

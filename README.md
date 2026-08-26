@@ -61,6 +61,9 @@ Then fill the folder in this order:
 6. `research/`: first-party evidence, market evidence, evidence ledger, and intelligence brief
 7. `learning/`: approved rules, raw append-only events, conflicts, and preferences
 
+Add authorized human names to `brand.yml` under `approvals.rule_approvers` before recording approved
+learning. The recorder rejects unconfigured or unauthorized approvers.
+
 Do not put API keys, passwords, or tokens in the brand folder.
 
 The previous `config/brand.example.yml` is a legacy migration adapter, not the v0.2 source of truth.
@@ -135,8 +138,10 @@ remain the current diagnosis input.
 
 ## Learning without drift
 
-Use `scripts/record-learning.py` for approved revisions. Each event stores before, after, reason,
-classification, scope, status, confidence, author, and timestamp.
+Use `scripts/record-learning.py` for approved revisions. Each event stores before, after, edit
+reason, normalized learning, memory key, classification, scope, status, confidence, author and
+timestamp. The script rebuilds `learning/active-memory.json`, which is included in the next brand
+bundle.
 
 - Factual and compliance corrections can become approved scoped rules after explicit approval.
 - Voice rules require explicit approval.

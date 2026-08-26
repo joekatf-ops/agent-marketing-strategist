@@ -176,6 +176,29 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn("# PART: CONNECTOR AND RUNTIME GUIDES", content)
         self.assertIn("<!-- source: connectors/runtime-grok-agents.md -->", content)
 
+    def test_gemini_guide_uses_supported_firecrawl_oauth(self):
+        guide = (ROOT / "connectors" / "runtime-gemini.md").read_text()
+
+        self.assertIn("https://mcp.firecrawl.dev/v2/mcp-oauth", guide)
+        self.assertIn("/mcp auth firecrawl", guide)
+        self.assertNotIn("Bearer $FIRECRAWL_API_KEY", guide)
+
+    def test_learning_example_targets_the_append_only_ledger(self):
+        example = (ROOT / "examples" / "learning-update.md").read_text()
+
+        self.assertIn("learning/learning-events.jsonl", example)
+        self.assertNotIn("learning/events/", example)
+        self.assertIn('"learning":', example)
+        self.assertIn('"memory_key":', example)
+
+    def test_most_aware_is_supported_in_video_contract_and_formats(self):
+        script_contract = (ROOT / "contracts" / "video-script.md").read_text()
+        formats = (ROOT / "references" / "08-formats.md").read_text()
+
+        self.assertIn("| MWA |", script_contract)
+        video_section = formats.split("## Video formats", 1)[1]
+        self.assertIn("MWA", video_section)
+
 
 if __name__ == "__main__":
     unittest.main()

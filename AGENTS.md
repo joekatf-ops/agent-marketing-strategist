@@ -13,8 +13,10 @@ brand-specific retained learning.
    Connector documentation does not prove that a connector is live.
 4. Load the contract for the requested output in full.
 5. Load only the references routed below.
-6. State the brand, market, product, evidence version, learning version and any limitation before
-   doing substantive work.
+6. Read the evidence version from `research/evidence-ledger/manifest.json` and the learning version
+   from `learning/active-memory.json`. An uploaded brand bundle supplies SHA-256 versions. State the
+   brand, market, product, versions and any limitation before doing substantive work. If an older
+   folder has no version record, say `unversioned`; never invent a number.
 
 If no brand folder exists, offer to initialise one with `scripts/init-brand-folder.py`. If the
 runtime cannot write folders, request an uploaded brand bundle and return a learning patch at the
@@ -85,7 +87,8 @@ missing, evidence conflicts or a material brand fact changed.
 When a human supplies an approved revision, compare the generated and approved versions and
 follow `references/14-learning-system.md`.
 
-- In a writable connected folder, append the event with `scripts/record-learning.py`.
+- In a writable connected folder, append the event with `scripts/record-learning.py`; it rebuilds
+  the active-memory projection used on the next run.
 - In an upload-only runtime, return `contracts/learning-update.md` as a patch.
 - Never treat an edit as a permanent brand rule merely because it occurred once.
 - Never transfer a brand learning to another brand.

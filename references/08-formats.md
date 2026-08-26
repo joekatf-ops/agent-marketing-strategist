@@ -1,6 +1,6 @@
 # Format library
 
-Twenty-four executions with their structure, best awareness fit and production requirements.
+Twenty-five executions with their structure, best awareness fit and production requirements.
 Format is an execution variable, never a concept axis. Pick the format that serves the
 messaging job, not the one that is easiest to shoot.
 
@@ -40,6 +40,7 @@ Assets needed: product image, brand assets, proof and copy inputs.
 | Comparison | Comparison hook, criteria, side-by-side differences, recommendation | Differentiation and objection handling | SLA, PDA | 25 to 60 sec | Medium | Compared products, substantiated claims |
 | Customer testimonial / story | Before state, discovery, experience, after state, CTA | Trust, transformation, objection handling | SLA, PDA | 30 to 75 sec | Medium | Customer or talent, approved story, product |
 | Customer mashup | Rapid proof hook, themed clips, product or mechanism, CTA | Volume of proof and repeated customer language | SLA, PDA | 20 to 45 sec | High | Multiple approved clips, captions |
+| Offer / product reminder | Verified offer or terms, product proof, objection answer, direct CTA | Purchase-ready audiences and complete offer communication | MWA | 6 to 20 sec | Low | Product, current offer, approved terms, destination |
 
 Second-by-second beat structures and retention data for these shapes are in
 `12-meta-platform.md`.

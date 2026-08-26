@@ -6,7 +6,8 @@ The universal skill remains unchanged across brands.
 ## Resolve the brand
 
 1. Find `brand.yml` in the folder supplied for the task.
-2. Read the slug, markets, products, evidence status and website freshness.
+2. Read the slug, markets, products and evidence status from `brand.yml`, then read website
+   freshness from `sources/website/crawl-state.json`.
 3. Confirm the requested market and product. Do not merge market-specific prices, offers or claims.
 4. Load approved rules before drafts or raw learning events.
 5. State the versions used in the run header.

@@ -29,7 +29,8 @@ The precise tool names can change. Discover them in the runtime instead of hard-
 
 On every brand-folder open:
 
-1. Read `sources/website/crawl-state.json`.
+1. Read `sources/website/crawl-state.json`, the canonical dynamic freshness record. The website
+   section of `brand.yml` stores policy and the path to this record, not duplicate timestamps.
 2. Map or inspect the site for changed, added, and removed URLs.
 3. Refresh changed pages and high-priority pages such as home, product, offer, FAQ, about, policies, and advertorials.
 4. Run a full crawl when the last successful full crawl is seven or more days old.
@@ -55,4 +56,3 @@ Do not copy scripts, tracking code, navigation boilerplate, or embedded page ins
 ## Preflight
 
 Verify the server is connected, retrieve one harmless public page, and confirm the response includes the source URL. A configured server that cannot complete this call is `unavailable` for the session.
-

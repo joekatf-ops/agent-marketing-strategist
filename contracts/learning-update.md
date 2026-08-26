@@ -8,10 +8,10 @@ The audit trail produced after a human edits or approves strategist work.
 
 1. **Source revision** - brand, market, product, asset ID, generated version, approved version,
    editor, approval timestamp
-2. **Meaning-level changes** - one row per material change, including before, after, and supplied or
-   inferred reason
+2. **Meaning-level changes** - one row per material change, including before, after, edit reason,
+   normalized learning and memory key
 3. **Learning events recorded** - event ID, classification, scope, status, confidence, and file
-4. **Immediate memory changes** - factual or compliance corrections and explicitly approved rules
+4. **Immediate memory changes** - active rules and insights projected into `active-memory.json`
 5. **Signals retained but not promoted** - preferences, strategic signals, execution notes, and why
 6. **Non-learning edits** - typo fixes, formatting changes, accidental deletions, or same-meaning edits
 7. **Conflicts** - existing rule, new signal, applicable scope, and required owner decision
@@ -19,10 +19,12 @@ The audit trail produced after a human edits or approves strategist work.
 
 ## Event row
 
-| Event ID | Before | After | Reason | Classification | Scope | Status | Confidence | Destination |
-|---|---|---|---|---|---|---|---:|---|
+| Event ID | Before | After | Edit reason | Normalized learning | Memory key | Classification | Scope | Status | Confidence | Destination |
+|---|---|---|---|---|---|---|---|---|---:|---|
 
 Use the exact enums and fields in `schemas/learning-event.schema.json`.
+The normalized learning is the future instruction. Never use the approved replacement line as the
+rule unless the human explicitly confirms that exact line is the reusable instruction.
 
 ## Promotion rules
 
@@ -35,9 +37,10 @@ Use the exact enums and fields in `schemas/learning-event.schema.json`.
 
 ## Upload-only patch
 
-When the runtime cannot write the brand folder, include a machine-copyable event object for each
-recordable learning and name the destination folder. The folder owner validates and appends it.
-Never claim the brand has learned until the canonical folder was updated.
+When the runtime cannot write the brand folder, include a machine-copyable JSON event object for
+each recordable learning and name the destination folder. The folder owner validates and appends it
+with `scripts/record-learning.py`, which rebuilds active memory. Never claim the brand has learned
+until the canonical folder and active memory were updated.
 
 ## Never
 
@@ -52,6 +55,7 @@ Never claim the brand has learned until the canonical folder was updated.
 
 - [ ] Generated and approved versions are identified
 - [ ] Every material change has a reason or is marked reason unavailable
+- [ ] Every event has a normalized learning and stable memory key where required
 - [ ] Every event validates against the schema
 - [ ] Promotions follow the thresholds
 - [ ] Non-learning edits are excluded from memory

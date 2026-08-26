@@ -4,6 +4,10 @@ Last verified: 2026-08-26
 
 TrendTrack is an optional market-observation connector. Its public installation method and server address can depend on the account and runtime. Obtain the current endpoint, package, or plugin instructions from the TrendTrack account or provider. Do not invent an MCP URL.
 
+**Credential name:** this skill does not assume a canonical TrendTrack environment-variable name.
+Use the exact secret name specified by the provider or workspace administrator and keep it outside
+the repository and brand folder.
+
 ## Connection procedure
 
 1. Obtain the provider-approved connection method and credential.
@@ -29,4 +33,3 @@ TrendTrack observations are **market evidence**, not facts about the active bran
 ## Safe fallback
 
 If TrendTrack is unavailable or out of credits, use Foreplay, public ad libraries, search, and direct competitor-site research. Record which fallback was used. Never simulate TrendTrack findings.
-

@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "brand_slug": "__BRAND_SLUG__",
+  "preferred_connector": "firecrawl",
+  "last_change_check": null,
+  "last_full_crawl": null,
+  "full_refresh_days": 7,
+  "last_success_status": "never_run",
+  "url_count": 0,
+  "last_inventory_hash": null,
+  "material_change_open": false
+}

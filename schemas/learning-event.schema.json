@@ -12,6 +12,7 @@
     "before",
     "after",
     "reason",
+    "learning",
     "scope",
     "classification",
     "status",
@@ -21,6 +22,8 @@
   ],
   "properties": {
     "event_id": {"type": "string", "pattern": "^LEARN-[A-Z0-9]+$"},
+    "memory_key": {"type": "string", "minLength": 1},
+    "supersedes": {"type": "string", "pattern": "^LEARN-[A-Z0-9]+$"},
     "brand_slug": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
     "market": {"type": "string", "minLength": 2},
     "product_id": {"type": "string", "minLength": 1},
@@ -28,6 +31,7 @@
     "before": {"type": "string"},
     "after": {"type": "string"},
     "reason": {"type": "string", "minLength": 1},
+    "learning": {"type": "string", "minLength": 1},
     "scope": {
       "enum": ["execution", "product", "market", "brand", "editor", "universal_candidate"]
     },

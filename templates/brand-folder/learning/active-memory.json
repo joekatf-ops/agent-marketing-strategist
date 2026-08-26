@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "brand_slug": "__BRAND_SLUG__",
+  "learning_version": 0,
+  "source_event_count": 0,
+  "last_event_id": null,
+  "active_rules": [],
+  "approved_insights": [],
+  "preference_signals": [],
+  "preference_candidates": [],
+  "scoped_notes": [],
+  "universal_candidates": [],
+  "unresolved_conflicts": []
+}

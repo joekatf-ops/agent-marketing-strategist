@@ -1,7 +1,7 @@
 schema_version: 2
 
 brand:
-  name: "__BRAND_NAME__"
+  name: "__BRAND_NAME_YAML__"
   slug: "__BRAND_SLUG__"
   canonical_url: ""
   stage: "new"
@@ -25,8 +25,7 @@ website_monitoring:
   incremental_changed_pages: true
   full_refresh_days: 7
   force_before: ["major_research", "concept_batch", "launch"]
-  last_change_check: ""
-  last_full_crawl: ""
+  state_file: "sources/website/crawl-state.json"
 
 naming:
   brand_code: ""
@@ -36,7 +35,7 @@ naming:
 run:
   language: "en-AU"
   writable: true
-  output_dir: "output"
+  output_dir: "outputs"
 
 approvals:
   rule_approvers: []

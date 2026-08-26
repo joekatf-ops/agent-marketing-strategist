@@ -7,6 +7,8 @@
 - Product: `snapgrid-pouch`
 - Brand folder: `/brands/fieldnote-carry`
 - Requested mode: customer research
+- Evidence version: 4 from `research/evidence-ledger/manifest.json`
+- Learning version: 3 from `learning/active-memory.json`
 
 ## 2. Readiness verdict
 
@@ -61,7 +63,7 @@ evidence or founder hypotheses until first-party evidence exists.
 
 ## 8. Learning state
 
-- Approved-rule version: 3
+- Active learning version: 3
 - Unresolved conflicts: none
 - Proposed learning awaiting review: none
 
@@ -78,4 +80,3 @@ evidence or founder hypotheses until first-party evidence exists.
 2. Mine category reviews and communities for situations, failed alternatives, and objections.
 3. Recruit five target-user interviews after the first research pass.
 4. Verify landed cost before commercial test-budget recommendations.
-

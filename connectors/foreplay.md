@@ -4,6 +4,10 @@ Last verified: 2026-08-26
 
 Foreplay is an optional creative-intelligence connector. Connection details can depend on the workspace, provider distribution, and runtime. Use the current official instructions supplied to the account. Do not guess an endpoint, package name, or authentication scheme.
 
+**Credential name:** this skill does not assume a canonical Foreplay environment-variable name.
+Use the exact secret name specified by the provider or workspace administrator and keep it outside
+the repository and brand folder.
+
 ## Connection procedure
 
 1. Obtain the approved Foreplay connection instructions and credential.
@@ -29,4 +33,3 @@ Record the source brand, ad identifier or URL, observed date, pattern, and what 
 ## Safe fallback
 
 If Foreplay is unavailable, use TrendTrack, public ad libraries, direct site research, and the existing brand-folder swipe evidence. State the source limitations. Never claim access to private swipe files that were not retrieved.
-

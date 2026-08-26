@@ -38,10 +38,18 @@ class BrandFolderInitializerTests(unittest.TestCase):
                 "products/claims.yml",
                 "products/proof-library.yml",
                 "research/evidence-ledger/evidence.jsonl",
+                "research/evidence-ledger/manifest.json",
                 "research/customer-intelligence.md",
+                "sources/website/crawl-state.json",
+                "sources/website/README.md",
+                "sources/customer/reviews/README.md",
+                "sources/market/README.md",
                 "strategy/concept-register.yml",
                 "strategy/hypothesis-backlog.yml",
+                "outputs/README.md",
                 "learning/learning-events.jsonl",
+                "learning/active-memory.json",
+                "learning/revisions/README.md",
                 "learning/approved-rules.yml",
                 "learning/preference-signals.yml",
                 "learning/rejected-patterns.yml",
@@ -54,6 +62,15 @@ class BrandFolderInitializerTests(unittest.TestCase):
                 if path.is_file()
             }
             self.assertTrue(required.issubset(actual), required - actual)
+
+            crawl_state = (destination / "sources/website/crawl-state.json").read_text()
+            self.assertIn('"brand_slug": "acme-sleep"', crawl_state)
+            self.assertIn('"full_refresh_days": 7', crawl_state)
+            evidence_manifest = (
+                destination / "research/evidence-ledger/manifest.json"
+            ).read_text()
+            self.assertIn('"brand_slug": "acme-sleep"', evidence_manifest)
+            self.assertIn('"evidence_version": 0', evidence_manifest)
 
     def test_substitutes_brand_identity_without_leaving_template_tokens(self):
         initializer = load_initializer()
@@ -88,6 +105,21 @@ class BrandFolderInitializerTests(unittest.TestCase):
 
             with self.assertRaisesRegex(ValueError, "lowercase hyphenated"):
                 initializer.initialise(destination, "Bad Brand", "Bad Brand")
+
+    def test_escapes_a_quoted_brand_name_in_yaml_only(self):
+        initializer = load_initializer()
+        with tempfile.TemporaryDirectory() as temp:
+            destination = pathlib.Path(temp) / "quoted-brand"
+
+            initializer.initialise(
+                destination, 'Joe\'s "Carry" Co', "quoted-brand"
+            )
+
+            manifest = (destination / "brand.yml").read_text()
+            readme = (destination / "README.md").read_text()
+            self.assertIn('name: "Joe\'s \\"Carry\\" Co"', manifest)
+            self.assertIn('# Joe\'s "Carry" Co brand folder', readme)
+            self.assertIn('output_dir: "outputs"', manifest)
 
 
 if __name__ == "__main__":

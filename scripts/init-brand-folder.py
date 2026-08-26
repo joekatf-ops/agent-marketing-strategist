@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import json
 import pathlib
 import re
 
@@ -27,6 +28,8 @@ def initialise(
     destination = pathlib.Path(destination)
     if not SLUG.fullmatch(slug):
         raise ValueError("brand slug must be lowercase hyphenated text")
+    if not name.strip() or "\n" in name or "\r" in name:
+        raise ValueError("brand name must be non-empty single-line text")
     if destination.exists() and any(destination.iterdir()):
         raise FileExistsError(f"destination is not empty: {destination}")
     if not template_root.is_dir():
@@ -35,6 +38,7 @@ def initialise(
     destination.mkdir(parents=True, exist_ok=True)
     tokens = {
         "__BRAND_NAME__": name,
+        "__BRAND_NAME_YAML__": json.dumps(name, ensure_ascii=False)[1:-1],
         "__BRAND_SLUG__": slug,
         "__CREATED_DATE__": dt.date.today().isoformat(),
     }

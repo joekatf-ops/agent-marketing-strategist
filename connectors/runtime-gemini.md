@@ -8,27 +8,31 @@ Official MCP reference: https://geminicli.com/docs/tools/mcp-server/
 
 Open the strategist repository and active brand folder in the same workspace. Use the repository instructions and `SKILL.md` as the agent's operating context.
 
-Gemini CLI supports stdio, SSE, and Streamable HTTP MCP transports. Streamable HTTP configuration uses `httpUrl` in `~/.gemini/settings.json` or project `.gemini/settings.json`:
+Gemini CLI supports stdio, SSE, and Streamable HTTP MCP transports. Use Firecrawl's OAuth endpoint
+so the API key is not placed in `settings.json`. Streamable HTTP configuration uses `httpUrl` in
+`~/.gemini/settings.json` or project `.gemini/settings.json`:
 
 ```json
 {
   "mcpServers": {
     "firecrawl": {
-      "httpUrl": "https://mcp.firecrawl.dev/v2/mcp",
-      "headers": {
-        "Authorization": "Bearer $FIRECRAWL_API_KEY"
-      },
+      "httpUrl": "https://mcp.firecrawl.dev/v2/mcp-oauth",
       "trust": false
     }
   }
 }
 ```
 
-Keep confirmation enabled until the connector is understood. Gemini CLI also supports `gemini mcp add`, `gemini mcp list`, `/mcp`, `/mcp auth SERVER_NAME`, and `/mcp reload`. Use environment references for secrets instead of hard-coding them.
+Restart or reload Gemini CLI, then run `/mcp auth firecrawl` to complete the OAuth flow. Keep
+confirmation enabled until the connector is understood. Gemini CLI also supports `gemini mcp add`,
+`gemini mcp list`, `/mcp`, and `/mcp reload`.
+
+The current Gemini MCP documentation describes environment-variable expansion for the `env` block,
+not arbitrary HTTP header values. Do not put a Firecrawl API key or a shell-style variable in the
+`headers` object unless Gemini officially documents a secure mechanism for the installed version.
 
 TrendTrack and Foreplay should be added using their provider-approved command or URL, never a guessed value.
 
 ## Other Gemini surfaces
 
 When local workspace or arbitrary MCP access is unavailable, upload the universal knowledge bundle and current brand bundle. Use upload mode as the source context and sync approved changes back to the durable brand folder after the session.
-
