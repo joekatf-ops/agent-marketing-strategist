@@ -70,6 +70,19 @@ class PackageIntegrityTests(unittest.TestCase):
 
         self.assertIn("SKILL.md and AGENTS.md operating bodies have drifted", errors)
 
+    def test_v02_operating_references_exist(self):
+        required = {
+            "references/13-brand-folder.md",
+            "references/14-learning-system.md",
+            "references/15-connectors.md",
+            "references/16-hook-formats.md",
+            "references/17-runtime-portability.md",
+        }
+
+        missing = {relative for relative in required if not (ROOT / relative).is_file()}
+
+        self.assertEqual(set(), missing)
+
 
 if __name__ == "__main__":
     unittest.main()
