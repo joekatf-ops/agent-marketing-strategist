@@ -83,6 +83,25 @@ class PackageIntegrityTests(unittest.TestCase):
 
         self.assertEqual(set(), missing)
 
+    def test_connector_and_runtime_guides_exist(self):
+        required = {
+            "connectors/README.md",
+            "connectors/firecrawl.md",
+            "connectors/trendtrack.md",
+            "connectors/foreplay.md",
+            "connectors/runtime-codex.md",
+            "connectors/runtime-claude.md",
+            "connectors/runtime-claude-code.md",
+            "connectors/runtime-chatgpt.md",
+            "connectors/runtime-gemini.md",
+            "connectors/runtime-grok.md",
+            "connectors/runtime-grok-agents.md",
+        }
+
+        missing = {relative for relative in required if not (ROOT / relative).is_file()}
+
+        self.assertEqual(set(), missing)
+
 
 if __name__ == "__main__":
     unittest.main()
