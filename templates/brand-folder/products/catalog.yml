@@ -1,0 +1,6 @@
+schema_version: 1
+products: []
+
+# Each product should record:
+# id, name, status, markets, variants, prices, ingredients_or_specs, use_cases,
+# differentiators, inventory_constraints and source.

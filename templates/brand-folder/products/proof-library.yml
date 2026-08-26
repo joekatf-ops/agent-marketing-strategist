@@ -1,0 +1,6 @@
+schema_version: 1
+proof: []
+
+# Each proof item should record:
+# id, type, source, exact_content, product_ids, markets, claims_supported,
+# usage_rights, approved, approved_by and expires_at.

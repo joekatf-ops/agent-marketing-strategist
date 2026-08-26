@@ -1,0 +1,5 @@
+schema_version: 1
+brand_slug: "__BRAND_SLUG__"
+patterns: []
+
+# Keep the reason, scope and evidence so the agent does not repeat avoidable mistakes.

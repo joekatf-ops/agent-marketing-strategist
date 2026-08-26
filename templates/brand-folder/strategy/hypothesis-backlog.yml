@@ -1,0 +1,4 @@
+schema_version: 1
+hypotheses: []
+
+# Each hypothesis records evidence, confidence, priority, intended test and status.

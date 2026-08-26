@@ -1,0 +1,5 @@
+schema_version: 1
+brand_slug: "__BRAND_SLUG__"
+rules: []
+
+# A rule keeps its source event, scope, approver, approval date and supersession history.

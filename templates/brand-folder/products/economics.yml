@@ -1,0 +1,6 @@
+schema_version: 1
+markets: []
+
+# Record economics per market and offer:
+# currency, AOV, contribution margin, break-even CAC, target CAC, target MER,
+# target ROAS, test budget and payback constraint.

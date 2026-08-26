@@ -1,0 +1,6 @@
+schema_version: 1
+offers: []
+
+# Each offer should record:
+# id, product_ids, markets, price, bundle, gift, shipping, guarantee, start, end,
+# reason_why, approved and source.

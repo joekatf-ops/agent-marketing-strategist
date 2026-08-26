@@ -1,0 +1,9 @@
+schema_version: 1
+universal_evidence_gate: true
+regulated_category: false
+claims: []
+
+# Each claim should record:
+# id, exact_claim, product_ids, markets, evidence, evidence_strength,
+# approved_wording, qualifier, prohibited_extrapolation, status, approver,
+# approved_at and review_at.

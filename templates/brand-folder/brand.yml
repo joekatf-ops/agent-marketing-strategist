@@ -1,0 +1,43 @@
+schema_version: 2
+
+brand:
+  name: "__BRAND_NAME__"
+  slug: "__BRAND_SLUG__"
+  canonical_url: ""
+  stage: "new"
+  markets: []
+  default_market: ""
+  currency: ""
+  owner: ""
+  created: "__CREATED_DATE__"
+  updated: "__CREATED_DATE__"
+
+customer_evidence:
+  status: "pre-customer"
+  # pre-customer | limited | established
+  own_review_count: 0
+  last_research_refresh: ""
+
+website_monitoring:
+  enabled: true
+  preferred_connector: "firecrawl"
+  change_check: "on_open"
+  incremental_changed_pages: true
+  full_refresh_days: 7
+  force_before: ["major_research", "concept_batch", "launch"]
+  last_change_check: ""
+  last_full_crawl: ""
+
+naming:
+  brand_code: ""
+  concept_code: ""
+  next_concept_number: 1
+
+run:
+  language: "en-AU"
+  writable: true
+  output_dir: "output"
+
+approvals:
+  rule_approvers: []
+  claim_approvers: []
