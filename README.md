@@ -5,7 +5,7 @@ brands. Each brand keeps its own connected folder, evidence, decisions, creative
 learning.
 
 **Version:** 0.2.0
-**Status:** build candidate
+**Status:** ready for use
 
 ## The operating model
 
