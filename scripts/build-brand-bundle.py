@@ -33,7 +33,7 @@ AUTHORIZATION_VALUE = re.compile(
     r"(?im)^\s*[\"']?authorization[\"']?\s*[:=]\s*[\"']?(?:bearer|basic)\s+\S+"
 )
 PRIVATE_KEY_BLOCK = re.compile(
-    r"-----BEGIN (?:RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----"
+    r"-----BEGIN (?:ENCRYPTED |RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----"
 )
 SENSITIVE_KEY_SUFFIXES = (
     "apikey",

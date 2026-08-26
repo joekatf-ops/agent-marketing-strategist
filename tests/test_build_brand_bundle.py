@@ -109,6 +109,10 @@ class BrandBundleTests(unittest.TestCase):
                 "-----BEGIN PRIVATE KEY-----\nsecret-material\n"
                 "-----END PRIVATE KEY-----\n"
             ),
+            "context/encrypted-private-key.md": (
+                "-----BEGIN ENCRYPTED PRIVATE KEY-----\nsecret-material\n"
+                "-----END ENCRYPTED PRIVATE KEY-----\n"
+            ),
         }
 
         for relative, content in cases.items():
