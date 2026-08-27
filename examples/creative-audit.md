@@ -3,17 +3,21 @@
 ## 1. Input coverage and limitations
 
 - Run: `ADR-20260827-014`
-- Brand: Quiet Arc (`quiet-arc`)
-- Market: Australia (`AU`)
-- Product: Folding Reading Lamp (`folding-reading-lamp`)
+- Brand: `quiet-arc`
+- Market: `AU`
+- Product: `folding-reading-lamp`
 - Method version: `0.4.0`
+- Evidence version: unavailable; not supplied by the frozen intake or a frozen brand bundle
+- Approved-learning version: unavailable; not supplied by the frozen intake or a frozen brand bundle
+- Requester: Mina Cole
 - Input readiness: `limited`
 - Ads audited: `AD-QA-001`, `AD-QA-002`
 - Creative sources: `SRC-QA-001`, `SRC-QA-002`
 - Destination evidence: `SRC-QA-003`
 - Performance material: not supplied
 - Limitations: awareness job and messaging route are not structured in the intake; attachment
-  hashes are absent. Findings below stay within the supplied creative, copy and page screenshot.
+  hashes are absent; attachment and screenshot contents are not frozen inputs. Findings below stay
+  within the supplied identifiers, copy, coordinate keys, destination URL and source labels.
 
 ## 2. Ad identity and traceability
 
@@ -52,38 +56,33 @@ therefore checks coherence only and does not assign missing strategy fields.
 
 | Ad | Supplied support | Offer | Claim risk | CTA |
 |---|---|---|---|---|
-| `AD-QA-001` | Folding light is stated in intake copy and shown in `SRC-QA-001` | None supplied | Descriptive product demonstration only | `Shop Now` |
-| `AD-QA-002` | No support is supplied for the three broad benefit statements | None supplied | Broad claims need narrowing to the demonstrated page-light use | `Shop Now` |
+| `AD-QA-001` | The folding-light statement is present in the supplied primary text | None supplied | Brand substantiation and claim ceiling are unavailable | `Shop Now` |
+| `AD-QA-002` | No support is supplied for the three broad benefit statements | None supplied | Brand substantiation and claim ceiling are unavailable | `Shop Now` |
 
 ## 7. Format, visual communication and production execution
 
-- `AD-QA-001`: `SRC-QA-001` shows the lamp folded toward the open page while the room remains outside
-  the primary lit area. The visual supports the single contrast in the supplied copy. No visible
-  blocking production defect appears in the supplied attachment.
-- `AD-QA-002`: `SRC-QA-002` divides the frame between a bed, a desk and an open book. Three equal
-  visual regions repeat the copy's split focus and leave no dominant reading path.
+Visual conclusions: unavailable; attachment contents are not frozen inputs. The intake inventories
+`SRC-QA-001` and `SRC-QA-002` by label, but supplies neither content nor hashes that could support a
+frozen visual or production finding.
 
 ## 8. Destination continuity
 
-`SRC-QA-003` shows the same folding lamp, the headline "Light the page, not the room" and a
-`Shop Now` control on the supplied PDP screenshot.
-
-- `AD-QA-001`: promise, demonstrated mechanism and CTA continue into the supplied destination.
-- `AD-QA-002`: the destination supports page-focused light, but not the separate cleaner-desk and
-  softer-bedtime promises in the ad copy.
+Destination continuity: unavailable; the screenshot contents are not frozen inputs. The intake
+supplies the PDP URL and the `SRC-QA-003` screenshot label, but not page or screenshot content from
+which to assess promise, proof, offer or CTA continuity.
 
 ## 9. Ranked issues with evidence
 
 | Rank | Ad | Issue | Severity | Evidence | Exact change | Owner |
 |---|---|---|---|---|---|---|
-| 1 | `AD-QA-002` | Three competing promises obscure the supplied coordinate | Material revision | Primary text, headline and `SRC-QA-002` | Replace the three-promise opening with "Read without lighting the whole room"; use one page-light visual and headline "Light the page, not the room" | Copy lead and designer |
+| 1 | `AD-QA-002` | Three competing promises obscure the supplied coordinate | Material revision | Supplied primary text and headline | Replace the three-promise opening with "Read without lighting the whole room" and use headline "Light the page, not the room" | unassigned |
 
 ## 10. Pre-launch outcome by ad
 
 | Ad | Outcome | Blocking or revision issue | Evidence | Exact change | Owner |
 |---|---|---|---|---|---|
-| `AD-QA-001` | `ready` | None within supplied scope | Primary text, headline, `SRC-QA-001`, `SRC-QA-003` | None | Mina Cole |
-| `AD-QA-002` | `revise` | Copy and visual divide attention across three promises | Primary text, headline, `SRC-QA-002`, `SRC-QA-003` | Use the single page-light contrast specified in ranked issue 1 | Copy lead and designer |
+| `AD-QA-001` | `ready` | None within the reviewable supplied copy scope; visual and destination conclusions remain unavailable | Supplied primary text and headline | None | unassigned |
+| `AD-QA-002` | `revise` | Supplied copy divides attention across three promises | Supplied primary text and headline | Use the single page-light contrast specified in ranked issue 1 | unassigned |
 
 ## 11. What cannot be concluded without performance data
 

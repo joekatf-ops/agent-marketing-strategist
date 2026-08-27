@@ -1,4 +1,5 @@
 import importlib.util
+import json
 import pathlib
 import re
 import tempfile
@@ -29,6 +30,23 @@ For manual Meta launch asks, load `contracts/campaign-launch-plan.md` and
 - Every new ad name ends in `POSTIDXXX`; after publication, preserve the real Post ID.
 - Launch plans and changes are manual only. Never publish ads or change budgets automatically.
 - Generic count overrides cannot change the locked four initial NNT or INSPO ads or one selected hook per launch ad. Only a human-reviewed universal-method change can alter these invariants.
+"""
+
+AD_ANALYSIS_ROUTING = """## Ad-analysis routing
+
+For supplied first-party ads, load `references/19-ad-analysis-harness.md`, validate `intake.json`
+and consume the input audit before conclusions. Route exactly:
+
+- no adequate performance data -> Creative Audit;
+- adequate performance data -> Ad Diagnosis;
+- competitor ad -> competitor research;
+- human edit -> Learning Update.
+
+Combined adequate creative and performance produces one Ad Diagnosis. Incomplete performance
+material produces the input audit first; do not silently infer a performance explanation. Creative
+Audit makes no performance prediction and cannot assign `keep`, `ITR`, `stop` or `scale`. Reports
+may be written to the run folder, but controlled records require human confirmation, and diagnosis
+does not reserve a new CONTST.
 """
 
 
@@ -362,6 +380,45 @@ class PackageIntegrityTests(unittest.TestCase):
                 for phrase in required_phrases:
                     self.assertIn(phrase, text)
 
+    def test_validator_rejects_ad_analysis_router_mutations_in_every_entrypoint(self):
+        validator = load_validator()
+        mutations = (
+            (
+                "no adequate performance data -> Creative Audit",
+                "adequate performance data -> Creative Audit",
+                "contains contradictory ad-analysis routing",
+            ),
+            (
+                "Combined adequate creative and performance produces one Ad Diagnosis",
+                "Combined adequate creative and performance produces both Creative Audit and Ad Diagnosis",
+                "contains contradictory ad-analysis routing",
+            ),
+            (
+                "material produces the input audit first",
+                "material may bypass the input audit",
+                "contains contradictory ad-analysis routing",
+            ),
+            (
+                "human edit -> Learning Update",
+                "human edit -> Creative Audit",
+                "must route human edits to Learning Update",
+            ),
+        )
+
+        for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):
+            for original, replacement, error_suffix in mutations:
+                with self.subTest(relative=relative, replacement=replacement):
+                    body = "# Marketing Strategist\n\n" + LAUNCH_INVARIANTS + AD_ANALYSIS_ROUTING
+                    temp, root = self.make_root(skill_body=body, agents_body=body)
+                    self.addCleanup(temp.cleanup)
+                    (root / "PROMPT.md").write_text(body)
+                    path = root / relative
+                    path.write_text(path.read_text().replace(original, replacement))
+
+                    errors = validator.validate(root)
+
+                    self.assertIn(f"{relative} {error_suffix}", errors)
+
     def test_creative_audit_has_no_performance_decisions(self):
         path = ROOT / "contracts" / "creative-audit.md"
         self.assertTrue(path.is_file(), "Creative Audit should exist")
@@ -385,6 +442,49 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertNotIn(
             "contracts/creative-audit.md assigns a performance action", errors
         )
+
+    def test_creative_audit_blocks_identifiable_ads_with_missing_creative(self):
+        reference = re.sub(
+            r"\s+",
+            " ",
+            (ROOT / "references" / "19-ad-analysis-harness.md").read_text(),
+        )
+
+        self.assertIn(
+            "An identifiable supplied ad whose creative is missing receives `block`.",
+            reference,
+        )
+        self.assertIn(
+            "A manifest-level failure that prevents ad enumeration blocks the report until identity is repaired.",
+            reference,
+        )
+
+    def test_frozen_creative_audit_uses_only_frozen_input(self):
+        intake = json.loads((ROOT / "examples" / "ad-analysis-intake.json").read_text())
+        example = (ROOT / "examples" / "creative-audit.md").read_text()
+
+        self.assertIn(f"- Brand: `{intake['brand_slug']}`", example)
+        self.assertIn(f"- Market: `{intake['market']}`", example)
+        self.assertIn(f"- Product: `{intake['product_id']}`", example)
+        self.assertIn("- Evidence version: unavailable; not supplied", example)
+        self.assertIn("- Approved-learning version: unavailable; not supplied", example)
+        self.assertIn(
+            "Visual conclusions: unavailable; attachment contents are not frozen inputs.",
+            example,
+        )
+        self.assertIn(
+            "Destination continuity: unavailable; the screenshot contents are not frozen inputs.",
+            example,
+        )
+        self.assertNotRegex(example, r"`SRC-QA-\d{3}`\s+(?:shows|divides)")
+        self.assertNotIn("Copy lead and designer", example)
+        self.assertNotRegex(example, r"\| Mina Cole \|")
+        outcome_owners = re.findall(
+            r"^\| `AD-QA-\d{3}` \| `(?:ready|revise|block)` \|.*\| ([^|]+) \|$",
+            example,
+            re.MULTILINE,
+        )
+        self.assertEqual(["unassigned", "unassigned"], [owner.strip() for owner in outcome_owners])
 
     def test_ad_diagnosis_allows_only_the_four_governed_actions(self):
         diagnosis = (ROOT / "contracts" / "ad-diagnosis.md").read_text()
@@ -469,8 +569,33 @@ class PackageIntegrityTests(unittest.TestCase):
                 "examples/creative-audit.md predicts performance",
             ),
             (
+                "examples/creative-audit.md",
+                "This ad will win without revisions.\n",
+                "examples/creative-audit.md predicts performance",
+            ),
+            (
+                "examples/creative-audit.md",
+                "This ad should win.\n",
+                "examples/creative-audit.md predicts performance",
+            ),
+            (
+                "examples/creative-audit.md",
+                "This ad is likely a winner.\n",
+                "examples/creative-audit.md predicts performance",
+            ),
+            (
+                "examples/creative-audit.md",
+                "This ad will outperform the others.\n",
+                "examples/creative-audit.md predicts performance",
+            ),
+            (
                 "PROMPT.md",
                 "Creative Audit may assign `keep`, `ITR`, `stop` or `scale`.\n",
+                "PROMPT.md permits Creative Audit performance actions",
+            ),
+            (
+                "PROMPT.md",
+                "Creative Audit may assign `keep` without performance data.\n",
                 "PROMPT.md permits Creative Audit performance actions",
             ),
             (

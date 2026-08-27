@@ -36,9 +36,10 @@ Ad Diagnosis requires the governed performance-readiness inputs and retains its 
 6. Load `contracts/creative-audit.md` or `contracts/ad-diagnosis.md` according to the selected mode,
    then analyse every supplied in-scope ad.
 
-A `limited` Creative Audit input may proceed with each unavailable dimension named. A `blocked`
-Creative Audit input cannot produce an outcome for an ad whose identity or creative is missing. A
-blocked Performance Diagnosis stops performance conclusions and lists exact remediation.
+A `limited` Creative Audit input may proceed with each unavailable dimension named. An identifiable
+supplied ad whose creative is missing receives `block`. A manifest-level failure that prevents ad
+enumeration blocks the report until identity is repaired. A blocked Performance Diagnosis stops
+performance conclusions and lists exact remediation.
 
 ## Attachments and connector preflight
 

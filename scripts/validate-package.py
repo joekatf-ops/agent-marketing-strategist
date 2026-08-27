@@ -59,10 +59,20 @@ V04_REQUIRED_FILES = (
     "examples/ad-diagnosis.md",
 )
 CREATIVE_AUDIT_PERFORMANCE_PREDICTION = re.compile(
-    r"\b(?:predict(?:s|ed|ing)?|forecast(?:s|ed|ing)?|will|would|"
-    r"expected\s+to|likely\s+to|guarantee(?:s|d)?)\b[^.!?\n]*"
-    r"\b(?:win(?:s|ner|ning)?|convert(?:s|ed|ing)?|conversion|CAC|"
-    r"scal(?:e|es|ed|ing))\b",
+    r"\b(?:predict(?:s|ed|ing)?|forecast(?:s|ed|ing)?|will|would|should|"
+    r"could|may|might|can|expected\s+to|likely(?:\s+to)?|guarantee(?:s|d)?)\b"
+    r"[^.!?\n]*\b(?:win(?:s|ner|ning)?|convert(?:s|ed|ing)?|conversion|CAC|"
+    r"scal(?:e|es|ed|ing)|outperform(?:s|ed|ing)?)\b",
+    re.IGNORECASE,
+)
+SCOPED_POLICY_NEGATION = re.compile(
+    r"\b(?:cannot|can't|never|(?:do|does|did|is|are|was|were|will|would|"
+    r"should|could|may|might|must)\s+not)\b",
+    re.IGNORECASE,
+)
+PROHIBITIVE_POLICY_PREFIX = re.compile(
+    r"\b(?:prohibit(?:s|ed|ing)?|forbid(?:s|den|ding)?|"
+    r"disallow(?:s|ed|ing)?)\b[^.!?\n]*$",
     re.IGNORECASE,
 )
 OPTIONAL_PERFORMANCE_DECISION = re.compile(
@@ -146,6 +156,66 @@ ENTRYPOINT_ROUTE_RULES = (
             re.IGNORECASE | re.DOTALL,
         ),
         "must route manual launch and destination asks to their governed contracts",
+    ),
+    (
+        re.compile(
+            r"no\s+adequate\s+performance\s+data\s*->\s*Creative\s+Audit",
+            re.IGNORECASE,
+        ),
+        "must route absent or inadequate performance data to Creative Audit",
+    ),
+    (
+        re.compile(
+            r"(?<!no\s)adequate\s+performance\s+data\s*->\s*Ad\s+Diagnosis",
+            re.IGNORECASE,
+        ),
+        "must route adequate performance data to Ad Diagnosis",
+    ),
+    (
+        re.compile(
+            r"competitor\s+ad\s*->\s*competitor\s+research",
+            re.IGNORECASE,
+        ),
+        "must route competitor ads to competitor research",
+    ),
+    (
+        re.compile(
+            r"human\s+edit\s*->\s*Learning\s+Update",
+            re.IGNORECASE,
+        ),
+        "must route human edits to Learning Update",
+    ),
+    (
+        re.compile(
+            r"combined\s+adequate\s+creative\s+and\s+performance\s+produces\s+"
+            r"one\s+Ad\s+Diagnosis",
+            re.IGNORECASE,
+        ),
+        "must produce one Ad Diagnosis for combined adequate creative and performance",
+    ),
+    (
+        re.compile(
+            r"(?:consume|produce|produces|write|writes)[^.!?\n]*input\s+audit"
+            r"[^.!?\n]*before\s+(?:conclusions|performance\s+conclusions)",
+            re.IGNORECASE,
+        ),
+        "must require the input audit before conclusions",
+    ),
+)
+AD_ANALYSIS_ROUTING_CONTRADICTIONS = (
+    re.compile(
+        r"(?<!no\s)adequate\s+performance\s+data\s*->\s*Creative\s+Audit",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"combined\s+adequate\s+creative\s+and\s+performance[^.!?\n]*"
+        r"(?:both|two)[^.!?\n]*Creative\s+Audit[^.!?\n]*Ad\s+Diagnosis",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"\b(?:bypass|skip|omit)(?:es|ped|ping|ted|ting)?\b[^.!?\n]*"
+        r"input\s+audit|input\s+audit[^.!?\n]*\b(?:optional|unnecessary|not\s+required)\b",
+        re.IGNORECASE,
     ),
 )
 ENTRYPOINT_LAUNCH_RULES = (
@@ -338,6 +408,17 @@ def is_negated_policy_clause(clause: str) -> bool:
     )
 
 
+def is_policy_match_negated(clause: str, match: re.Match[str]) -> bool:
+    scoped_window = clause[max(0, match.start() - 80) : match.end()]
+    if SCOPED_POLICY_NEGATION.search(scoped_window):
+        return True
+    return bool(PROHIBITIVE_POLICY_PREFIX.search(clause[: match.start()]))
+
+
+def contradicts_ad_analysis_routing(text: str) -> bool:
+    return any(pattern.search(text) for pattern in AD_ANALYSIS_ROUTING_CONTRADICTIONS)
+
+
 def prescribes_most_aware_standard_ad(text: str) -> bool:
     for clause in policy_clauses(text):
         if not re.search(r"\b(?:Most\s+Aware|MWA)\b", clause, re.IGNORECASE):
@@ -447,35 +528,33 @@ def active_instruction_paths(root: pathlib.Path) -> list[pathlib.Path]:
 def creative_audit_assigns_performance_action(text: str) -> bool:
     for clause in policy_clauses(text):
         lowered = clause.lower()
-        if is_negated_policy_clause(clause):
-            continue
         if not any(
             re.search(rf"\b{action}\b", clause, re.IGNORECASE)
             for action in PERFORMANCE_ACTIONS
         ):
             continue
-        if re.search(
+        trigger = re.search(
             r"\b(?:action|outcome|decision|recommendation)\b",
             clause,
             re.IGNORECASE,
-        ):
-            return True
-        if "creative audit" in lowered and re.search(
-            r"\b(?:assign(?:s|ed|ing)?|"
-            r"recommend(?:s|ed|ing)?|select(?:s|ed|ing)?|use(?:s|d|ing)?|"
-            r"set(?:s|ting)?)\b",
-            clause,
-            re.IGNORECASE,
-        ):
+        )
+        if trigger is None and "creative audit" in lowered:
+            trigger = re.search(
+                r"\b(?:assign(?:s|ed|ing)?|"
+                r"recommend(?:s|ed|ing)?|select(?:s|ed|ing)?|use(?:s|d|ing)?|"
+                r"set(?:s|ting)?)\b",
+                clause,
+                re.IGNORECASE,
+            )
+        if trigger is not None and not is_policy_match_negated(clause, trigger):
             return True
     return False
 
 
 def creative_audit_predicts_performance(text: str) -> bool:
     for clause in policy_clauses(text):
-        if is_negated_policy_clause(clause):
-            continue
-        if CREATIVE_AUDIT_PERFORMANCE_PREDICTION.search(clause):
+        prediction = CREATIVE_AUDIT_PERFORMANCE_PREDICTION.search(clause)
+        if prediction is not None and not is_policy_match_negated(clause, prediction):
             return True
     return False
 
@@ -549,6 +628,8 @@ def validate(root: pathlib.Path) -> list[str]:
         for pattern, error in ENTRYPOINT_ROUTE_RULES:
             if not pattern.search(text):
                 errors.append(f"{relative} {error}")
+        if contradicts_ad_analysis_routing(text):
+            errors.append(f"{relative} contains contradictory ad-analysis routing")
         launch_invariants = markdown_section(text, "Launch invariants")
         for pattern, error in ENTRYPOINT_LAUNCH_RULES:
             if not pattern.search(launch_invariants):
