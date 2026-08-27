@@ -19,6 +19,7 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MODULE = ROOT / "scripts" / "ad_analysis_harness.py"
+CONTENT_SAFETY = ROOT / "scripts" / "content_safety.py"
 INITIALIZER = ROOT / "scripts" / "init-brand-folder.py"
 VALIDATOR = ROOT / "scripts" / "validate-ad-analysis-run.py"
 INTAKE_SCHEMA = ROOT / "schemas" / "ad-analysis-intake.schema.json"
@@ -1273,6 +1274,120 @@ class AdAnalysisHarnessTests(unittest.TestCase):
                 self.assertNotIn(credential, outward_diagnostics)
         self.assertIn("[REDACTED]", completed.stdout)
 
+    def test_rejects_and_redacts_every_supported_secret_form_before_results(self):
+        harness = load_harness()
+        private_key = (
+            "-----BEGIN PRIVATE KEY-----\n"
+            "PRIVATE-MATERIAL-ALPHA\n"
+            "-----END PRIVATE KEY-----"
+        )
+        cases = (
+            (
+                "generic password assignment",
+                lambda intake: intake["sources"][0].__setitem__(
+                    "label", "db_password = ordinary-password-value"
+                ),
+                "sources[0].label",
+                ("ordinary-password-value",),
+            ),
+            (
+                "URL userinfo and sensitive query",
+                lambda intake: intake["ads"][0].__setitem__(
+                    "destination_url",
+                    "https://joe:ordinary-pass@example.test/buy?token=query-secret-value",
+                ),
+                "ads[0].destination_url",
+                ("ordinary-pass", "query-secret-value"),
+            ),
+            (
+                "bearer token",
+                lambda intake: intake["ads"][0].__setitem__(
+                    "primary_text", "Use Bearer ordinary-bearer-token to continue"
+                ),
+                "ads[0].primary_text",
+                ("ordinary-bearer-token",),
+            ),
+            (
+                "complete private key",
+                lambda intake: intake["sources"][0].__setitem__("label", private_key),
+                "sources[0].label",
+                ("PRIVATE-MATERIAL-ALPHA", "-----END PRIVATE KEY-----"),
+            ),
+            (
+                "credential-like structural key",
+                lambda intake: intake.__setitem__(
+                    "integration", {"db_password": "ordinary-structural-value"}
+                ),
+                "integration.db_password",
+                ("ordinary-structural-value",),
+            ),
+        )
+
+        for name, change, error_path, raw_values in cases:
+            with self.subTest(name=name):
+                run = self.create_run(harness)
+                intake = self.complete_creative_intake(harness, run)
+                change(intake)
+                self.write_intake(run, intake)
+
+                result = harness.validate_run(self.brand, run)
+                outward_result = json.dumps(result._asdict(), ensure_ascii=False)
+                audit = harness.render_input_audit(intake, result)
+                with harness._open_validation_session(self.brand, run) as session:
+                    sanitized_intake = json.dumps(
+                        session.intake, ensure_ascii=False
+                    )
+
+                self.assertEqual("blocked", result.status)
+                self.assertIn(
+                    f"{error_path} must not contain a credential or access token",
+                    result.errors,
+                )
+                for raw_value in raw_values:
+                    self.assertNotIn(raw_value, outward_result)
+                    self.assertNotIn(raw_value, audit)
+                    self.assertNotIn(raw_value, sanitized_intake)
+                self.assertIn("[REDACTED]", sanitized_intake)
+
+    def test_public_intake_loader_rejects_before_returning_a_secret_field(self):
+        harness = load_harness()
+        run = self.create_run(harness)
+        intake = self.complete_creative_intake(harness, run)
+        intake["sources"][0]["label"] = "db_password=loader-secret-value"
+        self.write_intake(run, intake)
+
+        with self.assertRaisesRegex(ValueError, "sources\[0\]\.label") as raised:
+            harness.load_intake(run)
+
+        self.assertNotIn("loader-secret-value", str(raised.exception))
+
+    def test_validator_cli_rejects_and_redacts_a_generic_password_assignment(self):
+        harness = load_harness()
+        run = self.create_run(harness)
+        intake = self.complete_creative_intake(harness, run)
+        secret = "generic-cli-password-value"
+        intake["sources"][0]["label"] = f"database_password = {secret}"
+        self.write_intake(run, intake)
+
+        completed = subprocess.run(
+            [
+                "python3",
+                str(VALIDATOR),
+                str(self.brand),
+                str(run),
+                "--write-audit",
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        audit = (run / "input-audit.md").read_text()
+
+        self.assertEqual(1, completed.returncode)
+        self.assertNotIn(secret, completed.stdout + completed.stderr + audit)
+        self.assertIn("[REDACTED]", completed.stdout + audit)
+
     def test_rejects_unknown_keys_in_optional_creative_mode_performance_metadata(self):
         harness = load_harness()
         run = self.create_modern_run(harness)
@@ -1463,7 +1578,7 @@ class AdAnalysisHarnessTests(unittest.TestCase):
             elif isinstance(node, ast.ImportFrom) and node.module:
                 imported.add(node.module.split(".")[0])
 
-        for name in imported - {"__future__"}:
+        for name in imported - {"__future__", "content_safety", "scripts"}:
             with self.subTest(module=name):
                 self.assertTrue(is_standard_library_module(name))
         self.assertFalse(
@@ -1484,6 +1599,19 @@ class AdAnalysisHarnessTests(unittest.TestCase):
                 "xmlrpc",
             }
         )
+
+        safety_tree = ast.parse(CONTENT_SAFETY.read_text())
+        safety_imports = set()
+        for node in ast.walk(safety_tree):
+            if isinstance(node, ast.Import):
+                safety_imports.update(
+                    alias.name.split(".")[0] for alias in node.names
+                )
+            elif isinstance(node, ast.ImportFrom) and node.module:
+                safety_imports.add(node.module.split(".")[0])
+        for name in safety_imports - {"__future__"}:
+            with self.subTest(content_safety_module=name):
+                self.assertTrue(is_standard_library_module(name))
 
     def test_initialisation_and_validation_do_not_write_controlled_records(self):
         harness = load_harness()

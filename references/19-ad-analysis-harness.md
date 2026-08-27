@@ -53,6 +53,11 @@ The deterministic loader rejects duplicate JSON keys, `NaN` and infinities, an i
 1,048,576 bytes, and nesting deeper than 32 containers. These bounds apply before semantic
 validation so ambiguous or resource-exhausting manifests cannot select a route.
 
+Credential-like keys, generic secret assignments, URL userinfo or sensitive query values, bearer
+tokens, credential fingerprints and complete private-key blocks are prohibited. The loader rejects
+them and replaces the whole containing field before a validation result, inventory, diagnostic or
+Markdown audit can be constructed.
+
 ## Attachments and connector preflight
 
 An intake source is an inventory record, not proof that a connector or attachment can be read.

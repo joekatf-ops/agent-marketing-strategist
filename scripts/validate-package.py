@@ -56,6 +56,7 @@ V04_REQUIRED_FILES = (
     "contracts/ad-diagnosis.md",
     "contracts/creative-audit.md",
     "references/19-ad-analysis-harness.md",
+    "scripts/content_safety.py",
     "schemas/ad-analysis-intake.schema.json",
     "examples/ad-analysis-intake.json",
     "examples/creative-audit.md",
@@ -875,7 +876,9 @@ def diagnosis_actions_are_governed(text: str) -> bool:
     return True
 
 
-def harness_imports_are_safe(path: pathlib.Path) -> list[str]:
+def harness_imports_are_safe(
+    path: pathlib.Path, allowed_local: frozenset[str] = frozenset()
+) -> list[str]:
     tree = ast.parse(path.read_text(), filename=str(path))
     imports: set[str] = set()
     for node in ast.walk(tree):
@@ -886,7 +889,7 @@ def harness_imports_are_safe(path: pathlib.Path) -> list[str]:
 
     standard_library = pathlib.Path(sysconfig.get_paths()["stdlib"]).resolve()
     unsafe: list[str] = []
-    for name in sorted(imports - {"__future__"}):
+    for name in sorted(imports - {"__future__"} - allowed_local):
         if name in NETWORK_DEPENDENCIES:
             unsafe.append(name)
             continue
@@ -1044,9 +1047,18 @@ def validate(root: pathlib.Path) -> list[str]:
 
     harness_path = root / "scripts" / "ad_analysis_harness.py"
     if harness_path.is_file():
-        for dependency in harness_imports_are_safe(harness_path):
+        for dependency in harness_imports_are_safe(
+            harness_path, frozenset({"content_safety"})
+        ):
             errors.append(
                 "scripts/ad_analysis_harness.py imports a non-standard or network dependency: "
+                f"{dependency}"
+            )
+    content_safety_path = root / "scripts" / "content_safety.py"
+    if content_safety_path.is_file():
+        for dependency in harness_imports_are_safe(content_safety_path):
+            errors.append(
+                "scripts/content_safety.py imports a non-standard or network dependency: "
                 f"{dependency}"
             )
 

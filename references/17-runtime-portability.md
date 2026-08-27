@@ -43,6 +43,12 @@ python3 scripts/build-knowledge-bundle.py
 python3 scripts/build-brand-bundle.py /path/to/brand /path/to/brand-bundle.md
 ```
 
+The selected-brand builder snapshots every allowlisted source once through descriptor-relative
+no-follow access, rejects links or mid-read changes, and uses those same immutable bytes for its
+version digests and rendered sections. It rejects the shared secret classes before publication and
+atomically replaces only a verified single-link output destination from a new single-link staging
+file.
+
 For ad analysis in upload-only mode, use the following files.
 
 The exact upload pack is:

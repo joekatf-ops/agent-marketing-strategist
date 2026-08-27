@@ -14,6 +14,22 @@ import stat
 from typing import NamedTuple
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
+try:
+    from content_safety import redact_text, sanitize_structure, text_contains_secret
+except ModuleNotFoundError:  # Loaded by repository tests rather than as a script.
+    import importlib.util as _importlib_util
+
+    _content_safety_spec = _importlib_util.spec_from_file_location(
+        "content_safety", pathlib.Path(__file__).with_name("content_safety.py")
+    )
+    if _content_safety_spec is None or _content_safety_spec.loader is None:
+        raise ImportError("content_safety.py could not be loaded")
+    _content_safety = _importlib_util.module_from_spec(_content_safety_spec)
+    _content_safety_spec.loader.exec_module(_content_safety)
+    redact_text = _content_safety.redact_text
+    sanitize_structure = _content_safety.sanitize_structure
+    text_contains_secret = _content_safety.text_contains_secret
+
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 RUN_TEMPLATE = ROOT / "templates" / "brand-folder" / "outputs" / "ad-analysis" / "README.md"
@@ -32,27 +48,6 @@ _INDENTED_SLUG = re.compile(
 )
 _SHA256 = re.compile(r"^[a-fA-F0-9]{64}$")
 _URL_LIKE = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*://")
-_CREDENTIAL_FINGERPRINT = re.compile(
-    r"(?<![A-Za-z0-9])(?:"
-    r"gh[pousr]_[A-Za-z0-9]{36,255}|"
-    r"github_pat_[A-Za-z0-9_]{60,255}|"
-    r"glpat-[A-Za-z0-9_-]{20,255}|"
-    r"npm_[A-Za-z0-9]{36}|"
-    r"(?:AKIA|ASIA)[A-Z0-9]{16}|"
-    r"AIza[0-9A-Za-z_-]{35}|"
-    r"xox[baprs]-[0-9A-Za-z-]{20,255}|"
-    r"sk_live_[0-9A-Za-z]{20,255}|"
-    r"sk-(?:proj-)?[0-9A-Za-z_-]{20,255}|"
-    r"sk-ant-[0-9A-Za-z_-]{20,255}"
-    r")(?![A-Za-z0-9])"
-)
-_AUTHORIZATION_VALUE = re.compile(
-    r"\bauthorization\s*[:=]\s*(?:bearer|basic)\s+\S+",
-    re.IGNORECASE,
-)
-_PRIVATE_KEY_HEADER = re.compile(
-    r"-----BEGIN (?:ENCRYPTED |RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----"
-)
 _TOP_LEVEL_KEYS = {
     "schema_version",
     "run_id",
@@ -841,9 +836,20 @@ def load_intake(run_folder: pathlib.Path) -> dict[str, object]:
         raise FileNotFoundError(f"intake manifest not found: {intake_path}") from error
     except _SymlinkAccessError as error:
         raise ValueError(f"path must not contain a symlink: {intake_path}") from error
-    return _parse_intake_json(
-        _read_limited_regular_bytes(descriptor, MAX_INTAKE_BYTES)
-    )
+    try:
+        parsed = _parse_intake_json(
+            _read_limited_regular_bytes(descriptor, MAX_INTAKE_BYTES)
+        )
+    except (OSError, ValueError, json.JSONDecodeError) as error:
+        raise ValueError(redact_text(str(error))) from error
+    safe, secret_paths = sanitize_structure(parsed)
+    if secret_paths:
+        paths = ", ".join(sorted(set(secret_paths)))
+        raise ValueError(
+            f"{paths} must not contain a credential or access token"
+        )
+    assert isinstance(safe, dict)
+    return safe
 
 
 def _inside(path: pathlib.Path, parent: pathlib.Path) -> bool:
@@ -869,6 +875,7 @@ class _ValidationSession:
         identity: dict[str, str],
         intake: dict[str, object],
         intake_error: str | None,
+        secret_errors: tuple[str, ...],
     ) -> None:
         self.brand_folder = brand_folder
         self.analysis_folder = brand_folder / "outputs" / "ad-analysis"
@@ -881,6 +888,7 @@ class _ValidationSession:
         self.identity = identity
         self.intake = intake
         self.intake_error = intake_error
+        self.secret_errors = secret_errors
 
     def __enter__(self) -> _ValidationSession:
         return self
@@ -974,6 +982,7 @@ def _open_validation_session(
         intake: dict[str, object] = {}
         intake_identity: tuple[int, ...] | None = None
         intake_error: str | None = None
+        secret_errors: tuple[str, ...] = ()
         try:
             intake_descriptor = _open_regular_relative_from_descriptor_no_follow(
                 run_descriptor, pathlib.Path("intake.json")
@@ -990,7 +999,14 @@ def _open_validation_session(
                     "intake manifest changed while it was being read"
                 )
             intake_identity = _stable_file_identity(after)
-            intake = _parse_intake_json(content)
+            parsed_intake = _parse_intake_json(content)
+            safe_intake, secret_paths = sanitize_structure(parsed_intake)
+            assert isinstance(safe_intake, dict)
+            intake = safe_intake
+            secret_errors = tuple(
+                f"{path} must not contain a credential or access token"
+                for path in secret_paths
+            )
         except FileNotFoundError:
             intake_error = f"intake manifest not found: {run_folder / 'intake.json'}"
         except _LinkedFileError:
@@ -1011,6 +1027,7 @@ def _open_validation_session(
             identity,
             intake,
             intake_error,
+            secret_errors,
         )
     except BaseException:
         for descriptor in (
@@ -1035,45 +1052,11 @@ def _is_text(value: object, *, allow_empty: bool = False) -> bool:
 
 
 def _contains_credential(value: str) -> bool:
-    return bool(
-        _CREDENTIAL_FINGERPRINT.search(value)
-        or _AUTHORIZATION_VALUE.search(value)
-        or _PRIVATE_KEY_HEADER.search(value)
-    )
-
-
-def _credential_errors(value: object, path: str = "") -> list[str]:
-    if isinstance(value, str):
-        if _contains_credential(value):
-            location = path or "intake"
-            return [f"{location} must not contain a credential or access token"]
-        return []
-    if isinstance(value, list):
-        errors: list[str] = []
-        for index, item in enumerate(value):
-            child = f"{path}[{index}]" if path else f"[{index}]"
-            errors.extend(_credential_errors(item, child))
-        return errors
-    if isinstance(value, dict):
-        errors = []
-        for key, item in value.items():
-            if isinstance(key, str) and _contains_credential(key):
-                location = path or "intake"
-                errors.append(
-                    f"{location} key must not contain a credential or access token"
-                )
-                child = f"{location}.[REDACTED]"
-            else:
-                child = f"{path}.{key}" if path else str(key)
-            errors.extend(_credential_errors(item, child))
-        return errors
-    return []
+    return text_contains_secret(value)
 
 
 def _redact_credentials(value: str) -> str:
-    redacted = _CREDENTIAL_FINGERPRINT.sub("[REDACTED]", value)
-    redacted = _AUTHORIZATION_VALUE.sub("[REDACTED]", redacted)
-    return _PRIVATE_KEY_HEADER.sub("[REDACTED]", redacted)
+    return redact_text(value)
 
 
 def _validation_result(
@@ -1774,7 +1757,7 @@ def _validate_session(session: _ValidationSession) -> ValidationResult:
     identity = session.identity
     intake = session.intake
 
-    errors.extend(_credential_errors(intake))
+    errors.extend(session.secret_errors)
     errors.extend(_unknown_key_errors(intake, _TOP_LEVEL_KEYS, ""))
     for field in sorted(_TOP_LEVEL_KEYS - intake.keys()):
         errors.append(f"{field} is required")
@@ -1898,11 +1881,14 @@ def _audit_value(value: object) -> str:
 def _audit_list(values: tuple[str, ...]) -> list[str]:
     if not values:
         return ["- None"]
-    return [f"- {value}" for value in values]
+    return [f"- {_redact_credentials(value)}" for value in values]
 
 
 def render_input_audit(intake: dict[str, object], result: ValidationResult) -> str:
     """Render a deterministic Markdown audit from untrusted intake metadata."""
+    safe_intake, _secret_paths = sanitize_structure(intake)
+    assert isinstance(safe_intake, dict)
+    intake = safe_intake
     ads = intake.get("ads")
     performance = intake.get("performance")
     lines = [

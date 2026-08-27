@@ -163,6 +163,15 @@ class BrandBundleTests(unittest.TestCase):
                 "-----BEGIN ENCRYPTED PRIVATE KEY-----\nsecret-material\n"
                 "-----END ENCRYPTED PRIVATE KEY-----\n"
             )),
+            (
+                "context/brand-core.md",
+                "Visit https://joe:ordinary-pass@example.test/"
+                "checkout?token=query-secret-value\n",
+            ),
+            (
+                "context/voice.md",
+                "Use Bearer ordinary-bearer-token to authenticate\n",
+            ),
         )
 
         for relative, content in cases:

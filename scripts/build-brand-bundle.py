@@ -13,6 +13,21 @@ import secrets
 import stat
 from typing import NamedTuple
 
+try:
+    from content_safety import structure_contains_secret, text_contains_secret
+except ModuleNotFoundError:  # Loaded by repository tests rather than as a script.
+    import importlib.util as _importlib_util
+
+    _content_safety_spec = _importlib_util.spec_from_file_location(
+        "content_safety", pathlib.Path(__file__).with_name("content_safety.py")
+    )
+    if _content_safety_spec is None or _content_safety_spec.loader is None:
+        raise ImportError("content_safety.py could not be loaded")
+    _content_safety = _importlib_util.module_from_spec(_content_safety_spec)
+    _content_safety_spec.loader.exec_module(_content_safety)
+    structure_contains_secret = _content_safety.structure_contains_secret
+    text_contains_secret = _content_safety.text_contains_secret
+
 
 ALLOWED_EXACT = {
     "brand.yml",
@@ -47,43 +62,6 @@ FORBIDDEN_PREFIXES = (
     "raw-assets/",
 )
 FORBIDDEN_SUFFIXES = {".csv"}
-SECRET_ASSIGNMENT = re.compile(
-    r"(?im)^\s*[\"']?[A-Za-z0-9_.-]*(?:api[_-]?key|access[_-]?token|"
-    r"refresh[_-]?token|client[_-]?secret|private[_-]?key|secret|password)"
-    r"[\"']?\s*[:=]\s*\S+"
-)
-AUTHORIZATION_VALUE = re.compile(
-    r"(?im)^\s*[\"']?authorization[\"']?\s*[:=]\s*[\"']?(?:bearer|basic)\s+\S+"
-)
-PRIVATE_KEY_BLOCK = re.compile(
-    r"-----BEGIN (?:ENCRYPTED |RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----"
-)
-CREDENTIAL_FINGERPRINT = re.compile(
-    r"(?<![A-Za-z0-9])(?:"
-    r"gh[pousr]_[A-Za-z0-9]{36,255}|"
-    r"github_pat_[A-Za-z0-9_]{60,255}|"
-    r"glpat-[A-Za-z0-9_-]{20,255}|"
-    r"npm_[A-Za-z0-9]{36}|"
-    r"(?:AKIA|ASIA)[A-Z0-9]{16}|"
-    r"AIza[0-9A-Za-z_-]{35}|"
-    r"xox[baprs]-[0-9A-Za-z-]{20,255}|"
-    r"sk_live_[0-9A-Za-z]{20,255}|"
-    r"sk-(?:proj-)?[0-9A-Za-z_-]{20,255}|"
-    r"sk-ant-[0-9A-Za-z_-]{20,255}"
-    r")(?![A-Za-z0-9])"
-)
-SENSITIVE_KEY_SUFFIXES = (
-    "apikey",
-    "accesstoken",
-    "refreshtoken",
-    "clientsecret",
-    "privatekey",
-    "password",
-    "authorization",
-    "secretaccesskey",
-    "accesskeyid",
-    "sessiontoken",
-)
 MANIFEST_SLUG = re.compile(r'(?m)^\s*slug:\s*["\']?([^"\'\s,}]+)')
 BRAND_SLUG_FIELD = re.compile(
     r'(?m)^\s*["\']?brand_slug["\']?\s*:\s*["\']?([^"\'\s,}]+)'
@@ -356,23 +334,6 @@ def digest_files(folder: pathlib.Path, files: list[SourceSnapshot]) -> str:
         digest.update(source.content)
         digest.update(b"\0")
     return digest.hexdigest()
-
-
-def normalized_key(value: object) -> str:
-    return re.sub(r"[^a-z0-9]", "", str(value).lower())
-
-
-def structured_contains_secret(value: object) -> bool:
-    if isinstance(value, dict):
-        for key, nested in value.items():
-            key_name = normalized_key(key)
-            if key_name.endswith(SENSITIVE_KEY_SUFFIXES) and nested not in (None, "", False):
-                return True
-            if structured_contains_secret(nested):
-                return True
-    elif isinstance(value, list):
-        return any(structured_contains_secret(item) for item in value)
-    return False
 
 
 def invalid_yaml(source: str, line_number: int, detail: str) -> ValueError:
@@ -894,13 +855,7 @@ def build_bundle(folder: pathlib.Path, output: pathlib.Path) -> pathlib.Path:
                 f"{relative} brand {scoped_slug_value} does not match manifest brand "
                 f"{manifest_slug}"
             )
-        if (
-            SECRET_ASSIGNMENT.search(content)
-            or AUTHORIZATION_VALUE.search(content)
-            or PRIVATE_KEY_BLOCK.search(content)
-            or CREDENTIAL_FINGERPRINT.search(content)
-            or structured_contains_secret(structured)
-        ):
+        if text_contains_secret(content) or structure_contains_secret(structured):
             raise ValueError(f"possible secret found in bundle source: {relative}")
         parts.extend(
             [
