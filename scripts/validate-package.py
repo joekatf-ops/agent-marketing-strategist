@@ -229,43 +229,58 @@ ENTRYPOINT_ROUTE_RULES = (
 )
 AD_ANALYSIS_ROUTING_CONTRADICTIONS = (
     re.compile(
-        r"(?<!no\s)adequate\s+performance\s+data\s*->\s*Creative\s+Audit",
+        r"(?<!no\s)adequate\s+performance\s+data\s*(?P<action>->)\s*"
+        r"Creative\s+Audit",
         re.IGNORECASE,
     ),
     re.compile(
         r"combined\s+adequate\s+creative\s+and\s+performance[^.!?\n]*"
-        r"(?:both|two)[^.!?\n]*Creative\s+Audit[^.!?\n]*Ad\s+Diagnosis",
-        re.IGNORECASE,
-    ),
-    re.compile(
-        r"\badequate\s+performance\s+data\b[^.!?\n]*\b"
-        r"(?:route(?:s|d|ing)?|use(?:s|d|ing)?|select(?:s|ed|ing)?)\b"
-        r"[^.!?\n]*\bCreative\s+Audit\b",
-        re.IGNORECASE,
-    ),
-    re.compile(
-        r"combined\s+adequate\s+creative\s+and\s+performance[^.!?\n]*"
-        r"(?:both|two)[^.!?\n]*reports?[^.!?\n]*"
+        r"\b(?P<action>produce(?:s|d|ing)?)\b[^.!?\n]*(?:both|two)[^.!?\n]*"
         r"(?:Ad\s+Diagnosis[^.!?\n]*Creative\s+Audit|"
         r"Creative\s+Audit[^.!?\n]*Ad\s+Diagnosis)",
         re.IGNORECASE,
     ),
     re.compile(
-        r"\b(?:bypass|skip|omit)(?:es|ped|ping|ted|ting)?\b[^.!?\n]*"
-        r"input\s+audit|input\s+audit[^.!?\n]*\b(?:optional|unnecessary|not\s+required)\b",
+        r"\badequate\s+performance\s+data\b[^.!?\n]*\b"
+        r"(?P<action>route(?:s|d|ing)?)\b"
+        r"[^.!?\n]*\bCreative\s+Audit\b",
         re.IGNORECASE,
     ),
     re.compile(
-        r"\bincomplete\s+performance\b[^.!?\n]*\bconclusions?\b"
+        r"\badequate\s+performance\s+data\b[^.!?\n]*\b"
+        r"(?P<action>use(?:s|d|ing)?)\b"
+        r"[^.!?\n]*\bCreative\s+Audit\b",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"\badequate\s+performance\s+data\b[^.!?\n]*\b"
+        r"(?P<action>select(?:s|ed|ing)?)\b"
+        r"[^.!?\n]*\bCreative\s+Audit\b",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"\b(?P<action>bypass(?:es|ed|ing)?)\b[^.!?\n]*input\s+audit",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"\b(?P<action>skip(?:s|ped|ping)?)\b[^.!?\n]*input\s+audit",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"\b(?P<action>omit(?:s|ted|ting)?)\b[^.!?\n]*input\s+audit",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"input\s+audit[^.!?\n]*\b"
+        r"(?P<action>optional|unnecessary|not\s+required)\b",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"\bincomplete\s+performance\b[^.!?\n]*\b"
+        r"(?P<action>produce(?:s|d|ing)?)\b[^.!?\n]*\bconclusions?\b"
         r"[^.!?\n]*\bbefore\b[^.!?\n]*\binput\s+audit\b",
         re.IGNORECASE,
     ),
-)
-AD_ANALYSIS_ROUTING_ACTION = re.compile(
-    r"\b(?:route(?:s|d|ing)?|use(?:s|d|ing)?|select(?:s|ed|ing)?|"
-    r"produce(?:s|d|ing)?|bypass(?:es|ed|ing)?|skip(?:s|ped|ping)?|"
-    r"omit(?:s|ted|ting)?)\b",
-    re.IGNORECASE,
 )
 ENTRYPOINT_LAUNCH_RULES = (
     (
@@ -503,20 +518,12 @@ def normalized_ad_analysis_routing(text: str) -> str:
 def contradicts_ad_analysis_routing(text: str) -> bool:
     for predicate in policy_predicates(text):
         for pattern in AD_ANALYSIS_ROUTING_CONTRADICTIONS:
-            match = pattern.search(predicate)
-            if match is None:
-                continue
-            actions = tuple(
-                AD_ANALYSIS_ROUTING_ACTION.finditer(
-                    predicate, match.start(), match.end()
-                )
-            )
-            action = actions[-1] if actions else None
-            if action is not None and PREDICATE_PREFIX_NEGATION.search(
-                predicate[: action.start()]
-            ):
-                continue
-            return True
+            for match in pattern.finditer(predicate):
+                if PREDICATE_PREFIX_NEGATION.search(
+                    predicate[: match.start("action")]
+                ):
+                    continue
+                return True
     return False
 
 
