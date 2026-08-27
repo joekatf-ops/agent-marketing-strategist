@@ -655,9 +655,9 @@ def contradicts_diagnosis_persistence(text: str) -> bool:
             continue
         winner_scope = sentence[winner_subject.end() :]
         for predicate in WINNER_GRADUATION_ACTION_BOUNDARY.split(winner_scope):
-            match = WINNER_GRADUATION_ACTION_CONTRADICTION.search(predicate)
-            if match and match.group("negation") is None:
-                return True
+            for match in WINNER_GRADUATION_ACTION_CONTRADICTION.finditer(predicate):
+                if match.group("negation") is None:
+                    return True
 
     for clause in policy_clauses(text):
         for pattern in DIAGNOSIS_PERSISTENCE_CONTRADICTIONS:
@@ -732,7 +732,7 @@ def diagnosis_patch_errors(
                 or isinstance(value, bool)
             ):
                 errors.append(f"supplied_results {field} must be a non-negative number")
-            elif not math.isfinite(value):
+            elif isinstance(value, float) and not math.isfinite(value):
                 errors.append(f"supplied_results {field} must be finite")
             elif value < 0:
                 errors.append(f"supplied_results {field} must be a non-negative number")

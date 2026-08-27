@@ -756,6 +756,21 @@ class PackageIntegrityTests(unittest.TestCase):
             ),
         )
 
+        valid_large_integer_patch = {
+            **patch,
+            "supplied_results": {
+                **supplied_results,
+                "spend_aud": 10**1000,
+            },
+        }
+        try:
+            large_integer_errors = validator.diagnosis_patch_errors(
+                json.dumps(valid_large_integer_patch), existing_tests
+            )
+        except OverflowError as error:
+            self.fail(f"valid large JSON integers must not raise: {error}")
+        self.assertEqual([], large_integer_errors)
+
     def test_frozen_diagnosis_patch_results_reconcile_to_csv_and_intake(self):
         patch = json.loads(
             (ROOT / "examples" / "ad-diagnosis-test-register-patch.yml").read_text()
@@ -813,6 +828,11 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertTrue(
             validator.contradicts_diagnosis_persistence(
                 "Winner graduation may proceed without a real Post ID and does not proceed without confirmation."
+            )
+        )
+        self.assertTrue(
+            validator.contradicts_diagnosis_persistence(
+                "Winner graduation does not proceed without a real Post ID, but winner graduation may proceed without confirmation."
             )
         )
 
