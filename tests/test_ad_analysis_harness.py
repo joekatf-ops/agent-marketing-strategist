@@ -1,4 +1,5 @@
 import ast
+import csv
 import datetime as dt
 import importlib.util
 import json
@@ -30,6 +31,22 @@ PUBLIC_HARNESS_API = {
     "validate_run",
     "render_input_audit",
 }
+DIAGNOSIS_FIXTURES = {
+    "intake": ROOT / "examples" / "ad-diagnosis-intake.json",
+    "audit": ROOT / "examples" / "ad-diagnosis-input-audit.md",
+    "performance": ROOT / "examples" / "ad-diagnosis-performance.csv",
+    "report": ROOT / "examples" / "ad-diagnosis.md",
+}
+
+
+def markdown_table(text, heading, next_heading):
+    section = text.split(heading, 1)[1].split(next_heading, 1)[0]
+    lines = [line for line in section.splitlines() if line.startswith("|")]
+    headers = [cell.strip() for cell in lines[0].strip("|").split("|")]
+    return [
+        dict(zip(headers, [cell.strip() for cell in line.strip("|").split("|")]))
+        for line in lines[2:]
+    ]
 
 
 def load_harness():
@@ -465,57 +482,262 @@ class AdAnalysisHarnessTests(unittest.TestCase):
         self.assertIn("optional funnel field mappings are unavailable", result.limitations)
         self.assertIn("optional video field mappings are unavailable", result.limitations)
 
-    def test_frozen_performance_diagnosis_covers_the_limited_five_day_pack(self):
-        example_path = ROOT / "examples" / "ad-diagnosis.md"
-        self.assertTrue(example_path.is_file(), "frozen diagnosis example should exist")
-        example = example_path.read_text()
+    def test_frozen_performance_diagnosis_intake_and_audit_are_validator_backed(self):
+        for label, path in DIAGNOSIS_FIXTURES.items():
+            self.assertTrue(path.is_file(), f"frozen diagnosis {label} fixture should exist")
 
-        for provenance in (
-            "Run ID: `ADR-20260827-015`",
-            "Intake path: `outputs/ad-analysis/ADR-20260827-015/intake.json`",
-            "Validator status: `limited`",
-            "Input-audit path: `outputs/ad-analysis/ADR-20260827-015/input-audit.md`",
-        ):
-            self.assertIn(provenance, example)
-        self.assertIn("five full days", example)
-        self.assertIn("Read validity: **Direction**", example)
-        self.assertIn("first-frame retention: unavailable", example)
-        self.assertIn("associated with", example)
-        self.assertNotIn("caused by", example.lower())
-
-        business_section = example.split(
-            "## 3. What happened: business result", 1
-        )[1].split("## 4. What happened: funnel result", 1)[0]
-        business_ads = set(
-            re.findall(r"^\| `AD-QA-PD-\d{3}`", business_section, re.MULTILINE)
-        )
-        self.assertEqual(
-            {"| `AD-QA-PD-001`", "| `AD-QA-PD-002`"},
-            business_ads,
-        )
-
-        decision_section = example.split("## 8. Six-decision taxonomy", 1)[1].split(
-            "## 9. Ranked change list", 1
-        )[0]
-        decision_rows = re.findall(
-            r"^\| `(?P<ad>AD-QA-PD-\d{3})` \| [^|]+ \| (?P<action>[^|]+) \|",
-            decision_section,
-            re.MULTILINE,
-        )
-        self.assertEqual(
-            {"AD-QA-PD-001", "AD-QA-PD-002"},
-            {ad for ad, _ in decision_rows},
-        )
-        self.assertEqual(2, len(decision_rows))
-        for _, action_cell in decision_rows:
-            self.assertEqual(
-                1,
-                len(re.findall(r"`(?:keep|ITR|stop|scale)`", action_cell)),
+        harness = load_harness()
+        brand = self.temp_root / "quiet-arc"
+        load_initializer().initialise(brand, "Quiet Arc", "quiet-arc")
+        manifest = brand / "brand.yml"
+        manifest.write_text(
+            manifest.read_text().replace(
+                'method_version: "0.3.0"', 'method_version: "0.4.0"'
             )
+        )
+        run = harness.initialise_run(
+            brand_folder=brand,
+            mode="performance-diagnosis",
+            product_id="folding-reading-lamp",
+            market="AU",
+            run_id="ADR-20260827-015",
+            today=dt.date(2026, 8, 27),
+        )
+        intake = json.loads(DIAGNOSIS_FIXTURES["intake"].read_text())
+        (run / "intake.json").write_text(json.dumps(intake, indent=2) + "\n")
+        (run / DIAGNOSIS_FIXTURES["performance"].name).write_bytes(
+            DIAGNOSIS_FIXTURES["performance"].read_bytes()
+        )
 
-        self.assertIn("CONTST: unreserved — human decision required", example)
-        self.assertIn("test-register-patch.yml", example)
-        self.assertIn("Upload-only status: patch only; persistence not claimed", example)
+        result = harness.validate_run(brand, run)
+
+        self.assertEqual("limited", result.status)
+        self.assertEqual((), result.errors)
+        self.assertEqual(
+            (
+                "First-frame retention was not supplied for video ads; opening-frame claims are limited.",
+            ),
+            result.limitations,
+        )
+        self.maxDiff = None
+        self.assertEqual(
+            DIAGNOSIS_FIXTURES["audit"].read_text(),
+            harness.render_input_audit(intake, result),
+        )
+
+    def test_frozen_performance_diagnosis_reconciles_every_supplied_value(self):
+        for label in ("intake", "performance", "report"):
+            self.assertTrue(
+                DIAGNOSIS_FIXTURES[label].is_file(),
+                f"frozen diagnosis {label} fixture should exist",
+            )
+        intake = json.loads(DIAGNOSIS_FIXTURES["intake"].read_text())
+        report = DIAGNOSIS_FIXTURES["report"].read_text()
+        with DIAGNOSIS_FIXTURES["performance"].open(newline="") as file:
+            supplied = list(csv.DictReader(file))
+
+        self.assertEqual(4, len(supplied))
+        performance = intake["performance"]
+        start = dt.date.fromisoformat(performance["date_range"]["start"])
+        end = dt.date.fromisoformat(performance["date_range"]["end"])
+        self.assertEqual(5, (end - start).days + 1)
+        spend_bearing = {
+            row["Ad name"] for row in supplied if float(row["Amount spent (AUD)"]) > 0
+        }
+        self.assertEqual(
+            {ad_name: ad_name for ad_name in spend_bearing},
+            performance["ad_mapping"],
+        )
+        self.assertEqual(spend_bearing, {ad["ad_id"] for ad in intake["ads"]})
+        for mapped_column in performance["field_mapping"].values():
+            self.assertIn(mapped_column, supplied[0])
+
+        naming = re.compile(
+            r"^CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_"
+            r"(?P<awareness>UWA|PRA|SLA|PDA)_"
+            r"(?P<format>VSL|STATIC|COMPARISON)_"
+            r"(?P<destination>LP|PDP)_(?P<post_id>\d+)$"
+        )
+        governed_names = {row["Ad name"]: naming.fullmatch(row["Ad name"]) for row in supplied}
+        self.assertTrue(all(governed_names.values()))
+        self.assertEqual(
+            {"UWA", "PRA", "SLA", "PDA"},
+            {match.group("awareness") for match in governed_names.values()},
+        )
+        for match in governed_names.values():
+            expected_destination = (
+                "LP" if match.group("awareness") in {"UWA", "PRA"} else "PDP"
+            )
+            self.assertEqual(expected_destination, match.group("destination"))
+
+        self.assertEqual(320.0, sum(float(row["Amount spent (AUD)"]) for row in supplied))
+        self.assertEqual(3, sum(int(row["Purchases"]) for row in supplied))
+        self.assertEqual(357.0, sum(float(row["Purchase value (AUD)"]) for row in supplied))
+        self.assertEqual({"60"}, {row["Target CAC (AUD)"] for row in supplied})
+        self.assertEqual({"300"}, {row["Minimum batch spend (AUD)"] for row in supplied})
+        self.assertEqual({"6"}, {row["Minimum batch purchases"] for row in supplied})
+        self.assertNotIn("First-frame retention", supplied[0])
+
+        tested_rows = markdown_table(
+            report,
+            "## 2. What was tested",
+            "## 3. What happened: business result",
+        )
+        business_rows = markdown_table(
+            report,
+            "## 3. What happened: business result",
+            "## 4. What happened: funnel result",
+        )
+        funnel_rows = markdown_table(
+            report,
+            "## 4. What happened: funnel result",
+            "## 5. What happened: creative result",
+        )
+        creative_rows = markdown_table(
+            report,
+            "## 5. What happened: creative result",
+            "## 6. Strongest and weakest complete executions",
+        )
+        decision_rows = markdown_table(
+            report,
+            "## 8. Six-decision taxonomy",
+            "## 9. Ranked change list",
+        )
+        for rows in (
+            tested_rows,
+            business_rows,
+            funnel_rows,
+            creative_rows,
+            decision_rows,
+        ):
+            self.assertEqual(spend_bearing, {row["Full ad name"].strip("`") for row in rows})
+            self.assertEqual(4, len(rows))
+        for row in tested_rows:
+            self.assertEqual("`CONTST042`", row["Existing test"])
+            self.assertEqual("NNT", row["Source"])
+            match = governed_names[row["Full ad name"].strip("`")]
+            self.assertEqual(match.group("awareness"), row["Awareness"])
+            self.assertEqual(match.group("destination"), row["Destination"])
+        self.assertIn("`QUIETARC_READINGLAMP_CT_ABO_AU_20260820`", report)
+        self.assertIn("`CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE`", report)
+        self.assertRegex(
+            report,
+            r"no\s+Destination Handoff exception is applicable",
+        )
+
+        source_by_name = {row["Ad name"]: row for row in supplied}
+        business_by_name = {row["Full ad name"].strip("`"): row for row in business_rows}
+        funnel_by_name = {row["Full ad name"].strip("`"): row for row in funnel_rows}
+        creative_by_name = {row["Full ad name"].strip("`"): row for row in creative_rows}
+        for ad_name, source in source_by_name.items():
+            with self.subTest(ad_name=ad_name):
+                business = business_by_name[ad_name]
+                funnel = funnel_by_name[ad_name]
+                creative = creative_by_name[ad_name]
+                spend = float(source["Amount spent (AUD)"])
+                purchases = int(source["Purchases"])
+                target_cac = float(source["Target CAC (AUD)"])
+                self.assertEqual(f"`${source['Amount spent (AUD)']}`", business["Spend"])
+                self.assertEqual(f"`{source['Purchases']}`", business["Purchases"])
+                self.assertEqual(f"`${source['Purchase value (AUD)']}`", business["Revenue"])
+                self.assertEqual(f"`{100 * spend / 320:.2f}%`", business["Spend share"])
+                self.assertEqual(
+                    f"`{spend / target_cac:.2f}`",
+                    business["Expected purchases at target"],
+                )
+                if purchases:
+                    cac = spend / purchases
+                    self.assertEqual(
+                        f"`${cac:.0f}`, `${cac - target_cac:.0f}` above target",
+                        business["CAC vs `$60` target"],
+                    )
+                else:
+                    self.assertEqual(
+                        "unavailable; no purchases", business["CAC vs `$60` target"]
+                    )
+
+                impressions = int(source["Impressions"])
+                clicks = int(source["Outbound clicks"])
+                views = int(source["Landing page views"])
+                carts = int(source["Adds to cart"])
+                checkouts = int(source["Initiates checkout"])
+                funnel_expectations = {
+                    "Outbound CTR": f"`{100 * clicks / impressions:.2f}%` (`{clicks:,}/{impressions:,}`)",
+                    "Landing-page-view rate": f"`{100 * views / clicks:.2f}%` (`{views:,}/{clicks:,}`)",
+                    "Add-to-cart rate": f"`{100 * carts / views:.2f}%` (`{carts:,}/{views:,}`)",
+                    "Checkout rate": f"`{100 * checkouts / carts:.2f}%` (`{checkouts:,}/{carts:,}`)",
+                    "Purchase rate": (
+                        f"`{100 * purchases / checkouts:.2f}%` (`{purchases:,}/{checkouts:,}`)"
+                        if checkouts
+                        else "unavailable; no checkout"
+                    ),
+                }
+                for field, expected in funnel_expectations.items():
+                    self.assertEqual(expected, funnel[field])
+
+                self.assertEqual(f"`{source['Frequency']}`", creative["Frequency"])
+                self.assertEqual(
+                    f"`{100 * spend / 320:.2f}%`", creative["Spend share"]
+                )
+                self.assertEqual(
+                    f"{source['Positive comments']} positive, "
+                    f"{source['Delivery questions']} delivery question",
+                    creative["Comments"],
+                )
+                if source["3-second video plays"]:
+                    thumbstop = 100 * int(source["3-second video plays"]) / int(source["Impressions"])
+                    hold = 100 * int(source["50% video plays"]) / int(source["3-second video plays"])
+                    self.assertEqual(f"`{thumbstop:.2f}%`", creative["Thumbstop"])
+                    self.assertEqual(
+                        f"`{thumbstop:.2f}%` "
+                        f"(`{int(source['3-second video plays']):,}/{impressions:,}`)",
+                        creative["Three-second view rate"],
+                    )
+                    self.assertEqual(
+                        f"`{hold:.2f}%` "
+                        f"(`{int(source['50% video plays']):,}/"
+                        f"{int(source['3-second video plays']):,}`)",
+                        creative["Hold rate"],
+                    )
+                    self.assertEqual("unavailable", creative["First-frame retention"])
+                else:
+                    self.assertEqual(
+                        "not applicable to static", creative["Three-second view rate"]
+                    )
+                    self.assertEqual("not applicable to static", creative["Thumbstop"])
+                    self.assertEqual("not applicable to static", creative["Hold rate"])
+                    self.assertEqual(
+                        "not applicable to static", creative["First-frame retention"]
+                    )
+
+        allowed_actions = {"`keep`", "`ITR`", "`stop`", "`scale`"}
+        for row in decision_rows:
+            self.assertIn(row["Top-level action"], allowed_actions)
+        uwa_name = next(name for name in spend_bearing if "_UWA_" in name)
+        uwa_source = source_by_name[uwa_name]
+        self.assertGreater(
+            float(uwa_source["Amount spent (AUD)"]) / int(uwa_source["Purchases"]),
+            float(uwa_source["Target CAC (AUD)"]),
+        )
+        uwa_decision = next(
+            row for row in decision_rows if row["Full ad name"].strip("`") == uwa_name
+        )
+        self.assertEqual("Directional promise", uwa_decision["Decision"])
+        self.assertEqual("`ITR`", uwa_decision["Top-level action"])
+
+        summary = report.split("## Persistence Summary", 1)[1]
+        for field in (
+            "Proposed observation:",
+            "Evidence:",
+            "Explanation confidence:",
+            "Verdict:",
+            "Next action:",
+        ):
+            self.assertIn(field, summary)
+        self.assertIn("Winner-library proposal: none", summary)
+        self.assertIn("Graduation confirmation: not supplied", summary)
+        self.assertIn("CONTST: unreserved — human decision required", summary)
+        self.assertIn("Upload-only status: patch only; persistence not claimed", summary)
 
     def test_performance_mapping_can_omit_an_unserved_intake_ad(self):
         harness = load_harness()

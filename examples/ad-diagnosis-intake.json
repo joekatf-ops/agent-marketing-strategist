@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "run_id": "ADR-20260827-015",
+  "mode": "performance-diagnosis",
+  "brand_slug": "quiet-arc",
+  "method_version": "0.4.0",
+  "market": "AU",
+  "product_id": "folding-reading-lamp",
+  "account_timezone": "Australia/Sydney",
+  "requester": "Mina Cole",
+  "requested_at": "2026-08-27",
+  "ads": [
+    {
+      "ad_id": "CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_UWA_VSL_LP_991001000000001",
+      "asset_source_ids": ["SRC-QA-PD-UWA"],
+      "primary_text": "Read one more chapter without lighting the whole room.",
+      "headline": "Light the page, not the room",
+      "description": "Warm focused bedside light",
+      "cta": "Learn More",
+      "destination_url": "https://quietarc.example/pages/shared-room-reading",
+      "destination_type": "LP",
+      "coordinate_key": "night-readers__shared-room-glare"
+    },
+    {
+      "ad_id": "CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_PRA_STATIC_LP_991002000000002",
+      "asset_source_ids": ["SRC-QA-PD-PRA"],
+      "primary_text": "A bright bedside lamp solves your reading problem by creating another one for the person beside you.",
+      "headline": "Bedside glare is a direction problem",
+      "description": "See a lower light path",
+      "cta": "Learn More",
+      "destination_url": "https://quietarc.example/pages/shared-room-reading",
+      "destination_type": "LP",
+      "coordinate_key": "night-readers__shared-room-glare"
+    },
+    {
+      "ad_id": "CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_SLA_COMPARISON_PDP_991003000000003",
+      "asset_source_ids": ["SRC-QA-PD-SLA"],
+      "primary_text": "One lamp spreads light across the room. Quiet Arc folds it down toward the page.",
+      "headline": "See the difference in light direction",
+      "description": "A recorded side-by-side comparison",
+      "cta": "Shop Now",
+      "destination_url": "https://quietarc.example/products/folding-reading-lamp",
+      "destination_type": "PDP",
+      "coordinate_key": "night-readers__shared-room-glare"
+    },
+    {
+      "ad_id": "CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_PDA_STATIC_PDP_991004000000004",
+      "asset_source_ids": ["SRC-QA-PD-PDA"],
+      "primary_text": "Fold the light toward your page, then fold the lamp away when you are done.",
+      "headline": "Focused light for shared rooms",
+      "description": "Quiet Arc folding reading lamp",
+      "cta": "Shop Now",
+      "destination_url": "https://quietarc.example/products/folding-reading-lamp",
+      "destination_type": "PDP",
+      "coordinate_key": "night-readers__shared-room-glare"
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "SRC-QA-PD-META",
+      "kind": "file",
+      "label": "Quiet Arc Meta ad-level export, 20-24 August 2026",
+      "location": "ad-diagnosis-performance.csv",
+      "sha256": "336d4fe2be9ff8bd67338e34e297de30662c02c653f97a65c0029564824f0482"
+    },
+    {
+      "source_id": "SRC-QA-PD-PDA",
+      "kind": "attachment",
+      "label": "quiet-arc-pda-static.png",
+      "location": "attached:quiet-arc-pda-static.png",
+      "sha256": null
+    },
+    {
+      "source_id": "SRC-QA-PD-PRA",
+      "kind": "attachment",
+      "label": "quiet-arc-pra-static.png",
+      "location": "attached:quiet-arc-pra-static.png",
+      "sha256": null
+    },
+    {
+      "source_id": "SRC-QA-PD-SLA",
+      "kind": "attachment",
+      "label": "quiet-arc-sla-comparison.mp4",
+      "location": "attached:quiet-arc-sla-comparison.mp4",
+      "sha256": null
+    },
+    {
+      "source_id": "SRC-QA-PD-UWA",
+      "kind": "attachment",
+      "label": "quiet-arc-uwa-vsl.mp4",
+      "location": "attached:quiet-arc-uwa-vsl.mp4",
+      "sha256": null
+    }
+  ],
+  "performance": {
+    "source_ids": ["SRC-QA-PD-META"],
+    "date_range": {
+      "start": "2026-08-20",
+      "end": "2026-08-24"
+    },
+    "attribution": "7-day click",
+    "currency": "AUD",
+    "aggregation_level": "ad",
+    "field_mapping": {
+      "ad_id": "Ad name",
+      "spend": "Amount spent (AUD)",
+      "purchases": "Purchases",
+      "purchase_value": "Purchase value (AUD)",
+      "impressions": "Impressions",
+      "reach": "Reach",
+      "frequency": "Frequency",
+      "outbound_clicks": "Outbound clicks",
+      "landing_page_views": "Landing page views",
+      "adds_to_cart": "Adds to cart",
+      "initiates_checkout": "Initiates checkout",
+      "video_3_second_plays": "3-second video plays",
+      "video_plays_at_50_percent": "50% video plays"
+    },
+    "ad_mapping": {
+      "CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_UWA_VSL_LP_991001000000001": "CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_UWA_VSL_LP_991001000000001",
+      "CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_PRA_STATIC_LP_991002000000002": "CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_PRA_STATIC_LP_991002000000002",
+      "CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_SLA_COMPARISON_PDP_991003000000003": "CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_SLA_COMPARISON_PDP_991003000000003",
+      "CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_PDA_STATIC_PDP_991004000000004": "CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_PDA_STATIC_PDP_991004000000004"
+    },
+    "logged_interventions": []
+  },
+  "known_limitations": [
+    "First-frame retention was not supplied for video ads; opening-frame claims are limited."
+  ]
+}

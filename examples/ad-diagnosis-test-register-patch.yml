@@ -1,0 +1,20 @@
+{
+  "matching_existing_test": "CONTST042",
+  "observations": [
+    "The UWA execution produced 2 purchases at AUD 90 CAC while receiving 56.25% of spend.",
+    "The PRA execution produced 1 purchase at AUD 80 CAC and its click-to-view rate was 67.71%.",
+    "The SLA and PDA executions spent AUD 60 combined without a purchase."
+  ],
+  "supplied_results": {
+    "window_full_days": 5,
+    "spend_aud": 320,
+    "purchases": 3,
+    "purchase_value_aud": 357,
+    "target_cac_aud": 60,
+    "minimum_batch_spend_aud": 300,
+    "minimum_batch_purchases": 6
+  },
+  "confidence": "low",
+  "verdict": "Direction",
+  "next_action": "ITR"
+}

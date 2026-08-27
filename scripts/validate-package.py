@@ -6,6 +6,7 @@ from __future__ import annotations
 import ast
 import collections
 import importlib.util
+import json
 import pathlib
 import re
 import sysconfig
@@ -58,6 +59,10 @@ V04_REQUIRED_FILES = (
     "examples/ad-analysis-intake.json",
     "examples/creative-audit.md",
     "examples/ad-diagnosis.md",
+    "examples/ad-diagnosis-intake.json",
+    "examples/ad-diagnosis-input-audit.md",
+    "examples/ad-diagnosis-performance.csv",
+    "examples/ad-diagnosis-test-register-patch.yml",
 )
 CREATIVE_AUDIT_PERFORMANCE_PREDICTION = re.compile(
     r"\b(?:predict(?:s|ed|ing)?|forecast(?:s|ed|ing)?|will|would|should|"
@@ -111,6 +116,44 @@ AUTOMATIC_CONTST_RESERVATION = re.compile(
     re.IGNORECASE,
 )
 PERFORMANCE_ACTIONS = frozenset({"keep", "itr", "stop", "scale"})
+DIAGNOSIS_PATCH_FIELDS = frozenset(
+    {
+        "matching_existing_test",
+        "observations",
+        "supplied_results",
+        "confidence",
+        "verdict",
+        "next_action",
+    }
+)
+DIAGNOSIS_PERSISTENCE_CONTRADICTIONS = (
+    re.compile(
+        r"\b(?:diagnosis|recommended?\s+ITR|ITR\s+recommendation)\b[^.!?\n]*"
+        r"\b(?:may|can|will|automatically|does)\b[^.!?\n]*"
+        r"\b(?:reserve|allocate|increment)\w*\b[^.!?\n]*"
+        r"\b(?:CONTST|next_test_number)\b",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"\bproposed\s+test\s+observation\b[^.!?\n]*"
+        r"\b(?:automatically|may|can|will)\b[^.!?\n]*"
+        r"\b(?:become|becomes|promote|promotes|create|creates)\b[^.!?\n]*"
+        r"\bapproved\s+revision\s+learning\b",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"\bwinner\s+graduation\b[^.!?\n]*\b(?:may|can|will|does)\b[^.!?\n]*"
+        r"\b(?:proceed|occur|persist|graduate)\w*\b[^.!?\n]*\bwithout\b[^.!?\n]*"
+        r"\b(?:Post\s+ID|confirmation)\b",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"\bupload-only\s+output\b[^.!?\n]*"
+        r"\b(?:persists?|writes?|updates?|mutates?|changes?)\b[^.!?\n]*"
+        r"\b(?:controlled\s+records?|test|winner|revision)\b",
+        re.IGNORECASE,
+    ),
+)
 NETWORK_DEPENDENCIES = frozenset(
     {
         "ftplib",
@@ -561,6 +604,54 @@ def contradicts_initial_ad_count(text: str) -> bool:
     return False
 
 
+def contradicts_diagnosis_persistence(text: str) -> bool:
+    for clause in policy_clauses(text):
+        for index, pattern in enumerate(DIAGNOSIS_PERSISTENCE_CONTRADICTIONS):
+            match = pattern.search(clause)
+            if match and (index == 2 or not is_negated_policy_clause(clause)):
+                return True
+    return False
+
+
+def diagnosis_patch_errors(
+    patch_text: str, existing_test_ids: set[str]
+) -> list[str]:
+    try:
+        patch = json.loads(patch_text)
+    except (json.JSONDecodeError, TypeError):
+        return ["diagnosis test-register patch must be valid JSON-compatible YAML"]
+    if not isinstance(patch, dict):
+        return ["diagnosis test-register patch must contain an object"]
+
+    errors: list[str] = []
+    for field in sorted(set(patch) - DIAGNOSIS_PATCH_FIELDS):
+        errors.append(f"unsupported field: {field}")
+    for field in sorted(DIAGNOSIS_PATCH_FIELDS - set(patch)):
+        errors.append(f"missing required field: {field}")
+
+    matching_test = patch.get("matching_existing_test")
+    if not isinstance(matching_test, str) or matching_test not in existing_test_ids:
+        errors.append("matching_existing_test must identify an existing test")
+    observations = patch.get("observations")
+    if not (
+        isinstance(observations, list)
+        and observations
+        and all(isinstance(item, str) and item.strip() == item and item for item in observations)
+    ):
+        errors.append("observations must contain non-empty text values")
+    supplied_results = patch.get("supplied_results")
+    if not isinstance(supplied_results, dict) or not supplied_results:
+        errors.append("supplied_results must contain supplied result fields")
+    confidence = patch.get("confidence")
+    if not isinstance(confidence, str) or not confidence:
+        errors.append("confidence must be non-empty text")
+    if patch.get("verdict") not in {"Too early", "Direction", "Verdict"}:
+        errors.append("verdict must be Too early, Direction or Verdict")
+    if patch.get("next_action") not in {"keep", "ITR", "stop", "scale"}:
+        errors.append("next_action must be keep, ITR, stop or scale")
+    return errors
+
+
 def permits_automatic_meta_change(text: str) -> bool:
     for clause in policy_clauses(text):
         if is_negated_policy_clause(clause):
@@ -812,6 +903,12 @@ def validate(root: pathlib.Path) -> list[str]:
         diagnosis_path.read_text()
     ):
         errors.append("contracts/ad-diagnosis.md must allow only keep, ITR, stop or scale")
+    if diagnosis_path.is_file() and contradicts_diagnosis_persistence(
+        diagnosis_path.read_text()
+    ):
+        errors.append(
+            "contracts/ad-diagnosis.md contradicts diagnosis persistence boundaries"
+        )
 
     harness_reference = root / "references" / "19-ad-analysis-harness.md"
     if harness_reference.is_file() and AUTOMATIC_CONTST_RESERVATION.search(
@@ -820,6 +917,34 @@ def validate(root: pathlib.Path) -> list[str]:
         errors.append(
             "references/19-ad-analysis-harness.md automatically reserves a CONTST"
         )
+    if harness_reference.is_file() and contradicts_diagnosis_persistence(
+        harness_reference.read_text()
+    ):
+        errors.append(
+            "references/19-ad-analysis-harness.md contradicts diagnosis persistence boundaries"
+        )
+
+    diagnosis_intake_path = root / "examples" / "ad-diagnosis-intake.json"
+    diagnosis_patch_path = (
+        root / "examples" / "ad-diagnosis-test-register-patch.yml"
+    )
+    if diagnosis_intake_path.is_file() and diagnosis_patch_path.is_file():
+        try:
+            diagnosis_intake = json.loads(diagnosis_intake_path.read_text())
+            diagnosis_ads = diagnosis_intake.get("ads", [])
+            existing_test_ids = {
+                ad.get("ad_id", "").split("_", 1)[0]
+                for ad in diagnosis_ads
+                if isinstance(ad, dict) and isinstance(ad.get("ad_id"), str)
+            }
+        except (AttributeError, json.JSONDecodeError):
+            existing_test_ids = set()
+        for patch_error in diagnosis_patch_errors(
+            diagnosis_patch_path.read_text(), existing_test_ids
+        ):
+            errors.append(
+                "examples/ad-diagnosis-test-register-patch.yml " + patch_error
+            )
 
     harness_path = root / "scripts" / "ad_analysis_harness.py"
     if harness_path.is_file():

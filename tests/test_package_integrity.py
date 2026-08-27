@@ -594,6 +594,75 @@ class PackageIntegrityTests(unittest.TestCase):
             contract,
         )
 
+    def test_frozen_diagnosis_patch_allows_only_an_existing_test_observation(self):
+        validator = load_validator()
+        self.assertTrue(
+            hasattr(validator, "diagnosis_patch_errors"),
+            "package validator should validate diagnosis patches",
+        )
+        intake = json.loads(
+            (ROOT / "examples" / "ad-diagnosis-intake.json").read_text()
+        )
+        patch_text = (
+            ROOT / "examples" / "ad-diagnosis-test-register-patch.yml"
+        ).read_text()
+        existing_tests = {
+            ad["ad_id"].split("_", 1)[0]
+            for ad in intake["ads"]
+        }
+
+        self.assertEqual(
+            [],
+            validator.diagnosis_patch_errors(patch_text, existing_tests),
+        )
+
+        patch = json.loads(patch_text)
+        mutations = (
+            (
+                {**patch, "owner": "Mina Cole"},
+                "unsupported field: owner",
+            ),
+            (
+                {**patch, "new_test_id": "CONTST043"},
+                "unsupported field: new_test_id",
+            ),
+            (
+                {**patch, "test_id": "CONTST043"},
+                "unsupported field: test_id",
+            ),
+            (
+                {**patch, "matching_existing_test": "CONTST043"},
+                "matching_existing_test must identify an existing test",
+            ),
+            (
+                {**patch, "winner_library": {"real_post_id": "991001"}},
+                "unsupported field: winner_library",
+            ),
+        )
+        for mutation, expected in mutations:
+            with self.subTest(expected=expected):
+                errors = validator.diagnosis_patch_errors(
+                    json.dumps(mutation), existing_tests
+                )
+                self.assertIn(expected, errors)
+
+    def test_diagnosis_raw_fixtures_stay_out_of_templates_and_generated_bundle(self):
+        fixtures = (
+            "examples/ad-diagnosis-intake.json",
+            "examples/ad-diagnosis-input-audit.md",
+            "examples/ad-diagnosis-performance.csv",
+            "examples/ad-diagnosis-test-register-patch.yml",
+        )
+        for relative in fixtures:
+            self.assertTrue((ROOT / relative).is_file())
+            self.assertEqual(
+                [],
+                list((ROOT / "templates").rglob(pathlib.Path(relative).name)),
+            )
+        bundle = load_bundle_builder().build_body()
+        for relative in fixtures:
+            self.assertNotIn(relative, bundle)
+
     def test_validator_rejects_v04_analysis_policy_mutations(self):
         validator = load_validator()
         temp, root = self.make_root()
@@ -635,6 +704,26 @@ class PackageIntegrityTests(unittest.TestCase):
                 "references/19-ad-analysis-harness.md",
                 "Diagnosis automatically increments next_test_number.\n",
                 "references/19-ad-analysis-harness.md automatically reserves a CONTST",
+            ),
+            (
+                "contracts/ad-diagnosis.md",
+                "A diagnosis may reserve a new CONTST for a recommended ITR.\n",
+                "contracts/ad-diagnosis.md contradicts diagnosis persistence boundaries",
+            ),
+            (
+                "references/19-ad-analysis-harness.md",
+                "A proposed test observation automatically becomes approved revision learning.\n",
+                "references/19-ad-analysis-harness.md contradicts diagnosis persistence boundaries",
+            ),
+            (
+                "references/19-ad-analysis-harness.md",
+                "Winner graduation may proceed without a real Post ID or human confirmation.\n",
+                "references/19-ad-analysis-harness.md contradicts diagnosis persistence boundaries",
+            ),
+            (
+                "references/19-ad-analysis-harness.md",
+                "Upload-only output persists controlled records.\n",
+                "references/19-ad-analysis-harness.md contradicts diagnosis persistence boundaries",
             ),
             (
                 "contracts/creative-audit.md",
