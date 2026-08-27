@@ -1,6 +1,6 @@
 # Output Contract: Ad Diagnosis
 locked: 2026-08-27
-version: 1.2.0
+version: 1.2.1
 
 Reading performance data and returning what to do about it. Not a dashboard, not a summary.
 This workflow accepts manually supplied Meta exports, screenshots or tables. It does not require a live Meta connection.
@@ -14,7 +14,8 @@ Markdown report. `outputs/ad-analysis/<RUN_ID>/diagnosis.md`
    input-audit path before any conclusion. Names every manual file, screenshot or table supplied,
    its date range, attribution setting, currency, level of aggregation and missing fields. Then
    checks spend, purchases and days elapsed against the minimum thresholds in the brand folder.
-   States plainly whether this is a verdict, a direction, or too early to call. A `ready` or
+   States plainly whether this is a verdict, a direction, or too early to call. The classification
+   must name its frozen-intake field or be labelled `strategist judgment` or `unavailable`. A `ready` or
    `limited` Performance Diagnosis intake may proceed; optional funnel or video gaps limit only the
    affected claims. A `blocked` intake stops performance conclusions. This section comes first
    because it governs how much weight everything after it carries.
@@ -79,12 +80,18 @@ Every row carries a number in the number column. A row without one does not get 
 
 ## Decision row, fixed shape
 
-| Reviewed item | Decision | Top-level action | Numbers and thresholds | Likely explanation | Explanation confidence | Execution instruction |
-|---|---|---|---|---|---|---|
+| Full ad name | Decision | Classification provenance | Top-level action | Numbers and thresholds | Likely explanation | Explanation confidence | Execution instruction |
+|---|---|---|---|---|---|---|---|
 
 `Top-level action` contains exactly one literal value: `keep`, `ITR`, `stop` or `scale`. Do not put
 alternatives, sequences or conditional prose in that field. Use the execution instruction only to
 implement the selected action.
+
+`Decision` uses one six-decision classification. `Classification provenance` names the exact
+frozen-intake field that supplied it, or states `strategist judgment` or `unavailable`; a derived
+classification must never be presented as supplied. `Numbers and thresholds` states the exact
+`metric`, `baseline`, `comparison_window`, `threshold` and `unit` from the frozen intake for the
+threshold governing that action.
 
 ## Counts
 
@@ -112,6 +119,9 @@ implement the selected action.
 12. Every decision records exactly one literal top-level action: keep, ITR, stop or scale
 13. Performance observations remain proposed test memory until the matching existing test update is
     confirmed. A diagnosis never promotes them into approved revision learning
+14. Every read-validity, stage and six-decision classification names its frozen-intake provenance
+    or is explicitly labelled `strategist judgment` or `unavailable`; every action threshold names
+    the exact metric, baseline, comparison window, threshold and unit
 
 ## Never
 
@@ -134,6 +144,8 @@ implement the selected action.
 - [ ] Strongest and weakest executions are identified only within the valid supplied read
 - [ ] Every likely explanation has confidence, disconfirming evidence and a follow-up test
 - [ ] Every decision uses the six-decision taxonomy and exactly one literal top-level action field
+- [ ] Every classification is traced to frozen intake or labelled strategist judgment/unavailable
+- [ ] Every action threshold gives metric, baseline, comparison window, threshold and unit
 - [ ] Section 11 is filled honestly
 - [ ] If the test is underpowered, that governs the whole report rather than a footnote
 - [ ] The Persistence Summary distinguishes written run outputs from proposed controlled-record changes

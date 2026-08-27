@@ -562,6 +562,76 @@ class PackageIntegrityTests(unittest.TestCase):
         )
         self.assertEqual(["unassigned", "unassigned"], [owner.strip() for owner in outcome_owners])
 
+    def test_validator_rejects_structural_creative_audit_drift(self):
+        validator = load_validator()
+        original = (ROOT / "examples" / "creative-audit.md").read_text()
+
+        ready_row = next(
+            line
+            for line in original.splitlines()
+            if line.startswith("| `AD-QA-001` | `ready` |")
+        )
+        cases = (
+            (
+                "missing ordered section",
+                original.replace(
+                    "## 5. Hook coherence and body handoff\n", "", 1
+                ),
+                "examples/creative-audit.md must contain all 11 sections exactly once and in order",
+            ),
+            (
+                "duplicate intake-ad outcome",
+                original.replace(ready_row, ready_row + "\n" + ready_row, 1),
+                "examples/creative-audit.md outcome rows must correspond exactly once to intake ads",
+            ),
+            (
+                "unresolved evidence reference",
+                original.replace("`SRC-QA-003`", "`SRC-QA-999`", 1),
+                "examples/creative-audit.md references unknown evidence source SRC-QA-999",
+            ),
+            (
+                "missing ready example",
+                original.replace(
+                    "| `AD-QA-001` | `ready` |",
+                    "| `AD-QA-001` | `revise` |",
+                    1,
+                ),
+                "examples/creative-audit.md must demonstrate both ready and revise outcomes",
+            ),
+            (
+                "performance action",
+                original + "\nCreative Audit recommendation: `keep`.\n",
+                "examples/creative-audit.md assigns a performance action",
+            ),
+        )
+
+        for name, mutated, expected_error in cases:
+            with self.subTest(name=name):
+                temp, root = self.make_root()
+                self.addCleanup(temp.cleanup)
+                examples = root / "examples"
+                examples.mkdir()
+                (examples / "creative-audit.md").write_text(mutated)
+                (examples / "ad-analysis-intake.json").write_text(
+                    (ROOT / "examples" / "ad-analysis-intake.json").read_text()
+                )
+
+                errors = validator.validate(root)
+
+                self.assertIn(expected_error, errors)
+
+    def test_frozen_creative_audit_has_complete_structural_correspondence(self):
+        validator = load_validator()
+        intake = json.loads((ROOT / "examples" / "ad-analysis-intake.json").read_text())
+        example = (ROOT / "examples" / "creative-audit.md").read_text()
+
+        self.assertEqual([], validator.creative_audit_example_errors(example, intake))
+        self.assertFalse(validator.creative_audit_assigns_performance_action(example))
+        self.assertFalse(validator.creative_audit_predicts_performance(example))
+        self.assertIsNone(
+            re.search(r"\b(?:keep|ITR|stop|scale)\b", example, re.IGNORECASE)
+        )
+
     def test_ad_diagnosis_allows_only_the_four_governed_actions(self):
         diagnosis = (ROOT / "contracts" / "ad-diagnosis.md").read_text()
         action_policy = re.search(
@@ -574,6 +644,149 @@ class PackageIntegrityTests(unittest.TestCase):
             {"keep", "ITR", "stop", "scale"},
             set(re.findall(r"`([^`]+)`", action_policy.group(1))),
         )
+
+    def test_frozen_diagnosis_traces_classifications_and_action_thresholds(self):
+        validator = load_validator()
+        intake = json.loads(
+            (ROOT / "examples" / "ad-diagnosis-intake.json").read_text()
+        )
+        report = (ROOT / "examples" / "ad-diagnosis.md").read_text()
+        contract = (ROOT / "contracts" / "ad-diagnosis.md").read_text()
+
+        self.assertIn(
+            "Read-validity classification provenance: `strategist judgment`; "
+            "the frozen intake does not supply a read-validity classification.",
+            report,
+        )
+        self.assertIn("Classification provenance", contract)
+        section = report.split("## 8. Six-decision taxonomy", 1)[1].split(
+            "## 9. Ranked change list", 1
+        )[0]
+        table_lines = [line for line in section.splitlines() if line.startswith("|")]
+        headers = [cell.strip() for cell in table_lines[0].strip("|").split("|")]
+        rows = [
+            dict(
+                zip(
+                    headers,
+                    [cell.strip() for cell in line.strip("|").split("|")],
+                )
+            )
+            for line in table_lines[2:]
+        ]
+        self.assertEqual(
+            {
+                "Full ad name",
+                "Decision",
+                "Classification provenance",
+                "Top-level action",
+                "Numbers and thresholds",
+                "Likely explanation",
+                "Explanation confidence",
+                "Execution instruction",
+            },
+            set(headers),
+        )
+        self.assertEqual(
+            {ad["ad_id"] for ad in intake["ads"]},
+            {row["Full ad name"].strip("`") for row in rows},
+        )
+
+        threshold_basis = {
+            (
+                item["metric"],
+                str(item["baseline"]),
+                item["comparison_window"],
+                str(item["threshold"]),
+                item["unit"],
+            )
+            for item in intake["performance"]["threshold_basis"]
+        }
+        threshold_pattern = re.compile(
+            r"`metric=(?P<metric>[^;]+); baseline=(?P<baseline>[^;]+); "
+            r"comparison_window=(?P<window>[^;]+); threshold=(?P<threshold>[^;]+); "
+            r"unit=(?P<unit>[^`]+)`"
+        )
+        for row in rows:
+            with self.subTest(ad=row["Full ad name"]):
+                self.assertEqual(
+                    "Strategist judgment; classification absent from frozen intake",
+                    row["Classification provenance"],
+                )
+                match = threshold_pattern.search(row["Numbers and thresholds"])
+                self.assertIsNotNone(match)
+                self.assertIn(
+                    (
+                        match.group("metric"),
+                        match.group("baseline"),
+                        match.group("window"),
+                        match.group("threshold"),
+                        match.group("unit"),
+                    ),
+                    threshold_basis,
+                )
+
+        business_section = report.split(
+            "## 3. What happened: business result", 1
+        )[1].split("## 4. What happened: funnel result", 1)[0]
+        self.assertNotIn("| Initial test |", business_section)
+        self.assertIn("unavailable; not supplied by frozen intake", business_section)
+        self.assertEqual(
+            [], validator.diagnosis_example_traceability_errors(report, intake)
+        )
+
+    def test_validator_rejects_frozen_diagnosis_traceability_drift(self):
+        validator = load_validator()
+        original = (ROOT / "examples" / "ad-diagnosis.md").read_text()
+        read_provenance = (
+            "Read-validity classification provenance: `strategist judgment`; "
+            "the frozen intake does not supply a read-validity classification."
+        )
+        cases = (
+            (
+                "unlabelled read classification",
+                original.replace(read_provenance, "", 1),
+                "examples/ad-diagnosis.md must label its derived read-validity "
+                "classification as strategist judgment or unavailable",
+            ),
+            (
+                "untraced decision classification",
+                original.replace(
+                    "Strategist judgment; classification absent from frozen intake",
+                    "Supplied classification",
+                    1,
+                ),
+                "examples/ad-diagnosis.md decision classifications must identify "
+                "frozen-intake provenance or strategist judgment/unavailable",
+            ),
+            (
+                "threshold not in frozen basis",
+                original.replace("baseline=106.67", "baseline=999", 1),
+                "examples/ad-diagnosis.md action thresholds must resolve exact metric, "
+                "baseline, comparison window, threshold and unit from frozen intake",
+            ),
+            (
+                "invented stage",
+                original.replace(
+                    "unavailable; not supplied by frozen intake", "Initial test", 1
+                ),
+                "examples/ad-diagnosis.md must not supply an unfrozen stage classification",
+            ),
+        )
+
+        for name, mutated, expected_error in cases:
+            with self.subTest(name=name):
+                temp, root = self.make_root()
+                self.addCleanup(temp.cleanup)
+                examples = root / "examples"
+                examples.mkdir()
+                (examples / "ad-diagnosis.md").write_text(mutated)
+                (examples / "ad-diagnosis-intake.json").write_text(
+                    (ROOT / "examples" / "ad-diagnosis-intake.json").read_text()
+                )
+
+                errors = validator.validate(root)
+
+                self.assertIn(expected_error, errors)
 
     def test_analysis_persistence_requires_human_confirmation(self):
         paths = (

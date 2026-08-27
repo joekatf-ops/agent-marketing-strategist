@@ -66,6 +66,19 @@ V04_REQUIRED_FILES = (
     "examples/ad-diagnosis-performance.csv",
     "examples/ad-diagnosis-test-register-patch.yml",
 )
+CREATIVE_AUDIT_SECTIONS = (
+    "Input coverage and limitations",
+    "Ad identity and traceability",
+    "Who x Primary Problem clarity",
+    "Awareness job and messaging route",
+    "Hook coherence and body handoff",
+    "Proof, offer, claims and CTA",
+    "Format, visual communication and production execution",
+    "Destination continuity",
+    "Ranked issues with evidence",
+    "Pre-launch outcome by ad",
+    "What cannot be concluded without performance data",
+)
 CREATIVE_AUDIT_PERFORMANCE_PREDICTION = re.compile(
     r"\b(?:predict(?:s|ed|ing)?|forecast(?:s|ed|ing)?|will|would|should|"
     r"could|may|might|can|expected\s+to|likely(?:\s+to)?|guarantee(?:s|d)?)\b"
@@ -218,6 +231,21 @@ NETWORK_DEPENDENCIES = frozenset(
 DIAGNOSIS_ACTION_POLICY = re.compile(
     r"`Top-level\s+action`\s+contains\s+exactly\s+one\s+literal\s+value:\s*([^\n.]+)",
     re.IGNORECASE,
+)
+DIAGNOSIS_CLASSIFICATIONS = frozenset(
+    {
+        "Financial winner",
+        "Directional promise",
+        "Interest, weak conversion",
+        "Weak throughout",
+        "Initial winner scale failure",
+        "Winner at scale",
+    }
+)
+ACTION_THRESHOLD_DESCRIPTOR = re.compile(
+    r"`metric=(?P<metric>[^;]+); baseline=(?P<baseline>[^;]+); "
+    r"comparison_window=(?P<window>[^;]+); threshold=(?P<threshold>[^;]+); "
+    r"unit=(?P<unit>[^`]+)`"
 )
 CAMPAIGN_LAUNCH_CONTRACT = "contracts/campaign-launch-plan.md"
 CREATIVE_TESTING_RULES = (
@@ -862,6 +890,223 @@ def creative_audit_predicts_performance(text: str) -> bool:
     return False
 
 
+def _numbered_markdown_section(text: str, number: int) -> str:
+    match = re.search(
+        rf"^## {number}\. [^\n]+\n(?P<body>.*?)(?=^## \d+\.|\Z)",
+        text,
+        re.MULTILINE | re.DOTALL,
+    )
+    return match.group("body") if match is not None else ""
+
+
+def _markdown_table_rows(section: str, header: tuple[str, ...]) -> list[tuple[str, ...]]:
+    lines = section.splitlines()
+    expected = "| " + " | ".join(header) + " |"
+    try:
+        start = lines.index(expected)
+    except ValueError:
+        return []
+    rows: list[tuple[str, ...]] = []
+    for line in lines[start + 2 :]:
+        if not line.startswith("|"):
+            break
+        cells = tuple(cell.strip() for cell in line.strip("|").split("|"))
+        if len(cells) == len(header):
+            rows.append(cells)
+    return rows
+
+
+def creative_audit_example_errors(
+    text: str, intake: dict[str, object]
+) -> list[str]:
+    errors: list[str] = []
+    headings = [
+        (int(number), title.strip())
+        for number, title in re.findall(r"^## (\d+)\. ([^\n]+)$", text, re.MULTILINE)
+    ]
+    expected_headings = list(enumerate(CREATIVE_AUDIT_SECTIONS, start=1))
+    if headings != expected_headings:
+        errors.append(
+            "examples/creative-audit.md must contain all 11 sections exactly once and in order"
+        )
+
+    intake_ads = intake.get("ads")
+    intake_sources = intake.get("sources")
+    ad_ids = {
+        item.get("ad_id")
+        for item in intake_ads
+        if isinstance(intake_ads, list)
+        and isinstance(item, dict)
+        and isinstance(item.get("ad_id"), str)
+    } if isinstance(intake_ads, list) else set()
+    source_ids = {
+        item.get("source_id")
+        for item in intake_sources
+        if isinstance(intake_sources, list)
+        and isinstance(item, dict)
+        and isinstance(item.get("source_id"), str)
+    } if isinstance(intake_sources, list) else set()
+
+    outcome_rows = _markdown_table_rows(
+        _numbered_markdown_section(text, 10),
+        (
+            "Ad",
+            "Outcome",
+            "Blocking or revision issue",
+            "Evidence",
+            "Exact change",
+            "Owner",
+        ),
+    )
+    outcome_ad_ids = [row[0].strip("`") for row in outcome_rows]
+    if (
+        collections.Counter(outcome_ad_ids)
+        != collections.Counter(ad_ids)
+        or len(outcome_rows) != len(ad_ids)
+    ):
+        errors.append(
+            "examples/creative-audit.md outcome rows must correspond exactly once to intake ads"
+        )
+    outcomes = [row[1].strip("`") for row in outcome_rows]
+    if any(outcome not in {"ready", "revise", "block"} for outcome in outcomes):
+        errors.append(
+            "examples/creative-audit.md outcomes must be ready, revise or block"
+        )
+    if not {"ready", "revise"}.issubset(outcomes):
+        errors.append(
+            "examples/creative-audit.md must demonstrate both ready and revise outcomes"
+        )
+
+    ranked_rows = _markdown_table_rows(
+        _numbered_markdown_section(text, 9),
+        ("Rank", "Ad", "Issue", "Severity", "Evidence", "Exact change", "Owner"),
+    )
+    if any(not row[4] or row[4].lower() in {"none", "unavailable"} for row in ranked_rows):
+        errors.append(
+            "examples/creative-audit.md ranked issues must resolve to supplied evidence"
+        )
+    if any(not row[3] for row in outcome_rows):
+        errors.append(
+            "examples/creative-audit.md outcome rows must resolve to supplied evidence"
+        )
+
+    referenced_sources = set(
+        re.findall(r"`(SRC-[A-Za-z0-9._-]+)`", text)
+    )
+    for unknown in sorted(referenced_sources - source_ids):
+        errors.append(
+            f"examples/creative-audit.md references unknown evidence source {unknown}"
+        )
+    referenced_ads = set(re.findall(r"`(AD-[A-Za-z0-9._-]+)`", text))
+    for unknown in sorted(referenced_ads - ad_ids):
+        errors.append(
+            f"examples/creative-audit.md references unknown intake ad {unknown}"
+        )
+    return errors
+
+
+def diagnosis_example_traceability_errors(
+    text: str, intake: dict[str, object]
+) -> list[str]:
+    errors: list[str] = []
+    required_read_provenance = (
+        "Read-validity classification provenance: `strategist judgment`; "
+        "the frozen intake does not supply a read-validity classification."
+    )
+    if required_read_provenance not in text:
+        errors.append(
+            "examples/ad-diagnosis.md must label its derived read-validity "
+            "classification as strategist judgment or unavailable"
+        )
+
+    business_section = _numbered_markdown_section(text, 3)
+    if "| Initial test |" in business_section:
+        errors.append(
+            "examples/ad-diagnosis.md must not supply an unfrozen stage classification"
+        )
+
+    rows = _markdown_table_rows(
+        _numbered_markdown_section(text, 8),
+        (
+            "Full ad name",
+            "Decision",
+            "Classification provenance",
+            "Top-level action",
+            "Numbers and thresholds",
+            "Likely explanation",
+            "Explanation confidence",
+            "Execution instruction",
+        ),
+    )
+    intake_ads = intake.get("ads")
+    ad_ids = {
+        item.get("ad_id")
+        for item in intake_ads
+        if isinstance(item, dict) and isinstance(item.get("ad_id"), str)
+    } if isinstance(intake_ads, list) else set()
+    row_ids = [row[0].strip("`") for row in rows]
+    if collections.Counter(row_ids) != collections.Counter(ad_ids):
+        errors.append(
+            "examples/ad-diagnosis.md decision rows must correspond exactly once to intake ads"
+        )
+    if any(row[1] not in DIAGNOSIS_CLASSIFICATIONS for row in rows):
+        errors.append(
+            "examples/ad-diagnosis.md must use the governed six-decision taxonomy"
+        )
+    if any(
+        not (
+            "strategist judgment" in row[2].lower()
+            or "unavailable" in row[2].lower()
+            or re.fullmatch(r"Frozen intake: `[^`]+`", row[2]) is not None
+        )
+        for row in rows
+    ):
+        errors.append(
+            "examples/ad-diagnosis.md decision classifications must identify "
+            "frozen-intake provenance or strategist judgment/unavailable"
+        )
+    if any(row[3].strip("`").lower() not in PERFORMANCE_ACTIONS for row in rows):
+        errors.append(
+            "examples/ad-diagnosis.md decision rows must use one governed top-level action"
+        )
+
+    performance = intake.get("performance")
+    threshold_items = (
+        performance.get("threshold_basis")
+        if isinstance(performance, dict)
+        else None
+    )
+    threshold_basis = {
+        (
+            item.get("metric"),
+            str(item.get("baseline")),
+            item.get("comparison_window"),
+            str(item.get("threshold")),
+            item.get("unit"),
+        )
+        for item in threshold_items
+        if isinstance(threshold_items, list) and isinstance(item, dict)
+    } if isinstance(threshold_items, list) else set()
+    thresholds_resolve = bool(rows)
+    for row in rows:
+        match = ACTION_THRESHOLD_DESCRIPTOR.search(row[4])
+        if match is None or (
+            match.group("metric"),
+            match.group("baseline"),
+            match.group("window"),
+            match.group("threshold"),
+            match.group("unit"),
+        ) not in threshold_basis:
+            thresholds_resolve = False
+            break
+    if not thresholds_resolve:
+        errors.append(
+            "examples/ad-diagnosis.md action thresholds must resolve exact metric, "
+            "baseline, comparison window, threshold and unit from frozen intake"
+        )
+    return errors
+
+
 def diagnosis_actions_are_governed(text: str) -> bool:
     policies = DIAGNOSIS_ACTION_POLICY.findall(text)
     if not policies:
@@ -986,10 +1231,26 @@ def validate(root: pathlib.Path) -> list[str]:
         errors.append("contracts/creative-audit.md assigns a performance action")
 
     creative_example_path = root / "examples" / "creative-audit.md"
-    if creative_example_path.is_file() and creative_audit_predicts_performance(
-        creative_example_path.read_text()
-    ):
-        errors.append("examples/creative-audit.md predicts performance")
+    creative_intake_path = root / "examples" / "ad-analysis-intake.json"
+    if creative_example_path.is_file():
+        creative_example = creative_example_path.read_text()
+        if creative_audit_predicts_performance(creative_example):
+            errors.append("examples/creative-audit.md predicts performance")
+        if creative_audit_assigns_performance_action(creative_example) or re.search(
+            r"\b(?:keep|ITR|stop|scale)\b", creative_example, re.IGNORECASE
+        ):
+            errors.append("examples/creative-audit.md assigns a performance action")
+        if creative_intake_path.is_file():
+            try:
+                creative_intake = json.loads(creative_intake_path.read_text())
+            except json.JSONDecodeError:
+                creative_intake = None
+            if isinstance(creative_intake, dict):
+                errors.extend(
+                    creative_audit_example_errors(
+                        creative_example, creative_intake
+                    )
+                )
 
     diagnosis_path = root / "contracts" / "ad-diagnosis.md"
     if diagnosis_path.is_file() and OPTIONAL_PERFORMANCE_DECISION.search(
@@ -1009,6 +1270,20 @@ def validate(root: pathlib.Path) -> list[str]:
             "contracts/ad-diagnosis.md contradicts diagnosis persistence boundaries"
         )
 
+    diagnosis_example_path = root / "examples" / "ad-diagnosis.md"
+    diagnosis_intake_path = root / "examples" / "ad-diagnosis-intake.json"
+    if diagnosis_example_path.is_file() and diagnosis_intake_path.is_file():
+        try:
+            diagnosis_intake = json.loads(diagnosis_intake_path.read_text())
+        except json.JSONDecodeError:
+            diagnosis_intake = None
+        if isinstance(diagnosis_intake, dict):
+            errors.extend(
+                diagnosis_example_traceability_errors(
+                    diagnosis_example_path.read_text(), diagnosis_intake
+                )
+            )
+
     harness_reference = root / "references" / "19-ad-analysis-harness.md"
     if harness_reference.is_file() and AUTOMATIC_CONTST_RESERVATION.search(
         harness_reference.read_text()
@@ -1023,7 +1298,6 @@ def validate(root: pathlib.Path) -> list[str]:
             "references/19-ad-analysis-harness.md contradicts diagnosis persistence boundaries"
         )
 
-    diagnosis_intake_path = root / "examples" / "ad-diagnosis-intake.json"
     diagnosis_patch_path = (
         root / "examples" / "ad-diagnosis-test-register-patch.yml"
     )

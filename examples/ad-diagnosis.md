@@ -25,8 +25,9 @@
 - Logged interventions: none supplied
 - Spend-bearing source ads mapped: all four complete ad names listed in sections 2–5 and 8
 
-Read validity: **Direction**. Five full days elapsed and spend exceeded the `$300` minimum, but the
-batch produced `3` purchases, `3` fewer than the `6`-purchase threshold. The report can describe
+Read validity: **Direction**. Read-validity classification provenance: `strategist judgment`; the frozen intake does not supply a read-validity classification.
+Five full days elapsed and spend exceeded the `$300` minimum, but the batch produced `3`
+purchases, `3` fewer than the `6`-purchase threshold. The report can describe
 bounded associations and next checks; it cannot claim a final causal verdict. The missing optional
 creative metric narrows section 5 only.
 
@@ -40,7 +41,7 @@ creative metric narrows section 5 only.
 | `CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_PDA_STATIC_PDP_991004000000004` | `CONTST042` | `night-readers__shared-room-glare` | NNT | Night readers sharing a room | Lighting the page disturbs a partner | PDA | Product decision | STATIC | PDP | Five full days | None supplied |
 
 Campaign: `QUIETARC_READINGLAMP_CT_ABO_AU_20260820`. Ad set:
-`CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE`. The initial NNT contains UWA, PRA, SLA and PDA. UWA
+`CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE`. The supplied NNT batch contains UWA, PRA, SLA and PDA. UWA
 and PRA use LP; SLA and PDA use PDP. Every execution follows its awareness default, so no
 Destination Handoff exception is applicable. No budget or creative intervention was supplied.
 
@@ -48,10 +49,10 @@ Destination Handoff exception is applicable. No budget or creative intervention 
 
 | Full ad name | Stage | Spend | Spend share | Purchases | CAC vs `$60` target | Revenue | Contribution after advertising | Expected purchases at target |
 |---|---|---:|---:|---:|---|---:|---|---:|
-| `CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_UWA_VSL_LP_991001000000001` | Initial test | `$180` | `56.25%` | `2` | `$90`, `$30` above target | `$238` | unavailable; margin not supplied | `3.00` |
-| `CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_PRA_STATIC_LP_991002000000002` | Initial test | `$80` | `25.00%` | `1` | `$80`, `$20` above target | `$119` | unavailable; margin not supplied | `1.33` |
-| `CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_SLA_COMPARISON_PDP_991003000000003` | Initial test | `$40` | `12.50%` | `0` | unavailable; no purchases | `$0` | unavailable; margin not supplied | `0.67` |
-| `CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_PDA_STATIC_PDP_991004000000004` | Initial test | `$20` | `6.25%` | `0` | unavailable; no purchases | `$0` | unavailable; margin not supplied | `0.33` |
+| `CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_UWA_VSL_LP_991001000000001` | unavailable; not supplied by frozen intake | `$180` | `56.25%` | `2` | `$90`, `$30` above target | `$238` | unavailable; margin not supplied | `3.00` |
+| `CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_PRA_STATIC_LP_991002000000002` | unavailable; not supplied by frozen intake | `$80` | `25.00%` | `1` | `$80`, `$20` above target | `$119` | unavailable; margin not supplied | `1.33` |
+| `CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_SLA_COMPARISON_PDP_991003000000003` | unavailable; not supplied by frozen intake | `$40` | `12.50%` | `0` | unavailable; no purchases | `$0` | unavailable; margin not supplied | `0.67` |
+| `CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_PDA_STATIC_PDP_991004000000004` | unavailable; not supplied by frozen intake | `$20` | `6.25%` | `0` | unavailable; no purchases | `$0` | unavailable; margin not supplied | `0.33` |
 
 Every ad with supplied spend appears above. The uneven `56.25%`/`25.00%`/`12.50%`/`6.25%`
 delivery and the batch's three missing purchases keep this read directional.
@@ -83,6 +84,9 @@ made from that gap. Static rows do not receive video-rate claims.
 
 ## 6. Strongest and weakest complete executions
 
+Classification provenance: the strongest/weakest ordering below is a strategist judgment from the
+frozen supplied metrics; the frozen intake does not supply a ranking classification.
+
 1. The UWA is the strongest business execution: it produced `2` purchases at `$90` CAC. This still
    misses the `$60` target and remains directional because the batch is three purchases short and
    delivery was uneven.
@@ -107,12 +111,12 @@ findings.
 
 ## 8. Six-decision taxonomy
 
-| Full ad name | Decision | Top-level action | Numbers and thresholds | Likely explanation | Explanation confidence | Execution instruction |
-|---|---|---|---|---|---|---|
-| `CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_UWA_VSL_LP_991001000000001` | Directional promise | `ITR` | `$90` CAC is `$30` above the `$60` target; `2` purchases; batch is `3` short of minimum | The complete UWA is associated with the strongest supplied business result, with uneven delivery as a competing explanation | Low | Propose one narrower follow-up against the same Who and Primary Problem; leave CONTST unreserved |
-| `CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_PRA_STATIC_LP_991002000000002` | Interest, weak conversion | `keep` | `2.40%` outbound CTR; `67.71%` landing-page-view rate; `$80` CAC is `$20` above target | A destination or tracking break may sit between click and landing-page view | Low | Keep the execution and coordinate unchanged while URL, load and event integrity are checked |
-| `CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_SLA_COMPARISON_PDP_991003000000003` | Directional promise | `ITR` | `40.00%` thumbstop and hold; `0` purchases from `$40` against a `$60` target CAC | The complete comparison may hold attention without enough decision value | Low | Propose a bounded proof or decision-value follow-up; leave CONTST unreserved |
-| `CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_PDA_STATIC_PDP_991004000000004` | Interest, weak conversion | `keep` | `2.50%` outbound CTR; `48.00%` landing-page-view rate; `0` purchases from `$20` | A destination break may precede product evaluation, but delivery is low | Low | Keep unchanged while the destination is checked and a fuller read is collected |
+| Full ad name | Decision | Classification provenance | Top-level action | Numbers and thresholds | Likely explanation | Explanation confidence | Execution instruction |
+|---|---|---|---|---|---|---|---|
+| `CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_UWA_VSL_LP_991001000000001` | Directional promise | Strategist judgment; classification absent from frozen intake | `ITR` | `metric=target_cac; baseline=106.67; comparison_window=2026-08-20 through 2026-08-24; threshold=60; unit=AUD`; row result: `$90` CAC, `2` purchases, batch `3` short of minimum | The complete UWA is associated with the strongest supplied business result, with uneven delivery as a competing explanation | Low | Propose one narrower follow-up against the same Who and Primary Problem; leave CONTST unreserved |
+| `CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_PRA_STATIC_LP_991002000000002` | Interest, weak conversion | Strategist judgment; classification absent from frozen intake | `keep` | `metric=target_cac; baseline=106.67; comparison_window=2026-08-20 through 2026-08-24; threshold=60; unit=AUD`; row result: `2.40%` outbound CTR, `67.71%` landing-page-view rate, `$80` CAC | A destination or tracking break may sit between click and landing-page view | Low | Keep the execution and coordinate unchanged while URL, load and event integrity are checked |
+| `CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_SLA_COMPARISON_PDP_991003000000003` | Directional promise | Strategist judgment; classification absent from frozen intake | `ITR` | `metric=minimum_batch_purchases; baseline=3; comparison_window=2026-08-20 through 2026-08-24; threshold=6; unit=purchases`; row result: `40.00%` thumbstop and hold, `0` purchases from `$40` | The complete comparison may hold attention without enough decision value | Low | Propose a bounded proof or decision-value follow-up; leave CONTST unreserved |
+| `CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_PDA_STATIC_PDP_991004000000004` | Interest, weak conversion | Strategist judgment; classification absent from frozen intake | `keep` | `metric=minimum_batch_purchases; baseline=3; comparison_window=2026-08-20 through 2026-08-24; threshold=6; unit=purchases`; row result: `2.50%` outbound CTR, `48.00%` landing-page-view rate, `0` purchases from `$20` | A destination break may precede product evaluation, but delivery is low | Low | Keep unchanged while the destination is checked and a fuller read is collected |
 
 Each reviewed spend-bearing item has exactly one top-level action. Every action cell equals one
 literal governed value and contains no sequence, alternative or conditional prose.
@@ -128,8 +132,8 @@ literal governed value and contains no sequence, alternative or conditional pros
 ## 10. What we learned
 
 - Proposed test observation for existing `CONTST042`: the UWA produced `2` supplied purchases at
-  `$90` CAC while receiving `56.25%` of spend; confidence is low because the read is Direction and
-  delivery was uneven.
+  `$90` CAC while receiving `56.25%` of spend; confidence is low because the Direction
+  classification is a strategist judgment and delivery was uneven.
 - Proposed test observation for existing `CONTST042`: the PRA and PDA click signals narrowed at the
   landing-page-view stage; confidence is low because no destination audit was supplied.
 - Proposed test observation for existing `CONTST042`: the SLA's `40.00%` thumbstop and hold did not
@@ -157,7 +161,7 @@ confirmation was not supplied.
   `ad-diagnosis-performance.csv`.
 - Explanation confidence: Low; uneven delivery, absent first-frame retention and no destination
   technical audit limit the explanation.
-- Verdict: Direction.
+- Verdict: Direction (strategist judgment; classification absent from frozen intake).
 - Next action: `ITR`; present the narrower UWA brief first, but do not reserve a new test.
 - Destination record: `strategy/test-register.yml`, existing `CONTST042` observation only.
 - Confirmation: required and not supplied; the proposed patch is not persisted.
