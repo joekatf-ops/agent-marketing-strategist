@@ -1,3 +1,5 @@
+import csv
+import datetime
 import importlib.util
 import json
 import pathlib
@@ -617,6 +619,7 @@ class PackageIntegrityTests(unittest.TestCase):
         )
 
         patch = json.loads(patch_text)
+        supplied_results = patch["supplied_results"]
         mutations = (
             (
                 {**patch, "owner": "Mina Cole"},
@@ -638,6 +641,69 @@ class PackageIntegrityTests(unittest.TestCase):
                 {**patch, "winner_library": {"real_post_id": "991001"}},
                 "unsupported field: winner_library",
             ),
+            (
+                {
+                    **patch,
+                    "supplied_results": {
+                        **supplied_results,
+                        "spend_aud": {"new_test_id": "CONTST043"},
+                    },
+                },
+                "supplied_results contains forbidden controlled field: new_test_id",
+            ),
+            (
+                {
+                    **patch,
+                    "supplied_results": {
+                        **supplied_results,
+                        "purchases": [
+                            {"winner_library": {"real_post_id": "991001"}}
+                        ],
+                    },
+                },
+                "supplied_results contains forbidden controlled field: winner_library",
+            ),
+            (
+                {
+                    **patch,
+                    "supplied_results": {
+                        **supplied_results,
+                        "commentary": "directional read",
+                    },
+                },
+                "supplied_results unsupported field: commentary",
+            ),
+            (
+                {
+                    **patch,
+                    "supplied_results": {
+                        key: value
+                        for key, value in supplied_results.items()
+                        if key != "purchase_value_aud"
+                    },
+                },
+                "supplied_results missing required field: purchase_value_aud",
+            ),
+            (
+                {
+                    **patch,
+                    "supplied_results": {
+                        **supplied_results,
+                        "window_full_days": False,
+                    },
+                },
+                "supplied_results window_full_days must be a non-negative integer",
+            ),
+            (
+                {
+                    **patch,
+                    "supplied_results": {
+                        **supplied_results,
+                        "target_cac_aud": "60",
+                    },
+                },
+                "supplied_results target_cac_aud must be a non-negative number",
+            ),
         )
         for mutation, expected in mutations:
             with self.subTest(expected=expected):
@@ -645,6 +711,61 @@ class PackageIntegrityTests(unittest.TestCase):
                     json.dumps(mutation), existing_tests
                 )
                 self.assertIn(expected, errors)
+
+    def test_frozen_diagnosis_patch_results_reconcile_to_csv_and_intake(self):
+        patch = json.loads(
+            (ROOT / "examples" / "ad-diagnosis-test-register-patch.yml").read_text()
+        )
+        intake = json.loads(
+            (ROOT / "examples" / "ad-diagnosis-intake.json").read_text()
+        )
+        with (ROOT / "examples" / "ad-diagnosis-performance.csv").open(
+            newline=""
+        ) as source:
+            rows = list(csv.DictReader(source))
+
+        date_range = intake["performance"]["date_range"]
+        window_full_days = (
+            datetime.date.fromisoformat(date_range["end"])
+            - datetime.date.fromisoformat(date_range["start"])
+        ).days + 1
+        target_cac_values = {int(row["Target CAC (AUD)"]) for row in rows}
+        minimum_spend_values = {
+            int(row["Minimum batch spend (AUD)"]) for row in rows
+        }
+        minimum_purchase_values = {
+            int(row["Minimum batch purchases"]) for row in rows
+        }
+        self.assertEqual(1, len(target_cac_values))
+        self.assertEqual(1, len(minimum_spend_values))
+        self.assertEqual(1, len(minimum_purchase_values))
+
+        expected_supplied_results = {
+            "window_full_days": window_full_days,
+            "spend_aud": sum(int(row["Amount spent (AUD)"]) for row in rows),
+            "purchases": sum(int(row["Purchases"]) for row in rows),
+            "purchase_value_aud": sum(
+                int(row["Purchase value (AUD)"]) for row in rows
+            ),
+            "target_cac_aud": target_cac_values.pop(),
+            "minimum_batch_spend_aud": minimum_spend_values.pop(),
+            "minimum_batch_purchases": minimum_purchase_values.pop(),
+        }
+        self.assertEqual(expected_supplied_results, patch["supplied_results"])
+
+    def test_diagnosis_persistence_distinguishes_attached_winner_negation(self):
+        validator = load_validator()
+
+        self.assertFalse(
+            validator.contradicts_diagnosis_persistence(
+                "Winner graduation does not proceed without a real Post ID and confirmation."
+            )
+        )
+        self.assertTrue(
+            validator.contradicts_diagnosis_persistence(
+                "Winner graduation may proceed without a real Post ID or confirmation."
+            )
+        )
 
     def test_diagnosis_raw_fixtures_stay_out_of_templates_and_generated_bundle(self):
         fixtures = (

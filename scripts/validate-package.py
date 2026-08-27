@@ -126,6 +126,47 @@ DIAGNOSIS_PATCH_FIELDS = frozenset(
         "next_action",
     }
 )
+DIAGNOSIS_SUPPLIED_RESULT_FIELDS = frozenset(
+    {
+        "window_full_days",
+        "spend_aud",
+        "purchases",
+        "purchase_value_aud",
+        "target_cac_aud",
+        "minimum_batch_spend_aud",
+        "minimum_batch_purchases",
+    }
+)
+DIAGNOSIS_SUPPLIED_INTEGER_FIELDS = frozenset(
+    {"window_full_days", "purchases", "minimum_batch_purchases"}
+)
+DIAGNOSIS_CONTROLLED_RESULT_FIELDS = frozenset(
+    {
+        "approved_revision",
+        "approved_revisions",
+        "approved_rule",
+        "approved_rules",
+        "confirmation",
+        "confirmed",
+        "graduation",
+        "graduation_confirmed",
+        "learning",
+        "learning_event",
+        "learning_events",
+        "new_test_id",
+        "next_test_number",
+        "real_post_id",
+        "test_id",
+        "winner",
+        "winner_library",
+        "winners",
+    }
+)
+WINNER_GRADUATION_ATTACHED_NEGATION = re.compile(
+    r"\b(?:(?:does|do|did|can|could|may|might|must|should|will|would)\s+not|"
+    r"cannot|can't|never)\s+(?:proceed|occur|persist|graduate)\w*\b",
+    re.IGNORECASE,
+)
 DIAGNOSIS_PERSISTENCE_CONTRADICTIONS = (
     re.compile(
         r"\b(?:diagnosis|recommended?\s+ITR|ITR\s+recommendation)\b[^.!?\n]*"
@@ -608,9 +649,30 @@ def contradicts_diagnosis_persistence(text: str) -> bool:
     for clause in policy_clauses(text):
         for index, pattern in enumerate(DIAGNOSIS_PERSISTENCE_CONTRADICTIONS):
             match = pattern.search(clause)
-            if match and (index == 2 or not is_negated_policy_clause(clause)):
+            if not match:
+                continue
+            if index == 2:
+                if not WINNER_GRADUATION_ATTACHED_NEGATION.search(clause):
+                    return True
+                continue
+            if not is_negated_policy_clause(clause):
                 return True
     return False
+
+
+def controlled_result_fields(value: object) -> set[str]:
+    found: set[str] = set()
+    if isinstance(value, dict):
+        for key, nested_value in value.items():
+            if isinstance(key, str):
+                normalized_key = re.sub(r"[\s-]+", "_", key.strip().lower())
+                if normalized_key in DIAGNOSIS_CONTROLLED_RESULT_FIELDS:
+                    found.add(key)
+            found.update(controlled_result_fields(nested_value))
+    elif isinstance(value, list):
+        for nested_value in value:
+            found.update(controlled_result_fields(nested_value))
+    return found
 
 
 def diagnosis_patch_errors(
@@ -642,6 +704,28 @@ def diagnosis_patch_errors(
     supplied_results = patch.get("supplied_results")
     if not isinstance(supplied_results, dict) or not supplied_results:
         errors.append("supplied_results must contain supplied result fields")
+    else:
+        for field in sorted(controlled_result_fields(supplied_results)):
+            errors.append(
+                f"supplied_results contains forbidden controlled field: {field}"
+            )
+        for field in sorted(set(supplied_results) - DIAGNOSIS_SUPPLIED_RESULT_FIELDS):
+            errors.append(f"supplied_results unsupported field: {field}")
+        for field in sorted(DIAGNOSIS_SUPPLIED_RESULT_FIELDS - set(supplied_results)):
+            errors.append(f"supplied_results missing required field: {field}")
+        for field in sorted(DIAGNOSIS_SUPPLIED_RESULT_FIELDS & set(supplied_results)):
+            value = supplied_results[field]
+            if field in DIAGNOSIS_SUPPLIED_INTEGER_FIELDS:
+                if not isinstance(value, int) or isinstance(value, bool) or value < 0:
+                    errors.append(
+                        f"supplied_results {field} must be a non-negative integer"
+                    )
+            elif (
+                not isinstance(value, (int, float))
+                or isinstance(value, bool)
+                or value < 0
+            ):
+                errors.append(f"supplied_results {field} must be a non-negative number")
     confidence = patch.get("confidence")
     if not isinstance(confidence, str) or not confidence:
         errors.append("confidence must be non-empty text")
