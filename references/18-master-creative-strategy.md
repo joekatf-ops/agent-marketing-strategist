@@ -1,12 +1,12 @@
 # Master Creative Strategy: reviewed universal-method snapshot
 
-status: locked  
-snapshot: human-reviewed-portable  
-source: Master Creative Strategy Notion hub  
-source_page_id: `3c02deb4f6ba80b3be07c725f8b6807b`  
-source_last_edited: `2026-08-27T00:48:00Z`  
-review_date: `2026-08-27`  
-target_release: `0.3.0`
+- status: locked
+- snapshot: human-reviewed-portable
+- source: Master Creative Strategy Notion hub
+- source page ID: `3c02deb4f6ba80b3be07c725f8b6807b`
+- source last edited: `2026-08-27T00:48:00Z`
+- review date: `2026-08-27`
+- target release: `0.3.0`
 
 ## Authority and precedence
 

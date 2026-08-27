@@ -49,7 +49,8 @@ appear in a new concept equation, concept card, name or register field.
 
 Every source batch receives a new sequential `CONTST###`. An ITR requires an observed signal and a
 cited prior test; it is not a pre-signal wording tweak. Source allocation follows evidence maturity.
-There is no fixed NNT, INSPO or ITR percentage as a universal default.
+There is no fixed NNT, INSPO or ITR percentage as a universal default. An ITR may use a narrower
+execution set when the cited evidence makes that follow-up more informative.
 
 ## The initial four-ad test
 
@@ -115,7 +116,7 @@ Every production artefact carries:
 | 3. Customer intelligence | Who experiences which primary Problems, in what language? | Prioritised Who definitions, Problems and pairing evidence |
 | 4. Market intelligence | What arguments and patterns are already visible? | Sophistication, competitor map and opportunity hypotheses |
 | 5. Coordinate hypothesis | Which Who x Primary Problem pairing should be tested? | Coordinate, evidence, expected response and open question |
-| 6. Test batch | Which source and four executions will produce a useful read? | New CONTST batch with UWA, PRA, SLA and PDA |
+| 6. Test batch | Which source and what execution set will produce a useful read? | New CONTST batch; initial NNT and INSPO use UWA, PRA, SLA and PDA, while ITR may be narrower |
 | 7. Production and destination | Can each execution be made and continued after the click? | Hooks, ads, copy, proof, assets and destination handoff |
 | 8. Observation and decision | What did the supplied evidence show? | Keep, ITR, stop or scale with explanation confidence |
 | 9. Retained learning | What should change next time? | Test record plus separately governed approved revision learning |
