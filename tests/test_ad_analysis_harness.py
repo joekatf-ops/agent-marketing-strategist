@@ -273,6 +273,47 @@ class AdAnalysisHarnessTests(unittest.TestCase):
             (real_brand / "outputs/ad-analysis/ADR-20260827-001").exists()
         )
 
+    def test_initialise_run_rejects_a_real_directory_brand_root_swap(self):
+        harness = load_harness()
+        original_brand = self.temp_root / "original-acme-sleep"
+        replacement_brand = self.temp_root / "replacement-brand"
+        load_initializer().initialise(
+            replacement_brand, "Replacement Brand", "replacement-brand"
+        )
+        original_validate_method_version = harness._validate_method_version
+        swapped = False
+
+        def swap_brand_root(method_version):
+            nonlocal swapped
+            if not swapped:
+                swapped = True
+                self.brand.rename(original_brand)
+                replacement_brand.rename(self.brand)
+            return original_validate_method_version(method_version)
+
+        with mock.patch.object(
+            harness,
+            "_validate_method_version",
+            side_effect=swap_brand_root,
+        ):
+            with self.assertRaisesRegex(
+                OSError, "brand directory changed during run initialisation"
+            ):
+                harness.initialise_run(
+                    brand_folder=self.brand,
+                    mode="creative-audit",
+                    product_id="sleep-mask",
+                    market="AU",
+                    today=dt.date(2026, 8, 27),
+                )
+
+        self.assertFalse(
+            (self.brand / "outputs/ad-analysis/ADR-20260827-001").exists()
+        )
+        self.assertFalse(
+            (original_brand / "outputs/ad-analysis/ADR-20260827-001").exists()
+        )
+
     def test_initialise_run_never_uses_a_swapped_analysis_directory(self):
         harness = load_harness()
         analysis_root = self.brand / "outputs/ad-analysis"
@@ -904,6 +945,59 @@ class AdAnalysisHarnessTests(unittest.TestCase):
         self.assertNotIn(credential, audit)
         self.assertIn('"[REDACTED]"', audit)
 
+    def test_validation_result_redacts_credentials_in_unknown_keys_and_references(self):
+        harness = load_harness()
+        run = self.create_run(harness)
+        intake = self.complete_creative_intake(harness, run)
+        unknown_key_credential = "github_pat_" + "K" * 60
+        reference_credential = "ghp_" + "R" * 36
+        intake[unknown_key_credential] = "unexpected"
+        intake["ads"][0]["asset_source_ids"] = [reference_credential]
+        self.write_intake(run, intake)
+
+        result = harness.validate_run(self.brand, run)
+        outward_result = json.dumps(result._asdict(), ensure_ascii=False)
+        audit = harness.render_input_audit(intake, result)
+
+        self.assertEqual("blocked", result.status)
+        for credential in (unknown_key_credential, reference_credential):
+            with self.subTest(credential=credential):
+                self.assertNotIn(credential, outward_result)
+                self.assertNotIn(credential, audit)
+        self.assertIn("[REDACTED]", outward_result)
+
+    def test_validator_cli_redacts_credentials_in_unknown_keys_and_references(self):
+        harness = load_harness()
+        run = self.create_run(harness)
+        intake = self.complete_creative_intake(harness, run)
+        unknown_key_credential = "github_pat_" + "K" * 60
+        reference_credential = "ghp_" + "R" * 36
+        intake[unknown_key_credential] = "unexpected"
+        intake["ads"][0]["asset_source_ids"] = [reference_credential]
+        self.write_intake(run, intake)
+
+        completed = subprocess.run(
+            [
+                "python3",
+                str(VALIDATOR),
+                str(self.brand),
+                str(run),
+                "--write-audit",
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        audit = (run / "input-audit.md").read_text()
+
+        self.assertEqual(1, completed.returncode)
+        outward_diagnostics = completed.stdout + completed.stderr + audit
+        for credential in (unknown_key_credential, reference_credential):
+            with self.subTest(credential=credential):
+                self.assertNotIn(credential, outward_diagnostics)
+        self.assertIn("[REDACTED]", completed.stdout)
+
     def test_rejects_unknown_keys_in_optional_creative_mode_performance_metadata(self):
         harness = load_harness()
         run = self.create_modern_run(harness)
@@ -1364,6 +1458,35 @@ class AdAnalysisHarnessTests(unittest.TestCase):
         self.assertNotIn("Traceback", completed.stderr)
         self.assertIn(b"ad-\\ud800.mp4", audit.read_bytes())
         self.assertGreater(audit.stat().st_size, 0)
+
+    def test_validator_cli_safely_prints_surrogate_errors_and_writes_the_audit(self):
+        harness = load_harness()
+        run = self.create_run(harness)
+        intake = self.complete_creative_intake(harness, run)
+        intake["unexpected-\ud800"] = True
+        self.write_intake(run, intake)
+
+        completed = subprocess.run(
+            [
+                "python3",
+                str(VALIDATOR),
+                str(self.brand),
+                str(run),
+                "--write-audit",
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            errors="backslashreplace",
+            check=False,
+        )
+        audit = run / "input-audit.md"
+
+        self.assertEqual(1, completed.returncode)
+        self.assertNotIn("Traceback", completed.stderr)
+        self.assertIn("unexpected-\\ud800 is not allowed", completed.stdout)
+        self.assertTrue(audit.is_file())
+        self.assertIn(b"unexpected-\\ud800 is not allowed", audit.read_bytes())
 
     def test_validator_cli_refuses_a_symlinked_audit_target(self):
         harness = load_harness()

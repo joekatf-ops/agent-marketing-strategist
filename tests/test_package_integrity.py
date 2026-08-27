@@ -415,6 +415,7 @@ class PackageIntegrityTests(unittest.TestCase):
             "Adequate performance data may route to Creative Audit.",
             "Combined adequate creative and performance produces two reports: Ad Diagnosis and Creative Audit.",
             "Combined adequate creative and performance uses both Creative Audit and Ad Diagnosis.",
+            "Combined adequate creative and performance automatically uses both Creative Audit and Ad Diagnosis.",
             "Combined adequate creative and performance creates two reports: Creative Audit and Ad Diagnosis.",
             "Incomplete performance may produce conclusions before the input audit.",
             "Adequate performance data must not use preliminary notes before it routes to Creative Audit.",
@@ -448,6 +449,7 @@ class PackageIntegrityTests(unittest.TestCase):
             "Adequate performance data must not route to Creative Audit.",
             "Combined adequate creative and performance never produces two reports: Ad Diagnosis and Creative Audit.",
             "Combined adequate creative and performance never uses both Creative Audit and Ad Diagnosis.",
+            "Combined adequate creative and performance never automatically uses both Creative Audit and Ad Diagnosis.",
             "Combined adequate creative and performance must not create two reports: Creative Audit and Ad Diagnosis.",
             "Incomplete performance must not produce conclusions before the input audit.",
         )

@@ -74,7 +74,8 @@ CREATIVE_AUDIT_PERFORMANCE_PREDICTION = re.compile(
 )
 PREDICATE_PREFIX_NEGATION = re.compile(
     r"\b(?:cannot|can't|never|(?:do|does|did|is|are|was|were|will|would|"
-    r"should|could|may|might|must)\s+not)\s*$",
+    r"should|could|may|might|must)\s+not)"
+    r"(?:\s+(?:automatically|directly|explicitly|intentionally|silently))*\s*$",
     re.IGNORECASE,
 )
 PREDICATE_INTERNAL_NEGATION = re.compile(

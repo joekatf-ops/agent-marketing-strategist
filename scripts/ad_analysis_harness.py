@@ -189,15 +189,15 @@ def _open_directory_no_follow(path: pathlib.Path) -> int:
         raise
 
 
-def _open_regular_relative_no_follow(
-    directory: pathlib.Path, relative: pathlib.Path
+def _open_regular_relative_from_descriptor_no_follow(
+    directory_descriptor: int, relative: pathlib.Path
 ) -> int:
     relative = pathlib.Path(relative)
     if relative.is_absolute() or not relative.parts or ".." in relative.parts:
         raise OSError("file path must be a non-empty safe relative path")
     no_follow = _no_follow_flag()
     directory_flags = os.O_RDONLY | no_follow | os.O_DIRECTORY
-    descriptor = _open_directory_no_follow(directory)
+    descriptor = os.dup(directory_descriptor)
     try:
         for component in relative.parts[:-1]:
             metadata = os.stat(
@@ -229,6 +229,28 @@ def _open_regular_relative_no_follow(
         os.close(descriptor)
 
 
+def _open_regular_relative_no_follow(
+    directory: pathlib.Path, relative: pathlib.Path
+) -> int:
+    directory_descriptor = _open_directory_no_follow(directory)
+    try:
+        return _open_regular_relative_from_descriptor_no_follow(
+            directory_descriptor, relative
+        )
+    finally:
+        os.close(directory_descriptor)
+
+
+def _read_relative_text_from_descriptor_no_follow(
+    directory_descriptor: int, relative: pathlib.Path
+) -> str:
+    descriptor = _open_regular_relative_from_descriptor_no_follow(
+        directory_descriptor, relative
+    )
+    with os.fdopen(descriptor, "r", encoding="utf-8") as file:
+        return file.read()
+
+
 def _read_relative_text_no_follow(
     directory: pathlib.Path, relative: pathlib.Path
 ) -> str:
@@ -237,8 +259,8 @@ def _read_relative_text_no_follow(
         return file.read()
 
 
-def _open_or_create_directory_relative_no_follow(
-    directory: pathlib.Path, relative: pathlib.Path
+def _open_or_create_directory_relative_from_descriptor_no_follow(
+    directory_descriptor: int, relative: pathlib.Path
 ) -> int:
     relative = pathlib.Path(relative)
     if relative.is_absolute() or not relative.parts or ".." in relative.parts:
@@ -247,7 +269,7 @@ def _open_or_create_directory_relative_no_follow(
         raise OSError("descriptor-anchored directory creation is unavailable")
     no_follow = _no_follow_flag()
     flags = os.O_RDONLY | no_follow | os.O_DIRECTORY
-    descriptor = _open_directory_no_follow(directory)
+    descriptor = os.dup(directory_descriptor)
     try:
         for component in relative.parts:
             try:
@@ -280,6 +302,18 @@ def _open_or_create_directory_relative_no_follow(
     except BaseException:
         os.close(descriptor)
         raise
+
+
+def _open_or_create_directory_relative_no_follow(
+    directory: pathlib.Path, relative: pathlib.Path
+) -> int:
+    directory_descriptor = _open_directory_no_follow(directory)
+    try:
+        return _open_or_create_directory_relative_from_descriptor_no_follow(
+            directory_descriptor, relative
+        )
+    finally:
+        os.close(directory_descriptor)
 
 
 def _directory_descriptor_matches_path(
@@ -342,28 +376,10 @@ def _require_no_symlink_components(path: pathlib.Path) -> pathlib.Path:
     return path
 
 
-def load_brand_identity(brand_folder: pathlib.Path) -> dict[str, str]:
-    """Return brand_slug and method_version from a validated local brand.yml."""
-    brand_folder = _require_no_symlink_components(brand_folder)
-    if not brand_folder.is_dir():
-        raise FileNotFoundError(f"brand folder not found: {brand_folder}")
-
-    manifest = brand_folder / "brand.yml"
-    _require_no_symlink_components(manifest)
-    if not manifest.is_file():
-        raise FileNotFoundError(f"brand manifest not found: {manifest}")
-
+def _parse_brand_identity(manifest_text: str) -> dict[str, str]:
     method_versions: list[str] = []
     slugs: list[str] = []
     in_brand = False
-    try:
-        manifest_text = _read_relative_text_no_follow(
-            brand_folder, pathlib.Path("brand.yml")
-        )
-    except FileNotFoundError as error:
-        raise FileNotFoundError(f"brand manifest not found: {manifest}") from error
-    except _SymlinkAccessError as error:
-        raise ValueError(f"path must not contain a symlink: {manifest}") from error
     for line in manifest_text.splitlines():
         if not line or line.lstrip().startswith("#"):
             continue
@@ -390,6 +406,40 @@ def load_brand_identity(brand_folder: pathlib.Path) -> dict[str, str]:
         raise ValueError("brand slug must be lowercase hyphenated text")
     _validate_method_version(method_versions[0])
     return {"brand_slug": slugs[0], "method_version": method_versions[0]}
+
+
+def _load_brand_identity_from_descriptor(
+    brand_descriptor: int, manifest: pathlib.Path
+) -> dict[str, str]:
+    try:
+        manifest_text = _read_relative_text_from_descriptor_no_follow(
+            brand_descriptor, pathlib.Path("brand.yml")
+        )
+    except FileNotFoundError as error:
+        raise FileNotFoundError(f"brand manifest not found: {manifest}") from error
+    except _SymlinkAccessError as error:
+        raise ValueError(f"path must not contain a symlink: {manifest}") from error
+    return _parse_brand_identity(manifest_text)
+
+
+def load_brand_identity(brand_folder: pathlib.Path) -> dict[str, str]:
+    """Return brand_slug and method_version from a validated local brand.yml."""
+    brand_folder = _absolute_lexical(_require_no_symlink_components(brand_folder))
+    if not brand_folder.is_dir():
+        raise FileNotFoundError(f"brand folder not found: {brand_folder}")
+
+    manifest = brand_folder / "brand.yml"
+    _require_no_symlink_components(manifest)
+    brand_descriptor = _open_directory_no_follow(brand_folder)
+    try:
+        if not _directory_descriptor_matches_path(brand_descriptor, brand_folder):
+            raise OSError("brand directory changed while reading its manifest")
+        identity = _load_brand_identity_from_descriptor(brand_descriptor, manifest)
+        if not _directory_descriptor_matches_path(brand_descriptor, brand_folder):
+            raise OSError("brand directory changed while reading its manifest")
+        return identity
+    finally:
+        os.close(brand_descriptor)
 
 
 def _require_text(value: object, field: str) -> str:
@@ -476,83 +526,106 @@ def initialise_run(
     today: dt.date | None = None,
 ) -> pathlib.Path:
     """Create a new ad-analysis run without copying inputs or changing strategy records."""
-    brand_folder = pathlib.Path(brand_folder)
-    identity = load_brand_identity(brand_folder)
-    if mode not in MODES:
-        raise ValueError(f"mode must be one of: {', '.join(sorted(MODES))}")
-    product_id = _require_text(product_id, "product_id")
-    market = _require_text(market, "market")
-    if today is None:
-        today = dt.date.today()
-    if isinstance(today, dt.datetime) or not isinstance(today, dt.date):
-        raise ValueError("today must be a date")
-
-    analysis_root = _analysis_root(brand_folder)
-    analysis_descriptor = _open_or_create_directory_relative_no_follow(
-        brand_folder, pathlib.Path("outputs/ad-analysis")
+    brand_folder = _absolute_lexical(
+        _require_no_symlink_components(pathlib.Path(brand_folder))
     )
+    if not brand_folder.is_dir():
+        raise FileNotFoundError(f"brand folder not found: {brand_folder}")
+    manifest = brand_folder / "brand.yml"
+    brand_descriptor = _open_directory_no_follow(brand_folder)
     try:
-        if run_id is None:
-            run_id = _next_run_id_from_descriptor(analysis_descriptor, today)
-        else:
-            run_id = _validate_run_id(run_id)
-        run_folder = analysis_root / run_id
+        identity = _load_brand_identity_from_descriptor(brand_descriptor, manifest)
+        if mode not in MODES:
+            raise ValueError(f"mode must be one of: {', '.join(sorted(MODES))}")
+        product_id = _require_text(product_id, "product_id")
+        market = _require_text(market, "market")
+        if today is None:
+            today = dt.date.today()
+        if isinstance(today, dt.datetime) or not isinstance(today, dt.date):
+            raise ValueError("today must be a date")
+        if not _directory_descriptor_matches_path(brand_descriptor, brand_folder):
+            raise OSError("brand directory changed during run initialisation")
 
-        requested_at = today.isoformat()
-        intake = {
-            "schema_version": 1,
-            "run_id": run_id,
-            "mode": mode,
-            "brand_slug": identity["brand_slug"],
-            "method_version": identity["method_version"],
-            "market": market,
-            "product_id": product_id,
-            "account_timezone": "",
-            "requester": "",
-            "requested_at": requested_at,
-            "ads": [],
-            "sources": [],
-            "performance": None,
-            "known_limitations": _migration_limitations(identity["method_version"]),
-        }
-        intake_content = (
-            json.dumps(intake, indent=2, ensure_ascii=False) + "\n"
-        ).encode("utf-8")
-        readme_content = _render_run_readme(brand_folder, run_folder).encode("utf-8")
-        if not _directory_descriptor_matches_path(
-            analysis_descriptor, analysis_root
-        ):
-            raise OSError("analysis directory changed during run initialisation")
-
-        try:
-            os.mkdir(run_id, 0o755, dir_fd=analysis_descriptor)
-        except FileExistsError as error:
-            raise FileExistsError(
-                f"analysis run already exists: {run_folder}"
-            ) from error
-        run_descriptor = os.open(
-            run_id,
-            os.O_RDONLY | os.O_DIRECTORY | _no_follow_flag(),
-            dir_fd=analysis_descriptor,
+        analysis_root = _analysis_root(brand_folder)
+        analysis_descriptor = (
+            _open_or_create_directory_relative_from_descriptor_no_follow(
+                brand_descriptor, pathlib.Path("outputs/ad-analysis")
+            )
         )
         try:
-            if not stat.S_ISDIR(os.fstat(run_descriptor).st_mode):
-                raise OSError(f"analysis run is not a directory: {run_folder}")
-            _write_new_regular_no_follow(
-                run_descriptor, "intake.json", intake_content
+            if run_id is None:
+                run_id = _next_run_id_from_descriptor(analysis_descriptor, today)
+            else:
+                run_id = _validate_run_id(run_id)
+            run_folder = analysis_root / run_id
+
+            requested_at = today.isoformat()
+            intake = {
+                "schema_version": 1,
+                "run_id": run_id,
+                "mode": mode,
+                "brand_slug": identity["brand_slug"],
+                "method_version": identity["method_version"],
+                "market": market,
+                "product_id": product_id,
+                "account_timezone": "",
+                "requester": "",
+                "requested_at": requested_at,
+                "ads": [],
+                "sources": [],
+                "performance": None,
+                "known_limitations": _migration_limitations(identity["method_version"]),
+            }
+            intake_content = (
+                json.dumps(intake, indent=2, ensure_ascii=False) + "\n"
+            ).encode("utf-8")
+            readme_content = _render_run_readme(brand_folder, run_folder).encode(
+                "utf-8"
             )
-            _write_new_regular_no_follow(
-                run_descriptor, "README.md", readme_content
+            if not _directory_descriptor_matches_path(
+                brand_descriptor, brand_folder
+            ):
+                raise OSError("brand directory changed during run initialisation")
+            if not _directory_descriptor_matches_path(
+                analysis_descriptor, analysis_root
+            ):
+                raise OSError("analysis directory changed during run initialisation")
+
+            try:
+                os.mkdir(run_id, 0o755, dir_fd=analysis_descriptor)
+            except FileExistsError as error:
+                raise FileExistsError(
+                    f"analysis run already exists: {run_folder}"
+                ) from error
+            run_descriptor = os.open(
+                run_id,
+                os.O_RDONLY | os.O_DIRECTORY | _no_follow_flag(),
+                dir_fd=analysis_descriptor,
             )
+            try:
+                if not stat.S_ISDIR(os.fstat(run_descriptor).st_mode):
+                    raise OSError(f"analysis run is not a directory: {run_folder}")
+                _write_new_regular_no_follow(
+                    run_descriptor, "intake.json", intake_content
+                )
+                _write_new_regular_no_follow(
+                    run_descriptor, "README.md", readme_content
+                )
+            finally:
+                os.close(run_descriptor)
+            if not _directory_descriptor_matches_path(
+                brand_descriptor, brand_folder
+            ):
+                raise OSError("brand directory changed during run initialisation")
+            if not _directory_descriptor_matches_path(
+                analysis_descriptor, analysis_root
+            ):
+                raise OSError("analysis directory changed during run initialisation")
+            return run_folder
         finally:
-            os.close(run_descriptor)
-        if not _directory_descriptor_matches_path(
-            analysis_descriptor, analysis_root
-        ):
-            raise OSError("analysis directory changed during run initialisation")
-        return run_folder
+            os.close(analysis_descriptor)
     finally:
-        os.close(analysis_descriptor)
+        os.close(brand_descriptor)
 
 
 def load_intake(run_folder: pathlib.Path) -> dict[str, object]:
@@ -634,6 +707,22 @@ def _redact_credentials(value: str) -> str:
     redacted = _CREDENTIAL_FINGERPRINT.sub("[REDACTED]", value)
     redacted = _AUTHORIZATION_VALUE.sub("[REDACTED]", redacted)
     return _PRIVATE_KEY_HEADER.sub("[REDACTED]", redacted)
+
+
+def _validation_result(
+    status: str,
+    errors: tuple[str, ...] | list[str],
+    limitations: tuple[str, ...] | list[str] = (),
+    inventory: tuple[tuple[str, str, str, str, str], ...] = (),
+) -> ValidationResult:
+    safe_errors = tuple(sorted({_redact_credentials(error) for error in errors}))
+    safe_limitations = tuple(
+        sorted({_redact_credentials(limitation) for limitation in limitations})
+    )
+    safe_inventory = tuple(
+        tuple(_redact_credentials(field) for field in item) for item in inventory
+    )
+    return ValidationResult(status, safe_errors, safe_limitations, safe_inventory)
 
 
 def _is_date(value: object) -> bool:
@@ -1052,26 +1141,26 @@ def validate_run(
     try:
         _require_no_symlink_components(brand_folder)
     except ValueError as error:
-        return ValidationResult("blocked", (str(error),), (), ())
+        return _validation_result("blocked", (str(error),))
     if not _inside(run_folder, brand_folder):
-        return ValidationResult(
-            "blocked", ("run folder must be inside the brand folder",), (), ()
+        return _validation_result(
+            "blocked", ("run folder must be inside the brand folder",)
         )
     try:
         _require_no_symlink_components(run_folder)
     except ValueError:
-        return ValidationResult("blocked", ("run folder must not be a symlink",), (), ())
+        return _validation_result("blocked", ("run folder must not be a symlink",))
     if not run_folder.is_dir():
-        return ValidationResult("blocked", ("run folder not found",), (), ())
+        return _validation_result("blocked", ("run folder not found",))
 
     try:
         identity = load_brand_identity(brand_folder)
     except (FileNotFoundError, OSError, ValueError) as error:
-        return ValidationResult("blocked", (str(error),), (), ())
+        return _validation_result("blocked", (str(error),))
     try:
         intake = load_intake(run_folder)
     except (FileNotFoundError, OSError, ValueError, json.JSONDecodeError) as error:
-        return ValidationResult("blocked", (str(error),), (), ())
+        return _validation_result("blocked", (str(error),))
 
     errors.extend(_credential_errors(intake))
     errors.extend(_unknown_key_errors(intake, _TOP_LEVEL_KEYS, ""))
@@ -1150,10 +1239,8 @@ def validate_run(
                 optional_performance, source_ids, ad_ids, errors
             )
 
-    sorted_errors = tuple(sorted(set(errors)))
-    sorted_limitations = tuple(sorted(set(limitations)))
-    status = "blocked" if sorted_errors else "limited" if sorted_limitations else "ready"
-    return ValidationResult(status, sorted_errors, sorted_limitations, inventory)
+    status = "blocked" if errors else "limited" if limitations else "ready"
+    return _validation_result(status, errors, limitations, inventory)
 
 
 def _audit_value(value: object) -> str:

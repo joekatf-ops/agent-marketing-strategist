@@ -8,16 +8,26 @@ import json
 import os
 import pathlib
 import stat
+import sys
 
 from ad_analysis_harness import (
     _absolute_lexical,
     _no_follow_flag,
     _open_directory_no_follow,
+    _redact_credentials,
     _validate_run_id,
     load_intake,
     render_input_audit,
     validate_run,
 )
+
+
+def _diagnostic(message: str) -> None:
+    content = (_redact_credentials(message) + "\n").encode(
+        "utf-8", errors="backslashreplace"
+    )
+    sys.stdout.buffer.write(content)
+    sys.stdout.buffer.flush()
 
 
 def _arguments() -> argparse.Namespace:
@@ -79,11 +89,11 @@ def _is_canonical_run_folder(
 def main() -> int:
     args = _arguments()
     result = validate_run(args.brand, args.run)
-    print(f"Input readiness: {result.status}")
+    _diagnostic(f"Input readiness: {result.status}")
     for error in result.errors:
-        print(f"Error: {error}")
+        _diagnostic(f"Error: {error}")
     for limitation in result.limitations:
-        print(f"Limitation: {limitation}")
+        _diagnostic(f"Limitation: {limitation}")
 
     audit_write_failed = False
     if args.write_audit:
@@ -100,12 +110,16 @@ def main() -> int:
                 _write_input_audit(audit_path, render_input_audit(intake, result))
             except OSError:
                 audit_write_failed = True
-                print("Error: input audit was not written because its target is unsafe")
+                _diagnostic(
+                    "Error: input audit was not written because its target is unsafe"
+                )
             else:
-                print(f"Input audit: {audit_path}")
+                _diagnostic(f"Input audit: {audit_path}")
         else:
             audit_write_failed = True
-            print("Error: input audit was not written because the run folder is unsafe")
+            _diagnostic(
+                "Error: input audit was not written because the run folder is unsafe"
+            )
 
     return 1 if result.status == "blocked" or audit_write_failed else 0
 
