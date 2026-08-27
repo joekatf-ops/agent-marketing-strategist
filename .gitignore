@@ -10,3 +10,4 @@ dist/
 .fuse_hidden*
 _to_delete/
 _source/
+.worktrees/
