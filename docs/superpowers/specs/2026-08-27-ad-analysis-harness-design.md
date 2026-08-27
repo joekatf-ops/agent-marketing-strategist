@@ -1,7 +1,9 @@
 # Ad Analysis Harness v0.4 Design
 
-status: awaiting written review
+status: approved
 requested_by: Joe
+approved_by: Joe
+approved_on: 2026-08-27
 approved_direction: portable brand-folder harness from the preceding conversation
 target_release: 0.4.0
 
