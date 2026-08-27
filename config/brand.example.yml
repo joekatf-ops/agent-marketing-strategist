@@ -1,14 +1,19 @@
-# Legacy v0.1 single-file adapter
+# Legacy single-file adapter for a portable v0.3 brand folder
 #
 # New work should use a portable brand folder created with:
 # python3 scripts/init-brand-folder.py /path/to/brands/example-brand --name "Example Brand" --slug example-brand
 #
 # The folder's brand.yml is the canonical manifest. Context, products, research, website snapshots,
-# outputs and retained learning live in their versioned subfolders. This file remains only to help
-# older installations identify the brand folder while they migrate.
+# strategy records, outputs and retained learning live in their controlled subfolders. This adapter
+# only helps an older installation resolve that folder while it migrates. It is never brand truth.
+#
+# Do not point this adapter at a v0.2 folder and silently treat it as migrated. Preserve the folder,
+# make a backup or copy, and add the v0.3 fields and registers through an explicit reviewed migration.
 
 schema_version: 1
 legacy: true
+target_brand_folder_schema_version: 3
+target_method_version: "0.3.0"
 
 brand:
   name: "Example Brand"
@@ -24,8 +29,8 @@ legacy_context_pack: "/path/to/brand-context-pack.md"
 # These are starting seeds, not validated customer conclusions.
 founder_hypotheses:
   category: ""
-  likely_customer_situations: []
-  likely_outcomes: []
+  possible_who_definitions: []
+  possible_primary_problems: []
   competitor_urls: []
 
 # Never put API keys or access tokens here. Configure connectors in the runtime's secret storage.
@@ -34,5 +39,6 @@ connector_intent:
   trendtrack: true
   foreplay: true
 
-# Migration is complete when the canonical folder contains brand.yml, context, products, research,
-# sources, strategy, outputs, learning and connector capability records.
+# Migration is complete only after a human has reviewed the canonical folder and its brand.yml
+# declares schema_version 3 and method_version "0.3.0". The folder must preserve existing evidence,
+# outputs and learning while adding controlled CONTST naming plus coordinate, test and winner records.
