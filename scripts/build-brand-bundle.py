@@ -6,8 +6,11 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import pathlib
 import re
+import secrets
+import stat
 from typing import NamedTuple
 
 
@@ -124,32 +127,220 @@ class YamlEntry(NamedTuple):
     key: str | None
 
 
-def selected_files(folder: pathlib.Path) -> list[pathlib.Path]:
-    selected = []
-    for path in folder.rglob("*"):
-        if path.is_symlink():
-            relative = path.relative_to(folder).as_posix()
-            raise ValueError(f"symlink is not allowed in brand bundle sources: {relative}")
-        if not path.is_file():
-            continue
+class SourceSnapshot(NamedTuple):
+    relative: str
+    suffix: str
+    content: bytes
+
+
+DIRECTORY_OPEN_FLAGS = os.O_RDONLY | getattr(os, "O_DIRECTORY", 0)
+NOFOLLOW_OPEN_FLAG = getattr(os, "O_NOFOLLOW", 0)
+NONBLOCK_OPEN_FLAG = getattr(os, "O_NONBLOCK", 0)
+
+
+def _absolute_path(path: pathlib.Path) -> pathlib.Path:
+    return pathlib.Path(os.path.abspath(os.fspath(path)))
+
+
+def _same_directory(first: os.stat_result, second: os.stat_result) -> bool:
+    return (
+        stat.S_ISDIR(first.st_mode)
+        and stat.S_ISDIR(second.st_mode)
+        and first.st_dev == second.st_dev
+        and first.st_ino == second.st_ino
+    )
+
+
+def _open_absolute_directory_no_follow(
+    directory: pathlib.Path, *, create: bool = False
+) -> int:
+    lexical = _absolute_path(directory)
+    if not lexical.is_absolute():
+        raise ValueError(f"directory must be absolute: {directory}")
+    try:
+        lexical_final = os.lstat(lexical)
+    except FileNotFoundError:
+        if not create:
+            raise
+    else:
+        if stat.S_ISLNK(lexical_final.st_mode):
+            raise ValueError(f"symlinked directory is not allowed: {lexical}")
+
+    # macOS exposes system aliases such as /var -> /private/var. Canonicalise the
+    # directory boundary once, then retain descriptors and disallow every link below it.
+    absolute = pathlib.Path(os.path.realpath(lexical))
+
+    descriptor = os.open(absolute.anchor, DIRECTORY_OPEN_FLAGS | NOFOLLOW_OPEN_FLAG)
+    try:
+        for component in absolute.parts[1:]:
+            try:
+                before = os.stat(component, dir_fd=descriptor, follow_symlinks=False)
+            except FileNotFoundError:
+                if not create:
+                    raise
+                os.mkdir(component, mode=0o755, dir_fd=descriptor)
+                before = os.stat(component, dir_fd=descriptor, follow_symlinks=False)
+            if stat.S_ISLNK(before.st_mode):
+                raise ValueError(f"symlinked directory is not allowed: {absolute}")
+            child = os.open(
+                component,
+                DIRECTORY_OPEN_FLAGS | NOFOLLOW_OPEN_FLAG,
+                dir_fd=descriptor,
+            )
+            try:
+                opened = os.fstat(child)
+                after = os.stat(component, dir_fd=descriptor, follow_symlinks=False)
+                if not _same_directory(before, opened) or not _same_directory(
+                    opened, after
+                ):
+                    raise ValueError(f"directory identity changed while opening: {absolute}")
+            except Exception:
+                os.close(child)
+                raise
+            os.close(descriptor)
+            descriptor = child
+        return descriptor
+    except Exception:
+        os.close(descriptor)
+        raise
+
+
+def _file_identity(value: os.stat_result) -> tuple[int, int, int, int, int, int]:
+    return (
+        value.st_dev,
+        value.st_ino,
+        value.st_size,
+        value.st_mtime_ns,
+        value.st_ctime_ns,
+        value.st_nlink,
+    )
+
+
+def _snapshot_file(
+    directory_descriptor: int,
+    name: str,
+    relative: str,
+    before: os.stat_result,
+) -> SourceSnapshot:
+    if before.st_nlink != 1:
+        raise ValueError(f"hardlinked bundle source is not allowed: {relative}")
+    descriptor = os.open(
+        name,
+        os.O_RDONLY | NOFOLLOW_OPEN_FLAG | NONBLOCK_OPEN_FLAG,
+        dir_fd=directory_descriptor,
+    )
+    try:
+        opened = os.fstat(descriptor)
+        if not stat.S_ISREG(opened.st_mode):
+            raise ValueError(f"bundle source is not a regular file: {relative}")
+        if _file_identity(opened) != _file_identity(before):
+            raise ValueError(f"bundle source changed while being opened: {relative}")
+        if opened.st_nlink != 1:
+            raise ValueError(f"hardlinked bundle source is not allowed: {relative}")
+
+        chunks: list[bytes] = []
+        while True:
+            chunk = os.read(descriptor, 1024 * 1024)
+            if not chunk:
+                break
+            chunks.append(chunk)
+
+        after_read = os.fstat(descriptor)
         try:
-            path.resolve().relative_to(folder)
-        except ValueError as error:
-            raise ValueError(f"bundle source resolves outside brand folder: {path}") from error
-        relative = path.relative_to(folder).as_posix()
-        if relative.startswith(FORBIDDEN_PREFIXES) or path.suffix.lower() in FORBIDDEN_SUFFIXES:
+            after_path = os.stat(
+                name, dir_fd=directory_descriptor, follow_symlinks=False
+            )
+        except FileNotFoundError as error:
+            raise ValueError(
+                f"bundle source changed while being read: {relative}"
+            ) from error
+        if (
+            not stat.S_ISREG(after_path.st_mode)
+            or _file_identity(after_read) != _file_identity(opened)
+            or _file_identity(after_path) != _file_identity(opened)
+        ):
+            raise ValueError(f"bundle source changed while being read: {relative}")
+        return SourceSnapshot(
+            relative=relative,
+            suffix=pathlib.PurePosixPath(relative).suffix.lower(),
+            content=b"".join(chunks),
+        )
+    finally:
+        os.close(descriptor)
+
+
+def _directory_is_forbidden(relative: str) -> bool:
+    prefix = relative.rstrip("/") + "/"
+    return any(prefix.startswith(forbidden) for forbidden in FORBIDDEN_PREFIXES)
+
+
+def _snapshot_directory(
+    directory_descriptor: int,
+    relative_directory: str,
+    selected: list[SourceSnapshot],
+) -> None:
+    for name in sorted(os.listdir(directory_descriptor)):
+        relative = f"{relative_directory}/{name}" if relative_directory else name
+        before = os.stat(name, dir_fd=directory_descriptor, follow_symlinks=False)
+        if stat.S_ISLNK(before.st_mode):
+            raise ValueError(
+                f"symlink is not allowed in brand bundle sources: {relative}"
+            )
+        if stat.S_ISDIR(before.st_mode):
+            if _directory_is_forbidden(relative):
+                continue
+            child = os.open(
+                name,
+                DIRECTORY_OPEN_FLAGS | NOFOLLOW_OPEN_FLAG,
+                dir_fd=directory_descriptor,
+            )
+            try:
+                opened = os.fstat(child)
+                after = os.stat(
+                    name, dir_fd=directory_descriptor, follow_symlinks=False
+                )
+                if not _same_directory(before, opened) or not _same_directory(
+                    opened, after
+                ):
+                    raise ValueError(
+                        f"bundle source directory changed while opening: {relative}"
+                    )
+                _snapshot_directory(child, relative, selected)
+            finally:
+                os.close(child)
             continue
-        if relative.startswith(SENSITIVE_SAFE_NAMESPACES) and relative not in ALLOWED_EXACT:
+        if not stat.S_ISREG(before.st_mode):
+            if relative in ALLOWED_EXACT:
+                raise ValueError(f"bundle source is not a regular file: {relative}")
+            continue
+
+        suffix = pathlib.PurePosixPath(relative).suffix.lower()
+        if relative.startswith(FORBIDDEN_PREFIXES) or suffix in FORBIDDEN_SUFFIXES:
+            continue
+        if (
+            relative.startswith(SENSITIVE_SAFE_NAMESPACES)
+            and relative not in ALLOWED_EXACT
+        ):
             raise ValueError(
                 f"unapproved bundle source in sensitive namespace: {relative}"
             )
-        allowed = relative in ALLOWED_EXACT
-        if allowed and path.suffix.lower() in ALLOWED_SUFFIXES:
-            selected.append(path)
-    return sorted(selected, key=lambda path: path.relative_to(folder).as_posix())
+        if relative in ALLOWED_EXACT and suffix in ALLOWED_SUFFIXES:
+            selected.append(
+                _snapshot_file(directory_descriptor, name, relative, before)
+            )
 
 
-def fence_language(path: pathlib.Path) -> str:
+def selected_files(folder: pathlib.Path) -> list[SourceSnapshot]:
+    descriptor = _open_absolute_directory_no_follow(folder)
+    try:
+        selected: list[SourceSnapshot] = []
+        _snapshot_directory(descriptor, "", selected)
+        return sorted(selected, key=lambda source: source.relative)
+    finally:
+        os.close(descriptor)
+
+
+def fence_language(path: SourceSnapshot | pathlib.Path) -> str:
     return {
         ".yml": "yaml",
         ".yaml": "yaml",
@@ -157,13 +348,12 @@ def fence_language(path: pathlib.Path) -> str:
     }.get(path.suffix.lower(), "markdown")
 
 
-def digest_files(folder: pathlib.Path, files: list[pathlib.Path]) -> str:
+def digest_files(folder: pathlib.Path, files: list[SourceSnapshot]) -> str:
     digest = hashlib.sha256()
-    for path in files:
-        relative = path.relative_to(folder).as_posix()
-        digest.update(relative.encode("utf-8"))
+    for source in files:
+        digest.update(source.relative.encode("utf-8"))
         digest.update(b"\0")
-        digest.update(path.read_bytes())
+        digest.update(source.content)
         digest.update(b"\0")
     return digest.hexdigest()
 
@@ -479,13 +669,11 @@ def parse_test_register(register_text: str) -> list[int]:
     return numbers
 
 
-def validate_test_state(folder: pathlib.Path, manifest_text: str) -> None:
-    register = folder / "strategy" / "test-register.yml"
-    if not register.is_file():
+def validate_test_state(manifest_text: str, register_text: str | None) -> None:
+    if register_text is None:
         return
 
     actual_next = parse_manifest_test_state(manifest_text)
-    register_text = register.read_text()
     numbers = parse_test_register(register_text)
     manifest_entries = validate_canonical_yaml_subset(manifest_text, "brand.yml")
     register_entries = validate_canonical_yaml_subset(
@@ -523,32 +711,157 @@ def validate_test_state(folder: pathlib.Path, manifest_text: str) -> None:
         )
 
 
-def build_bundle(folder: pathlib.Path, output: pathlib.Path) -> pathlib.Path:
-    folder = pathlib.Path(folder).resolve()
-    output = pathlib.Path(output)
-    resolved_output = output.resolve()
+def _decode_source(source: SourceSnapshot) -> str:
     try:
-        resolved_output.relative_to(folder)
+        return source.content.decode("utf-8")
+    except UnicodeDecodeError as error:
+        raise ValueError(f"bundle source is not valid UTF-8: {source.relative}") from error
+
+
+def _output_destination_identity(
+    directory_descriptor: int, name: str
+) -> tuple[int, int, int, int, int, int] | None:
+    try:
+        destination = os.stat(
+            name, dir_fd=directory_descriptor, follow_symlinks=False
+        )
+    except FileNotFoundError:
+        return None
+    if stat.S_ISLNK(destination.st_mode):
+        raise ValueError(f"linked output destination is not allowed: {name}")
+    if not stat.S_ISREG(destination.st_mode):
+        raise ValueError(f"bundle output destination is not a regular file: {name}")
+    if destination.st_nlink != 1:
+        raise ValueError(f"hardlinked output destination is not allowed: {name}")
+    return _file_identity(destination)
+
+
+def _write_all(descriptor: int, content: bytes) -> None:
+    remaining = memoryview(content)
+    while remaining:
+        written = os.write(descriptor, remaining)
+        if written <= 0:
+            raise OSError("failed to write staged brand bundle")
+        remaining = remaining[written:]
+
+
+def _publish_bundle(output: pathlib.Path, content: bytes) -> None:
+    absolute_output = _absolute_path(output)
+    if not absolute_output.name or absolute_output.name in {".", ".."}:
+        raise ValueError(f"invalid bundle output path: {output}")
+    parent_descriptor = _open_absolute_directory_no_follow(
+        absolute_output.parent, create=True
+    )
+    temporary_name = (
+        f".{absolute_output.name}.tmp-{os.getpid()}-{secrets.token_hex(8)}"
+    )
+    temporary_descriptor: int | None = None
+    try:
+        original_destination = _output_destination_identity(
+            parent_descriptor, absolute_output.name
+        )
+        temporary_descriptor = os.open(
+            temporary_name,
+            os.O_WRONLY | os.O_CREAT | os.O_EXCL | NOFOLLOW_OPEN_FLAG,
+            0o600,
+            dir_fd=parent_descriptor,
+        )
+        created = os.fstat(temporary_descriptor)
+        if not stat.S_ISREG(created.st_mode) or created.st_nlink != 1:
+            raise ValueError("brand bundle staging file must be a new single-link file")
+        _write_all(temporary_descriptor, content)
+        os.fchmod(temporary_descriptor, 0o644)
+        os.fsync(temporary_descriptor)
+        staged = os.fstat(temporary_descriptor)
+        if (
+            not stat.S_ISREG(staged.st_mode)
+            or staged.st_dev != created.st_dev
+            or staged.st_ino != created.st_ino
+            or staged.st_nlink != 1
+            or staged.st_size != len(content)
+        ):
+            raise ValueError("brand bundle staging file changed before publication")
+        os.close(temporary_descriptor)
+        temporary_descriptor = None
+
+        current_destination = _output_destination_identity(
+            parent_descriptor, absolute_output.name
+        )
+        if current_destination != original_destination:
+            raise ValueError("bundle output destination changed before publication")
+        current_staging = os.stat(
+            temporary_name,
+            dir_fd=parent_descriptor,
+            follow_symlinks=False,
+        )
+        if _file_identity(current_staging) != _file_identity(staged):
+            raise ValueError("brand bundle staging file changed before publication")
+
+        os.replace(
+            temporary_name,
+            absolute_output.name,
+            src_dir_fd=parent_descriptor,
+            dst_dir_fd=parent_descriptor,
+        )
+        published = os.stat(
+            absolute_output.name,
+            dir_fd=parent_descriptor,
+            follow_symlinks=False,
+        )
+        if (
+            not stat.S_ISREG(published.st_mode)
+            or published.st_dev != staged.st_dev
+            or published.st_ino != staged.st_ino
+            or published.st_nlink != 1
+            or published.st_size != len(content)
+        ):
+            raise ValueError("published brand bundle identity is unsafe")
+        os.fsync(parent_descriptor)
+    finally:
+        if temporary_descriptor is not None:
+            os.close(temporary_descriptor)
+        try:
+            os.unlink(temporary_name, dir_fd=parent_descriptor)
+        except FileNotFoundError:
+            pass
+        os.close(parent_descriptor)
+
+
+def build_bundle(folder: pathlib.Path, output: pathlib.Path) -> pathlib.Path:
+    folder = _absolute_path(pathlib.Path(folder))
+    output = pathlib.Path(output)
+    absolute_output = _absolute_path(output)
+    canonical_folder = pathlib.Path(os.path.realpath(folder))
+    canonical_output = (
+        pathlib.Path(os.path.realpath(absolute_output.parent)) / absolute_output.name
+    )
+    try:
+        canonical_output.relative_to(canonical_folder)
     except ValueError:
         pass
     else:
         raise ValueError("bundle output must be outside brand folder")
-    manifest = folder / "brand.yml"
-    if not manifest.is_file():
+
+    files = selected_files(folder)
+    sources = {source.relative: source for source in files}
+    manifest = sources.get("brand.yml")
+    if manifest is None:
         raise FileNotFoundError(f"brand.yml not found in {folder}")
-    manifest_text = manifest.read_text()
+    decoded = {source.relative: _decode_source(source) for source in files}
+    manifest_text = decoded["brand.yml"]
     slug_match = MANIFEST_SLUG.search(manifest_text)
     if not slug_match:
         raise ValueError("brand.yml does not contain brand.slug")
     manifest_slug = slug_match.group(1)
-    validate_test_state(folder, manifest_text)
+    validate_test_state(
+        manifest_text, decoded.get("strategy/test-register.yml")
+    )
 
-    files = selected_files(folder)
     evidence_files = [
-        path for path in files if not path.relative_to(folder).as_posix().startswith("learning/")
+        source for source in files if not source.relative.startswith("learning/")
     ]
     learning_files = [
-        path for path in files if path.relative_to(folder).as_posix().startswith("learning/")
+        source for source in files if source.relative.startswith("learning/")
     ]
     evidence_version = digest_files(folder, evidence_files)
     learning_version = digest_files(folder, learning_files)
@@ -561,11 +874,11 @@ def build_bundle(folder: pathlib.Path, output: pathlib.Path) -> pathlib.Path:
         f"Evidence version: `sha256:{evidence_version}`\n\n",
         f"Learning version: `sha256:{learning_version}`\n",
     ]
-    for path in files:
-        relative = path.relative_to(folder).as_posix()
-        content = path.read_text().strip()
+    for source in files:
+        relative = source.relative
+        content = decoded[relative].strip()
         structured = None
-        if path.suffix.lower() == ".json":
+        if source.suffix == ".json":
             try:
                 structured = json.loads(content)
             except json.JSONDecodeError as error:
@@ -592,14 +905,13 @@ def build_bundle(folder: pathlib.Path, output: pathlib.Path) -> pathlib.Path:
         parts.extend(
             [
                 f"\n\n## Source: `{relative}`\n\n",
-                f"```{fence_language(path)}\n",
+                f"```{fence_language(source)}\n",
                 content,
                 "\n```\n",
             ]
         )
 
-    output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text("".join(parts))
+    _publish_bundle(output, "".join(parts).encode("utf-8"))
     return output
 
 

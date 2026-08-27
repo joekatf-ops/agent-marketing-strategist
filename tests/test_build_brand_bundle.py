@@ -1,5 +1,8 @@
 import importlib.util
+import hashlib
+import os
 import pathlib
+import stat
 import tempfile
 import unittest
 from unittest import mock
@@ -616,6 +619,166 @@ class BrandBundleTests(unittest.TestCase):
 
         with self.assertRaisesRegex(ValueError, "symlink"):
             builder.build_bundle(folder, pathlib.Path(temp.name) / "brand-bundle.md")
+
+    def test_refuses_outside_brand_hardlinks_in_allowed_sources(self):
+        builder = load_builder()
+        temp, folder = self.make_brand_folder()
+        self.addCleanup(temp.cleanup)
+        outside = pathlib.Path(temp.name) / "outside-brand-core.md"
+        outside.write_text("content owned outside the selected brand\n")
+        linked_source = folder / "context" / "brand-core.md"
+        linked_source.unlink()
+        os.link(outside, linked_source)
+        output = pathlib.Path(temp.name) / "brand-bundle.md"
+
+        with self.assertRaisesRegex(ValueError, "hardlink|linked source"):
+            builder.build_bundle(folder, output)
+
+        self.assertFalse(output.exists())
+        self.assertEqual("content owned outside the selected brand\n", outside.read_text())
+
+    def test_uses_one_immutable_source_snapshot_for_digest_and_rendering(self):
+        builder = load_builder()
+        temp, folder = self.make_brand_folder()
+        self.addCleanup(temp.cleanup)
+        output = pathlib.Path(temp.name) / "brand-bundle.md"
+        target = folder / "context" / "brand-core.md"
+        original_content = target.read_text()
+
+        expected_digest = hashlib.sha256()
+        evidence_relatives = sorted(
+            relative
+            for relative in builder.ALLOWED_EXACT
+            if not relative.startswith("learning/") and (folder / relative).is_file()
+        )
+        for relative in evidence_relatives:
+            expected_digest.update(relative.encode("utf-8"))
+            expected_digest.update(b"\0")
+            expected_digest.update((folder / relative).read_bytes())
+            expected_digest.update(b"\0")
+
+        real_selected_files = builder.selected_files
+
+        def select_then_mutate(selected_folder):
+            selected = real_selected_files(selected_folder)
+            target.write_text("mutated after the source snapshot\n")
+            return selected
+
+        with mock.patch.object(
+            builder, "selected_files", side_effect=select_then_mutate
+        ):
+            builder.build_bundle(folder, output)
+
+        bundle = output.read_text()
+        self.assertIn(original_content.strip(), bundle)
+        self.assertNotIn("mutated after the source snapshot", bundle)
+        self.assertIn(
+            f"Evidence version: `sha256:{expected_digest.hexdigest()}`", bundle
+        )
+
+    def test_rejects_a_source_that_changes_while_its_snapshot_is_read(self):
+        builder = load_builder()
+        temp, folder = self.make_brand_folder()
+        self.addCleanup(temp.cleanup)
+        output = pathlib.Path(temp.name) / "brand-bundle.md"
+        target = folder / "context" / "brand-core.md"
+        target_identity = (target.stat().st_dev, target.stat().st_ino)
+        real_read = os.read
+        changed = False
+
+        def read_then_change(file_descriptor, count):
+            nonlocal changed
+            data = real_read(file_descriptor, count)
+            current = os.fstat(file_descriptor)
+            if not changed and (current.st_dev, current.st_ino) == target_identity:
+                changed = True
+                target.write_text("changed while its snapshot was being read\n")
+            return data
+
+        with mock.patch("os.read", side_effect=read_then_change):
+            with self.assertRaisesRegex(ValueError, "changed while being read"):
+                builder.build_bundle(folder, output)
+
+        self.assertFalse(output.exists())
+
+    def test_refuses_to_overwrite_a_hardlinked_output_destination(self):
+        builder = load_builder()
+        temp, folder = self.make_brand_folder()
+        self.addCleanup(temp.cleanup)
+        protected = pathlib.Path(temp.name) / "protected.md"
+        protected_content = "must remain unchanged\n"
+        protected.write_text(protected_content)
+        output = pathlib.Path(temp.name) / "brand-bundle.md"
+        os.link(protected, output)
+
+        with self.assertRaisesRegex(ValueError, "hardlink|linked output"):
+            builder.build_bundle(folder, output)
+
+        self.assertEqual(protected_content, protected.read_text())
+        self.assertEqual(protected_content, output.read_text())
+
+    def test_refuses_to_follow_a_symlinked_output_destination(self):
+        builder = load_builder()
+        temp, folder = self.make_brand_folder()
+        self.addCleanup(temp.cleanup)
+        protected = pathlib.Path(temp.name) / "protected.md"
+        protected_content = "must remain unchanged\n"
+        protected.write_text(protected_content)
+        output = pathlib.Path(temp.name) / "brand-bundle.md"
+        output.symlink_to(protected)
+
+        with self.assertRaisesRegex(ValueError, "linked output"):
+            builder.build_bundle(folder, output)
+
+        self.assertEqual(protected_content, protected.read_text())
+        self.assertTrue(output.is_symlink())
+
+    def test_rechecks_an_existing_output_before_atomic_replace(self):
+        builder = load_builder()
+        temp, folder = self.make_brand_folder()
+        self.addCleanup(temp.cleanup)
+        output = pathlib.Path(temp.name) / "brand-bundle.md"
+        output.write_text("previous safe bundle\n")
+        real_fsync = os.fsync
+        raced = False
+
+        def fsync_then_race(file_descriptor):
+            nonlocal raced
+            result = real_fsync(file_descriptor)
+            if not raced and stat.S_ISREG(os.fstat(file_descriptor).st_mode):
+                raced = True
+                output.write_text("destination changed during publication\n")
+            return result
+
+        with mock.patch("os.fsync", side_effect=fsync_then_race):
+            with self.assertRaisesRegex(ValueError, "changed before publication"):
+                builder.build_bundle(folder, output)
+
+        self.assertEqual("destination changed during publication\n", output.read_text())
+
+    def test_publishes_through_a_new_single_link_file_and_atomic_replace(self):
+        builder = load_builder()
+        temp, folder = self.make_brand_folder()
+        self.addCleanup(temp.cleanup)
+        output = pathlib.Path(temp.name) / "brand-bundle.md"
+        real_replace = os.replace
+        staged_link_counts = []
+
+        def checked_replace(source, destination, *args, **kwargs):
+            source_directory = kwargs.get("src_dir_fd")
+            source_stat = os.stat(
+                source,
+                dir_fd=source_directory,
+                follow_symlinks=False,
+            )
+            staged_link_counts.append(source_stat.st_nlink)
+            return real_replace(source, destination, *args, **kwargs)
+
+        with mock.patch("os.replace", side_effect=checked_replace):
+            builder.build_bundle(folder, output)
+
+        self.assertEqual([1], staged_link_counts)
+        self.assertTrue(output.is_file())
 
 
 if __name__ == "__main__":
