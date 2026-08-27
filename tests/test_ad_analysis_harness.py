@@ -3,7 +3,6 @@ import datetime as dt
 import importlib.util
 import json
 import pathlib
-import re
 import sysconfig
 import tempfile
 import unittest
@@ -17,12 +16,14 @@ CONTROLLED_RECORDS = (
     "strategy/winner-library.yml",
     "learning/approved-rules.yml",
 )
-CONTROLLED_WRITE_SURFACE = re.compile(
-    r"(?:append|apply|persist|save|update)_(?:persistence|test.*register|winner.*library|"
-    r"approved.*revision|learning)|(?:test.*register|winner.*library|approved.*revision|"
-    r"learning)_(?:append|apply|persist|save|update|write)",
-    re.IGNORECASE,
-)
+PUBLIC_HARNESS_API = {
+    "load_brand_identity",
+    "initialise_run",
+    "load_intake",
+    "ValidationResult",
+    "validate_run",
+    "render_input_audit",
+}
 
 
 def load_harness():
@@ -300,15 +301,17 @@ class AdAnalysisHarnessTests(unittest.TestCase):
         }
         self.assertEqual(before, after)
 
-    def test_exposes_no_controlled_write_or_persistence_mutation_surface(self):
+    def test_exposes_only_the_declared_non_mutating_public_api(self):
         harness = load_harness()
-        exposed = [
+        exposed = {
             name
             for name, value in vars(harness).items()
-            if callable(value) and CONTROLLED_WRITE_SURFACE.search(name)
-        ]
+            if callable(value)
+            and getattr(value, "__module__", None) == harness.__name__
+            and not name.startswith("_")
+        }
 
-        self.assertEqual([], exposed)
+        self.assertEqual(PUBLIC_HARNESS_API, exposed)
 
     def test_rejects_an_intake_for_a_different_brand(self):
         harness = load_harness()
