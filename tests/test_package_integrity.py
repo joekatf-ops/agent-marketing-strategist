@@ -1425,6 +1425,9 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn("<!-- source: references/19-ad-analysis-harness.md -->", content)
         self.assertIn("# PART: SCHEMA GUIDANCE", content)
         self.assertIn("<!-- source: schemas/ad-analysis-intake.schema.json -->", content)
+        self.assertIn(
+            "<!-- source: schemas/ad-analysis-intake.conformance.json -->", content
+        )
         self.assertIn('"performance-diagnosis"', content)
         self.assertNotIn("<!-- source: examples/ad-diagnosis-performance.csv -->", content)
         self.assertNotIn("<!-- source: outputs/ad-analysis/", content)

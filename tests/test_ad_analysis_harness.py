@@ -24,6 +24,9 @@ CONTENT_SAFETY = ROOT / "scripts" / "content_safety.py"
 INITIALIZER = ROOT / "scripts" / "init-brand-folder.py"
 VALIDATOR = ROOT / "scripts" / "validate-ad-analysis-run.py"
 INTAKE_SCHEMA = ROOT / "schemas" / "ad-analysis-intake.schema.json"
+INTAKE_PORTABLE_CONFORMANCE = (
+    ROOT / "schemas" / "ad-analysis-intake.conformance.json"
+)
 INTAKE_CONFORMANCE = (
     ROOT / "tests" / "fixtures" / "ad-analysis-intake-conformance.json"
 )
@@ -115,13 +118,124 @@ def apply_json_pointer(document, pointer, value, *, remove=False):
         target[final] = value
 
 
+def json_pointer_value(document, pointer):
+    target = document
+    for part in pointer.split("/")[1:]:
+        part = part.replace("~1", "/").replace("~0", "~")
+        target = target[int(part)] if isinstance(target, list) else target[part]
+    return target
+
+
 def materialize_conformance_case(corpus, case):
     document = copy.deepcopy(corpus["bases"][case["base"]])
     for pointer in case.get("remove", []):
         apply_json_pointer(document, pointer, None, remove=True)
     for pointer, value in case.get("set", {}).items():
         apply_json_pointer(document, pointer, value)
+    for operation in case.get("append_copy", []):
+        source = copy.deepcopy(json_pointer_value(document, operation["from"]))
+        json_pointer_value(document, operation["to"]).append(source)
+    for pointer, values in case.get("append", {}).items():
+        json_pointer_value(document, pointer).extend(copy.deepcopy(values))
     return document
+
+
+def portable_conformance_errors(instance, contract, context):
+    """Execute the governed relational operations declared by the portable contract."""
+    errors = []
+    for rule in contract.get("rules", []):
+        identifier = rule["id"]
+        operation = rule["operation"]
+        if operation == "valid_run_id":
+            value = instance.get(rule["field"])
+            match = re.fullmatch(
+                r"ADR-(?P<date>\d{8})-(?P<number>\d{3})", value or ""
+            )
+            valid = bool(match and int(match.group("number")) >= 1)
+            if match:
+                try:
+                    dt.datetime.strptime(match.group("date"), "%Y%m%d")
+                except ValueError:
+                    valid = False
+            if not valid:
+                errors.append(identifier)
+        elif operation == "equals_context":
+            if instance.get(rule["field"]) != context[rule["context"]]:
+                errors.append(identifier)
+        elif operation == "unique_field":
+            values = instance.get(rule["array"], [])
+            if isinstance(values, list):
+                seen = set()
+                for item in values:
+                    value = item.get(rule["field"]) if isinstance(item, dict) else None
+                    if isinstance(value, str) and value in seen:
+                        errors.append(identifier)
+                        break
+                    if isinstance(value, str):
+                        seen.add(value)
+        elif operation == "known_references":
+            targets = instance.get(rule["target_array"], [])
+            known = {
+                item.get(rule["target_field"])
+                for item in targets
+                if isinstance(item, dict)
+                and isinstance(item.get(rule["target_field"]), str)
+            }
+            container = instance
+            for field in rule["source_path"]:
+                if not isinstance(container, dict) or field not in container:
+                    container = None
+                    break
+                container = container[field]
+            references = []
+            if rule["source_kind"] == "array_object_lists" and isinstance(
+                container, list
+            ):
+                for item in container:
+                    if isinstance(item, dict) and isinstance(
+                        item.get(rule["reference_field"]), list
+                    ):
+                        references.extend(item[rule["reference_field"]])
+            elif rule["source_kind"] == "array_values" and isinstance(
+                container, list
+            ):
+                references.extend(container)
+            elif rule["source_kind"] == "mapping_values" and isinstance(
+                container, dict
+            ):
+                references.extend(container.values())
+            elif rule["source_kind"] == "array_object_field" and isinstance(
+                container, list
+            ):
+                references.extend(
+                    item.get(rule["reference_field"])
+                    for item in container
+                    if isinstance(item, dict)
+                )
+            if any(
+                isinstance(reference, str) and reference not in known
+                for reference in references
+            ):
+                errors.append(identifier)
+        elif operation == "ordered_dates":
+            value = instance
+            for field in rule["object_path"]:
+                if not isinstance(value, dict) or field not in value:
+                    value = None
+                    break
+                value = value[field]
+            if isinstance(value, dict):
+                try:
+                    start = dt.date.fromisoformat(value[rule["start_field"]])
+                    end = dt.date.fromisoformat(value[rule["end_field"]])
+                except (KeyError, TypeError, ValueError):
+                    pass
+                else:
+                    if end < start:
+                        errors.append(identifier)
+        else:
+            raise AssertionError(f"unsupported portable conformance operation: {operation}")
+    return errors
 
 
 def json_schema_errors(instance, schema, *, root=None, path="$"):
@@ -192,6 +306,17 @@ def json_schema_errors(instance, schema, *, root=None, path="$"):
                 )
         if len(instance) < schema.get("minProperties", 0):
             errors.append(f"{path} has too few properties")
+        property_names = schema.get("propertyNames")
+        if property_names:
+            for key in instance:
+                errors.extend(
+                    json_schema_errors(
+                        key,
+                        property_names,
+                        root=root,
+                        path=f"{path} property name {key!r}",
+                    )
+                )
 
     if isinstance(instance, list):
         if len(instance) < schema.get("minItems", 0):
@@ -371,23 +496,48 @@ class AdAnalysisHarnessTests(unittest.TestCase):
         self.assertTrue(INTAKE_CONFORMANCE.is_file())
         schema = json.loads(INTAKE_SCHEMA.read_text())
         corpus = json.loads(INTAKE_CONFORMANCE.read_text())
+        portable_contract = (
+            json.loads(INTAKE_PORTABLE_CONFORMANCE.read_text())
+            if INTAKE_PORTABLE_CONFORMANCE.is_file()
+            else {"rules": []}
+        )
         harness = load_harness()
 
         for case in corpus["cases"]:
             with self.subTest(case=case["name"]):
                 intake = materialize_conformance_case(corpus, case)
                 run = self.create_modern_run(harness, mode=intake["mode"])
-                intake["run_id"] = run.name
+                if not case.get("preserve_run_id"):
+                    intake["run_id"] = run.name
                 self.write_intake(run, intake)
 
                 schema_valid = not json_schema_errors(intake, schema)
+                extension_errors = portable_conformance_errors(
+                    intake,
+                    portable_contract,
+                    {
+                        "run_id": run.name,
+                        "brand_slug": "acme-sleep",
+                        "method_version": "0.4.0",
+                    },
+                )
+                portable_valid = schema_valid and not extension_errors
                 result = harness.validate_run(self.brand, run)
                 python_valid = result.status != "blocked"
 
-                self.assertEqual(case["valid"], schema_valid)
+                self.assertEqual(
+                    case.get("base_schema_valid", case["valid"]), schema_valid
+                )
+                self.assertEqual(case["valid"], portable_valid)
                 self.assertEqual(case["valid"], python_valid)
+                if "extension_rule" in case:
+                    self.assertIn(case["extension_rule"], extension_errors)
                 if case["valid"]:
                     self.assertEqual(case["python_status"], result.status)
+        self.assertTrue(
+            INTAKE_PORTABLE_CONFORMANCE.is_file(),
+            "portable relational conformance contract should exist",
+        )
 
     def test_load_intake_rejects_duplicate_routing_keys_and_nonfinite_numbers(self):
         harness = load_harness()

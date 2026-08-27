@@ -1526,8 +1526,8 @@ def _validate_ads(
                     seen_assets.add(source_id)
 
         for key in sorted(_AD_NULLABLE_TEXT_KEYS & item.keys()):
-            if item[key] is not None and not isinstance(item[key], str):
-                errors.append(f"{path}.{key} must be text or null")
+            if item[key] is not None and not _is_text(item[key], allow_empty=True):
+                errors.append(f"{path}.{key} must be single-line text or null")
 
         asset_type = item.get("asset_type")
         if asset_type is not None and (

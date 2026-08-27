@@ -1,8 +1,9 @@
 # Ad analysis harness
 
 Use this reference for one brand-scoped request to analyse supplied first-party ads. It governs
-routing and portable run handling; the active output contract governs the report itself. The JSON
-Schema is the source of truth for intake field shape, so do not recreate that schema here.
+routing and portable run handling; the active output contract governs the report itself. The
+portable intake contract is the structural JSON Schema together with its governed conformance
+rules, so do not recreate either representation here.
 
 ## Mode selection
 
@@ -29,9 +30,10 @@ Ad Diagnosis requires the governed performance-readiness inputs and retains its 
    both owned files in a private sibling staging directory, syncs them, then atomically publishes
    the complete directory under its sequential canonical run ID.
 3. Complete `intake.json` and inventory every supplied ad and source. Follow
-   `schemas/ad-analysis-intake.schema.json` for fields and enums. Keep every nullable ad taxonomy
-   and provenance field explicit; use `null` when the intake does not establish it, never an
-   invented value. An ad cannot repeat one asset source ID.
+   `schemas/ad-analysis-intake.schema.json` for fields and enums, then apply every rule in
+   `schemas/ad-analysis-intake.conformance.json`. Keep every nullable ad taxonomy and provenance
+   field explicit; use `null` when the intake does not establish it, never an invented value. An ad
+   cannot repeat one asset source ID.
 4. Validate with `scripts/validate-ad-analysis-run.py` and write `input-audit.md` when the folder is
    writable. The validator does not interpret creative or performance.
 5. Consume the validator result and input audit before conclusions. Input readiness is exactly
@@ -54,6 +56,14 @@ comparisons are prohibited; the strategist does not invent a substitute benchmar
 The deterministic loader rejects duplicate JSON keys, `NaN` and infinities, an intake larger than
 1,048,576 bytes, and nesting deeper than 32 containers. These bounds apply before semantic
 validation so ambiguous or resource-exhausting manifests cannot select a route.
+
+Standard JSON Schema does not portably express the full relational contract. Every runtime must
+assert the `date` and `iana-timezone` formats and execute the governed conformance rules after base
+schema validation. Those rules validate calendar-bearing run IDs, match run ID, brand slug and
+method version to the selected runtime context, require unique source and ad IDs, resolve every
+source and ad reference, and order the performance date range. The connected validator also
+enforces the descriptor-verified run location, credential-free intake, safe local file access and
+bounded loader requirements documented by the conformance artifact.
 
 Credential-like keys, generic secret assignments, URL userinfo or sensitive query values, bearer
 tokens, credential fingerprints and complete private-key blocks are prohibited. The loader rejects

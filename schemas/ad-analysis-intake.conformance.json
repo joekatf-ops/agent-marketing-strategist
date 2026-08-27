@@ -1,0 +1,124 @@
+{
+  "contract_version": 1,
+  "base_schema": "ad-analysis-intake.schema.json",
+  "title": "Portable ad analysis intake conformance rules",
+  "description": "Apply these rules after JSON Schema validation. A runtime must assert the date and iana-timezone formats and execute every rule before selecting an analysis route.",
+  "format_assertions": ["date", "iana-timezone"],
+  "rules": [
+    {
+      "id": "valid-run-id",
+      "operation": "valid_run_id",
+      "field": "run_id",
+      "error": "run_id must contain a valid calendar date and a sequence from 001 through 999"
+    },
+    {
+      "id": "run-id-matches-context",
+      "operation": "equals_context",
+      "field": "run_id",
+      "context": "run_id",
+      "error": "run_id must match the canonical run folder"
+    },
+    {
+      "id": "brand-slug-matches-context",
+      "operation": "equals_context",
+      "field": "brand_slug",
+      "context": "brand_slug",
+      "error": "brand_slug must match the selected brand manifest"
+    },
+    {
+      "id": "method-version-matches-context",
+      "operation": "equals_context",
+      "field": "method_version",
+      "context": "method_version",
+      "error": "method_version must match the selected brand manifest"
+    },
+    {
+      "id": "unique-source-ids",
+      "operation": "unique_field",
+      "array": "sources",
+      "field": "source_id",
+      "error": "source_id values must be unique"
+    },
+    {
+      "id": "unique-ad-ids",
+      "operation": "unique_field",
+      "array": "ads",
+      "field": "ad_id",
+      "error": "ad_id values must be unique"
+    },
+    {
+      "id": "known-asset-source-references",
+      "operation": "known_references",
+      "source_path": ["ads"],
+      "source_kind": "array_object_lists",
+      "reference_field": "asset_source_ids",
+      "target_array": "sources",
+      "target_field": "source_id",
+      "error": "every asset_source_ids value must reference sources.source_id"
+    },
+    {
+      "id": "known-performance-source-references",
+      "operation": "known_references",
+      "source_path": ["performance", "source_ids"],
+      "source_kind": "array_values",
+      "target_array": "sources",
+      "target_field": "source_id",
+      "error": "every performance.source_ids value must reference sources.source_id"
+    },
+    {
+      "id": "known-performance-ad-references",
+      "operation": "known_references",
+      "source_path": ["performance", "ad_mapping"],
+      "source_kind": "mapping_values",
+      "target_array": "ads",
+      "target_field": "ad_id",
+      "error": "every performance.ad_mapping value must reference ads.ad_id"
+    },
+    {
+      "id": "known-intervention-ad-references",
+      "operation": "known_references",
+      "source_path": ["performance", "logged_interventions"],
+      "source_kind": "array_object_field",
+      "reference_field": "ad_id",
+      "target_array": "ads",
+      "target_field": "ad_id",
+      "error": "every non-null intervention ad_id must reference ads.ad_id"
+    },
+    {
+      "id": "known-threshold-ad-references",
+      "operation": "known_references",
+      "source_path": ["performance", "threshold_basis"],
+      "source_kind": "array_object_field",
+      "reference_field": "ad_id",
+      "target_array": "ads",
+      "target_field": "ad_id",
+      "error": "every non-null threshold_basis ad_id must reference ads.ad_id"
+    },
+    {
+      "id": "performance-date-range-ordered",
+      "operation": "ordered_dates",
+      "object_path": ["performance", "date_range"],
+      "start_field": "start",
+      "end_field": "end",
+      "error": "performance.date_range.end must not precede start"
+    }
+  ],
+  "runtime_context_rules": [
+    {
+      "id": "canonical-run-location",
+      "requirement": "The run must be the descriptor-verified outputs/ad-analysis/<RUN_ID> directory inside the selected brand."
+    },
+    {
+      "id": "credential-free-intake",
+      "requirement": "Reject duplicate JSON keys, non-finite numbers and every credential-bearing structural field before semantic validation or outward diagnostics."
+    },
+    {
+      "id": "safe-local-file-source",
+      "requirement": "A file source must remain inside the selected canonical run, use descriptor-relative no-follow access, have one hard link, and retain stable identity and metadata while hashed."
+    },
+    {
+      "id": "bounded-json-loader",
+      "requirement": "Reject intake JSON over 1048576 bytes or deeper than 32 containers before selecting a mode."
+    }
+  ]
+}
