@@ -11,8 +11,9 @@ import stat
 
 from ad_analysis_harness import (
     _absolute_lexical,
-    _inside,
-    _require_no_symlink_components,
+    _no_follow_flag,
+    _open_directory_no_follow,
+    _validate_run_id,
     load_intake,
     render_input_audit,
     validate_run,
@@ -32,13 +33,18 @@ def _arguments() -> argparse.Namespace:
 
 
 def _write_input_audit(path: pathlib.Path, content: str) -> None:
+    path = _absolute_lexical(path)
+    no_follow = _no_follow_flag()
+    directory_descriptor = _open_directory_no_follow(path.parent)
     try:
-        if stat.S_ISLNK(os.lstat(path).st_mode):
-            raise OSError("audit target must not be a symlink")
-    except FileNotFoundError:
-        pass
-    flags = os.O_WRONLY | os.O_CREAT | getattr(os, "O_NOFOLLOW", 0)
-    descriptor = os.open(path, flags, 0o644)
+        descriptor = os.open(
+            path.name,
+            os.O_WRONLY | os.O_CREAT | no_follow,
+            0o644,
+            dir_fd=directory_descriptor,
+        )
+    finally:
+        os.close(directory_descriptor)
     try:
         metadata = os.fstat(descriptor)
         if not stat.S_ISREG(metadata.st_mode) or metadata.st_nlink != 1:
@@ -51,6 +57,22 @@ def _write_input_audit(path: pathlib.Path, content: str) -> None:
     finally:
         if descriptor >= 0:
             os.close(descriptor)
+
+
+def _is_canonical_run_folder(
+    brand_folder: pathlib.Path, run_folder: pathlib.Path
+) -> bool:
+    brand_folder = _absolute_lexical(brand_folder)
+    run_folder = _absolute_lexical(run_folder)
+    if run_folder.parent != brand_folder / "outputs" / "ad-analysis":
+        return False
+    try:
+        _validate_run_id(run_folder.name)
+        descriptor = _open_directory_no_follow(run_folder)
+    except (FileNotFoundError, OSError, ValueError):
+        return False
+    os.close(descriptor)
+    return True
 
 
 def main() -> int:
@@ -66,12 +88,7 @@ def main() -> int:
     if args.write_audit:
         brand_folder = _absolute_lexical(args.brand)
         run_folder = _absolute_lexical(args.run)
-        try:
-            _require_no_symlink_components(brand_folder)
-            _require_no_symlink_components(run_folder)
-            safe_run = _inside(run_folder, brand_folder) and run_folder.is_dir()
-        except ValueError:
-            safe_run = False
+        safe_run = _is_canonical_run_folder(brand_folder, run_folder)
         if safe_run:
             try:
                 intake = load_intake(run_folder)

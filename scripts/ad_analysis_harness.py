@@ -109,6 +109,10 @@ class ValidationResult(NamedTuple):
     inventory: tuple[tuple[str, str, str, str, str], ...]
 
 
+class _SymlinkAccessError(OSError):
+    pass
+
+
 def _scalar(match: re.Match[str]) -> str:
     return next(value for value in match.group("double", "single", "bare") if value is not None)
 
@@ -118,6 +122,98 @@ def _validate_method_version(method_version: str) -> tuple[int, int, int]:
     if not match:
         raise ValueError("brand method_version must use major.minor.patch format")
     return tuple(int(match.group(name)) for name in ("major", "minor", "patch"))
+
+
+def _absolute_lexical(path: pathlib.Path) -> pathlib.Path:
+    return pathlib.Path(os.path.abspath(os.fspath(path)))
+
+
+def _no_follow_flag() -> int:
+    no_follow = getattr(os, "O_NOFOLLOW", None)
+    directory = getattr(os, "O_DIRECTORY", None)
+    if (
+        type(no_follow) is not int
+        or type(directory) is not int
+        or os.open not in os.supports_dir_fd
+        or os.stat not in os.supports_dir_fd
+        or os.stat not in os.supports_follow_symlinks
+    ):
+        raise OSError("descriptor-anchored no-follow access is unavailable")
+    return no_follow
+
+
+def _open_directory_no_follow(path: pathlib.Path) -> int:
+    path = _absolute_lexical(path)
+    no_follow = _no_follow_flag()
+    flags = os.O_RDONLY | no_follow | os.O_DIRECTORY
+    descriptor = os.open(path.anchor, flags)
+    try:
+        for component in path.parts[1:]:
+            metadata = os.stat(
+                component,
+                dir_fd=descriptor,
+                follow_symlinks=False,
+            )
+            if stat.S_ISLNK(metadata.st_mode):
+                raise _SymlinkAccessError(f"path component is a symlink: {component}")
+            next_descriptor = os.open(component, flags, dir_fd=descriptor)
+            if not stat.S_ISDIR(os.fstat(next_descriptor).st_mode):
+                os.close(next_descriptor)
+                raise OSError(f"path component is not a directory: {component}")
+            os.close(descriptor)
+            descriptor = next_descriptor
+        return descriptor
+    except BaseException:
+        os.close(descriptor)
+        raise
+
+
+def _open_regular_relative_no_follow(
+    directory: pathlib.Path, relative: pathlib.Path
+) -> int:
+    relative = pathlib.Path(relative)
+    if relative.is_absolute() or not relative.parts or ".." in relative.parts:
+        raise OSError("file path must be a non-empty safe relative path")
+    no_follow = _no_follow_flag()
+    directory_flags = os.O_RDONLY | no_follow | os.O_DIRECTORY
+    descriptor = _open_directory_no_follow(directory)
+    try:
+        for component in relative.parts[:-1]:
+            metadata = os.stat(
+                component,
+                dir_fd=descriptor,
+                follow_symlinks=False,
+            )
+            if stat.S_ISLNK(metadata.st_mode):
+                raise _SymlinkAccessError(f"path component is a symlink: {component}")
+            next_descriptor = os.open(component, directory_flags, dir_fd=descriptor)
+            if not stat.S_ISDIR(os.fstat(next_descriptor).st_mode):
+                os.close(next_descriptor)
+                raise OSError(f"path component is not a directory: {component}")
+            os.close(descriptor)
+            descriptor = next_descriptor
+
+        filename = relative.parts[-1]
+        metadata = os.stat(filename, dir_fd=descriptor, follow_symlinks=False)
+        if stat.S_ISLNK(metadata.st_mode):
+            raise _SymlinkAccessError(f"file is a symlink: {filename}")
+        file_descriptor = os.open(
+            filename, os.O_RDONLY | no_follow, dir_fd=descriptor
+        )
+        if not stat.S_ISREG(os.fstat(file_descriptor).st_mode):
+            os.close(file_descriptor)
+            raise OSError(f"file is not regular: {filename}")
+        return file_descriptor
+    finally:
+        os.close(descriptor)
+
+
+def _read_relative_text_no_follow(
+    directory: pathlib.Path, relative: pathlib.Path
+) -> str:
+    descriptor = _open_regular_relative_no_follow(directory, relative)
+    with os.fdopen(descriptor, "r", encoding="utf-8") as file:
+        return file.read()
 
 
 def _require_no_symlink_components(path: pathlib.Path) -> pathlib.Path:
@@ -151,7 +247,15 @@ def load_brand_identity(brand_folder: pathlib.Path) -> dict[str, str]:
     method_versions: list[str] = []
     slugs: list[str] = []
     in_brand = False
-    for line in manifest.read_text(encoding="utf-8").splitlines():
+    try:
+        manifest_text = _read_relative_text_no_follow(
+            brand_folder, pathlib.Path("brand.yml")
+        )
+    except FileNotFoundError as error:
+        raise FileNotFoundError(f"brand manifest not found: {manifest}") from error
+    except _SymlinkAccessError as error:
+        raise ValueError(f"path must not contain a symlink: {manifest}") from error
+    for line in manifest_text.splitlines():
         if not line or line.lstrip().startswith("#"):
             continue
         if line.startswith("method_version:"):
@@ -306,14 +410,18 @@ def load_intake(run_folder: pathlib.Path) -> dict[str, object]:
     _require_no_symlink_components(intake_path)
     if not intake_path.is_file():
         raise FileNotFoundError(f"intake manifest not found: {intake_path}")
-    intake = json.loads(intake_path.read_text(encoding="utf-8"))
+    try:
+        intake_text = _read_relative_text_no_follow(
+            run_folder, pathlib.Path("intake.json")
+        )
+    except FileNotFoundError as error:
+        raise FileNotFoundError(f"intake manifest not found: {intake_path}") from error
+    except _SymlinkAccessError as error:
+        raise ValueError(f"path must not contain a symlink: {intake_path}") from error
+    intake = json.loads(intake_text)
     if not isinstance(intake, dict):
         raise ValueError("intake manifest must contain a JSON object")
     return intake
-
-
-def _absolute_lexical(path: pathlib.Path) -> pathlib.Path:
-    return pathlib.Path(os.path.abspath(os.fspath(path)))
 
 
 def _inside(path: pathlib.Path, parent: pathlib.Path) -> bool:
@@ -349,9 +457,7 @@ def _unknown_key_errors(value: dict[str, object], allowed: set[str], path: str) 
     return [f"{prefix}{key} is not allowed" for key in value if key not in allowed]
 
 
-def _hash_regular_file(path: pathlib.Path) -> str:
-    flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0)
-    descriptor = os.open(path, flags)
+def _hash_regular_file(descriptor: int) -> str:
     try:
         if not stat.S_ISREG(os.fstat(descriptor).st_mode):
             raise ValueError("source is not a regular file")
@@ -392,23 +498,18 @@ def _validate_source_file(
         errors.append(f"{path} must stay inside the brand folder")
         return ""
     try:
-        _require_no_symlink_components(candidate)
-    except ValueError:
+        descriptor = _open_regular_relative_no_follow(run_folder, relative)
+    except _SymlinkAccessError:
         errors.append(f"{path} must not be a symlink")
         return ""
-    try:
-        mode = os.lstat(candidate).st_mode
     except FileNotFoundError:
         errors.append(f"{path} must identify an existing regular file")
         return ""
-    if stat.S_ISLNK(mode):
-        errors.append(f"{path} must not be a symlink")
-        return ""
-    if not stat.S_ISREG(mode):
-        errors.append(f"{path} must identify an existing regular file")
+    except (OSError, ValueError):
+        errors.append(f"{path} could not be read as a regular non-symlink file")
         return ""
     try:
-        actual_hash = _hash_regular_file(candidate)
+        actual_hash = _hash_regular_file(descriptor)
     except (OSError, ValueError):
         errors.append(f"{path} could not be read as a regular non-symlink file")
         return ""
@@ -448,7 +549,7 @@ def _validate_sources(
             source_ids.add(source_id)
 
         kind = item.get("kind")
-        if kind not in _SOURCE_KINDS or not isinstance(kind, str):
+        if not isinstance(kind, str) or kind not in _SOURCE_KINDS:
             errors.append(
                 f"{path}.kind must be one of: {', '.join(sorted(_SOURCE_KINDS))}"
             )
@@ -725,9 +826,10 @@ def _validate_performance(
 
     ad_mapping = value.get("ad_mapping")
     if not isinstance(ad_mapping, dict) or not ad_mapping:
-        errors.append("performance.ad_mapping must map every intake ad")
+        errors.append(
+            "performance.ad_mapping must contain at least one spend-bearing source ad"
+        )
     else:
-        mapped_ids: set[str] = set()
         for external_id, ad_id in ad_mapping.items():
             if not _is_text(external_id):
                 errors.append("performance.ad_mapping keys must be non-empty text")
@@ -737,10 +839,6 @@ def _validate_performance(
                 )
             elif ad_id not in ad_ids:
                 errors.append(f"performance.ad_mapping references unknown ad {ad_id}")
-            else:
-                mapped_ids.add(ad_id)
-        for ad_id in sorted(ad_ids - mapped_ids):
-            errors.append(f"performance.ad_mapping is missing intake ad {ad_id}")
 
     interventions = value.get("logged_interventions")
     if not isinstance(interventions, list):

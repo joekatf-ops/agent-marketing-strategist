@@ -5,9 +5,11 @@ import json
 import os
 import pathlib
 import subprocess
+import sys
 import sysconfig
 import tempfile
 import unittest
+from unittest import mock
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -42,6 +44,14 @@ def load_initializer():
     spec = importlib.util.spec_from_file_location("init_brand_folder", INITIALIZER)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
+    return module
+
+
+def load_validator(harness):
+    spec = importlib.util.spec_from_file_location("validate_ad_analysis_run", VALIDATOR)
+    module = importlib.util.module_from_spec(spec)
+    with mock.patch.dict(sys.modules, {"ad_analysis_harness": harness}):
+        spec.loader.exec_module(module)
     return module
 
 
@@ -417,7 +427,10 @@ class AdAnalysisHarnessTests(unittest.TestCase):
             ("field_mapping.ad_id", "performance.field_mapping.ad_id is required"),
             ("field_mapping.spend", "performance.field_mapping.spend is required"),
             ("field_mapping.purchases", "performance.field_mapping.purchases is required"),
-            ("ad_mapping", "performance.ad_mapping must map every intake ad"),
+            (
+                "ad_mapping",
+                "performance.ad_mapping must contain at least one spend-bearing source ad",
+            ),
         )
 
         for field, expected in required_cases:
@@ -451,7 +464,7 @@ class AdAnalysisHarnessTests(unittest.TestCase):
         self.assertIn("optional funnel field mappings are unavailable", result.limitations)
         self.assertIn("optional video field mappings are unavailable", result.limitations)
 
-    def test_performance_mapping_must_cover_every_intake_ad(self):
+    def test_performance_mapping_can_omit_an_unserved_intake_ad(self):
         harness = load_harness()
         run = self.create_modern_run(harness, mode="performance-diagnosis")
         intake = self.complete_performance_intake(harness, run)
@@ -472,8 +485,8 @@ class AdAnalysisHarnessTests(unittest.TestCase):
 
         result = harness.validate_run(self.brand, run)
 
-        self.assertEqual("blocked", result.status)
-        self.assertIn("performance.ad_mapping is missing intake ad AD-002", result.errors)
+        self.assertEqual("ready", result.status)
+        self.assertFalse(any("AD-002" in error for error in result.errors))
 
     def test_rejects_duplicate_source_and_ad_ids_and_unknown_references(self):
         harness = load_harness()
@@ -771,6 +784,98 @@ class AdAnalysisHarnessTests(unittest.TestCase):
             with self.subTest(error=error):
                 self.assertIn(error, result.errors)
 
+    def test_rejects_list_and_object_source_kinds_without_raising(self):
+        harness = load_harness()
+
+        for kind in ([], {}):
+            with self.subTest(kind=kind):
+                run = self.create_run(harness)
+                intake = harness.load_intake(run)
+                intake["sources"] = [
+                    {
+                        "source_id": "SRC-001",
+                        "kind": kind,
+                        "label": "ad-one.mp4",
+                        "location": "attached:ad-one.mp4",
+                        "sha256": None,
+                    }
+                ]
+                intake["ads"] = [
+                    {"ad_id": "AD-001", "asset_source_ids": ["SRC-001"]}
+                ]
+                self.write_intake(run, intake)
+
+                try:
+                    result = harness.validate_run(self.brand, run)
+                except Exception as error:
+                    self.fail(f"validate_run raised {type(error).__name__}: {error}")
+
+                self.assertEqual("blocked", result.status)
+                self.assertIn(
+                    "sources[0].kind must be one of: attachment, file, screenshot, table, url",
+                    result.errors,
+                )
+
+    def test_local_source_read_never_uses_a_swapped_parent_directory(self):
+        harness = load_harness()
+        run = self.create_modern_run(harness)
+        asset_parent = run / "assets"
+        asset_parent.mkdir()
+        (asset_parent / "ad-one.mp4").write_bytes(b"inside")
+        outside_parent = self.temp_root / "outside-assets"
+        outside_parent.mkdir()
+        (outside_parent / "ad-one.mp4").write_bytes(b"outside")
+        intake = self.complete_creative_intake(harness, run)
+        intake["sources"][0].update(
+            {"kind": "file", "location": "assets/ad-one.mp4", "sha256": None}
+        )
+        self.write_intake(run, intake)
+        checked_file = asset_parent / "ad-one.mp4"
+        original_open = harness.os.open
+        swapped = False
+
+        def swap_parent_before_file_open(path, flags, mode=0o777, *, dir_fd=None):
+            nonlocal swapped
+            is_path_open = dir_fd is None and pathlib.Path(path) == checked_file
+            is_anchored_open = dir_fd is not None and path == "ad-one.mp4"
+            if (is_path_open or is_anchored_open) and not swapped:
+                swapped = True
+                asset_parent.rename(run / "original-assets")
+                asset_parent.symlink_to(outside_parent, target_is_directory=True)
+            return original_open(path, flags, mode, dir_fd=dir_fd)
+
+        with mock.patch.object(
+            harness, "_no_follow_flag", return_value=os.O_NOFOLLOW
+        ), mock.patch.object(
+            harness.os, "open", side_effect=swap_parent_before_file_open
+        ):
+            result = harness.validate_run(self.brand, run)
+
+        outside_digest = "31207a2065f46a5b948fce6fe5c13e85abaf5631e2f894b47dcd4fce14f6c57b"
+        self.assertNotEqual(outside_digest, result.inventory[0][4])
+
+    def test_local_source_validation_fails_closed_without_no_follow_support(self):
+        harness = load_harness()
+        run = self.create_modern_run(harness)
+        (run / "ad-one.mp4").write_bytes(b"inside")
+        intake = self.complete_creative_intake(harness, run)
+        intake["sources"][0].update(
+            {"kind": "file", "location": "ad-one.mp4", "sha256": None}
+        )
+        self.write_intake(run, intake)
+
+        with mock.patch.object(harness.os, "O_NOFOLLOW", None):
+            try:
+                result = harness.validate_run(self.brand, run)
+            except Exception as error:
+                self.fail(f"validate_run raised {type(error).__name__}: {error}")
+
+        self.assertEqual("blocked", result.status)
+        self.assertIn(
+            "descriptor-anchored no-follow access is unavailable",
+            result.errors,
+        )
+
     def test_rejects_a_run_folder_outside_the_brand(self):
         harness = load_harness()
         canonical_run = self.create_run(harness)
@@ -917,6 +1022,78 @@ class AdAnalysisHarnessTests(unittest.TestCase):
         self.assertNotIn("Traceback", completed.stderr)
         self.assertIn("input audit was not written", completed.stdout)
         self.assertEqual(before, controlled.read_bytes())
+
+    def test_validator_cli_writes_audits_only_to_canonical_run_folders(self):
+        run = self.brand / "strategy"
+        audit = run / "input-audit.md"
+
+        completed = subprocess.run(
+            [
+                "python3",
+                str(VALIDATOR),
+                str(self.brand),
+                str(run),
+                "--write-audit",
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        self.assertEqual(1, completed.returncode)
+        self.assertNotIn("Traceback", completed.stderr)
+        self.assertIn("input audit was not written", completed.stdout)
+        self.assertFalse(audit.exists())
+
+    def test_audit_write_never_uses_a_swapped_parent_directory(self):
+        harness = load_harness()
+        validator = load_validator(harness)
+        run = self.create_run(harness)
+        outside = self.temp_root / "outside-run"
+        outside.mkdir()
+        audit_path = run / "input-audit.md"
+        original_open = validator.os.open
+        swapped = False
+
+        def swap_parent_before_audit_open(path, flags, mode=0o777, *, dir_fd=None):
+            nonlocal swapped
+            is_path_open = dir_fd is None and pathlib.Path(path) == audit_path
+            is_anchored_open = dir_fd is not None and path == "input-audit.md"
+            if (is_path_open or is_anchored_open) and not swapped:
+                swapped = True
+                run.rename(run.parent / "original-run")
+                run.symlink_to(outside, target_is_directory=True)
+            return original_open(path, flags, mode, dir_fd=dir_fd)
+
+        with mock.patch.object(
+            harness, "_no_follow_flag", return_value=os.O_NOFOLLOW
+        ), mock.patch.object(
+            validator, "_no_follow_flag", return_value=os.O_NOFOLLOW
+        ), mock.patch.object(
+            validator.os, "open", side_effect=swap_parent_before_audit_open
+        ):
+            try:
+                validator._write_input_audit(audit_path, "audit\n")
+            except OSError:
+                pass
+
+        self.assertFalse((outside / "input-audit.md").exists())
+
+    def test_audit_write_fails_closed_without_no_follow_support(self):
+        harness = load_harness()
+        validator = load_validator(harness)
+        run = self.create_run(harness)
+
+        with mock.patch.object(validator.os, "O_NOFOLLOW", None):
+            try:
+                validator._write_input_audit(run / "input-audit.md", "audit\n")
+            except OSError:
+                pass
+            except Exception as error:
+                self.fail(f"audit write raised {type(error).__name__}: {error}")
+            else:
+                self.fail("audit write did not fail closed")
 
 
 if __name__ == "__main__":
