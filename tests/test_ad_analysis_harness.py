@@ -1364,6 +1364,63 @@ class AdAnalysisHarnessTests(unittest.TestCase):
             result.inventory,
         )
 
+    def test_rejects_hardlinked_local_sources(self):
+        harness = load_harness()
+        run = self.create_modern_run(harness)
+        outside = self.temp_root / "outside-ad.mp4"
+        outside.write_bytes(b"outside brand bytes")
+        os.link(outside, run / "ad-one.mp4")
+        intake = self.complete_creative_intake(harness, run)
+        intake["sources"][0].update(
+            {"kind": "file", "location": "ad-one.mp4", "sha256": None}
+        )
+        self.write_intake(run, intake)
+
+        result = harness.validate_run(self.brand, run)
+
+        self.assertEqual("blocked", result.status)
+        self.assertIn(
+            "sources[0].location must have exactly one hard link", result.errors
+        )
+        self.assertEqual("", result.inventory[0][4])
+
+    def test_rejects_local_sources_that_change_while_hashed(self):
+        harness = load_harness()
+        run = self.create_modern_run(harness)
+        asset = run / "ad-one.mp4"
+        asset.write_bytes((b"a" * (1024 * 1024)) + (b"b" * (1024 * 1024)))
+        intake = self.complete_creative_intake(harness, run)
+        intake["sources"][0].update(
+            {"kind": "file", "location": "ad-one.mp4", "sha256": None}
+        )
+        self.write_intake(run, intake)
+        asset_identity = (asset.stat().st_dev, asset.stat().st_ino)
+        original_read = harness.os.read
+        mutated = False
+
+        def mutate_after_first_asset_chunk(descriptor, size):
+            nonlocal mutated
+            content = original_read(descriptor, size)
+            metadata = os.fstat(descriptor)
+            if (metadata.st_dev, metadata.st_ino) == asset_identity and not mutated:
+                mutated = True
+                with asset.open("r+b") as file:
+                    file.seek(0)
+                    file.write(b"changed")
+                    file.flush()
+                    os.fsync(file.fileno())
+            return content
+
+        with mock.patch.object(harness.os, "read", side_effect=mutate_after_first_asset_chunk):
+            result = harness.validate_run(self.brand, run)
+
+        self.assertTrue(mutated)
+        self.assertEqual("blocked", result.status)
+        self.assertIn(
+            "sources[0].location changed while it was being read", result.errors
+        )
+        self.assertEqual("", result.inventory[0][4])
+
     def test_connected_and_upload_intakes_share_one_versioned_shape(self):
         harness = load_harness()
         connected_run = self.create_run(harness)
@@ -1621,6 +1678,55 @@ class AdAnalysisHarnessTests(unittest.TestCase):
 
         self.assertEqual("blocked", result.status)
         self.assertIn("run folder must be inside the brand folder", result.errors)
+
+    def test_validate_run_rejects_a_noncanonical_folder_inside_the_brand(self):
+        harness = load_harness()
+        canonical_run = self.create_modern_run(harness)
+        intake = self.complete_creative_intake(harness, canonical_run)
+        noncanonical_run = self.brand / "outputs" / "manual" / canonical_run.name
+        noncanonical_run.mkdir(parents=True)
+        self.write_intake(noncanonical_run, intake)
+
+        result = harness.validate_run(self.brand, noncanonical_run)
+
+        self.assertEqual("blocked", result.status)
+        self.assertIn(
+            "run folder must be outputs/ad-analysis/<RUN_ID>", result.errors
+        )
+
+    def test_validator_never_publishes_an_audit_after_run_directory_replacement(self):
+        harness = load_harness()
+        validator = load_validator(harness)
+        run = self.create_modern_run(harness)
+        intake = self.complete_creative_intake(harness, run)
+        self.write_intake(run, intake)
+
+        replacement = run.parent / ".replacement-run"
+        replacement.mkdir()
+        replacement_intake = copy.deepcopy(intake)
+        replacement_intake["ads"][0]["ad_id"] = "AD-REPLACEMENT"
+        self.write_intake(replacement, replacement_intake)
+        original_run = run.parent / ".original-run"
+        original_write = validator._write_input_audit
+        swapped = False
+
+        def swap_run_then_publish(*args, **kwargs):
+            nonlocal swapped
+            run.rename(original_run)
+            replacement.rename(run)
+            swapped = True
+            return original_write(*args, **kwargs)
+
+        arguments = mock.Mock(brand=self.brand, run=run, write_audit=True)
+        with mock.patch.object(validator, "_arguments", return_value=arguments), mock.patch.object(
+            validator, "_write_input_audit", side_effect=swap_run_then_publish
+        ):
+            return_code = validator.main()
+
+        self.assertTrue(swapped)
+        self.assertEqual(1, return_code)
+        self.assertFalse((run / "input-audit.md").exists())
+        self.assertFalse((original_run / "input-audit.md").exists())
 
     def test_renders_a_deterministic_input_audit(self):
         harness = load_harness()

@@ -184,6 +184,25 @@ class _SymlinkAccessError(OSError):
     pass
 
 
+class _LinkedFileError(OSError):
+    pass
+
+
+class _ChangedFileError(OSError):
+    pass
+
+
+def _stable_file_identity(metadata: os.stat_result) -> tuple[int, ...]:
+    return (
+        metadata.st_dev,
+        metadata.st_ino,
+        metadata.st_size,
+        metadata.st_mtime_ns,
+        metadata.st_ctime_ns,
+        metadata.st_nlink,
+    )
+
+
 def _scalar(match: re.Match[str]) -> str:
     return next(value for value in match.group("double", "single", "bare") if value is not None)
 
@@ -271,9 +290,19 @@ def _open_regular_relative_from_descriptor_no_follow(
         file_descriptor = os.open(
             filename, os.O_RDONLY | no_follow, dir_fd=descriptor
         )
-        if not stat.S_ISREG(os.fstat(file_descriptor).st_mode):
+        opened_metadata = os.fstat(file_descriptor)
+        if not stat.S_ISREG(opened_metadata.st_mode):
             os.close(file_descriptor)
             raise OSError(f"file is not regular: {filename}")
+        if metadata.st_nlink != 1 or opened_metadata.st_nlink != 1:
+            os.close(file_descriptor)
+            raise _LinkedFileError(f"file has multiple hard links: {filename}")
+        if (metadata.st_dev, metadata.st_ino) != (
+            opened_metadata.st_dev,
+            opened_metadata.st_ino,
+        ):
+            os.close(file_descriptor)
+            raise _ChangedFileError(f"file changed before it was opened: {filename}")
         return file_descriptor
     finally:
         os.close(descriptor)
@@ -309,7 +338,9 @@ def _read_relative_text_no_follow(
         return file.read()
 
 
-def _read_limited_regular_bytes(descriptor: int, maximum: int) -> bytes:
+def _read_limited_regular_bytes(
+    descriptor: int, maximum: int, *, close_descriptor: bool = True
+) -> bytes:
     try:
         metadata = os.fstat(descriptor)
         if not stat.S_ISREG(metadata.st_mode):
@@ -331,7 +362,8 @@ def _read_limited_regular_bytes(descriptor: int, maximum: int) -> bytes:
             raise ValueError(f"intake manifest exceeds maximum size of {maximum} bytes")
         return content
     finally:
-        os.close(descriptor)
+        if close_descriptor:
+            os.close(descriptor)
 
 
 def _require_json_depth(text: str, maximum: int) -> None:
@@ -425,6 +457,43 @@ def _open_or_create_directory_relative_from_descriptor_no_follow(
             if not stat.S_ISDIR(os.fstat(next_descriptor).st_mode):
                 os.close(next_descriptor)
                 raise OSError(f"path component is not a directory: {component}")
+            os.close(descriptor)
+            descriptor = next_descriptor
+        return descriptor
+    except BaseException:
+        os.close(descriptor)
+        raise
+
+
+def _open_directory_relative_from_descriptor_no_follow(
+    directory_descriptor: int, relative: pathlib.Path
+) -> int:
+    relative = pathlib.Path(relative)
+    if relative.is_absolute() or not relative.parts or ".." in relative.parts:
+        raise OSError("directory path must be a non-empty safe relative path")
+    no_follow = _no_follow_flag()
+    flags = os.O_RDONLY | no_follow | os.O_DIRECTORY
+    descriptor = os.dup(directory_descriptor)
+    try:
+        for component in relative.parts:
+            metadata = os.stat(component, dir_fd=descriptor, follow_symlinks=False)
+            if stat.S_ISLNK(metadata.st_mode):
+                raise _SymlinkAccessError(
+                    f"path component is a symlink: {component}"
+                )
+            next_descriptor = os.open(component, flags, dir_fd=descriptor)
+            opened_metadata = os.fstat(next_descriptor)
+            if not stat.S_ISDIR(opened_metadata.st_mode):
+                os.close(next_descriptor)
+                raise OSError(f"path component is not a directory: {component}")
+            if (metadata.st_dev, metadata.st_ino) != (
+                opened_metadata.st_dev,
+                opened_metadata.st_ino,
+            ):
+                os.close(next_descriptor)
+                raise _ChangedFileError(
+                    f"directory changed while it was opened: {component}"
+                )
             os.close(descriptor)
             descriptor = next_descriptor
         return descriptor
@@ -785,6 +854,176 @@ def _inside(path: pathlib.Path, parent: pathlib.Path) -> bool:
     return True
 
 
+class _ValidationSession:
+    """Retain one canonical run and intake identity for a complete validation transaction."""
+
+    def __init__(
+        self,
+        brand_folder: pathlib.Path,
+        run_folder: pathlib.Path,
+        brand_descriptor: int,
+        analysis_descriptor: int,
+        run_descriptor: int,
+        intake_descriptor: int,
+        intake_identity: tuple[int, ...] | None,
+        identity: dict[str, str],
+        intake: dict[str, object],
+        intake_error: str | None,
+    ) -> None:
+        self.brand_folder = brand_folder
+        self.analysis_folder = brand_folder / "outputs" / "ad-analysis"
+        self.run_folder = run_folder
+        self.brand_descriptor = brand_descriptor
+        self.analysis_descriptor = analysis_descriptor
+        self.run_descriptor = run_descriptor
+        self.intake_descriptor = intake_descriptor
+        self.intake_identity = intake_identity
+        self.identity = identity
+        self.intake = intake
+        self.intake_error = intake_error
+
+    def __enter__(self) -> _ValidationSession:
+        return self
+
+    def __exit__(self, *_exc: object) -> None:
+        self.close()
+
+    def close(self) -> None:
+        for name in (
+            "intake_descriptor",
+            "run_descriptor",
+            "analysis_descriptor",
+            "brand_descriptor",
+        ):
+            descriptor = getattr(self, name)
+            if descriptor >= 0:
+                os.close(descriptor)
+                setattr(self, name, -1)
+
+    def is_current(self) -> bool:
+        if not _directory_descriptor_matches_path(
+            self.brand_descriptor, self.brand_folder
+        ):
+            return False
+        if not _directory_descriptor_matches_path(
+            self.analysis_descriptor, self.analysis_folder
+        ):
+            return False
+        if not _directory_descriptor_matches_path(
+            self.run_descriptor, self.run_folder
+        ):
+            return False
+        if self.intake_descriptor < 0 or self.intake_identity is None:
+            return self.intake_error is not None
+        try:
+            path_metadata = os.stat(
+                "intake.json",
+                dir_fd=self.run_descriptor,
+                follow_symlinks=False,
+            )
+            descriptor_metadata = os.fstat(self.intake_descriptor)
+        except OSError:
+            return False
+        return (
+            stat.S_ISREG(path_metadata.st_mode)
+            and path_metadata.st_nlink == 1
+            and _stable_file_identity(path_metadata) == self.intake_identity
+            and _stable_file_identity(descriptor_metadata) == self.intake_identity
+        )
+
+
+def _open_validation_session(
+    brand_folder: pathlib.Path, run_folder: pathlib.Path
+) -> _ValidationSession:
+    brand_folder = _absolute_lexical(pathlib.Path(brand_folder))
+    run_folder = _absolute_lexical(pathlib.Path(run_folder))
+    if not _inside(run_folder, brand_folder):
+        raise ValueError("run folder must be inside the brand folder")
+    expected_parent = brand_folder / "outputs" / "ad-analysis"
+    if run_folder.parent != expected_parent:
+        raise ValueError("run folder must be outputs/ad-analysis/<RUN_ID>")
+    try:
+        _validate_run_id(run_folder.name)
+    except ValueError as error:
+        raise ValueError("run folder must be outputs/ad-analysis/<RUN_ID>") from error
+
+    brand_descriptor = -1
+    analysis_descriptor = -1
+    run_descriptor = -1
+    intake_descriptor = -1
+    try:
+        brand_descriptor = _open_directory_no_follow(brand_folder)
+        analysis_descriptor = _open_directory_relative_from_descriptor_no_follow(
+            brand_descriptor, pathlib.Path("outputs/ad-analysis")
+        )
+        run_descriptor = _open_directory_relative_from_descriptor_no_follow(
+            analysis_descriptor, pathlib.Path(run_folder.name)
+        )
+        if not (
+            _directory_descriptor_matches_path(brand_descriptor, brand_folder)
+            and _directory_descriptor_matches_path(
+                analysis_descriptor, expected_parent
+            )
+            and _directory_descriptor_matches_path(run_descriptor, run_folder)
+        ):
+            raise OSError("run directory changed while validation was starting")
+
+        identity = _load_brand_identity_from_descriptor(
+            brand_descriptor, brand_folder / "brand.yml"
+        )
+        intake: dict[str, object] = {}
+        intake_identity: tuple[int, ...] | None = None
+        intake_error: str | None = None
+        try:
+            intake_descriptor = _open_regular_relative_from_descriptor_no_follow(
+                run_descriptor, pathlib.Path("intake.json")
+            )
+            before = os.fstat(intake_descriptor)
+            content = _read_limited_regular_bytes(
+                intake_descriptor,
+                MAX_INTAKE_BYTES,
+                close_descriptor=False,
+            )
+            after = os.fstat(intake_descriptor)
+            if _stable_file_identity(before) != _stable_file_identity(after):
+                raise _ChangedFileError(
+                    "intake manifest changed while it was being read"
+                )
+            intake_identity = _stable_file_identity(after)
+            intake = _parse_intake_json(content)
+        except FileNotFoundError:
+            intake_error = f"intake manifest not found: {run_folder / 'intake.json'}"
+        except _LinkedFileError:
+            intake_error = "intake manifest must have exactly one hard link"
+        except _ChangedFileError:
+            intake_error = "intake manifest changed while it was being read"
+        except (OSError, ValueError, json.JSONDecodeError) as error:
+            intake_error = str(error)
+
+        return _ValidationSession(
+            brand_folder,
+            run_folder,
+            brand_descriptor,
+            analysis_descriptor,
+            run_descriptor,
+            intake_descriptor,
+            intake_identity,
+            identity,
+            intake,
+            intake_error,
+        )
+    except BaseException:
+        for descriptor in (
+            intake_descriptor,
+            run_descriptor,
+            analysis_descriptor,
+            brand_descriptor,
+        ):
+            if descriptor >= 0:
+                os.close(descriptor)
+        raise
+
+
 def _is_text(value: object, *, allow_empty: bool = False) -> bool:
     return (
         isinstance(value, str)
@@ -881,14 +1120,23 @@ def _unknown_key_errors(value: dict[str, object], allowed: set[str], path: str) 
 
 def _hash_regular_file(descriptor: int) -> str:
     try:
-        if not stat.S_ISREG(os.fstat(descriptor).st_mode):
+        before = os.fstat(descriptor)
+        if not stat.S_ISREG(before.st_mode):
             raise ValueError("source is not a regular file")
+        if before.st_nlink != 1:
+            raise _LinkedFileError("source has multiple hard links")
         digest = hashlib.sha256()
         while True:
             chunk = os.read(descriptor, 1024 * 1024)
             if not chunk:
-                return digest.hexdigest()
+                break
             digest.update(chunk)
+        after = os.fstat(descriptor)
+        if after.st_nlink != 1:
+            raise _LinkedFileError("source has multiple hard links")
+        if _stable_file_identity(before) != _stable_file_identity(after):
+            raise _ChangedFileError("source changed while it was being read")
+        return digest.hexdigest()
     finally:
         os.close(descriptor)
 
@@ -898,6 +1146,7 @@ def _validate_source_file(
     index: int,
     brand_folder: pathlib.Path,
     run_folder: pathlib.Path,
+    run_descriptor: int,
     errors: list[str],
 ) -> str:
     location = source.get("location")
@@ -920,9 +1169,17 @@ def _validate_source_file(
         errors.append(f"{path} must stay inside the brand folder")
         return ""
     try:
-        descriptor = _open_regular_relative_no_follow(run_folder, relative)
+        descriptor = _open_regular_relative_from_descriptor_no_follow(
+            run_descriptor, relative
+        )
     except _SymlinkAccessError:
         errors.append(f"{path} must not be a symlink")
+        return ""
+    except _LinkedFileError:
+        errors.append(f"{path} must have exactly one hard link")
+        return ""
+    except _ChangedFileError:
+        errors.append(f"{path} changed while it was being read")
         return ""
     except FileNotFoundError:
         errors.append(f"{path} must identify an existing regular file")
@@ -932,6 +1189,12 @@ def _validate_source_file(
         return ""
     try:
         actual_hash = _hash_regular_file(descriptor)
+    except _LinkedFileError:
+        errors.append(f"{path} must have exactly one hard link")
+        return ""
+    except _ChangedFileError:
+        errors.append(f"{path} changed while it was being read")
+        return ""
     except (OSError, ValueError):
         errors.append(f"{path} could not be read as a regular non-symlink file")
         return ""
@@ -946,6 +1209,7 @@ def _validate_sources(
     value: object,
     brand_folder: pathlib.Path,
     run_folder: pathlib.Path,
+    run_descriptor: int,
     errors: list[str],
 ) -> tuple[set[str], tuple[tuple[str, str, str, str, str], ...]]:
     if not isinstance(value, list):
@@ -990,7 +1254,12 @@ def _validate_sources(
         effective_hash = ""
         if kind == "file":
             effective_hash = _validate_source_file(
-                item, index, brand_folder, run_folder, errors
+                item,
+                index,
+                brand_folder,
+                run_folder,
+                run_descriptor,
+                errors,
             )
         elif isinstance(supplied_hash, str) and _SHA256.fullmatch(supplied_hash):
             effective_hash = supplied_hash.lower()
@@ -1489,39 +1758,21 @@ def _validate_performance(
         )
 
 
-def validate_run(
-    brand_folder: pathlib.Path, run_folder: pathlib.Path
-) -> ValidationResult:
-    """Validate one brand-scoped run without mutating intake or controlled records."""
+def _validate_session(session: _ValidationSession) -> ValidationResult:
     errors: list[str] = []
     limitations: list[str] = []
     inventory: tuple[tuple[str, str, str, str, str], ...] = ()
-    brand_folder = _absolute_lexical(pathlib.Path(brand_folder))
-    run_folder = _absolute_lexical(pathlib.Path(run_folder))
-
-    try:
-        _require_no_symlink_components(brand_folder)
-    except ValueError as error:
-        return _validation_result("blocked", (str(error),))
-    if not _inside(run_folder, brand_folder):
+    if session.intake_error is not None:
+        return _validation_result("blocked", (session.intake_error,))
+    if not session.is_current():
         return _validation_result(
-            "blocked", ("run folder must be inside the brand folder",)
+            "blocked", ("run or intake identity changed during validation",)
         )
-    try:
-        _require_no_symlink_components(run_folder)
-    except ValueError:
-        return _validation_result("blocked", ("run folder must not be a symlink",))
-    if not run_folder.is_dir():
-        return _validation_result("blocked", ("run folder not found",))
 
-    try:
-        identity = load_brand_identity(brand_folder)
-    except (FileNotFoundError, OSError, ValueError) as error:
-        return _validation_result("blocked", (str(error),))
-    try:
-        intake = load_intake(run_folder)
-    except (FileNotFoundError, OSError, ValueError, json.JSONDecodeError) as error:
-        return _validation_result("blocked", (str(error),))
+    brand_folder = session.brand_folder
+    run_folder = session.run_folder
+    identity = session.identity
+    intake = session.intake
 
     errors.extend(_credential_errors(intake))
     errors.extend(_unknown_key_errors(intake, _TOP_LEVEL_KEYS, ""))
@@ -1592,7 +1843,11 @@ def validate_run(
     limitations.extend(_migration_limitations(identity["method_version"]))
 
     source_ids, inventory = _validate_sources(
-        intake.get("sources"), brand_folder, run_folder, errors
+        intake.get("sources"),
+        brand_folder,
+        run_folder,
+        session.run_descriptor,
+        errors,
     )
     ad_ids = _validate_ads(intake.get("ads"), source_ids, errors, limitations)
     if mode == "performance-diagnosis":
@@ -1610,8 +1865,24 @@ def validate_run(
                 optional_performance, source_ids, ad_ids, errors
             )
 
+    if not session.is_current():
+        errors.append("run or intake identity changed during validation")
     status = "blocked" if errors else "limited" if limitations else "ready"
     return _validation_result(status, errors, limitations, inventory)
+
+
+def validate_run(
+    brand_folder: pathlib.Path, run_folder: pathlib.Path
+) -> ValidationResult:
+    """Validate one canonical brand-scoped run without mutating any record."""
+    try:
+        session = _open_validation_session(brand_folder, run_folder)
+    except _SymlinkAccessError:
+        return _validation_result("blocked", ("run folder must not be a symlink",))
+    except (FileNotFoundError, OSError, ValueError) as error:
+        return _validation_result("blocked", (str(error),))
+    with session:
+        return _validate_session(session)
 
 
 def _audit_value(value: object) -> str:
