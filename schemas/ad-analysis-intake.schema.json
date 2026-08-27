@@ -1,6 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lifestylebrands.example/schemas/ad-analysis-intake.schema.json",
   "title": "Ad analysis intake",
+  "$comment": "The deterministic loader also rejects duplicate JSON keys, non-finite numbers, inputs over 1048576 bytes, and nesting deeper than 32 containers.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -30,12 +32,40 @@
     "account_timezone": {"type": "string"},
     "requester": {"type": "string"},
     "requested_at": {"type": "string", "format": "date"},
-    "ads": {"type": "array", "items": {"$ref": "#/$defs/ad"}},
+    "ads": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/ad"}},
     "sources": {"type": "array", "items": {"$ref": "#/$defs/source"}},
-    "performance": {"type": ["object", "null"]},
-    "known_limitations": {"type": "array", "items": {"type": "string"}}
+    "performance": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/performance"}
+      ]
+    },
+    "known_limitations": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    }
   },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"mode": {"const": "performance-diagnosis"}},
+        "required": ["mode"]
+      },
+      "then": {
+        "properties": {
+          "account_timezone": {
+            "type": "string",
+            "minLength": 1,
+            "format": "iana-timezone"
+          },
+          "performance": {"$ref": "#/$defs/performanceDiagnosis"}
+        }
+      }
+    }
+  ],
   "$defs": {
+    "nullableText": {"type": ["string", "null"]},
     "source": {
       "type": "object",
       "additionalProperties": false,
@@ -51,18 +81,222 @@
     "ad": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["ad_id", "asset_source_ids"],
+      "required": [
+        "ad_id",
+        "asset_source_ids",
+        "asset_type",
+        "primary_text",
+        "headline",
+        "description",
+        "cta",
+        "destination_url",
+        "destination_type",
+        "coordinate_key",
+        "contst",
+        "source",
+        "who",
+        "primary_problem",
+        "awareness_code",
+        "messaging_route",
+        "format",
+        "primary_hook",
+        "post_id"
+      ],
       "properties": {
         "ad_id": {"type": "string", "minLength": 1},
-        "asset_source_ids": {"type": "array", "items": {"type": "string"}},
-        "primary_text": {"type": ["string", "null"]},
-        "headline": {"type": ["string", "null"]},
-        "description": {"type": ["string", "null"]},
-        "cta": {"type": ["string", "null"]},
-        "destination_url": {"type": ["string", "null"]},
-        "destination_type": {"type": ["string", "null"]},
-        "coordinate_key": {"type": ["string", "null"]}
+        "asset_source_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "asset_type": {"enum": ["video", "static", "carousel", "other", null]},
+        "primary_text": {"$ref": "#/$defs/nullableText"},
+        "headline": {"$ref": "#/$defs/nullableText"},
+        "description": {"$ref": "#/$defs/nullableText"},
+        "cta": {"$ref": "#/$defs/nullableText"},
+        "destination_url": {"$ref": "#/$defs/nullableText"},
+        "destination_type": {"enum": ["LP", "PDP", "HP", "CP", null]},
+        "coordinate_key": {"$ref": "#/$defs/nullableText"},
+        "contst": {"type": ["string", "null"], "pattern": "^CONTST\\d{3}$"},
+        "source": {"enum": ["NNT", "INSPO", "ITR", null]},
+        "who": {"$ref": "#/$defs/nullableText"},
+        "primary_problem": {"$ref": "#/$defs/nullableText"},
+        "awareness_code": {"enum": ["UWA", "PRA", "SLA", "PDA", null]},
+        "messaging_route": {"$ref": "#/$defs/nullableText"},
+        "format": {"$ref": "#/$defs/nullableText"},
+        "primary_hook": {"$ref": "#/$defs/nullableText"},
+        "post_id": {"$ref": "#/$defs/nullableText"}
       }
+    },
+    "dateRange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "end"],
+      "properties": {
+        "start": {"type": "string", "format": "date"},
+        "end": {"type": "string", "format": "date"}
+      }
+    },
+    "fieldMapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ad_id": {"type": "string", "minLength": 1},
+        "spend": {"type": "string", "minLength": 1},
+        "purchases": {"type": "string", "minLength": 1},
+        "impressions": {"type": "string", "minLength": 1},
+        "reach": {"type": "string", "minLength": 1},
+        "frequency": {"type": "string", "minLength": 1},
+        "cpm": {"type": "string", "minLength": 1},
+        "link_clicks": {"type": "string", "minLength": 1},
+        "outbound_clicks": {"type": "string", "minLength": 1},
+        "landing_page_views": {"type": "string", "minLength": 1},
+        "ctr": {"type": "string", "minLength": 1},
+        "cpc": {"type": "string", "minLength": 1},
+        "adds_to_cart": {"type": "string", "minLength": 1},
+        "initiates_checkout": {"type": "string", "minLength": 1},
+        "checkouts": {"type": "string", "minLength": 1},
+        "purchase_value": {"type": "string", "minLength": 1},
+        "roas": {"type": "string", "minLength": 1},
+        "video_3_second_plays": {"type": "string", "minLength": 1},
+        "video_thruplays": {"type": "string", "minLength": 1},
+        "video_plays_at_25_percent": {"type": "string", "minLength": 1},
+        "video_plays_at_50_percent": {"type": "string", "minLength": 1},
+        "video_plays_at_75_percent": {"type": "string", "minLength": 1},
+        "video_plays_at_95_percent": {"type": "string", "minLength": 1},
+        "video_plays_at_100_percent": {"type": "string", "minLength": 1},
+        "average_video_play_time": {"type": "string", "minLength": 1}
+      }
+    },
+    "intervention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["occurred_at", "scope", "description", "ad_id"],
+      "properties": {
+        "occurred_at": {"type": "string", "minLength": 1},
+        "scope": {"enum": ["account", "campaign", "ad-set", "ad"]},
+        "description": {"type": "string", "minLength": 1},
+        "ad_id": {"type": ["string", "null"]}
+      }
+    },
+    "accountNorm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metric", "value", "unit", "comparison_window", "source"],
+      "properties": {
+        "metric": {"type": "string", "minLength": 1},
+        "value": {"type": "number"},
+        "unit": {"type": "string", "minLength": 1},
+        "comparison_window": {"type": "string", "minLength": 1},
+        "source": {"type": "string", "minLength": 1}
+      }
+    },
+    "referenceRanges": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "sources"],
+      "properties": {
+        "status": {"enum": ["permitted", "unavailable"]},
+        "sources": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "permitted"}}, "required": ["status"]},
+          "then": {"properties": {"sources": {"minItems": 1}}}
+        },
+        {
+          "if": {"properties": {"status": {"const": "unavailable"}}, "required": ["status"]},
+          "then": {"properties": {"sources": {"maxItems": 0}}}
+        }
+      ]
+    },
+    "thresholdBasis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "metric",
+        "baseline",
+        "comparison_window",
+        "threshold",
+        "unit",
+        "source",
+        "ad_id"
+      ],
+      "properties": {
+        "metric": {"type": "string", "minLength": 1},
+        "baseline": {"type": "number"},
+        "comparison_window": {"type": "string", "minLength": 1},
+        "threshold": {"type": "number"},
+        "unit": {"type": "string", "minLength": 1},
+        "source": {"type": "string", "minLength": 1},
+        "ad_id": {"type": ["string", "null"]}
+      }
+    },
+    "performance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "date_range": {"$ref": "#/$defs/dateRange"},
+        "attribution": {"type": "string", "minLength": 1},
+        "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+        "aggregation_level": {"enum": ["ad"]},
+        "field_mapping": {"$ref": "#/$defs/fieldMapping"},
+        "ad_mapping": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {"type": "string", "minLength": 1}
+        },
+        "logged_interventions": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/intervention"}
+        },
+        "account_norms": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/accountNorm"}
+        },
+        "reference_ranges": {"$ref": "#/$defs/referenceRanges"},
+        "threshold_basis": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/thresholdBasis"}
+        }
+      }
+    },
+    "performanceDiagnosis": {
+      "allOf": [
+        {"$ref": "#/$defs/performance"},
+        {
+          "properties": {
+            "field_mapping": {
+              "required": ["ad_id", "spend", "purchases"]
+            }
+          },
+          "required": [
+            "source_ids",
+            "date_range",
+            "attribution",
+            "currency",
+            "aggregation_level",
+            "field_mapping",
+            "ad_mapping",
+            "logged_interventions",
+            "account_norms",
+            "reference_ranges",
+            "threshold_basis"
+          ]
+        }
+      ]
     }
   }
 }

@@ -13,46 +13,86 @@
     {
       "ad_id": "CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_UWA_VSL_LP_991001000000001",
       "asset_source_ids": ["SRC-QA-PD-UWA"],
+      "asset_type": "video",
       "primary_text": "Read one more chapter without lighting the whole room.",
       "headline": "Light the page, not the room",
       "description": "Warm focused bedside light",
       "cta": "Learn More",
       "destination_url": "https://quietarc.example/pages/shared-room-reading",
       "destination_type": "LP",
-      "coordinate_key": "night-readers__shared-room-glare"
+      "coordinate_key": "night-readers__shared-room-glare",
+      "contst": "CONTST042",
+      "source": "NNT",
+      "who": "Night readers sharing a room",
+      "primary_problem": "Lighting the page disturbs a partner",
+      "awareness_code": "UWA",
+      "messaging_route": "Page-light recognition",
+      "format": "VSL",
+      "primary_hook": "Read one more chapter without lighting the room",
+      "post_id": "991001000000001"
     },
     {
       "ad_id": "CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_PRA_STATIC_LP_991002000000002",
       "asset_source_ids": ["SRC-QA-PD-PRA"],
+      "asset_type": "static",
       "primary_text": "A bright bedside lamp solves your reading problem by creating another one for the person beside you.",
       "headline": "Bedside glare is a direction problem",
       "description": "See a lower light path",
       "cta": "Learn More",
       "destination_url": "https://quietarc.example/pages/shared-room-reading",
       "destination_type": "LP",
-      "coordinate_key": "night-readers__shared-room-glare"
+      "coordinate_key": "night-readers__shared-room-glare",
+      "contst": "CONTST042",
+      "source": "NNT",
+      "who": "Night readers sharing a room",
+      "primary_problem": "Lighting the page disturbs a partner",
+      "awareness_code": "PRA",
+      "messaging_route": "Glare-direction diagnosis",
+      "format": "STATIC",
+      "primary_hook": "Bedside glare is a direction problem",
+      "post_id": "991002000000002"
     },
     {
       "ad_id": "CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_SLA_COMPARISON_PDP_991003000000003",
       "asset_source_ids": ["SRC-QA-PD-SLA"],
+      "asset_type": "video",
       "primary_text": "One lamp spreads light across the room. Quiet Arc folds it down toward the page.",
       "headline": "See the difference in light direction",
       "description": "A recorded side-by-side comparison",
       "cta": "Shop Now",
       "destination_url": "https://quietarc.example/products/folding-reading-lamp",
       "destination_type": "PDP",
-      "coordinate_key": "night-readers__shared-room-glare"
+      "coordinate_key": "night-readers__shared-room-glare",
+      "contst": "CONTST042",
+      "source": "NNT",
+      "who": "Night readers sharing a room",
+      "primary_problem": "Lighting the page disturbs a partner",
+      "awareness_code": "SLA",
+      "messaging_route": "Light-direction differentiation",
+      "format": "COMPARISON",
+      "primary_hook": "One lamp lights the room; one lights the page",
+      "post_id": "991003000000003"
     },
     {
       "ad_id": "CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_PDA_STATIC_PDP_991004000000004",
       "asset_source_ids": ["SRC-QA-PD-PDA"],
+      "asset_type": "static",
       "primary_text": "Fold the light toward your page, then fold the lamp away when you are done.",
       "headline": "Focused light for shared rooms",
       "description": "Quiet Arc folding reading lamp",
       "cta": "Shop Now",
       "destination_url": "https://quietarc.example/products/folding-reading-lamp",
       "destination_type": "PDP",
-      "coordinate_key": "night-readers__shared-room-glare"
+      "coordinate_key": "night-readers__shared-room-glare",
+      "contst": "CONTST042",
+      "source": "NNT",
+      "who": "Night readers sharing a room",
+      "primary_problem": "Lighting the page disturbs a partner",
+      "awareness_code": "PDA",
+      "messaging_route": "Product decision",
+      "format": "STATIC",
+      "primary_hook": "Focused light for shared rooms",
+      "post_id": "991004000000004"
     }
   ],
   "sources": [
@@ -122,7 +162,63 @@
       "CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_SLA_COMPARISON_PDP_991003000000003": "CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_SLA_COMPARISON_PDP_991003000000003",
       "CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_PDA_STATIC_PDP_991004000000004": "CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_PDA_STATIC_PDP_991004000000004"
     },
-    "logged_interventions": []
+    "logged_interventions": [],
+    "account_norms": [
+      {
+        "metric": "target_cac",
+        "value": 60,
+        "unit": "AUD",
+        "comparison_window": "five full account days",
+        "source": "ad-diagnosis-performance.csv"
+      },
+      {
+        "metric": "minimum_batch_spend",
+        "value": 300,
+        "unit": "AUD",
+        "comparison_window": "five full account days",
+        "source": "ad-diagnosis-performance.csv"
+      },
+      {
+        "metric": "minimum_batch_purchases",
+        "value": 6,
+        "unit": "purchases",
+        "comparison_window": "five full account days",
+        "source": "ad-diagnosis-performance.csv"
+      }
+    ],
+    "reference_ranges": {
+      "status": "unavailable",
+      "sources": []
+    },
+    "threshold_basis": [
+      {
+        "metric": "target_cac",
+        "baseline": 106.67,
+        "comparison_window": "2026-08-20 through 2026-08-24",
+        "threshold": 60,
+        "unit": "AUD",
+        "source": "ad-diagnosis-performance.csv",
+        "ad_id": null
+      },
+      {
+        "metric": "minimum_batch_spend",
+        "baseline": 320,
+        "comparison_window": "2026-08-20 through 2026-08-24",
+        "threshold": 300,
+        "unit": "AUD",
+        "source": "ad-diagnosis-performance.csv",
+        "ad_id": null
+      },
+      {
+        "metric": "minimum_batch_purchases",
+        "baseline": 3,
+        "comparison_window": "2026-08-20 through 2026-08-24",
+        "threshold": 6,
+        "unit": "purchases",
+        "source": "ad-diagnosis-performance.csv",
+        "ad_id": null
+      }
+    ]
   },
   "known_limitations": [
     "First-frame retention was not supplied for video ads; opening-frame claims are limited."

@@ -15,7 +15,7 @@
 - Creative sources: `SRC-QA-001`, `SRC-QA-002`
 - Destination evidence: `SRC-QA-003`
 - Performance material: not supplied
-- Limitations: awareness job and messaging route are not structured in the intake; attachment
+- Limitations: awareness job and messaging route are explicit nulls in the intake; attachment
   hashes are absent; attachment and screenshot contents are not frozen inputs. Findings below stay
   within the supplied identifiers, copy, coordinate keys, destination URL and source labels.
 
@@ -26,7 +26,7 @@
 | `AD-QA-001` | `SRC-QA-001` | `night-readers__shared-room-glare` | PDP URL in intake | Ad, asset, coordinate and destination are linked |
 | `AD-QA-002` | `SRC-QA-002` | `night-readers__shared-room-glare` | PDP URL in intake | Ad, asset, coordinate and destination are linked |
 
-No CONTST or production-record fields are present in the frozen intake, so none are inferred.
+CONTST, source and Post ID are explicit nulls in the frozen intake, so none are inferred.
 
 ## 3. Who x Primary Problem clarity
 
@@ -38,7 +38,7 @@ No CONTST or production-record fields are present in the frozen intake, so none 
 
 ## 4. Awareness job and messaging route
 
-The intake does not supply a governed awareness job or messaging route for either ad. This section
+The intake supplies explicit nulls for governed awareness job and messaging route for both ads. This section
 therefore checks coherence only and does not assign missing strategy fields.
 
 - `AD-QA-001`: the page-light contrast is coherent from primary text to headline.

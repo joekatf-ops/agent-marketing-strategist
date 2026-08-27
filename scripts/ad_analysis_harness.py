@@ -5,17 +5,21 @@ from __future__ import annotations
 import datetime as dt
 import hashlib
 import json
+import math
 import os
 import pathlib
 import re
 import shlex
 import stat
 from typing import NamedTuple
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 RUN_TEMPLATE = ROOT / "templates" / "brand-folder" / "outputs" / "ad-analysis" / "README.md"
 MODES = {"creative-audit", "performance-diagnosis"}
+MAX_INTAKE_BYTES = 1_048_576
+MAX_JSON_DEPTH = 32
 RUN_ID = re.compile(r"^ADR-(?P<date>\d{8})-(?P<number>\d{3})$")
 _SLUG = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 _VERSION = re.compile(r"^(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)$")
@@ -70,6 +74,7 @@ _SOURCE_KINDS = {"file", "attachment", "url", "screenshot", "table"}
 _AD_KEYS = {
     "ad_id",
     "asset_source_ids",
+    "asset_type",
     "primary_text",
     "headline",
     "description",
@@ -77,8 +82,36 @@ _AD_KEYS = {
     "destination_url",
     "destination_type",
     "coordinate_key",
+    "contst",
+    "source",
+    "who",
+    "primary_problem",
+    "awareness_code",
+    "messaging_route",
+    "format",
+    "primary_hook",
+    "post_id",
 }
-_AD_OPTIONAL_TEXT_KEYS = _AD_KEYS - {"ad_id", "asset_source_ids"}
+_AD_REQUIRED_KEYS = set(_AD_KEYS)
+_AD_NULLABLE_TEXT_KEYS = {
+    "primary_text",
+    "headline",
+    "description",
+    "cta",
+    "destination_url",
+    "coordinate_key",
+    "who",
+    "primary_problem",
+    "messaging_route",
+    "format",
+    "primary_hook",
+    "post_id",
+}
+_ASSET_TYPES = {"video", "static", "carousel", "other"}
+_DESTINATION_TYPES = {"LP", "PDP", "HP", "CP"}
+_AD_SOURCES = {"NNT", "INSPO", "ITR"}
+_AWARENESS_CODES = {"UWA", "PRA", "SLA", "PDA"}
+_CONTST = re.compile(r"^CONTST\d{3}$")
 _PERFORMANCE_KEYS = {
     "source_ids",
     "date_range",
@@ -88,6 +121,23 @@ _PERFORMANCE_KEYS = {
     "field_mapping",
     "ad_mapping",
     "logged_interventions",
+    "account_norms",
+    "reference_ranges",
+    "threshold_basis",
+}
+_INTERVENTION_KEYS = {"occurred_at", "scope", "description", "ad_id"}
+_INTERVENTION_SCOPES = {"account", "campaign", "ad-set", "ad"}
+_ACCOUNT_NORM_KEYS = {"metric", "value", "unit", "comparison_window", "source"}
+_REFERENCE_RANGE_KEYS = {"status", "sources"}
+_REFERENCE_RANGE_STATUSES = {"permitted", "unavailable"}
+_THRESHOLD_BASIS_KEYS = {
+    "metric",
+    "baseline",
+    "comparison_window",
+    "threshold",
+    "unit",
+    "source",
+    "ad_id",
 }
 _REQUIRED_FIELD_MAPPINGS = {"ad_id", "spend", "purchases"}
 _FUNNEL_FIELD_MAPPINGS = {
@@ -257,6 +307,85 @@ def _read_relative_text_no_follow(
     descriptor = _open_regular_relative_no_follow(directory, relative)
     with os.fdopen(descriptor, "r", encoding="utf-8") as file:
         return file.read()
+
+
+def _read_limited_regular_bytes(descriptor: int, maximum: int) -> bytes:
+    try:
+        metadata = os.fstat(descriptor)
+        if not stat.S_ISREG(metadata.st_mode):
+            raise ValueError("intake manifest must be a regular file")
+        if metadata.st_nlink != 1:
+            raise ValueError("intake manifest must have exactly one hard link")
+        if metadata.st_size > maximum:
+            raise ValueError(f"intake manifest exceeds maximum size of {maximum} bytes")
+        chunks = []
+        remaining = maximum + 1
+        while remaining:
+            chunk = os.read(descriptor, min(1024 * 1024, remaining))
+            if not chunk:
+                break
+            chunks.append(chunk)
+            remaining -= len(chunk)
+        content = b"".join(chunks)
+        if len(content) > maximum:
+            raise ValueError(f"intake manifest exceeds maximum size of {maximum} bytes")
+        return content
+    finally:
+        os.close(descriptor)
+
+
+def _require_json_depth(text: str, maximum: int) -> None:
+    depth = 0
+    quoted = False
+    escaped = False
+    for character in text:
+        if quoted:
+            if escaped:
+                escaped = False
+            elif character == "\\":
+                escaped = True
+            elif character == '"':
+                quoted = False
+            continue
+        if character == '"':
+            quoted = True
+        elif character in "[{":
+            depth += 1
+            if depth > maximum:
+                raise ValueError(
+                    f"intake manifest exceeds maximum depth of {maximum} containers"
+                )
+        elif character in "]}":
+            depth -= 1
+
+
+def _reject_duplicate_json_keys(pairs: list[tuple[str, object]]) -> dict[str, object]:
+    value: dict[str, object] = {}
+    for key, item in pairs:
+        if key in value:
+            raise ValueError(f"duplicate JSON key: {key}")
+        value[key] = item
+    return value
+
+
+def _reject_nonfinite_json_number(value: str) -> object:
+    raise ValueError(f"non-finite JSON number: {value}")
+
+
+def _parse_intake_json(content: bytes) -> dict[str, object]:
+    try:
+        text = content.decode("utf-8")
+    except UnicodeDecodeError as error:
+        raise ValueError("intake manifest must be UTF-8 JSON") from error
+    _require_json_depth(text, MAX_JSON_DEPTH)
+    intake = json.loads(
+        text,
+        object_pairs_hook=_reject_duplicate_json_keys,
+        parse_constant=_reject_nonfinite_json_number,
+    )
+    if not isinstance(intake, dict):
+        raise ValueError("intake manifest must contain a JSON object")
+    return intake
 
 
 def _open_or_create_directory_relative_from_descriptor_no_follow(
@@ -636,17 +765,16 @@ def load_intake(run_folder: pathlib.Path) -> dict[str, object]:
     if not intake_path.is_file():
         raise FileNotFoundError(f"intake manifest not found: {intake_path}")
     try:
-        intake_text = _read_relative_text_no_follow(
+        descriptor = _open_regular_relative_no_follow(
             run_folder, pathlib.Path("intake.json")
         )
     except FileNotFoundError as error:
         raise FileNotFoundError(f"intake manifest not found: {intake_path}") from error
     except _SymlinkAccessError as error:
         raise ValueError(f"path must not contain a symlink: {intake_path}") from error
-    intake = json.loads(intake_text)
-    if not isinstance(intake, dict):
-        raise ValueError("intake manifest must contain a JSON object")
-    return intake
+    return _parse_intake_json(
+        _read_limited_regular_bytes(descriptor, MAX_INTAKE_BYTES)
+    )
 
 
 def _inside(path: pathlib.Path, parent: pathlib.Path) -> bool:
@@ -731,6 +859,17 @@ def _is_date(value: object) -> bool:
     try:
         dt.date.fromisoformat(value)
     except ValueError:
+        return False
+    return True
+
+
+def _is_timezone(value: object) -> bool:
+    if not _is_text(value):
+        return False
+    assert isinstance(value, str)
+    try:
+        ZoneInfo(value)
+    except (ValueError, ZoneInfoNotFoundError):
         return False
     return True
 
@@ -885,7 +1024,7 @@ def _validate_ads(
             errors.append(f"{path} must be an object")
             continue
         errors.extend(_unknown_key_errors(item, _AD_KEYS, path))
-        for key in sorted({"ad_id", "asset_source_ids"} - item.keys()):
+        for key in sorted(_AD_REQUIRED_KEYS - item.keys()):
             errors.append(f"{path}.{key} is required")
 
         ad_id = item.get("ad_id")
@@ -902,19 +1041,64 @@ def _validate_ads(
         elif not assets:
             errors.append(f"{path}.asset_source_ids must contain at least one source ID")
         else:
+            seen_assets: set[str] = set()
             for asset_index, source_id in enumerate(assets):
                 if not _is_text(source_id):
                     errors.append(
                         f"{path}.asset_source_ids[{asset_index}] must be non-empty text"
                     )
+                elif source_id in seen_assets:
+                    errors.append(
+                        f"{path}.asset_source_ids duplicates source ID {source_id}"
+                    )
                 elif source_id not in source_ids:
                     errors.append(
                         f"{path}.asset_source_ids references unknown source {source_id}"
                     )
+                if isinstance(source_id, str):
+                    seen_assets.add(source_id)
 
-        for key in sorted(_AD_OPTIONAL_TEXT_KEYS & item.keys()):
+        for key in sorted(_AD_NULLABLE_TEXT_KEYS & item.keys()):
             if item[key] is not None and not isinstance(item[key], str):
                 errors.append(f"{path}.{key} must be text or null")
+
+        asset_type = item.get("asset_type")
+        if asset_type is not None and (
+            not isinstance(asset_type, str) or asset_type not in _ASSET_TYPES
+        ):
+            errors.append(
+                f"{path}.asset_type must be null or one of: {', '.join(sorted(_ASSET_TYPES))}"
+            )
+        destination_type = item.get("destination_type")
+        if destination_type is not None and (
+            not isinstance(destination_type, str)
+            or destination_type not in _DESTINATION_TYPES
+        ):
+            errors.append(
+                f"{path}.destination_type must be null or one of: "
+                f"{', '.join(sorted(_DESTINATION_TYPES))}"
+            )
+        contst = item.get("contst")
+        if contst is not None and (
+            not isinstance(contst, str) or _CONTST.fullmatch(contst) is None
+        ):
+            errors.append(f"{path}.contst must be null or a CONTST### identifier")
+        source = item.get("source")
+        if source is not None and (
+            not isinstance(source, str) or source not in _AD_SOURCES
+        ):
+            errors.append(
+                f"{path}.source must be null or one of: {', '.join(sorted(_AD_SOURCES))}"
+            )
+        awareness_code = item.get("awareness_code")
+        if awareness_code is not None and (
+            not isinstance(awareness_code, str)
+            or awareness_code not in _AWARENESS_CODES
+        ):
+            errors.append(
+                f"{path}.awareness_code must be null or one of: "
+                f"{', '.join(sorted(_AWARENESS_CODES))}"
+            )
 
         copy_fields = ("primary_text", "headline", "description", "cta")
         if not any(_is_text(item.get(key)) for key in copy_fields):
@@ -936,6 +1120,130 @@ def _required_performance_error(errors: list[str], field: str) -> None:
         errors.append(f"performance.{field} is required")
 
 
+def _is_finite_number(value: object) -> bool:
+    return type(value) in {int, float} and math.isfinite(value)
+
+
+def _validate_logged_interventions(
+    value: object, ad_ids: set[str], errors: list[str]
+) -> None:
+    if not isinstance(value, list):
+        errors.append("performance.logged_interventions must be an array")
+        return
+    for index, intervention in enumerate(value):
+        path = f"performance.logged_interventions[{index}]"
+        if not isinstance(intervention, dict):
+            errors.append(f"{path} must be an object")
+            continue
+        errors.extend(_unknown_key_errors(intervention, _INTERVENTION_KEYS, path))
+        for key in sorted(_INTERVENTION_KEYS - intervention.keys()):
+            errors.append(f"{path}.{key} is required")
+        for key in ("occurred_at", "description"):
+            if key in intervention and not _is_text(intervention[key]):
+                errors.append(f"{path}.{key} must be non-empty text")
+        scope = intervention.get("scope")
+        if not isinstance(scope, str) or scope not in _INTERVENTION_SCOPES:
+            errors.append(
+                f"{path}.scope must be one of: {', '.join(sorted(_INTERVENTION_SCOPES))}"
+            )
+        ad_id = intervention.get("ad_id")
+        if ad_id is not None and not _is_text(ad_id):
+            errors.append(f"{path}.ad_id must be a non-empty ad ID or null")
+        elif isinstance(ad_id, str) and ad_id not in ad_ids:
+            errors.append(f"{path}.ad_id references unknown ad {ad_id}")
+
+
+def _validate_account_norms(value: object, errors: list[str]) -> int:
+    if not isinstance(value, list):
+        errors.append("performance.account_norms must be an array")
+        return 0
+    for index, norm in enumerate(value):
+        path = f"performance.account_norms[{index}]"
+        if not isinstance(norm, dict):
+            errors.append(f"{path} must be an object")
+            continue
+        errors.extend(_unknown_key_errors(norm, _ACCOUNT_NORM_KEYS, path))
+        for key in sorted(_ACCOUNT_NORM_KEYS - norm.keys()):
+            errors.append(f"{path}.{key} is required")
+        for key in ("metric", "unit", "comparison_window", "source"):
+            if key in norm and not _is_text(norm[key]):
+                errors.append(f"{path}.{key} must be non-empty text")
+        if "value" in norm and not _is_finite_number(norm["value"]):
+            errors.append(f"{path}.value must be a finite number")
+    return len(value)
+
+
+def _validate_reference_ranges(value: object, errors: list[str]) -> str:
+    if not isinstance(value, dict):
+        errors.append("performance.reference_ranges must be an object")
+        return ""
+    errors.extend(
+        _unknown_key_errors(value, _REFERENCE_RANGE_KEYS, "performance.reference_ranges")
+    )
+    for key in sorted(_REFERENCE_RANGE_KEYS - value.keys()):
+        errors.append(f"performance.reference_ranges.{key} is required")
+    status = value.get("status")
+    if not isinstance(status, str) or status not in _REFERENCE_RANGE_STATUSES:
+        errors.append(
+            "performance.reference_ranges.status must be one of: permitted, unavailable"
+        )
+        status = ""
+    sources = value.get("sources")
+    if not isinstance(sources, list):
+        errors.append("performance.reference_ranges.sources must be an array")
+        return status if isinstance(status, str) else ""
+    seen: set[str] = set()
+    for index, source in enumerate(sources):
+        if not _is_text(source):
+            errors.append(
+                f"performance.reference_ranges.sources[{index}] must be non-empty text"
+            )
+        elif source in seen:
+            errors.append(
+                f"performance.reference_ranges.sources duplicates {source}"
+            )
+        else:
+            seen.add(source)
+    if status == "permitted" and not sources:
+        errors.append(
+            "performance.reference_ranges.sources must name at least one permitted source"
+        )
+    if status == "unavailable" and sources:
+        errors.append(
+            "performance.reference_ranges.sources must be empty when ranges are unavailable"
+        )
+    return status
+
+
+def _validate_threshold_basis(
+    value: object, ad_ids: set[str], errors: list[str]
+) -> None:
+    if not isinstance(value, list):
+        errors.append("performance.threshold_basis must be an array")
+        return
+    if not value:
+        errors.append("performance.threshold_basis must contain at least one threshold")
+    for index, basis in enumerate(value):
+        path = f"performance.threshold_basis[{index}]"
+        if not isinstance(basis, dict):
+            errors.append(f"{path} must be an object")
+            continue
+        errors.extend(_unknown_key_errors(basis, _THRESHOLD_BASIS_KEYS, path))
+        for key in sorted(_THRESHOLD_BASIS_KEYS - basis.keys()):
+            errors.append(f"{path}.{key} is required")
+        for key in ("metric", "comparison_window", "unit", "source"):
+            if key in basis and not _is_text(basis[key]):
+                errors.append(f"{path}.{key} must be non-empty text")
+        for key in ("baseline", "threshold"):
+            if key in basis and not _is_finite_number(basis[key]):
+                errors.append(f"{path}.{key} must be a finite number")
+        ad_id = basis.get("ad_id")
+        if ad_id is not None and not _is_text(ad_id):
+            errors.append(f"{path}.ad_id must be a non-empty ad ID or null")
+        elif isinstance(ad_id, str) and ad_id not in ad_ids:
+            errors.append(f"{path}.ad_id references unknown ad {ad_id}")
+
+
 def _validate_optional_performance_shape(
     value: dict[str, object],
     source_ids: set[str],
@@ -948,15 +1256,20 @@ def _validate_optional_performance_shape(
         if not isinstance(performance_sources, list):
             errors.append("performance.source_ids must be an array")
         else:
+            seen_sources: set[str] = set()
             for index, source_id in enumerate(performance_sources):
                 if not _is_text(source_id):
                     errors.append(
                         f"performance.source_ids[{index}] must be non-empty text"
                     )
+                elif source_id in seen_sources:
+                    errors.append(f"performance.source_ids duplicates {source_id}")
                 elif source_id not in source_ids:
                     errors.append(
                         f"performance.source_ids references unknown source {source_id}"
                     )
+                if isinstance(source_id, str):
+                    seen_sources.add(source_id)
     if "date_range" in value:
         date_range = value["date_range"]
         if not isinstance(date_range, dict):
@@ -983,9 +1296,15 @@ def _validate_optional_performance_shape(
                 and parsed["end"] < parsed["start"]
             ):
                 errors.append("performance.date_range.end must not precede start")
-    for field in ("attribution", "currency", "aggregation_level"):
-        if field in value and not _is_text(value[field]):
-            errors.append(f"performance.{field} must be non-empty text")
+    if "attribution" in value and not _is_text(value["attribution"]):
+        errors.append("performance.attribution must be non-empty text")
+    if "currency" in value and (
+        not isinstance(value["currency"], str)
+        or re.fullmatch(r"[A-Z]{3}", value["currency"]) is None
+    ):
+        errors.append("performance.currency must be a three-letter uppercase code")
+    if "aggregation_level" in value and value["aggregation_level"] != "ad":
+        errors.append("performance.aggregation_level must equal ad")
     if "field_mapping" in value:
         field_mapping = value["field_mapping"]
         if not isinstance(field_mapping, dict):
@@ -1015,10 +1334,14 @@ def _validate_optional_performance_shape(
                     )
                 elif ad_id not in ad_ids:
                     errors.append(f"performance.ad_mapping references unknown ad {ad_id}")
-    if "logged_interventions" in value and not isinstance(
-        value["logged_interventions"], list
-    ):
-        errors.append("performance.logged_interventions must be an array")
+    if "logged_interventions" in value:
+        _validate_logged_interventions(value["logged_interventions"], ad_ids, errors)
+    if "account_norms" in value:
+        _validate_account_norms(value["account_norms"], errors)
+    if "reference_ranges" in value:
+        _validate_reference_ranges(value["reference_ranges"], errors)
+    if "threshold_basis" in value:
+        _validate_threshold_basis(value["threshold_basis"], ad_ids, errors)
 
 
 def _validate_performance(
@@ -1040,6 +1363,9 @@ def _validate_performance(
             "field_mapping.purchases",
             "ad_mapping",
             "logged_interventions",
+            "account_norms",
+            "reference_ranges",
+            "threshold_basis",
         ):
             _required_performance_error(errors, field)
         return
@@ -1049,13 +1375,18 @@ def _validate_performance(
     if not isinstance(performance_sources, list) or not performance_sources:
         _required_performance_error(errors, "source_ids")
     else:
+        seen_sources: set[str] = set()
         for index, source_id in enumerate(performance_sources):
             if not _is_text(source_id):
                 errors.append(f"performance.source_ids[{index}] must be non-empty text")
+            elif source_id in seen_sources:
+                errors.append(f"performance.source_ids duplicates {source_id}")
             elif source_id not in source_ids:
                 errors.append(
                     f"performance.source_ids references unknown source {source_id}"
                 )
+            if isinstance(source_id, str):
+                seen_sources.add(source_id)
 
     date_range = value.get("date_range")
     if not isinstance(date_range, dict):
@@ -1076,9 +1407,13 @@ def _validate_performance(
         if dates.get("start") and dates.get("end") and dates["end"] < dates["start"]:
             errors.append("performance.date_range.end must not precede start")
 
-    for field in ("attribution", "currency", "aggregation_level"):
-        if not _is_text(value.get(field)):
-            _required_performance_error(errors, field)
+    if not _is_text(value.get("attribution")):
+        _required_performance_error(errors, "attribution")
+    currency = value.get("currency")
+    if not isinstance(currency, str) or re.fullmatch(r"[A-Z]{3}", currency) is None:
+        _required_performance_error(errors, "currency")
+    if value.get("aggregation_level") != "ad":
+        _required_performance_error(errors, "aggregation_level")
 
     field_mapping = value.get("field_mapping")
     if not isinstance(field_mapping, dict):
@@ -1123,9 +1458,35 @@ def _validate_performance(
             elif ad_id not in ad_ids:
                 errors.append(f"performance.ad_mapping references unknown ad {ad_id}")
 
-    interventions = value.get("logged_interventions")
-    if not isinstance(interventions, list):
+    if "logged_interventions" not in value:
         _required_performance_error(errors, "logged_interventions")
+    else:
+        _validate_logged_interventions(value["logged_interventions"], ad_ids, errors)
+
+    if "account_norms" not in value:
+        _required_performance_error(errors, "account_norms")
+        account_norm_count = 0
+    else:
+        account_norm_count = _validate_account_norms(value["account_norms"], errors)
+
+    if "reference_ranges" not in value:
+        _required_performance_error(errors, "reference_ranges")
+        reference_status = ""
+    else:
+        reference_status = _validate_reference_ranges(
+            value["reference_ranges"], errors
+        )
+
+    if "threshold_basis" not in value:
+        _required_performance_error(errors, "threshold_basis")
+    else:
+        _validate_threshold_basis(value["threshold_basis"], ad_ids, errors)
+
+    if account_norm_count == 0 and reference_status == "unavailable":
+        limitations.append(
+            "account norms and permitted reference ranges are unavailable; "
+            "benchmark comparisons are prohibited"
+        )
 
 
 def validate_run(
@@ -1206,6 +1567,12 @@ def validate_run(
     for field in ("account_timezone", "requester"):
         if not _is_text(intake.get(field), allow_empty=True):
             errors.append(f"{field} must be single-line text")
+    if mode == "performance-diagnosis" and not _is_timezone(
+        intake.get("account_timezone")
+    ):
+        errors.append(
+            "account_timezone must be a valid IANA timezone for Performance Diagnosis"
+        )
     if not _is_date(intake.get("requested_at")):
         errors.append("requested_at must be an ISO calendar date")
 
@@ -1213,11 +1580,15 @@ def validate_run(
     if not isinstance(known_limitations, list):
         errors.append("known_limitations must be an array")
     else:
+        seen_limitations: set[str] = set()
         for index, limitation in enumerate(known_limitations):
             if not _is_text(limitation):
                 errors.append(f"known_limitations[{index}] must be non-empty text")
+            elif limitation in seen_limitations:
+                errors.append(f"known_limitations duplicates {limitation}")
             else:
                 limitations.append(limitation)
+                seen_limitations.add(limitation)
     limitations.extend(_migration_limitations(identity["method_version"]))
 
     source_ids, inventory = _validate_sources(

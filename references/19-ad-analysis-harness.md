@@ -27,7 +27,9 @@ Ad Diagnosis requires the governed performance-readiness inputs and retains its 
 2. Use an existing run or initialise one under the selected brand with
    `scripts/init-ad-analysis-run.py`. Never overwrite a run.
 3. Complete `intake.json` and inventory every supplied ad and source. Follow
-   `schemas/ad-analysis-intake.schema.json` for fields and enums.
+   `schemas/ad-analysis-intake.schema.json` for fields and enums. Keep every nullable ad taxonomy
+   and provenance field explicit; use `null` when the intake does not establish it, never an
+   invented value. An ad cannot repeat one asset source ID.
 4. Validate with `scripts/validate-ad-analysis-run.py` and write `input-audit.md` when the folder is
    writable. The validator does not interpret creative or performance.
 5. Consume the validator result and input audit before conclusions. Input readiness is exactly
@@ -40,6 +42,16 @@ A `limited` Creative Audit input may proceed with each unavailable dimension nam
 supplied ad whose creative is missing receives `block`. A manifest-level failure that prevents ad
 enumeration blocks the report until identity is repaired. A blocked Performance Diagnosis stops
 performance conclusions and lists exact remediation.
+
+Performance Diagnosis additionally requires a valid IANA account timezone, structured account
+norms, an explicit `permitted` or `unavailable` reference-range state, and a structured threshold
+basis naming metric, baseline, comparison window, threshold, unit and source. When no account norm
+exists and sourced reference ranges are unavailable, readiness is `limited` and benchmark
+comparisons are prohibited; the strategist does not invent a substitute benchmark.
+
+The deterministic loader rejects duplicate JSON keys, `NaN` and infinities, an intake larger than
+1,048,576 bytes, and nesting deeper than 32 containers. These bounds apply before semantic
+validation so ambiguous or resource-exhausting manifests cannot select a route.
 
 ## Attachments and connector preflight
 

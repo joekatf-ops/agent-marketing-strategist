@@ -1,8 +1,10 @@
 import ast
+import copy
 import csv
 import datetime as dt
 import importlib.util
 import json
+import math
 import os
 import pathlib
 import re
@@ -12,12 +14,17 @@ import sysconfig
 import tempfile
 import unittest
 from unittest import mock
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MODULE = ROOT / "scripts" / "ad_analysis_harness.py"
 INITIALIZER = ROOT / "scripts" / "init-brand-folder.py"
 VALIDATOR = ROOT / "scripts" / "validate-ad-analysis-run.py"
+INTAKE_SCHEMA = ROOT / "schemas" / "ad-analysis-intake.schema.json"
+INTAKE_CONFORMANCE = (
+    ROOT / "tests" / "fixtures" / "ad-analysis-intake-conformance.json"
+)
 CONTROLLED_RECORDS = (
     "strategy/test-register.yml",
     "strategy/winner-library.yml",
@@ -89,6 +96,139 @@ def is_standard_library_module(name):
     return "site-packages" not in origin.parts
 
 
+def apply_json_pointer(document, pointer, value, *, remove=False):
+    parts = [part.replace("~1", "/").replace("~0", "~") for part in pointer.split("/")[1:]]
+    target = document
+    for part in parts[:-1]:
+        target = target[int(part)] if isinstance(target, list) else target[part]
+    final = parts[-1]
+    if remove:
+        if isinstance(target, list):
+            del target[int(final)]
+        else:
+            del target[final]
+    elif isinstance(target, list):
+        target[int(final)] = value
+    else:
+        target[final] = value
+
+
+def materialize_conformance_case(corpus, case):
+    document = copy.deepcopy(corpus["bases"][case["base"]])
+    for pointer in case.get("remove", []):
+        apply_json_pointer(document, pointer, None, remove=True)
+    for pointer, value in case.get("set", {}).items():
+        apply_json_pointer(document, pointer, value)
+    return document
+
+
+def json_schema_errors(instance, schema, *, root=None, path="$"):
+    """Evaluate the deterministic JSON-Schema subset used by the intake contract."""
+    root = schema if root is None else root
+    if "$ref" in schema:
+        target = root
+        for part in schema["$ref"].removeprefix("#/").split("/"):
+            target = target[part.replace("~1", "/").replace("~0", "~")]
+        return json_schema_errors(instance, target, root=root, path=path)
+
+    errors = []
+    if "oneOf" in schema:
+        matches = [
+            not json_schema_errors(instance, subschema, root=root, path=path)
+            for subschema in schema["oneOf"]
+        ]
+        if sum(matches) != 1:
+            errors.append(f"{path} must match exactly one schema")
+    for subschema in schema.get("allOf", []):
+        errors.extend(json_schema_errors(instance, subschema, root=root, path=path))
+    condition = schema.get("if")
+    if condition is not None:
+        branch = "then" if not json_schema_errors(instance, condition, root=root, path=path) else "else"
+        if branch in schema:
+            errors.extend(json_schema_errors(instance, schema[branch], root=root, path=path))
+
+    if "const" in schema and instance != schema["const"]:
+        errors.append(f"{path} does not equal the required constant")
+    if "enum" in schema and instance not in schema["enum"]:
+        errors.append(f"{path} is not in the allowed enum")
+
+    allowed_types = schema.get("type")
+    if allowed_types is not None:
+        allowed_types = [allowed_types] if isinstance(allowed_types, str) else allowed_types
+
+        def matches_type(type_name):
+            return {
+                "null": instance is None,
+                "object": isinstance(instance, dict),
+                "array": isinstance(instance, list),
+                "string": isinstance(instance, str),
+                "integer": type(instance) is int,
+                "number": type(instance) in {int, float} and math.isfinite(instance),
+                "boolean": isinstance(instance, bool),
+            }[type_name]
+
+        if not any(matches_type(type_name) for type_name in allowed_types):
+            return errors + [f"{path} has the wrong type"]
+
+    if isinstance(instance, dict):
+        for required in schema.get("required", []):
+            if required not in instance:
+                errors.append(f"{path}.{required} is required")
+        properties = schema.get("properties", {})
+        additional = schema.get("additionalProperties", True)
+        for key, value in instance.items():
+            child_path = f"{path}.{key}"
+            if key in properties:
+                errors.extend(
+                    json_schema_errors(value, properties[key], root=root, path=child_path)
+                )
+            elif additional is False:
+                errors.append(f"{child_path} is not allowed")
+            elif isinstance(additional, dict):
+                errors.extend(
+                    json_schema_errors(value, additional, root=root, path=child_path)
+                )
+        if len(instance) < schema.get("minProperties", 0):
+            errors.append(f"{path} has too few properties")
+
+    if isinstance(instance, list):
+        if len(instance) < schema.get("minItems", 0):
+            errors.append(f"{path} has too few items")
+        if "maxItems" in schema and len(instance) > schema["maxItems"]:
+            errors.append(f"{path} has too many items")
+        if schema.get("uniqueItems"):
+            canonical = [json.dumps(item, sort_keys=True, separators=(",", ":")) for item in instance]
+            if len(canonical) != len(set(canonical)):
+                errors.append(f"{path} contains duplicate items")
+        item_schema = schema.get("items")
+        if item_schema:
+            for index, value in enumerate(instance):
+                errors.extend(
+                    json_schema_errors(value, item_schema, root=root, path=f"{path}[{index}]")
+                )
+
+    if isinstance(instance, str):
+        if len(instance) < schema.get("minLength", 0):
+            errors.append(f"{path} is too short")
+        if "pattern" in schema and re.fullmatch(schema["pattern"], instance) is None:
+            errors.append(f"{path} does not match its pattern")
+        if schema.get("format") == "date":
+            try:
+                dt.date.fromisoformat(instance)
+            except ValueError:
+                errors.append(f"{path} is not a calendar date")
+        if schema.get("format") == "iana-timezone":
+            try:
+                ZoneInfo(instance)
+            except (ValueError, ZoneInfoNotFoundError):
+                errors.append(f"{path} is not an IANA timezone")
+
+    if type(instance) in {int, float}:
+        if "minimum" in schema and instance < schema["minimum"]:
+            errors.append(f"{path} is below its minimum")
+    return errors
+
+
 class AdAnalysisHarnessTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
@@ -138,6 +278,7 @@ class AdAnalysisHarnessTests(unittest.TestCase):
                     {
                         "ad_id": "AD-001",
                         "asset_source_ids": ["SRC-001"],
+                        "asset_type": "video",
                         "primary_text": "Sleep through the night.",
                         "headline": "Wake up rested",
                         "description": "",
@@ -145,6 +286,15 @@ class AdAnalysisHarnessTests(unittest.TestCase):
                         "destination_url": "https://example.test/sleep-mask",
                         "destination_type": "PDP",
                         "coordinate_key": "travellers|light",
+                        "contst": None,
+                        "source": None,
+                        "who": None,
+                        "primary_problem": None,
+                        "awareness_code": None,
+                        "messaging_route": None,
+                        "format": None,
+                        "primary_hook": None,
+                        "post_id": None,
                     }
                 ],
             }
@@ -153,6 +303,19 @@ class AdAnalysisHarnessTests(unittest.TestCase):
 
     def complete_performance_intake(self, harness, run):
         intake = self.complete_creative_intake(harness, run)
+        intake["account_timezone"] = "Australia/Sydney"
+        intake["ads"][0].update(
+            {
+                "contst": "CONTST001",
+                "source": "NNT",
+                "who": "Light-sensitive travellers",
+                "primary_problem": "Hotel light interrupts sleep",
+                "awareness_code": "PRA",
+                "messaging_route": "Block unfamiliar room light",
+                "format": "VSL",
+                "primary_hook": "The hotel-room light you cannot switch off",
+            }
+        )
         intake["sources"].append(
             {
                 "source_id": "SRC-002",
@@ -177,8 +340,88 @@ class AdAnalysisHarnessTests(unittest.TestCase):
             },
             "ad_mapping": {"Acme Sleep Mask AU": "AD-001"},
             "logged_interventions": [],
+            "account_norms": [
+                {
+                    "metric": "target_cac",
+                    "value": 60,
+                    "unit": "AUD",
+                    "comparison_window": "five full account days",
+                    "source": "products/economics.yml",
+                }
+            ],
+            "reference_ranges": {"status": "unavailable", "sources": []},
+            "threshold_basis": [
+                {
+                    "metric": "target_cac",
+                    "baseline": 90,
+                    "comparison_window": "2026-08-20 through 2026-08-26",
+                    "threshold": 60,
+                    "unit": "AUD",
+                    "source": "Meta export and products/economics.yml",
+                    "ad_id": "AD-001",
+                }
+            ],
         }
         return intake
+
+    def test_shared_schema_python_conformance_corpus(self):
+        self.assertTrue(INTAKE_SCHEMA.is_file())
+        self.assertTrue(INTAKE_CONFORMANCE.is_file())
+        schema = json.loads(INTAKE_SCHEMA.read_text())
+        corpus = json.loads(INTAKE_CONFORMANCE.read_text())
+        harness = load_harness()
+
+        for case in corpus["cases"]:
+            with self.subTest(case=case["name"]):
+                intake = materialize_conformance_case(corpus, case)
+                run = self.create_modern_run(harness, mode=intake["mode"])
+                intake["run_id"] = run.name
+                self.write_intake(run, intake)
+
+                schema_valid = not json_schema_errors(intake, schema)
+                result = harness.validate_run(self.brand, run)
+                python_valid = result.status != "blocked"
+
+                self.assertEqual(case["valid"], schema_valid)
+                self.assertEqual(case["valid"], python_valid)
+                if case["valid"]:
+                    self.assertEqual(case["python_status"], result.status)
+
+    def test_load_intake_rejects_duplicate_routing_keys_and_nonfinite_numbers(self):
+        harness = load_harness()
+
+        duplicate_run = self.create_run(harness)
+        duplicate_text = (duplicate_run / "intake.json").read_text().replace(
+            '  "mode": "creative-audit",',
+            '  "mode": "creative-audit",\n  "mode": "performance-diagnosis",',
+            1,
+        )
+        (duplicate_run / "intake.json").write_text(duplicate_text)
+        with self.assertRaisesRegex(ValueError, "duplicate JSON key: mode"):
+            harness.load_intake(duplicate_run)
+
+        nonfinite_run = self.create_run(harness)
+        nonfinite_text = (nonfinite_run / "intake.json").read_text().replace(
+            '  "requester": "",', '  "requester": NaN,', 1
+        )
+        (nonfinite_run / "intake.json").write_text(nonfinite_text)
+        with self.assertRaisesRegex(ValueError, "non-finite JSON number: NaN"):
+            harness.load_intake(nonfinite_run)
+
+    def test_load_intake_enforces_deterministic_size_and_depth_limits(self):
+        harness = load_harness()
+        oversized_run = self.create_run(harness)
+        oversized = b'{"padding":"' + (b"x" * 1_048_576) + b'"}\n'
+        (oversized_run / "intake.json").write_bytes(oversized)
+
+        with self.assertRaisesRegex(ValueError, "maximum size of 1048576 bytes"):
+            harness.load_intake(oversized_run)
+
+        deep_run = self.create_run(harness)
+        deep = '{"nested":' + ("[" * 33) + "0" + ("]" * 33) + "}\n"
+        (deep_run / "intake.json").write_text(deep)
+        with self.assertRaisesRegex(ValueError, "maximum depth of 32"):
+            harness.load_intake(deep_run)
 
     def test_initialises_sequential_run(self):
         harness = load_harness()
@@ -514,7 +757,29 @@ class AdAnalysisHarnessTests(unittest.TestCase):
                 "sha256": None,
             }
         ]
-        intake["ads"] = [{"ad_id": "AD-001", "asset_source_ids": ["SRC-001"]}]
+        intake["ads"] = [
+            {
+                "ad_id": "AD-001",
+                "asset_source_ids": ["SRC-001"],
+                "asset_type": None,
+                "primary_text": None,
+                "headline": None,
+                "description": None,
+                "cta": None,
+                "destination_url": None,
+                "destination_type": None,
+                "coordinate_key": None,
+                "contst": None,
+                "source": None,
+                "who": None,
+                "primary_problem": None,
+                "awareness_code": None,
+                "messaging_route": None,
+                "format": None,
+                "primary_hook": None,
+                "post_id": None,
+            }
+        ]
         self.write_intake(run, intake)
 
         result = harness.validate_run(self.brand, run)
@@ -859,6 +1124,7 @@ class AdAnalysisHarnessTests(unittest.TestCase):
             {
                 "ad_id": "AD-002",
                 "asset_source_ids": ["SRC-001"],
+                "asset_type": "static",
                 "primary_text": "Second ad",
                 "headline": "Rest",
                 "description": "",
@@ -866,6 +1132,15 @@ class AdAnalysisHarnessTests(unittest.TestCase):
                 "destination_url": "https://example.test/sleep-mask",
                 "destination_type": "PDP",
                 "coordinate_key": "travellers|dark",
+                "contst": "CONTST001",
+                "source": "NNT",
+                "who": "Light-sensitive travellers",
+                "primary_problem": "Hotel light interrupts sleep",
+                "awareness_code": "PDA",
+                "messaging_route": "Choose darkness",
+                "format": "STATIC",
+                "primary_hook": "Sleep anywhere",
+                "post_id": None,
             }
         )
         self.write_intake(run, intake)
@@ -1238,7 +1513,7 @@ class AdAnalysisHarnessTests(unittest.TestCase):
             "schema_version must equal integer 1",
             "market must be non-empty text",
             "sources[0].kind must be one of: attachment, file, screenshot, table, url",
-            "ads[0].destination_type must be text or null",
+            "ads[0].destination_type must be null or one of: CP, HP, LP, PDP",
         ):
             with self.subTest(error=error):
                 self.assertIn(error, result.errors)

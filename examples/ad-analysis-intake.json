@@ -13,24 +13,44 @@
     {
       "ad_id": "AD-QA-001",
       "asset_source_ids": ["SRC-QA-001"],
+      "asset_type": "video",
       "primary_text": "Read one more chapter without lighting the whole room. Quiet Arc folds the light down toward your page.",
       "headline": "Light the page, not the room",
       "description": "Warm, focused bedside light",
       "cta": "Shop Now",
       "destination_url": "https://quietarc.example/products/folding-reading-lamp",
       "destination_type": "PDP",
-      "coordinate_key": "night-readers__shared-room-glare"
+      "coordinate_key": "night-readers__shared-room-glare",
+      "contst": null,
+      "source": null,
+      "who": "Night readers sharing a room",
+      "primary_problem": "Lighting the page disturbs a partner",
+      "awareness_code": null,
+      "messaging_route": null,
+      "format": "VSL",
+      "primary_hook": "Read one more chapter without lighting the whole room",
+      "post_id": null
     },
     {
       "ad_id": "AD-QA-002",
       "asset_source_ids": ["SRC-QA-002"],
+      "asset_type": "static",
       "primary_text": "A softer bedtime. A cleaner desk. A better reading light.",
       "headline": "Quiet Arc changes your evenings",
       "description": "",
       "cta": "Shop Now",
       "destination_url": "https://quietarc.example/products/folding-reading-lamp",
       "destination_type": "PDP",
-      "coordinate_key": "night-readers__shared-room-glare"
+      "coordinate_key": "night-readers__shared-room-glare",
+      "contst": null,
+      "source": null,
+      "who": "Night readers sharing a room",
+      "primary_problem": "Lighting the page disturbs a partner",
+      "awareness_code": null,
+      "messaging_route": null,
+      "format": "STATIC",
+      "primary_hook": "A softer bedtime. A cleaner desk. A better reading light.",
+      "post_id": null
     }
   ],
   "sources": [
@@ -59,7 +79,7 @@
   "performance": null,
   "known_limitations": [
     "No performance data was supplied.",
-    "Awareness job and messaging route were not supplied as structured intake fields.",
+    "Awareness job and messaging route were supplied as explicit nulls.",
     "The source attachments have no SHA-256 values."
   ]
 }

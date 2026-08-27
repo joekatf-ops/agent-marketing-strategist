@@ -1,0 +1,176 @@
+{
+  "bases": {
+    "creative": {
+      "schema_version": 1,
+      "run_id": "ADR-20260827-001",
+      "mode": "creative-audit",
+      "brand_slug": "acme-sleep",
+      "method_version": "0.4.0",
+      "market": "AU",
+      "product_id": "sleep-mask",
+      "account_timezone": "",
+      "requester": "Joe",
+      "requested_at": "2026-08-27",
+      "ads": [
+        {
+          "ad_id": "AD-001",
+          "asset_source_ids": ["SRC-001"],
+          "asset_type": "video",
+          "primary_text": "Sleep through the night.",
+          "headline": "Wake up rested",
+          "description": null,
+          "cta": "Shop Now",
+          "destination_url": "https://example.test/sleep-mask",
+          "destination_type": "PDP",
+          "coordinate_key": "travellers__light",
+          "contst": null,
+          "source": null,
+          "who": "Light-sensitive travellers",
+          "primary_problem": "Hotel light interrupts sleep",
+          "awareness_code": "PRA",
+          "messaging_route": "Block unfamiliar room light",
+          "format": "VSL",
+          "primary_hook": "The hotel-room light you cannot switch off",
+          "post_id": null
+        }
+      ],
+      "sources": [
+        {
+          "source_id": "SRC-001",
+          "kind": "attachment",
+          "label": "ad-one.mp4",
+          "location": "attached:ad-one.mp4",
+          "sha256": null
+        }
+      ],
+      "performance": null,
+      "known_limitations": []
+    },
+    "performance": {
+      "schema_version": 1,
+      "run_id": "ADR-20260827-001",
+      "mode": "performance-diagnosis",
+      "brand_slug": "acme-sleep",
+      "method_version": "0.4.0",
+      "market": "AU",
+      "product_id": "sleep-mask",
+      "account_timezone": "Australia/Sydney",
+      "requester": "Joe",
+      "requested_at": "2026-08-27",
+      "ads": [
+        {
+          "ad_id": "AD-001",
+          "asset_source_ids": ["SRC-001"],
+          "asset_type": "video",
+          "primary_text": "Sleep through the night.",
+          "headline": "Wake up rested",
+          "description": null,
+          "cta": "Shop Now",
+          "destination_url": "https://example.test/sleep-mask",
+          "destination_type": "PDP",
+          "coordinate_key": "travellers__light",
+          "contst": "CONTST001",
+          "source": "NNT",
+          "who": "Light-sensitive travellers",
+          "primary_problem": "Hotel light interrupts sleep",
+          "awareness_code": "PRA",
+          "messaging_route": "Block unfamiliar room light",
+          "format": "VSL",
+          "primary_hook": "The hotel-room light you cannot switch off",
+          "post_id": "991001000000001"
+        }
+      ],
+      "sources": [
+        {
+          "source_id": "SRC-001",
+          "kind": "attachment",
+          "label": "ad-one.mp4",
+          "location": "attached:ad-one.mp4",
+          "sha256": null
+        },
+        {
+          "source_id": "SRC-002",
+          "kind": "table",
+          "label": "Meta export",
+          "location": "attached:meta-export.csv",
+          "sha256": null
+        }
+      ],
+      "performance": {
+        "source_ids": ["SRC-002"],
+        "date_range": {"start": "2026-08-20", "end": "2026-08-26"},
+        "attribution": "7-day click",
+        "currency": "AUD",
+        "aggregation_level": "ad",
+        "field_mapping": {
+          "ad_id": "Ad name",
+          "spend": "Amount spent (AUD)",
+          "purchases": "Purchases",
+          "landing_page_views": "Landing page views",
+          "video_3_second_plays": "3-second video plays"
+        },
+        "ad_mapping": {"Acme Sleep Mask AU": "AD-001"},
+        "logged_interventions": [],
+        "account_norms": [
+          {
+            "metric": "target_cac",
+            "value": 60,
+            "unit": "AUD",
+            "comparison_window": "five full account days",
+            "source": "products/economics.yml"
+          }
+        ],
+        "reference_ranges": {"status": "unavailable", "sources": []},
+        "threshold_basis": [
+          {
+            "metric": "target_cac",
+            "baseline": 90,
+            "comparison_window": "2026-08-20 through 2026-08-26",
+            "threshold": 60,
+            "unit": "AUD",
+            "source": "Meta export and products/economics.yml",
+            "ad_id": "AD-001"
+          }
+        ]
+      },
+      "known_limitations": []
+    }
+  },
+  "cases": [
+    {"name": "complete creative intake", "base": "creative", "valid": true, "python_status": "ready"},
+    {"name": "complete diagnosis intake", "base": "performance", "valid": true, "python_status": "ready"},
+    {
+      "name": "unavailable benchmarks limit but do not block",
+      "base": "performance",
+      "valid": true,
+      "python_status": "limited",
+      "set": {
+        "/performance/account_norms": [],
+        "/performance/reference_ranges": {"status": "unavailable", "sources": []}
+      }
+    },
+    {
+      "name": "named reference ranges may be permitted",
+      "base": "performance",
+      "valid": true,
+      "python_status": "ready",
+      "set": {
+        "/performance/account_norms": [],
+        "/performance/reference_ranges": {"status": "permitted", "sources": ["Motion Creative Benchmarks 2026"]}
+      }
+    },
+    {"name": "ad fields are closed", "base": "creative", "valid": false, "set": {"/ads/0/persona": "traveller"}},
+    {"name": "nullable taxonomy fields remain explicit", "base": "creative", "valid": false, "remove": ["/ads/0/who"]},
+    {"name": "destination uses the approved enum", "base": "creative", "valid": false, "set": {"/ads/0/destination_type": "BLOG"}},
+    {"name": "source taxonomy uses the approved enum", "base": "creative", "valid": false, "set": {"/ads/0/source": "CLONE"}},
+    {"name": "asset references are unique", "base": "creative", "valid": false, "set": {"/ads/0/asset_source_ids": ["SRC-001", "SRC-001"]}},
+    {"name": "diagnosis requires performance", "base": "performance", "valid": false, "set": {"/performance": null}},
+    {"name": "diagnosis requires account timezone", "base": "performance", "valid": false, "set": {"/account_timezone": ""}},
+    {"name": "diagnosis requires benchmark state", "base": "performance", "valid": false, "remove": ["/performance/reference_ranges"]},
+    {"name": "account norms are closed", "base": "performance", "valid": false, "set": {"/performance/account_norms/0/note": "extra"}},
+    {"name": "reference permission names its sources", "base": "performance", "valid": false, "set": {"/performance/reference_ranges": {"status": "permitted", "sources": []}}},
+    {"name": "unavailable reference state has no invented source", "base": "performance", "valid": false, "set": {"/performance/reference_ranges": {"status": "unavailable", "sources": ["invented"]}}},
+    {"name": "threshold basis includes comparison window", "base": "performance", "valid": false, "remove": ["/performance/threshold_basis/0/comparison_window"]},
+    {"name": "interventions use the structured shape", "base": "performance", "valid": false, "set": {"/performance/logged_interventions": ["budget changed"]}}
+  ]
+}
