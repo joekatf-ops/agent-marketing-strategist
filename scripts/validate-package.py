@@ -7,6 +7,7 @@ import ast
 import collections
 import importlib.util
 import json
+import math
 import pathlib
 import re
 import sysconfig
@@ -162,9 +163,15 @@ DIAGNOSIS_CONTROLLED_RESULT_FIELDS = frozenset(
         "winners",
     }
 )
-WINNER_GRADUATION_ATTACHED_NEGATION = re.compile(
-    r"\b(?:(?:does|do|did|can|could|may|might|must|should|will|would)\s+not|"
-    r"cannot|can't|never)\s+(?:proceed|occur|persist|graduate)\w*\b",
+WINNER_GRADUATION_ACTION_CONTRADICTION = re.compile(
+    r"\b(?P<action>(?:may|can|will|does)(?P<negation>\s+not)?\s+"
+    r"(?:proceed|occur|persist|graduate)\w*)\b[^.!?\n]*?\bwithout\b[^.!?\n]*?"
+    r"\b(?:Post\s+ID|confirmation)\b",
+    re.IGNORECASE,
+)
+WINNER_GRADUATION_ACTION_BOUNDARY = re.compile(
+    r"\s+\b(?:and|or|but|although|however)\b\s+"
+    r"(?=(?:may|can|will|does)\b)|[,;]\s*(?=(?:may|can|will|does)\b)",
     re.IGNORECASE,
 )
 DIAGNOSIS_PERSISTENCE_CONTRADICTIONS = (
@@ -180,12 +187,6 @@ DIAGNOSIS_PERSISTENCE_CONTRADICTIONS = (
         r"\b(?:automatically|may|can|will)\b[^.!?\n]*"
         r"\b(?:become|becomes|promote|promotes|create|creates)\b[^.!?\n]*"
         r"\bapproved\s+revision\s+learning\b",
-        re.IGNORECASE,
-    ),
-    re.compile(
-        r"\bwinner\s+graduation\b[^.!?\n]*\b(?:may|can|will|does)\b[^.!?\n]*"
-        r"\b(?:proceed|occur|persist|graduate)\w*\b[^.!?\n]*\bwithout\b[^.!?\n]*"
-        r"\b(?:Post\s+ID|confirmation)\b",
         re.IGNORECASE,
     ),
     re.compile(
@@ -646,16 +647,22 @@ def contradicts_initial_ad_count(text: str) -> bool:
 
 
 def contradicts_diagnosis_persistence(text: str) -> bool:
+    for sentence in re.split(r"(?<=[.!?])\s+|\n+", text):
+        winner_subject = re.search(
+            r"\bwinner\s+graduation\b", sentence, re.IGNORECASE
+        )
+        if not winner_subject:
+            continue
+        winner_scope = sentence[winner_subject.end() :]
+        for predicate in WINNER_GRADUATION_ACTION_BOUNDARY.split(winner_scope):
+            match = WINNER_GRADUATION_ACTION_CONTRADICTION.search(predicate)
+            if match and match.group("negation") is None:
+                return True
+
     for clause in policy_clauses(text):
-        for index, pattern in enumerate(DIAGNOSIS_PERSISTENCE_CONTRADICTIONS):
+        for pattern in DIAGNOSIS_PERSISTENCE_CONTRADICTIONS:
             match = pattern.search(clause)
-            if not match:
-                continue
-            if index == 2:
-                if not WINNER_GRADUATION_ATTACHED_NEGATION.search(clause):
-                    return True
-                continue
-            if not is_negated_policy_clause(clause):
+            if match and not is_negated_policy_clause(clause):
                 return True
     return False
 
@@ -723,8 +730,11 @@ def diagnosis_patch_errors(
             elif (
                 not isinstance(value, (int, float))
                 or isinstance(value, bool)
-                or value < 0
             ):
+                errors.append(f"supplied_results {field} must be a non-negative number")
+            elif not math.isfinite(value):
+                errors.append(f"supplied_results {field} must be finite")
+            elif value < 0:
                 errors.append(f"supplied_results {field} must be a non-negative number")
     confidence = patch.get("confidence")
     if not isinstance(confidence, str) or not confidence:

@@ -704,6 +704,36 @@ class PackageIntegrityTests(unittest.TestCase):
                 },
                 "supplied_results target_cac_aud must be a non-negative number",
             ),
+            (
+                {
+                    **patch,
+                    "supplied_results": {
+                        **supplied_results,
+                        "spend_aud": float("nan"),
+                    },
+                },
+                "supplied_results spend_aud must be finite",
+            ),
+            (
+                {
+                    **patch,
+                    "supplied_results": {
+                        **supplied_results,
+                        "spend_aud": float("inf"),
+                    },
+                },
+                "supplied_results spend_aud must be finite",
+            ),
+            (
+                {
+                    **patch,
+                    "supplied_results": {
+                        **supplied_results,
+                        "spend_aud": float("-inf"),
+                    },
+                },
+                "supplied_results spend_aud must be finite",
+            ),
         )
         for mutation, expected in mutations:
             with self.subTest(expected=expected):
@@ -711,6 +741,20 @@ class PackageIntegrityTests(unittest.TestCase):
                     json.dumps(mutation), existing_tests
                 )
                 self.assertIn(expected, errors)
+
+        valid_float_patch = {
+            **patch,
+            "supplied_results": {
+                **supplied_results,
+                "target_cac_aud": 60.5,
+            },
+        }
+        self.assertEqual(
+            [],
+            validator.diagnosis_patch_errors(
+                json.dumps(valid_float_patch), existing_tests
+            ),
+        )
 
     def test_frozen_diagnosis_patch_results_reconcile_to_csv_and_intake(self):
         patch = json.loads(
@@ -764,6 +808,11 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertTrue(
             validator.contradicts_diagnosis_persistence(
                 "Winner graduation may proceed without a real Post ID or confirmation."
+            )
+        )
+        self.assertTrue(
+            validator.contradicts_diagnosis_persistence(
+                "Winner graduation may proceed without a real Post ID and does not proceed without confirmation."
             )
         )
 
