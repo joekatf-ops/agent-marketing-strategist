@@ -59,7 +59,11 @@ V04_REQUIRED_FILES = (
     "examples/ad-diagnosis.md",
 )
 CREATIVE_AUDIT_PERFORMANCE_PREDICTION = re.compile(
-    r"creative\s+audit\s+predicts\s+winning\s+performance", re.IGNORECASE
+    r"\b(?:predict(?:s|ed|ing)?|forecast(?:s|ed|ing)?|will|would|"
+    r"expected\s+to|likely\s+to|guarantee(?:s|d)?)\b[^.!?\n]*"
+    r"\b(?:win(?:s|ner|ning)?|convert(?:s|ed|ing)?|conversion|CAC|"
+    r"scal(?:e|es|ed|ing))\b",
+    re.IGNORECASE,
 )
 OPTIONAL_PERFORMANCE_DECISION = re.compile(
     r"performance\s+data\s+is\s+optional\s+for\s+a\s+"
@@ -467,6 +471,15 @@ def creative_audit_assigns_performance_action(text: str) -> bool:
     return False
 
 
+def creative_audit_predicts_performance(text: str) -> bool:
+    for clause in policy_clauses(text):
+        if is_negated_policy_clause(clause):
+            continue
+        if CREATIVE_AUDIT_PERFORMANCE_PREDICTION.search(clause):
+            return True
+    return False
+
+
 def diagnosis_actions_are_governed(text: str) -> bool:
     policies = DIAGNOSIS_ACTION_POLICY.findall(text)
     if not policies:
@@ -546,6 +559,8 @@ def validate(root: pathlib.Path) -> list[str]:
             errors.append(
                 f"{relative} permits automatic Meta publishing or budget changes"
             )
+        if creative_audit_assigns_performance_action(text):
+            errors.append(f"{relative} permits Creative Audit performance actions")
 
     version_path = root / "VERSION"
     if version_path.is_file() and version_path.read_text().strip() != "0.4.0":
@@ -560,7 +575,7 @@ def validate(root: pathlib.Path) -> list[str]:
             errors.append(f"missing v0.4 required file: {relative}")
 
     creative_audit_path = root / "contracts" / "creative-audit.md"
-    if creative_audit_path.is_file() and CREATIVE_AUDIT_PERFORMANCE_PREDICTION.search(
+    if creative_audit_path.is_file() and creative_audit_predicts_performance(
         creative_audit_path.read_text()
     ):
         errors.append("contracts/creative-audit.md predicts winning performance")
@@ -568,6 +583,12 @@ def validate(root: pathlib.Path) -> list[str]:
         creative_audit_path.read_text()
     ):
         errors.append("contracts/creative-audit.md assigns a performance action")
+
+    creative_example_path = root / "examples" / "creative-audit.md"
+    if creative_example_path.is_file() and creative_audit_predicts_performance(
+        creative_example_path.read_text()
+    ):
+        errors.append("examples/creative-audit.md predicts performance")
 
     diagnosis_path = root / "contracts" / "ad-diagnosis.md"
     if diagnosis_path.is_file() and OPTIONAL_PERFORMANCE_DECISION.search(

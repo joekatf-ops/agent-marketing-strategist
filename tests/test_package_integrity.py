@@ -340,14 +340,20 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertEqual(set(), {path for path in governed if not (ROOT / path).is_file()})
         self.assertEqual(set(), {path for path in routed if not (ROOT / path).is_file()})
 
-    def test_analysis_mode_router_requires_governed_safeguards(self):
+    def test_analysis_mode_router(self):
         required_phrases = (
+            "Analyse supplied ads",
             "no adequate performance data -> Creative Audit",
             "adequate performance data -> Ad Diagnosis",
+            "competitor ad -> competitor research",
+            "human edit -> Learning Update",
             "input audit",
             "no performance prediction",
             "human confirmation",
             "does not reserve",
+            "contracts/creative-audit.md",
+            "contracts/ad-diagnosis.md",
+            "references/19-ad-analysis-harness.md",
         )
 
         for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):
@@ -360,8 +366,20 @@ class PackageIntegrityTests(unittest.TestCase):
         path = ROOT / "contracts" / "creative-audit.md"
         self.assertTrue(path.is_file(), "Creative Audit should exist")
         creative = path.read_text()
-        for outcome in ("ready", "revise", "block"):
-            self.assertIn(f"`{outcome}`", creative)
+        outcome_policy = re.search(
+            r"`Outcome` contains exactly one literal value:\s*([^\n.]+)",
+            creative,
+        )
+
+        self.assertIsNotNone(outcome_policy)
+        self.assertEqual(
+            {"ready", "revise", "block"},
+            set(re.findall(r"`([^`]+)`", outcome_policy.group(1))),
+        )
+        self.assertIn(
+            "| Ad | Outcome | Blocking or revision issue | Evidence | Exact change | Owner |",
+            creative,
+        )
 
         errors = load_validator().validate(ROOT)
         self.assertNotIn(
@@ -446,6 +464,16 @@ class PackageIntegrityTests(unittest.TestCase):
                 "contracts/creative-audit.md assigns a performance action",
             ),
             (
+                "examples/creative-audit.md",
+                "These ads will win, convert, lower CAC and scale profitably.\n",
+                "examples/creative-audit.md predicts performance",
+            ),
+            (
+                "PROMPT.md",
+                "Creative Audit may assign `keep`, `ITR`, `stop` or `scale`.\n",
+                "PROMPT.md permits Creative Audit performance actions",
+            ),
+            (
                 "contracts/ad-diagnosis.md",
                 "`Top-level action` contains exactly one literal value: `keep`, `ITR`, `stop`, `scale` or `pause`.\n",
                 "contracts/ad-diagnosis.md must allow only keep, ITR, stop or scale",
@@ -464,6 +492,7 @@ class PackageIntegrityTests(unittest.TestCase):
         for relative, addition, expected_error in mutations:
             with self.subTest(relative=relative):
                 path = root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
                 prefix = "# harness\n" if path.suffix == ".py" else "Governed analysis policy.\n"
                 path.write_text(prefix + addition)
 

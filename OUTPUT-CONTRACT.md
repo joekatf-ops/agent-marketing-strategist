@@ -1,6 +1,6 @@
 # Output Contracts
 
-The strategist has eleven governed artefacts. Each task loads its contract before work begins.
+The strategist has twelve governed artefacts. Each task loads its contract before work begins.
 
 | Artefact | Contract | When |
 |---|---|---|
@@ -13,10 +13,11 @@ The strategist has eleven governed artefacts. Each task loads its contract befor
 | Static and Carousel Spec | `contracts/static-spec.md` | Any selected static or carousel execution |
 | Campaign Launch Plan | `contracts/campaign-launch-plan.md` | Before a human builds or changes Meta campaigns |
 | Destination Handoff | `contracts/destination-handoff.md` | Before launch, for ad-to-page message continuity |
+| Creative Audit | `contracts/creative-audit.md` | Pre-launch review or supplied ads without adequate performance data |
 | Ad Diagnosis | `contracts/ad-diagnosis.md` | Manual performance analysis and next decisions |
 | Learning Update | `contracts/learning-update.md` | After an approved human revision |
 
-## Rules that apply to all eleven
+## Rules that apply to all twelve
 
 1. **Resolve the brand first.** Every artefact names one brand, market, product, evidence version,
    and approved-learning version.
@@ -49,6 +50,9 @@ The strategist has eleven governed artefacts. Each task loads its contract befor
     CBO and graduated winners keep the real Post ID. No artefact implies live Meta access.
 16. **Diagnosis is non-causal.** Read business, funnel and creative layers in that order, state
     validity first and classify each decision using the six-decision taxonomy.
+17. **Analysis mode follows the input audit.** Creative Audit uses only `ready`, `revise` or `block`
+    per ad and makes no performance prediction. Adequate supplied performance routes to Ad
+    Diagnosis; controlled persistence still requires human confirmation.
 
 ## Portability test
 

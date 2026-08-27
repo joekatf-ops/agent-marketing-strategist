@@ -36,11 +36,32 @@ end.
 | Specify a static or carousel | `contracts/static-spec.md` | `references/08-formats.md`, `references/12-meta-platform.md`, `references/16-hook-formats.md` |
 | Plan a manual Meta launch | `contracts/campaign-launch-plan.md` | `references/06-concept-model.md`, `references/07-naming.md`, `references/09-testing-and-diagnosis.md`, `references/18-master-creative-strategy.md` |
 | Hand off an ad destination | `contracts/destination-handoff.md` | `references/03-strategy-and-offer.md`, `references/06-concept-model.md`, `references/18-master-creative-strategy.md` |
+| Analyse supplied ads | `contracts/creative-audit.md` or `contracts/ad-diagnosis.md` | `references/19-ad-analysis-harness.md`; diagnosis also loads `references/09-testing-and-diagnosis.md`, `references/12-meta-platform.md` |
 | Diagnose supplied performance data | `contracts/ad-diagnosis.md` | `references/09-testing-and-diagnosis.md`, `references/12-meta-platform.md` |
 | Learn from an approved revision | `contracts/learning-update.md` | `references/14-learning-system.md` |
 | Check universal-method governance | none | `references/18-master-creative-strategy.md`, `connectors/notion-composio.md` |
 | Set up a connector or runtime | none | `references/15-connectors.md`, `references/17-runtime-portability.md`, relevant `connectors/` guide |
 | The idea feels generic | current contract | `references/01-foundations.md` |
+
+## Ad-analysis routing
+
+For supplied first-party ads, load `references/19-ad-analysis-harness.md`, validate `intake.json`
+and consume the input audit before conclusions. Route exactly:
+
+- no adequate performance data -> Creative Audit;
+- adequate performance data -> Ad Diagnosis;
+- competitor ad -> competitor research;
+- human edit -> Learning Update.
+
+Combined adequate creative and performance produces one Ad Diagnosis. Incomplete performance
+material produces the input audit first; do not silently infer a performance explanation. Creative
+Audit makes no performance prediction and cannot assign `keep`, `ITR`, `stop` or `scale`. Reports
+may be written to the run folder, but controlled records require human confirmation, and diagnosis
+does not reserve a new CONTST.
+
+In upload mode require `intake.json`, the universal bundle, the selected brand bundle and every
+referenced attachment. A configured connector or attachment label does not prove availability;
+complete a read-only preflight before claiming access.
 
 ## Evidence refresh
 

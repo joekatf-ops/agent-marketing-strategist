@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "run_id": "ADR-20260827-014",
+  "mode": "creative-audit",
+  "brand_slug": "quiet-arc",
+  "method_version": "0.4.0",
+  "market": "AU",
+  "product_id": "folding-reading-lamp",
+  "account_timezone": "Australia/Sydney",
+  "requester": "Mina Cole",
+  "requested_at": "2026-08-27",
+  "ads": [
+    {
+      "ad_id": "AD-QA-001",
+      "asset_source_ids": ["SRC-QA-001"],
+      "primary_text": "Read one more chapter without lighting the whole room. Quiet Arc folds the light down toward your page.",
+      "headline": "Light the page, not the room",
+      "description": "Warm, focused bedside light",
+      "cta": "Shop Now",
+      "destination_url": "https://quietarc.example/products/folding-reading-lamp",
+      "destination_type": "PDP",
+      "coordinate_key": "night-readers__shared-room-glare"
+    },
+    {
+      "ad_id": "AD-QA-002",
+      "asset_source_ids": ["SRC-QA-002"],
+      "primary_text": "A softer bedtime. A cleaner desk. A better reading light.",
+      "headline": "Quiet Arc changes your evenings",
+      "description": "",
+      "cta": "Shop Now",
+      "destination_url": "https://quietarc.example/products/folding-reading-lamp",
+      "destination_type": "PDP",
+      "coordinate_key": "night-readers__shared-room-glare"
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "SRC-QA-001",
+      "kind": "attachment",
+      "label": "quiet-arc-page-light-video.mp4",
+      "location": "attached:quiet-arc-page-light-video.mp4",
+      "sha256": null
+    },
+    {
+      "source_id": "SRC-QA-002",
+      "kind": "attachment",
+      "label": "quiet-arc-three-promises-static.png",
+      "location": "attached:quiet-arc-three-promises-static.png",
+      "sha256": null
+    },
+    {
+      "source_id": "SRC-QA-003",
+      "kind": "screenshot",
+      "label": "quiet-arc-product-page.png",
+      "location": "attached:quiet-arc-product-page.png",
+      "sha256": null
+    }
+  ],
+  "performance": null,
+  "known_limitations": [
+    "No performance data was supplied.",
+    "Awareness job and messaging route were not supplied as structured intake fields.",
+    "The source attachments have no SHA-256 values."
+  ]
+}
