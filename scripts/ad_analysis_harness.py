@@ -28,6 +28,27 @@ _INDENTED_SLUG = re.compile(
 )
 _SHA256 = re.compile(r"^[a-fA-F0-9]{64}$")
 _URL_LIKE = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*://")
+_CREDENTIAL_FINGERPRINT = re.compile(
+    r"(?<![A-Za-z0-9])(?:"
+    r"gh[pousr]_[A-Za-z0-9]{36,255}|"
+    r"github_pat_[A-Za-z0-9_]{60,255}|"
+    r"glpat-[A-Za-z0-9_-]{20,255}|"
+    r"npm_[A-Za-z0-9]{36}|"
+    r"(?:AKIA|ASIA)[A-Z0-9]{16}|"
+    r"AIza[0-9A-Za-z_-]{35}|"
+    r"xox[baprs]-[0-9A-Za-z-]{20,255}|"
+    r"sk_live_[0-9A-Za-z]{20,255}|"
+    r"sk-(?:proj-)?[0-9A-Za-z_-]{20,255}|"
+    r"sk-ant-[0-9A-Za-z_-]{20,255}"
+    r")(?![A-Za-z0-9])"
+)
+_AUTHORIZATION_VALUE = re.compile(
+    r"\bauthorization\s*[:=]\s*(?:bearer|basic)\s+\S+",
+    re.IGNORECASE,
+)
+_PRIVATE_KEY_HEADER = re.compile(
+    r"-----BEGIN (?:ENCRYPTED |RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----"
+)
 _TOP_LEVEL_KEYS = {
     "schema_version",
     "run_id",
@@ -216,6 +237,94 @@ def _read_relative_text_no_follow(
         return file.read()
 
 
+def _open_or_create_directory_relative_no_follow(
+    directory: pathlib.Path, relative: pathlib.Path
+) -> int:
+    relative = pathlib.Path(relative)
+    if relative.is_absolute() or not relative.parts or ".." in relative.parts:
+        raise OSError("directory path must be a non-empty safe relative path")
+    if os.mkdir not in os.supports_dir_fd:
+        raise OSError("descriptor-anchored directory creation is unavailable")
+    no_follow = _no_follow_flag()
+    flags = os.O_RDONLY | no_follow | os.O_DIRECTORY
+    descriptor = _open_directory_no_follow(directory)
+    try:
+        for component in relative.parts:
+            try:
+                metadata = os.stat(
+                    component,
+                    dir_fd=descriptor,
+                    follow_symlinks=False,
+                )
+            except FileNotFoundError:
+                try:
+                    os.mkdir(component, 0o755, dir_fd=descriptor)
+                except FileExistsError:
+                    pass
+                metadata = os.stat(
+                    component,
+                    dir_fd=descriptor,
+                    follow_symlinks=False,
+                )
+            if stat.S_ISLNK(metadata.st_mode):
+                raise _SymlinkAccessError(
+                    f"path component is a symlink: {component}"
+                )
+            next_descriptor = os.open(component, flags, dir_fd=descriptor)
+            if not stat.S_ISDIR(os.fstat(next_descriptor).st_mode):
+                os.close(next_descriptor)
+                raise OSError(f"path component is not a directory: {component}")
+            os.close(descriptor)
+            descriptor = next_descriptor
+        return descriptor
+    except BaseException:
+        os.close(descriptor)
+        raise
+
+
+def _directory_descriptor_matches_path(
+    descriptor: int, path: pathlib.Path
+) -> bool:
+    try:
+        _require_no_symlink_components(path)
+        path_metadata = os.stat(
+            _absolute_lexical(path),
+            follow_symlinks=False,
+        )
+    except OSError:
+        return False
+    descriptor_metadata = os.fstat(descriptor)
+    return (
+        stat.S_ISDIR(path_metadata.st_mode)
+        and path_metadata.st_dev == descriptor_metadata.st_dev
+        and path_metadata.st_ino == descriptor_metadata.st_ino
+    )
+
+
+def _write_new_regular_no_follow(
+    directory_descriptor: int, filename: str, content: bytes
+) -> None:
+    if pathlib.Path(filename).name != filename:
+        raise OSError("output filename must be one path component")
+    descriptor = os.open(
+        filename,
+        os.O_WRONLY | os.O_CREAT | os.O_EXCL | _no_follow_flag(),
+        0o644,
+        dir_fd=directory_descriptor,
+    )
+    try:
+        metadata = os.fstat(descriptor)
+        if not stat.S_ISREG(metadata.st_mode) or metadata.st_nlink != 1:
+            raise OSError("output target must be one regular, unlinked path")
+        output = os.fdopen(descriptor, "wb")
+        descriptor = -1
+        with output:
+            output.write(content)
+    finally:
+        if descriptor >= 0:
+            os.close(descriptor)
+
+
 def _require_no_symlink_components(path: pathlib.Path) -> pathlib.Path:
     """Return an absolute lexical path after rejecting every symlinked component."""
     path = pathlib.Path(path)
@@ -324,6 +433,19 @@ def _next_run_id(analysis_root: pathlib.Path, date: dt.date) -> str:
     return f"{prefix}{next_number:03d}"
 
 
+def _next_run_id_from_descriptor(descriptor: int, date: dt.date) -> str:
+    prefix = f"ADR-{date:%Y%m%d}-"
+    numbers = []
+    for name in os.listdir(descriptor):
+        match = RUN_ID.fullmatch(name)
+        if match and name.startswith(prefix):
+            numbers.append(int(match.group("number")))
+    next_number = max(numbers, default=0) + 1
+    if next_number > 999:
+        raise ValueError("no run identifiers remain for this date")
+    return f"{prefix}{next_number:03d}"
+
+
 def _migration_limitations(method_version: str) -> list[str]:
     if _validate_method_version(method_version) < (0, 4, 0):
         return [
@@ -362,45 +484,75 @@ def initialise_run(
     market = _require_text(market, "market")
     if today is None:
         today = dt.date.today()
-    if not isinstance(today, dt.date):
+    if isinstance(today, dt.datetime) or not isinstance(today, dt.date):
         raise ValueError("today must be a date")
 
     analysis_root = _analysis_root(brand_folder)
-    if run_id is None:
-        run_id = _next_run_id(analysis_root, today)
-    else:
-        run_id = _validate_run_id(run_id)
-    run_folder = analysis_root / run_id
-    _require_no_symlink_components(run_folder)
-    if run_folder.exists() or run_folder.is_symlink():
-        raise FileExistsError(f"analysis run already exists: {run_folder}")
+    analysis_descriptor = _open_or_create_directory_relative_no_follow(
+        brand_folder, pathlib.Path("outputs/ad-analysis")
+    )
+    try:
+        if run_id is None:
+            run_id = _next_run_id_from_descriptor(analysis_descriptor, today)
+        else:
+            run_id = _validate_run_id(run_id)
+        run_folder = analysis_root / run_id
 
-    requested_at = today.isoformat()
-    intake = {
-        "schema_version": 1,
-        "run_id": run_id,
-        "mode": mode,
-        "brand_slug": identity["brand_slug"],
-        "method_version": identity["method_version"],
-        "market": market,
-        "product_id": product_id,
-        "account_timezone": "",
-        "requester": "",
-        "requested_at": requested_at,
-        "ads": [],
-        "sources": [],
-        "performance": None,
-        "known_limitations": _migration_limitations(identity["method_version"]),
-    }
-    analysis_root.mkdir(parents=True, exist_ok=True)
-    run_folder.mkdir()
-    (run_folder / "intake.json").write_text(
-        json.dumps(intake, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
-    )
-    (run_folder / "README.md").write_text(
-        _render_run_readme(brand_folder, run_folder), encoding="utf-8"
-    )
-    return run_folder
+        requested_at = today.isoformat()
+        intake = {
+            "schema_version": 1,
+            "run_id": run_id,
+            "mode": mode,
+            "brand_slug": identity["brand_slug"],
+            "method_version": identity["method_version"],
+            "market": market,
+            "product_id": product_id,
+            "account_timezone": "",
+            "requester": "",
+            "requested_at": requested_at,
+            "ads": [],
+            "sources": [],
+            "performance": None,
+            "known_limitations": _migration_limitations(identity["method_version"]),
+        }
+        intake_content = (
+            json.dumps(intake, indent=2, ensure_ascii=False) + "\n"
+        ).encode("utf-8")
+        readme_content = _render_run_readme(brand_folder, run_folder).encode("utf-8")
+        if not _directory_descriptor_matches_path(
+            analysis_descriptor, analysis_root
+        ):
+            raise OSError("analysis directory changed during run initialisation")
+
+        try:
+            os.mkdir(run_id, 0o755, dir_fd=analysis_descriptor)
+        except FileExistsError as error:
+            raise FileExistsError(
+                f"analysis run already exists: {run_folder}"
+            ) from error
+        run_descriptor = os.open(
+            run_id,
+            os.O_RDONLY | os.O_DIRECTORY | _no_follow_flag(),
+            dir_fd=analysis_descriptor,
+        )
+        try:
+            if not stat.S_ISDIR(os.fstat(run_descriptor).st_mode):
+                raise OSError(f"analysis run is not a directory: {run_folder}")
+            _write_new_regular_no_follow(
+                run_descriptor, "intake.json", intake_content
+            )
+            _write_new_regular_no_follow(
+                run_descriptor, "README.md", readme_content
+            )
+        finally:
+            os.close(run_descriptor)
+        if not _directory_descriptor_matches_path(
+            analysis_descriptor, analysis_root
+        ):
+            raise OSError("analysis directory changed during run initialisation")
+        return run_folder
+    finally:
+        os.close(analysis_descriptor)
 
 
 def load_intake(run_folder: pathlib.Path) -> dict[str, object]:
@@ -440,6 +592,48 @@ def _is_text(value: object, *, allow_empty: bool = False) -> bool:
         and value == value.strip()
         and (allow_empty or bool(value))
     )
+
+
+def _contains_credential(value: str) -> bool:
+    return bool(
+        _CREDENTIAL_FINGERPRINT.search(value)
+        or _AUTHORIZATION_VALUE.search(value)
+        or _PRIVATE_KEY_HEADER.search(value)
+    )
+
+
+def _credential_errors(value: object, path: str = "") -> list[str]:
+    if isinstance(value, str):
+        if _contains_credential(value):
+            location = path or "intake"
+            return [f"{location} must not contain a credential or access token"]
+        return []
+    if isinstance(value, list):
+        errors: list[str] = []
+        for index, item in enumerate(value):
+            child = f"{path}[{index}]" if path else f"[{index}]"
+            errors.extend(_credential_errors(item, child))
+        return errors
+    if isinstance(value, dict):
+        errors = []
+        for key, item in value.items():
+            if isinstance(key, str) and _contains_credential(key):
+                location = path or "intake"
+                errors.append(
+                    f"{location} key must not contain a credential or access token"
+                )
+                child = f"{location}.[REDACTED]"
+            else:
+                child = f"{path}.{key}" if path else str(key)
+            errors.extend(_credential_errors(item, child))
+        return errors
+    return []
+
+
+def _redact_credentials(value: str) -> str:
+    redacted = _CREDENTIAL_FINGERPRINT.sub("[REDACTED]", value)
+    redacted = _AUTHORIZATION_VALUE.sub("[REDACTED]", redacted)
+    return _PRIVATE_KEY_HEADER.sub("[REDACTED]", redacted)
 
 
 def _is_date(value: object) -> bool:
@@ -879,6 +1073,7 @@ def validate_run(
     except (FileNotFoundError, OSError, ValueError, json.JSONDecodeError) as error:
         return ValidationResult("blocked", (str(error),), (), ())
 
+    errors.extend(_credential_errors(intake))
     errors.extend(_unknown_key_errors(intake, _TOP_LEVEL_KEYS, ""))
     for field in sorted(_TOP_LEVEL_KEYS - intake.keys()):
         errors.append(f"{field} is required")
@@ -962,8 +1157,10 @@ def validate_run(
 
 
 def _audit_value(value: object) -> str:
+    if isinstance(value, str) and _contains_credential(value):
+        return json.dumps("[REDACTED]")
     if isinstance(value, (str, int)) and not isinstance(value, bool):
-        return json.dumps(value, ensure_ascii=False)
+        return _redact_credentials(json.dumps(value, ensure_ascii=False))
     if value is None:
         return "null"
     return "invalid or unavailable"
@@ -1038,4 +1235,4 @@ def render_input_audit(intake: dict[str, object], result: ValidationResult) -> s
     lines.extend(_audit_list(result.errors))
     lines.extend(["", "## Limitations", ""])
     lines.extend(_audit_list(result.limitations))
-    return "\n".join(lines) + "\n"
+    return _redact_credentials("\n".join(lines) + "\n")

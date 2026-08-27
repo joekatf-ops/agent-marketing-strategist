@@ -33,6 +33,7 @@ def _arguments() -> argparse.Namespace:
 
 
 def _write_input_audit(path: pathlib.Path, content: str) -> None:
+    encoded_content = content.encode("utf-8", errors="backslashreplace")
     path = _absolute_lexical(path)
     no_follow = _no_follow_flag()
     directory_descriptor = _open_directory_no_follow(path.parent)
@@ -50,10 +51,10 @@ def _write_input_audit(path: pathlib.Path, content: str) -> None:
         if not stat.S_ISREG(metadata.st_mode) or metadata.st_nlink != 1:
             raise OSError("audit target must be one regular, unlinked path")
         os.ftruncate(descriptor, 0)
-        audit_file = os.fdopen(descriptor, "w", encoding="utf-8")
+        audit_file = os.fdopen(descriptor, "wb")
         descriptor = -1
         with audit_file:
-            audit_file.write(content)
+            audit_file.write(encoded_content)
     finally:
         if descriptor >= 0:
             os.close(descriptor)

@@ -321,7 +321,8 @@ AD_ANALYSIS_ROUTING_CONTRADICTIONS = (
     ),
     re.compile(
         r"combined\s+adequate\s+creative\s+and\s+performance[^.!?\n]*"
-        r"\b(?P<action>produce(?:s|d|ing)?)\b[^.!?\n]*(?:both|two)[^.!?\n]*"
+        r"\b(?P<action>(?:produces?|produced|producing|creates?|created|creating|"
+        r"uses?|used|using))\b[^.!?\n]*(?:both|two)[^.!?\n]*"
         r"(?:Ad\s+Diagnosis[^.!?\n]*Creative\s+Audit|"
         r"Creative\s+Audit[^.!?\n]*Ad\s+Diagnosis)",
         re.IGNORECASE,

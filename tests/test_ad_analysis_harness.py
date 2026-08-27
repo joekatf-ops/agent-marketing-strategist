@@ -220,6 +220,22 @@ class AdAnalysisHarnessTests(unittest.TestCase):
             json.loads((run / "intake.json").read_text()),
         )
 
+    def test_rejects_datetime_today_before_creating_an_invalid_intake(self):
+        harness = load_harness()
+
+        with self.assertRaisesRegex(ValueError, "today must be a date"):
+            harness.initialise_run(
+                brand_folder=self.brand,
+                mode="creative-audit",
+                product_id="sleep-mask",
+                market="AU",
+                today=dt.datetime(2026, 8, 27, 14, 30),
+            )
+
+        self.assertFalse(
+            (self.brand / "outputs/ad-analysis/ADR-20260827-001").exists()
+        )
+
     def test_preserves_legacy_brand_version_and_records_migration_need(self):
         harness = load_harness()
 
@@ -255,6 +271,39 @@ class AdAnalysisHarnessTests(unittest.TestCase):
 
         self.assertFalse(
             (real_brand / "outputs/ad-analysis/ADR-20260827-001").exists()
+        )
+
+    def test_initialise_run_never_uses_a_swapped_analysis_directory(self):
+        harness = load_harness()
+        analysis_root = self.brand / "outputs/ad-analysis"
+        moved_root = self.brand / "outputs/original-ad-analysis"
+        outside = self.temp_root / "outside-analysis"
+        outside.mkdir()
+        original_limitations = harness._migration_limitations
+
+        def swap_analysis_root(method_version):
+            analysis_root.rename(moved_root)
+            analysis_root.symlink_to(outside, target_is_directory=True)
+            return original_limitations(method_version)
+
+        with mock.patch.object(
+            harness,
+            "_migration_limitations",
+            side_effect=swap_analysis_root,
+        ):
+            try:
+                harness.initialise_run(
+                    brand_folder=self.brand,
+                    mode="creative-audit",
+                    product_id="sleep-mask",
+                    market="AU",
+                    today=dt.date(2026, 8, 27),
+                )
+            except (OSError, ValueError):
+                pass
+
+        self.assertFalse(
+            (outside / "ADR-20260827-001/intake.json").exists()
         )
 
     def test_requires_exactly_one_non_empty_product_and_market(self):
@@ -809,6 +858,25 @@ class AdAnalysisHarnessTests(unittest.TestCase):
             with self.subTest(error=error):
                 self.assertIn(error, result.errors)
 
+    def test_rejects_and_redacts_a_credential_fingerprint_in_intake(self):
+        harness = load_harness()
+        run = self.create_run(harness)
+        intake = self.complete_creative_intake(harness, run)
+        credential = "ghp_" + "A" * 36
+        intake["sources"][0]["label"] = credential
+        self.write_intake(run, intake)
+
+        result = harness.validate_run(self.brand, run)
+        audit = harness.render_input_audit(intake, result)
+
+        self.assertEqual("blocked", result.status)
+        self.assertIn(
+            "sources[0].label must not contain a credential or access token",
+            result.errors,
+        )
+        self.assertNotIn(credential, audit)
+        self.assertIn('"[REDACTED]"', audit)
+
     def test_rejects_unknown_keys_in_optional_creative_mode_performance_metadata(self):
         harness = load_harness()
         run = self.create_modern_run(harness)
@@ -1240,6 +1308,35 @@ class AdAnalysisHarnessTests(unittest.TestCase):
         self.assertIn("Input readiness: blocked", completed.stdout)
         self.assertNotIn("Traceback", completed.stderr)
         self.assertTrue((run / "input-audit.md").is_file())
+
+    def test_validator_cli_encodes_unpaired_surrogates_before_truncating_audit(self):
+        harness = load_harness()
+        run = self.create_run(harness)
+        intake = self.complete_creative_intake(harness, run)
+        intake["sources"][0]["label"] = "ad-\ud800.mp4"
+        self.write_intake(run, intake)
+        audit = run / "input-audit.md"
+        audit.write_text("existing audit\n")
+
+        completed = subprocess.run(
+            [
+                "python3",
+                str(VALIDATOR),
+                str(self.brand),
+                str(run),
+                "--write-audit",
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            errors="backslashreplace",
+            check=False,
+        )
+
+        self.assertEqual(0, completed.returncode)
+        self.assertNotIn("Traceback", completed.stderr)
+        self.assertIn(b"ad-\\ud800.mp4", audit.read_bytes())
+        self.assertGreater(audit.stat().st_size, 0)
 
     def test_validator_cli_refuses_a_symlinked_audit_target(self):
         harness = load_harness()
