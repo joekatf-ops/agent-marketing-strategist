@@ -1,6 +1,6 @@
 # Output Contract: Video Script
-locked: 2026-08-26
-version: 1.1.0
+locked: 2026-08-27
+version: 1.2.0
 
 One script for one awareness execution.
 
@@ -9,15 +9,19 @@ Markdown. Table-driven, shootable without a follow-up conversation.
 
 ## Sections, in order
 
-1. **Header** - concept code, awareness code, format from the format library, target length,
-   destination, production difficulty and what is needed to shoot it
+1. **Header** - brand, market, product, coordinate key, CONTST test ID, source classification, Who,
+   Primary Problem, awareness code and job, messaging route, primary hook, media type, execution
+   format from the format library, target length, destination, CTA, complete final ad name ending in
+   `POSTIDXXX` before publication, and production difficulty
 2. **The job** - one line: the belief this execution has to move
 3. **The three-part opening** - visual hook, spoken or written hook, on-screen anchor. All
    three express one idea
 4. **Script table** - the body, beat by beat
-5. **Shot list** - what has to be captured, in shooting order not story order
+5. **Shot list and production needs** - people, assets and location required, followed by what has to
+   be captured in shooting order, not story order
 6. **Captions and on-screen text** - every text overlay with its timing
-7. **Claim check** - every claim against its approved wording
+7. **Proof and claim check** - every proof object and claim required, its evidence ID, approved
+   wording and status
 8. **Rationale** - the structure used and why, the proof placed and where, the objection
    pre-empted
 
@@ -45,7 +49,8 @@ CTA. Every row has a beat. A row that cannot be named is a row that gets cut.
 | PRA | Name the problem precisely | Explain the underlying cause, introduce the mechanism | To education or PDP |
 | SLA | Mechanism, comparison or demonstration | Why this route works and alternatives fall short | To PDP |
 | PDA | Proof or differentiation | Objection handling, offer terms | Direct, to PDP |
-| MWA | Verified offer, terms or proof reminder | Remove the final purchase friction without re-teaching | Direct, to the exact offer |
+
+Most Aware is handled by the offer and conversion environment, not as a standard script output.
 
 ## Formatting rules
 
@@ -74,4 +79,8 @@ CTA. Every row has a beat. A row that cannot be named is a row that gets cut.
 - [ ] Length inside the format range
 - [ ] Every claim in the claim check
 - [ ] Shot list is in shooting order and complete
+- [ ] Header carries CONTST, source, Who, Primary Problem, awareness job and messaging route
+- [ ] Primary hook, media type, execution format, proof, destination and CTA agree
+- [ ] People, assets and location required are explicit
+- [ ] Complete final ad name uses the full ad-set name and ends in POSTIDXXX before publication
 - [ ] Read aloud without stumbling

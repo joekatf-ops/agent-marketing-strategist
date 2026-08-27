@@ -1,6 +1,6 @@
 # Output Contract: Customer Intelligence Brief
-locked: 2026-08-26
-version: 2.0.0
+locked: 2026-08-27
+version: 2.1.0
 
 The evidence base for strategy. Thin evidence produces a clearly limited brief, not invented certainty.
 
@@ -27,10 +27,12 @@ Markdown document. `customer-intelligence-BRAND-YYYYMMDD.md`
    and sampling limitations
 9. **Competitor message map** - brand, promise, mechanism, offer, format, destination, observed date,
    source, and confidence
-10. **Behavioural personas** - 2 to 4 when evidence supports them; situation, current behaviour,
-    belief, distrust, criteria, and evidence strength
-11. **Outcomes by persona** - problems and desired outcomes ranked within the observed evidence, not
-    claimed as population prevalence
+10. **Behavioural segmentation evidence** - identity, situation, behaviour, motivation and
+    experience only where each lens changes the message; include belief, distrust, criteria and
+    evidence strength
+11. **Problem and desire evidence** - symptoms, functional problems, emotional problems, deeper
+    problems, failed alternatives, consequences and desired states ranked only within the observed
+    evidence
 12. **Voice of Customer bank** - exact quotes grouped into the six demand categories, source-linked
 13. **Objection and belief map** - observed objection families, examples, evidence class, necessary
     belief, and confidence
@@ -38,6 +40,15 @@ Markdown document. `customer-intelligence-BRAND-YYYYMMDD.md`
 15. **Opportunity hypotheses** - competitor-set gaps and underused arguments the evidence could
     support, with disconfirming evidence and a validation step
 16. **What remains thin** - gaps, consequences, and the next-best research action
+17. **Prioritised possible Who definitions** - recognisable people or broad segments, ordered by
+    evidence and commercial relevance, with useful lenses, source class and confidence
+18. **Prioritised primary Problems** - one problem, frustration, tension or unmet desire per entry,
+    ordered by evidence and commercial relevance, with supporting problem lenses
+19. **Who x Primary Problem pairing evidence** - proposed pairings, supporting and disconfirming
+    evidence, confidence and why the pairing could change the message
+20. **Commercial and claim constraints** - economics, fulfilment, production, offer, compliance,
+    proof and exact claim-ceiling constraints that bound a test
+21. **Open creative-test questions** - the specific uncertainties a concept test could answer
 
 ## Evidence classes
 
@@ -56,8 +67,8 @@ averaging them away.
 
 ## Counts
 
-- Personas: 2 to 4 when evidence supports segmentation; fewer is valid for an early brand
-- Outcomes per persona: 2 to 4
+- Who definitions and primary Problems: use only the supported set; fewer is valid for an early brand
+- Proposed pairings: only pairings with cited support or an explicit low-confidence hypothesis
 - Competitors: 5 or more where the market offers them; otherwise explain the actual set
 - Quotes per Voice of Customer category: target 8; use fewer and label the gap rather than padding
 - Opportunity hypotheses: 2 to 5 when supported; zero is valid
@@ -79,7 +90,7 @@ arrives.
 
 ## Never
 
-- Demographic-only personas
+- A Who defined only by demographics
 - Cleaned, paraphrased, duplicated, or invented quotes presented as verbatim
 - A sophistication or awareness conclusion without its evidence and limitation
 - "Nobody says this" when the actual finding is limited to the reviewed competitor set
@@ -93,9 +104,13 @@ arrives.
 - [ ] Every source has an evidence class, date, and confidence
 - [ ] Material website changes are surfaced
 - [ ] Brand facts, brand assertions, customer evidence, market evidence, behaviour, and judgement stay separate
-- [ ] Every persona is behavioural and evidence-backed
+- [ ] Every proposed Who uses only message-changing lenses and is evidence-backed
 - [ ] Quotes are verbatim and traceable
 - [ ] Awareness and sophistication are bounded hypotheses, not universal claims
 - [ ] Opportunity hypotheses name the reviewed set and a validation action
 - [ ] Missing first-party evidence lowers confidence explicitly
+- [ ] Who definitions and primary Problems are prioritised separately
+- [ ] Every proposed Who x Primary Problem pairing has supporting and disconfirming evidence
+- [ ] Commercial and claim constraints bound the proposed tests
+- [ ] Open questions are answerable by a creative test
 - [ ] Section 16 is honest and actionable

@@ -1,6 +1,6 @@
 # Output Contract: Ad Diagnosis
-locked: 2026-08-26
-version: 1.1.0
+locked: 2026-08-27
+version: 1.2.0
 
 Reading performance data and returning what to do about it. Not a dashboard, not a summary.
 This workflow accepts manually supplied Meta exports, screenshots or tables. It does not require a live Meta connection.
@@ -15,20 +15,27 @@ Markdown report. `diagnosis-{{brand.slug}}-YYYYMMDD.md`
    spend, purchases and days elapsed against the minimum thresholds in the brand folder. States
    plainly whether this is a verdict, a direction, or too early to call. This section comes first
    because it governs how much weight everything after it carries.
-2. **Business result** - table by concept: spend, purchases, CAC against target, revenue,
-   contribution after advertising
-3. **Funnel result** - table by concept or ad: outbound CTR, landing page view rate, add to
+2. **What was tested** - coordinate key, CONTST test ID, source, Who, Primary Problem, campaign and
+   ad-set names, each complete ad name, awareness job, messaging route, format, destination,
+   observation window, budget, and any logged intervention
+3. **What happened: business result** - table by batch and ad: spend, purchases, CAC against target,
+   revenue, contribution after advertising, expected purchases at target CAC and testing or scaling stage
+4. **What happened: funnel result** - table by batch or ad: outbound CTR, landing page view rate, add to
    cart rate, checkout rate, purchase rate
-4. **Creative result** - table by ad: spend share, three-second view rate, hold rate, thumbstop,
+5. **What happened: creative result** - table by ad: spend share, first-frame retention,
+   three-second view rate, hold rate, thumbstop,
    frequency, comments
-5. **Diagnosis** - per concept, which stage in the chain is the weak point and the number that
-   shows it. Uses the diagnosis table in `references/09-testing-and-diagnosis.md` and the
-   benchmarks in `references/12-meta-platform.md`
-6. **Decisions** - each concept classified against the six-row decision framework, with the
-   next action
-7. **Ranked change list** - what to do, in order
-8. **What we learned** - retained learning, including from the losers
-9. **What this does not tell us** - the honest limits of this read
+6. **Strongest and weakest complete executions** - ranked with the business, funnel and creative
+   evidence, delivery share and read-validity qualification
+7. **Likely explanations** - per batch or execution, the observed association, likely explanation,
+   disconfirming evidence, explanation confidence and what would test it
+8. **Six-decision taxonomy** - each reviewed item classified as Financial winner, Directional
+   promise, Interest weak conversion, Weak throughout, Initial winner scale failure or Winner at
+   scale, with one next action: keep, ITR, stop or scale
+9. **Ranked change list** - what to do, in order
+10. **What we learned** - retained test observations, including losers and scale failures, kept
+    separate from approved human-revision learning
+11. **What this does not tell us** - the honest limits of this read
 
 ## Ranked change list, fixed row shape
 
@@ -54,7 +61,11 @@ Every row carries a number in the number column. A row without one does not get 
    not "caused by"
 7. Distinguish concept results from execution results. One losing video does not kill a
    concept when its other selected executions received no meaningful delivery
-8. Losers get analysed, not skipped. Section 8 covers them
+8. Losers get analysed, not skipped. Section 10 covers them
+9. Initial broad tests compare complete executions. Do not infer isolated awareness, route, hook,
+   format, proof or destination causation from them
+10. Keep initial-test performance and CBO scaling performance as separate result records
+11. An ITR retains Who and Primary Problem but always receives a new CONTST ID
 
 ## Never
 
@@ -71,8 +82,11 @@ Every row carries a number in the number column. A row without one does not get 
 - [ ] Every manual source, date range, attribution setting and missing field is listed
 - [ ] The report never implies live Meta access
 - [ ] Every change list row has a number
-- [ ] Every concept that spent money appears in the tables
+- [ ] Every batch and ad that spent money appears in the tables
 - [ ] No causal language on a non-isolated variable
-- [ ] Concept results separated from execution results
-- [ ] Section 9 is filled honestly
+- [ ] Coordinate, batch, execution and scaling results remain separate
+- [ ] Strongest and weakest executions are identified only within the valid supplied read
+- [ ] Every likely explanation has confidence, disconfirming evidence and a follow-up test
+- [ ] Every decision uses the six-decision taxonomy and one action: keep, ITR, stop or scale
+- [ ] Section 11 is filled honestly
 - [ ] If the test is underpowered, that governs the whole report rather than a footnote

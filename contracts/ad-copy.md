@@ -1,6 +1,6 @@
 # Output Contract: Ad Copy
-locked: 2026-08-26
-version: 2.0.0
+locked: 2026-08-27
+version: 2.1.0
 
 Primary text, headlines, descriptions, and one Meta CTA for one approved ad execution.
 
@@ -10,21 +10,25 @@ A Markdown block per ad. A batch may use a table only when every required field 
 
 ## Sections, in order
 
-1. **Ad reference** - brand, market, product, concept code, awareness state, format, destination
+1. **Ad reference** - brand, market, product, coordinate key, CONTST test ID, source classification,
+   Who, Primary Problem, awareness code and job, messaging route, primary hook, media type, execution
+   format, destination, CTA and complete final ad name ending in `POSTIDXXX` before publication
 2. **The job** - the single belief or feeling this copy must create
-3. **Lead route A** - named lead type, hook source, and body structure
-4. **Primary text A, Short version**
-5. **Primary text A, Medium version**
-6. **Primary text A, Long version**
-7. **Lead route B** - a meaningfully different named lead type, hook source, and body structure
-8. **Primary text B, Short version**
-9. **Primary text B, Medium version**
-10. **Primary text B, Long version**
-11. **Headlines** - five distinct options
-12. **Descriptions** - two distinct options
-13. **CTA button** - one standard Meta CTA
-14. **Rationale** - the routes, awareness fit, proof, objection, and destination logic
-15. **Claim check** - each claim, its approved wording or evidence, and approval status
+3. **Proof, claims and production needs** - proof and claims required, approval status, and the
+   people, assets and location required
+4. **Lead route A** - named lead type, hook source, and body structure
+5. **Primary text A, Short version**
+6. **Primary text A, Medium version**
+7. **Primary text A, Long version**
+8. **Lead route B** - a meaningfully different named lead type, hook source, and body structure
+9. **Primary text B, Short version**
+10. **Primary text B, Medium version**
+11. **Primary text B, Long version**
+12. **Headlines** - five distinct options
+13. **Descriptions** - two distinct options
+14. **CTA button** - one standard Meta CTA, matching the ad reference
+15. **Rationale** - the lead routes, awareness fit, messaging route, proof, objection and destination logic
+16. **Claim check** - each claim, its approved wording or evidence, and approval status
 
 ## Counts and length bands
 
@@ -65,7 +69,8 @@ idea. Do not repeat the primary text's first line five times.
 | Problem aware | precise problem, cost, unexpected cause | generic problem language |
 | Solution aware | mechanism, comparison, demonstration | assuming category preference |
 | Product aware | proof, differentiation, objection | re-teaching the category |
-| Most aware | offer, terms, urgency supported by fact | a long educational preamble |
+
+Most Aware is handled by the offer and conversion environment, not as a standard ad output.
 
 ## Formatting rules
 
@@ -94,5 +99,9 @@ idea. Do not repeat the primary text's first line five times.
 - [ ] Every first line stands alone before truncation
 - [ ] Every body structure is named and proof precedes the ask
 - [ ] Every claim appears in the claim check
+- [ ] CONTST, source, Who, Primary Problem, awareness job and messaging route are explicit
+- [ ] Primary hook, media type, execution format, proof, destination and CTA agree
+- [ ] People, assets and location required are named
+- [ ] Complete final ad name uses the full ad-set name and ends in POSTIDXXX before publication
 - [ ] No banned vocabulary, em dashes, or en dashes
 - [ ] The You Test and So What Test both pass

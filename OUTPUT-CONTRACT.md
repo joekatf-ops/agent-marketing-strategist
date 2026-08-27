@@ -1,6 +1,6 @@
 # Output Contracts
 
-The strategist has nine governed artefacts. Each task loads its contract before work begins.
+The strategist has eleven governed artefacts. Each task loads its contract before work begins.
 
 | Artefact | Contract | When |
 |---|---|---|
@@ -11,10 +11,12 @@ The strategist has nine governed artefacts. Each task loads its contract before 
 | Ad Copy | `contracts/ad-copy.md` | Primary text, headlines, descriptions, and CTA |
 | Video Script | `contracts/video-script.md` | Any selected video execution |
 | Static and Carousel Spec | `contracts/static-spec.md` | Any selected static or carousel execution |
+| Campaign Launch Plan | `contracts/campaign-launch-plan.md` | Before a human builds or changes Meta campaigns |
+| Destination Handoff | `contracts/destination-handoff.md` | Before launch, for ad-to-page message continuity |
 | Ad Diagnosis | `contracts/ad-diagnosis.md` | Manual performance analysis and next decisions |
 | Learning Update | `contracts/learning-update.md` | After an approved human revision |
 
-## Rules that apply to all nine
+## Rules that apply to all eleven
 
 1. **Resolve the brand first.** Every artefact names one brand, market, product, evidence version,
    and approved-learning version.
@@ -32,6 +34,21 @@ The strategist has nine governed artefacts. Each task loads its contract before 
 8. **Learning needs approval and scope.** An edit is not automatically a brand rule.
 9. **No em dashes or en dashes in delivered advertising copy.**
 10. **Run the self-check.** Fix failed checks before presenting the artefact.
+11. **Coordinate and test are separate.** The coordinate is Who x Primary Problem. Every NNT,
+    INSPO or ITR batch receives a new sequential CONTST ID.
+12. **Initial tests have four ads.** Every initial NNT or INSPO contains exactly UWA, PRA, SLA and
+    PDA. Most Aware is handled by the conversion environment, not as a standard ad.
+13. **Production is traceable.** Every hook, copy, script and static output carries CONTST, source,
+    Who, Primary Problem, awareness code and job, messaging route, primary hook, media type,
+    execution format, proof and claims required, destination, CTA, people, assets and location
+    required, and the complete final ad name ending in `POSTIDXXX` before publication.
+14. **Destinations continue the argument.** UWA and PRA default to LP. SLA and PDA default to PDP.
+    Every deliberate exception records why it remains congruent, its evidence, risk, owner and approval.
+15. **Launch is manual.** Creative testing is ABO with one CONTST batch per ad set, a $50 daily
+    ad-set floor, approximately $100 preferred and five full days planned observation. Scaling is
+    CBO and graduated winners keep the real Post ID. No artefact implies live Meta access.
+16. **Diagnosis is non-causal.** Read business, funnel and creative layers in that order, state
+    validity first and classify each decision using the six-decision taxonomy.
 
 ## Portability test
 

@@ -1,110 +1,164 @@
 # Testing, measurement and diagnosis
 
-Benchmarks and thresholds with sources live in `12-meta-platform.md`. This file is the method.
+This file governs test structure, observation and decisions. Benchmarks and sourced platform
+thresholds live in `references/12-meta-platform.md`. Meta launch, evidence capture and campaign
+changes are manual. This method neither requires nor implies live Meta access.
 
-## The launch creative test
+## Creative-testing stage
 
-A performance-led market test, not a laboratory experiment. Budgets below come from
-the active brand folder's economics and testing records. The shape is governed; the numbers are
-brand-specific.
+Use one creative-testing campaign for one product and one region.
 
-| Level | Structure |
+| Level | Governed structure |
 |---|---|
-| Campaign | Creative testing sales campaign |
-| Ad sets | One per concept, equal daily budget |
-| Ads per ad set | One to four selected executions that preserve the concept and test question |
-| Default | Three concepts at `{{testing.budget_per_concept_per_day}}` for `{{testing.observation_window_days}}` |
-| Observation window | Seven days default |
+| Campaign | CT sales campaign using ABO |
+| Ad set | One new CONTST batch per ad set |
+| Initial NNT or INSPO ads | Exactly four standalone executions: UWA, PRA, SLA and PDA |
+| ITR ads | May be narrower when a cited prior signal makes that follow-up more informative |
+| Daily budget | $50 per ad set absolute floor; approximately $100 per ad set preferred starting point |
+| Planned observation | Five full days in the recorded account timezone |
 
-**Sizing the read.** Spend per concept divided by target CAC gives the expected purchases at
-target. Say that number out loud before the test starts. If it is under about five, the test
-gives direction, not a verdict, and the report must say so.
+The $50 floor is not a recommendation to underfund a read. Set higher budgets from price, target
+CAC, break-even CAC, capital and account context. State the currency and reasoning. Before launch,
+calculate:
 
-### What this test does well
+```
+expected purchases at target CAC = planned spend / target CAC
+```
 
-- Controls a known budget for each large strategic concept
-- Compares meaningfully different persona, outcome and angle combinations
-- Lets Meta find the executions it can acquire through most efficiently
-- Reflects the live acquisition environment
+Say the result plainly. A five-day review remains directional or too early when spend, purchase or
+brand-specific validity thresholds are not met.
 
-### What it does not guarantee
+## Initial four-ad logic
 
-- Equal spend across selected ads
-- A fair controlled read on every awareness level
-- A statistically conclusive winner after seven days
-- Proof that one variable caused the result
-
-Uneven delivery is accepted because efficient acquisition is the objective. Funnel and creative
-data then diagnose why.
-
-## Three levels of measurement
-
-| Level | Measures | Purpose |
+| Awareness | Job | Default destination |
 |---|---|---|
-| 1. Business | Spend, purchases, CAC, revenue, contribution after advertising | Can the concept acquire economically? |
-| 2. Funnel | Outbound CTR, landing page views, conversion rate, add to cart, checkout | Is the weakness in the ad, page, explanation or offer? |
-| 3. Creative | Spend distribution, hook retention, watch behaviour, comments, awareness, format, creator | What did we learn and what should we make next? |
+| UWA | Recognition | LP |
+| PRA | Diagnosis | LP |
+| SLA | Differentiation | PDP |
+| PDA | Decision | PDP |
 
-Always read them in that order. A creative diagnosis without the business number attached is
-an opinion.
+Each ad must make a complete argument because delivery order and spend distribution are not
+guaranteed. A deliberate HP, CP or other destination exception is allowed only when the page
+continues the execution's promise, proof and CTA and the Destination Handoff records the exception.
 
-## Diagnosing which part is broken
+Initial tests make large changes across awareness, messaging route, hook, format, proof presentation
+and destination. They compare complete executions in a live acquisition environment. They identify
+associations and generate hypotheses. They do not prove which isolated variable caused the result.
 
-Work down the chain. The first stage that underperforms is where the problem is; everything
-after it is a symptom.
+## Observation protocol
 
-| Symptom | Most likely cause | What to change |
+Record the planned start and end timestamps. Five full days means five complete 24-hour account
+days after delivery begins, not a launch-day fragment plus four dates.
+
+Do not make routine creative, copy, destination, audience or budget changes during the planned
+window. Intervene only for:
+
+- operational failure;
+- broken destination or tracking;
+- policy issue;
+- unacceptable commercial risk.
+
+Log any intervention with timestamp, reason, owner, fields changed and the resulting validity limit.
+At review, use manually supplied exports, screenshots or tables and preserve their date range,
+attribution setting, currency and aggregation level.
+
+## Read validity
+
+Classify the read before interpreting performance:
+
+| Validity | Rule |
+|---|---|
+| Verdict | Meets the active brand's minimum spend and purchase thresholds and contains no material integrity failure |
+| Direction | Shows a useful signal but misses a threshold, has uneven delivery or includes a logged intervention |
+| Too early | Does not meet minimum spend, purchases or five-full-day observation requirements |
+
+Five days alone never creates statistical certainty. Report the expected and actual purchases, the
+additional spend or purchases required and any delivery imbalance. Never omit an ad that spent money.
+
+## Three measurement layers
+
+Always read the layers in this order.
+
+| Layer | Measures | Question |
 |---|---|---|
-| Low three-second view rate relative to account norm | The opening frame, visual hook, or the wrong persona being reached | Rebuild the first two seconds. New visual hook, same concept |
-| Good three-second, sharp drop by second five to ten | The hook wrote a cheque the body did not cash | Make the body deliver the hook's promise, or soften the hook |
-| Healthy hold rate, low outbound CTR | The ad entertains but does not create wanting, or the CTA is buried | Strengthen the desire and the reason to click, sharpen the CTA |
-| Healthy CTR, low landing page view rate | Load speed or destination mismatch | Check page speed and the link destination |
-| Good landing page views, low add to cart | Message match break, or the page does not continue the argument | Align page promise, mechanism and proof with the ad |
-| Good add to cart, low purchase | Offer, price, shipping or trust at checkout | Review offer terms, shipping cost visibility, guarantee, payment options |
-| Everything healthy, CAC still above target | The economics, not the creative | Revisit price, AOV, bundle or target CAC |
-| Strong early, decays with spend | Fatigue or audience exhaustion at this budget | New concept, not a new hook on the same one |
+| 1. Business | Spend, purchases, CAC, revenue and contribution after advertising | Did the execution acquire economically? |
+| 2. Funnel | Outbound CTR, landing-page-view rate, add-to-cart rate, checkout rate and purchase rate | Where did the path lose commercial intent? |
+| 3. Creative | Spend distribution, first-frame retention, three-second view rate, hold rate, frequency, comments, awareness and format | What complete-execution signal could inform the next creative? |
 
-**Frequency and fatigue.** Rising frequency with falling CTR and rising CPA at flat spend is
-fatigue. Rising CPA at rising spend without a frequency change is usually reach quality, not
-fatigue. Treat them differently.
+A creative observation without its business and funnel context is incomplete. Compare first against
+the active account norm. When no account norm exists, name the sourced range from
+`references/12-meta-platform.md` and its limitation.
 
-## Decision framework
+## Diagnostic chain
 
-| Result | Meaning | Next action |
+Work from the first weak stage. Later weakness may be a downstream symptom.
+
+| Observed association | Likely explanation to investigate | Next check |
 |---|---|---|
-| Financial winner | At or below target CAC with useful volume | Continue, graduate to scale, build evidence-led iterations |
-| Directional promise | Above target, but attention, clicks, conversion or response show a signal | Diagnose and build an ITR |
-| Interest, weak conversion | The ad earns traffic but the page or offer fails | Review congruence, claims, education, page and offer |
-| Weak throughout | No meaningful interest or action | Stop, archive the learning, make a larger NNT |
-| Initial winner, scale failure | CAC deteriorates materially at higher spend | Record separately, broaden, iterate or retire |
-| Winner at scale | Holds acceptable economics with more spend | Add to the evergreen winner library and iterate |
+| Low first-frame retention | File, thumbnail, render or opening-frame problem | Verify playback and first-frame legibility |
+| Low three-second view rate relative to the valid comparison | Opening lacks clarity or relevance for the delivered audience | Review opening visual, primary hook and Who congruence |
+| Healthy three-second rate, sharp drop before proof | Body does not fulfil or sustain the opening | Check handoff, pacing and proof timing |
+| Healthy hold, low outbound CTR | Argument creates attention without enough desire or reason to click | Review route, proof, objection and CTA |
+| Healthy CTR, low landing-page-view rate | Load, tracking or destination failure | Test URL, speed and event integrity |
+| Good landing-page views, low add to cart | Ad-to-page message break, product explanation or offer weakness | Audit Destination Handoff and page continuation |
+| Good add to cart, low purchase | Price, shipping, trust, payment or checkout friction | Audit conversion environment |
+| Healthy funnel, CAC above target | Economics or auction cost may be the constraint | Review CPM, AOV, margin and target CAC |
+| Early efficiency decays as spend rises | Reach quality, fatigue or scale sensitivity | Read frequency and CTR trend, then scaling record |
 
-A losing ad still creates learning. Every analysis records what happened, the likely cause,
-the strength of the evidence, and the next action.
+These are possible explanations, not causal findings. Use "associated with" unless a suitable
+follow-up isolated the variable.
 
-## Honesty rules for any analysis
+## Six-decision taxonomy
 
-1. Every recommendation names the number behind it and the threshold it crossed. No number,
-   no recommendation.
-2. Refuse to call a test that has not reached the minimum spend or purchase count in the active
-   brand folder.
-   "Not enough data yet, needs N more" is a valid and often correct output.
-3. Never attribute a result to a single variable in a test that did not isolate it. Say
-   "associated with", not "caused by".
-4. Distinguish a concept result from an execution result. One losing video does not kill the
-   concept when its other selected executions received no meaningful delivery.
-5. An agent that always finds something to change is worse than useless.
+Every reviewed execution or batch receives one of these six decisions and one governed next action.
 
-## Monthly operating rhythm
+| Decision | Evidence pattern | Governed next action |
+|---|---|---|
+| Financial winner | At or below target CAC with useful volume in a valid read | Keep in testing, graduate a proven ad to scale, or build an evidence-led ITR |
+| Directional promise | Economics miss target but attention, click, conversion or response shows a bounded signal | ITR against the same coordinate with a new CONTST ID |
+| Interest, weak conversion | Ad earns traffic but destination, product explanation, offer or checkout underperforms | Stop launch changes, repair continuity or conversion environment, then decide whether an ITR is warranted |
+| Weak throughout | No meaningful attention or action after a valid read | Stop the batch, retain the losing evidence and prioritise a materially different NNT |
+| Initial winner, scale failure | Testing economics were acceptable but deteriorated materially at higher spend | Stop or reduce scaling, preserve both records and propose a justified ITR |
+| Winner at scale | Acceptable economics persist at higher spend | Keep in CBO scaling and add to the evergreen winner library |
 
-1. Review economics, inventory and tracking integrity
-2. Review customer insight, past tests and winners
-3. Define the most important questions for the month
-4. Set the NNT, INSPO and ITR allocation
-5. Select and prioritise concepts
-6. Create concept cards and choose evidence-supported awareness coverage across the portfolio
-7. Produce creative and landing page requirements
-8. Launch with budget, window and target CAC
-9. Review business, funnel and creative results
-10. Scale, iterate or archive
-11. Retain the learning for the next cycle
+The top-level action vocabulary is keep, ITR, stop or scale. The named decision preserves why that
+action was chosen. A losing ad still creates learning. Record what happened, the likely explanation,
+confidence and next action without promoting association into causal learning.
+
+## Scaling stage
+
+Scaling uses one SC campaign per product and region.
+
+- Budget type is CBO.
+- Create it only when useful winners exist.
+- Graduate the published winner with its real Post ID; never rebuild it as a new ad.
+- Record scaling performance separately from initial-test performance.
+- Record scale failure without rewriting the original test result.
+- Add only winners that retain acceptable economics at higher spend to the evergreen winner library.
+- Send evidence-led follow-ups back to testing as new ITR batches with new CONTST IDs.
+
+The CBO budget comes from economics and account context. There is no universal automatic budget
+increase rule, and this package does not authorise automatic budget changes.
+
+## Diagnosis integrity rules
+
+1. Name every manual source, date range, attribution setting, currency, aggregation level and gap.
+2. State read validity before reporting conclusions.
+3. Every recommendation names the metric, value and comparison threshold behind it.
+4. Separate coordinate, batch, execution and scaling results.
+5. Do not kill a coordinate because one execution received spend while the others did not receive a useful read.
+6. Use association language for broad tests and record explanation confidence.
+7. Preserve losers, interventions, destination exceptions and scale failures.
+8. Zero recommended changes is valid when the evidence does not support action.
+
+## Operating loop
+
+1. Verify economics, inventory, tracking, claims, production capacity and destinations.
+2. Select one or more evidence-backed Who x Primary Problem coordinates.
+3. Allocate the next CONTST ID to every NNT, INSPO or ITR batch.
+4. Build the governed execution set and complete destination handoffs.
+5. Produce the manual Campaign Launch Plan and run preflight.
+6. Observe five full days without routine changes.
+7. Audit validity, then read business, funnel and creative layers.
+8. Apply one of the six decisions and one next action: keep, ITR, stop or scale.
+9. Preserve the test record separately from approved human-revision learning.

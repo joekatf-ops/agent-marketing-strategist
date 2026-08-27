@@ -1,86 +1,102 @@
 # Output Contract: Concept Batch
-locked: 2026-08-26
-version: 2.0.0
+locked: 2026-08-27
+version: 3.0.0
 
-The strategic portfolio that defines what the creative test is meant to learn.
+The governed plan for testing one or more concept coordinates. A concept coordinate is exactly
+`Who x Primary Problem`. A coordinate, a test batch and an execution are separate records.
 
 ## Artefact
 
-Markdown document plus one concept card per concept.
+Markdown document plus one coordinate card and one test-batch card for each proposed launch.
 `concept-batch-BRAND-YYYYMMDD.md`
 
 ## Sections, in order
 
-1. **Batch header** - brand, market, product, question, NNT / INSPO / ITR allocation, commercial
-   constraints, test window, and what would count as a useful read
-2. **Evidence summary** - brand-customer, market, behavioural, and strategist evidence used
-3. **Concept cards** - one fixed card per concept
-4. **Portfolio coverage** - persona, outcome, angle type, source, awareness, format, and proof
-5. **Production plan** - selected executions, dependencies, and priority
-6. **What this batch will and will not tell us** - an honest statement of the read
+1. **Batch header** - brand, market, product, region, requested question, commercial constraints,
+   production constraints and what would count as a useful read
+2. **Evidence summary** - verified brand facts, brand assertions, brand-customer evidence, market
+   evidence, behavioural evidence and strategist judgement used
+3. **Coordinate cards** - the enduring Who x Primary Problem records
+4. **Test-batch cards** - the new sequential CONTST batches proposed against those coordinates
+5. **Execution manifest** - every standalone ad, its traceability and production dependencies
+6. **Destination coverage** - default routes, deliberate exceptions and handoff status
+7. **What this batch will and will not tell us** - useful associations, limits and open questions
 
-## Concept card shape, fixed
-
-Every card carries these twelve fields in this order:
+## Coordinate card shape, fixed
 
 | Field | Rule |
 |---|---|
-| Concept code | Sequential and never reused |
-| Source | NNT, INSPO, or ITR. ITR names the prior test and observed signal |
-| Persona | Behavioural and traced to customer intelligence |
-| Outcome | One problem or desired outcome |
-| Angle | One sentence that does not restate the outcome |
-| Angle type | Exactly one: How it works, The reframe, Vs the old way, Proof you can see |
+| Coordinate key | Stable key from the coordinate register; not a CONTST ID |
+| Who | One recognisable person or broad segment traced to customer intelligence |
+| Primary Problem | One problem, frustration, tension or unmet desire |
+| Supporting lenses | Only lenses that deepen Who or the Primary Problem without creating new axes |
+| Evidence | Supporting and disconfirming evidence, source class, link or ID and confidence |
+| Claim ceiling | What executions against this coordinate may and may not say |
+| Coordinate status | Proposed, active, rejected or archived |
+| Linked test history | Every prior CONTST batch for this coordinate, including losers |
+
+Messaging route, awareness, hook, format, creator, proof presentation, offer presentation, visual
+execution and destination are execution variables. They never appear as coordinate axes.
+
+## Test-batch card shape, fixed
+
+| Field | Rule |
+|---|---|
+| Test ID | Next unused sequential `CONTST###`; never reused and never hidden behind a version suffix |
+| Source | NNT, INSPO or ITR |
+| Coordinate key | Links the batch to one approved coordinate card |
+| Test question | One question the complete execution set can inform |
 | Hypothesis | Expected response and the evidence-backed reason |
-| Evidence | Cited quotes, observed pattern, product truth, or prior result, each source-classed |
-| Necessary belief targeted | One primary belief this concept moves |
-| Claim ceiling | What this concept may and may not say |
-| Destination | The page or experience that continues the same argument |
-| Selected executions | One to four executions chosen for the hypothesis, each with awareness, format, length, and job |
+| Source evidence | NNT hypothesis, INSPO source elements, or prior CONTST signal for ITR |
+| Planned read | Spend, expected purchases at target CAC, observation window and validity limits |
+| Execution set | Initial NNT and INSPO use exactly four standalone ads; ITR may be narrower when cited evidence justifies it |
+| Production state | Owner, dependencies, claim gate and launch readiness |
 
-## Portfolio awareness rule
+Every NNT, INSPO and ITR batch receives a new CONTST ID. INSPO records what structural element is
+adapted and confirms that identity, claims, assets, language and scripts are not copied. ITR retains
+Who and Primary Problem, cites an observed prior signal and names the execution variables changed.
 
-Awareness is selected across the batch portfolio, not mechanically repeated inside every concept.
-Use the five states: Unaware, Problem aware, Solution aware, Product aware, and Most aware.
+## Initial NNT and INSPO execution set
 
-For a default three-concept batch, cover at least three evidence-supported states and include a Most
-aware execution when a current offer, proof set, and purchase-ready audience exist. If the evidence
-supports a narrower range, state why. Do not manufacture an awareness execution that weakens the
-concept or points to the wrong destination.
+Every initial NNT or INSPO batch contains exactly four standalone ads in this order:
 
-## Counts
+| Order | Awareness code | Job | Default destination |
+|---|---|---|---|
+| 1 | UWA | Recognition: make the Who recognise the situation or tension | LP |
+| 2 | PRA | Diagnosis: name and explain the Primary Problem precisely | LP |
+| 3 | SLA | Differentiation: show why this route differs from alternatives | PDP |
+| 4 | PDA | Decision: provide the proof and reason to choose | PDP |
 
-- Concepts: 3 by default; 2 to 5 with a stated reason
-- Selected executions: 1 to 4 per concept, based on the hypothesis and production reality
-- Angle types across the batch: at least 2 distinct
-- Portfolio awareness states: at least 3 for the default batch, unless evidence supports fewer
-- Evidence sources per concept: at least 2, or an explicit low-confidence label
+Each execution records: awareness code and job, messaging route, primary hook, media type, execution
+format, required proof and claims, destination, CTA, people, assets and location required, and the
+complete final ad name ending in `POSTIDXXX` before publication.
 
-## Formatting rules
+A deliberate HP, CP or other destination exception is permitted only when the execution and page
+remain congruent. Record the default, selected destination, reason, supporting evidence, risks,
+owner and approval in the Destination Handoff.
 
-- The angle is one sentence.
-- Each concept card fits on one screen where practical.
-- Use no em dashes or en dashes.
-- Format is an execution decision, not the concept axis.
-- Separate active-brand facts from external market evidence.
+## ITR execution set
 
-## Never
+An ITR may use fewer than four ads when prior evidence makes a narrower follow-up more informative.
+Its card must cite the prior CONTST, preserve the coordinate, list every changed and retained
+execution variable, justify the narrower set and state what the comparison cannot establish.
 
-- An angle that merely repeats its outcome
-- More than one primary angle type per concept
-- A hypothesis without cited evidence
-- A persona absent from the intelligence brief
-- Four forced awareness executions for every concept
-- A Most aware ad without a verified offer and destination
-- A format swap presented as a new concept
+## Interpretation rules
+
+- Initial batches compare complete executions and intentionally vary large execution variables.
+- A result may identify a strong complete execution and create a hypothesis.
+- Never claim that awareness, messaging route, hook, format, proof or destination caused a result
+  unless that variable was isolated in a suitable follow-up.
+- Each ad is complete on its own because delivery order is never guaranteed.
 
 ## Self-check before presenting
 
-- [ ] Every card has all twelve fields in order
-- [ ] Every angle differs from its outcome
-- [ ] Exactly one primary angle type per concept
-- [ ] At least two angle types appear across the portfolio
-- [ ] Every hypothesis traces to classed, linked evidence
-- [ ] Awareness coverage follows the portfolio rule and includes Most aware when warranted
-- [ ] Every selected execution has one job and a matching destination
-- [ ] Concept codes are sequential and unused
+- [ ] Coordinate cards and test-batch cards use separate identities
+- [ ] Every coordinate is exactly Who x Primary Problem
+- [ ] Every batch has the next unused CONTST ID and one source classification
+- [ ] Every initial NNT or INSPO has exactly UWA, PRA, SLA and PDA once each
+- [ ] Every execution includes route, format, proof, destination and job
+- [ ] UWA and PRA default to LP; SLA and PDA default to PDP
+- [ ] Every deliberate destination exception is recorded and remains congruent
+- [ ] Every ITR cites a prior signal and receives a new CONTST ID
+- [ ] The interpretation states association and limits rather than unsupported causation

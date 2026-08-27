@@ -1,8 +1,23 @@
 # Output Contract: Hook Batch
-locked: 2026-08-26
-version: 1.0.0
+locked: 2026-08-27
+version: 1.1.0
 
-A batch of strategically different openings for one approved concept and execution brief.
+A pre-production option set of strategically different openings for one approved execution. The six
+packages do not create six launch ads. Select one coherent opening for the execution.
+
+## Required execution traceability
+
+Every hook package carries all of these fields, even when the values repeat across the batch:
+
+1. CONTST test ID and source classification: NNT, INSPO or ITR
+2. Who and Primary Problem
+3. Awareness code and job
+4. Messaging route and primary hook
+5. Media type and execution format
+6. Proof and claims required
+7. Destination and CTA
+8. People, assets and location required
+9. Complete final ad name ending in `POSTIDXXX` before publication
 
 ## Default batch
 
@@ -18,7 +33,9 @@ or opening questions do not create a strategically new hook.
 
 ## Sections, in order
 
-1. **Batch header** - brand, market, product, concept, awareness, destination, format constraints
+1. **Batch header** - brand, market, product, coordinate key, CONTST test ID, source, Who, Primary
+   Problem, awareness code and job, messaging route, media type, execution format, destination, CTA,
+   complete final ad name and format constraints
 2. **Evidence and claim gate** - proof available, approved language, prohibited language
 3. **Hook packages** - six fixed cards
 4. **Diversity matrix** - category, format, lead type, visual pattern, belief, evidence, risk
@@ -27,16 +44,20 @@ or opening questions do not create a strategically new hook.
 ## Hook package shape
 
 1. Hook number and category
-2. Format from `references/16-hook-formats.md`
-3. Awareness state and belief targeted
-4. Visual opening, frame by frame for the first three seconds when video
-5. Spoken opening or primary written line
-6. On-screen anchor
-7. Body handoff that cashes the hook's promise
-8. Evidence and proof burden
-9. Production requirements
-10. Policy and claim risk: LOW, MEDIUM, or HIGH, with reason
-11. Why it fits the concept and how it differs from the other five
+2. CONTST test ID, source, Who and Primary Problem
+3. Awareness code, awareness job and messaging route
+4. Primary hook, expressed as one coherent visual, spoken or written and on-screen idea
+5. Media type and execution format from `references/16-hook-formats.md`
+6. Visual opening, frame by frame for the first three seconds when video
+7. Spoken opening or primary written line
+8. On-screen anchor
+9. Body handoff that cashes the hook's promise
+10. Proof and claims required, with evidence IDs and approval status
+11. Destination and CTA
+12. People, assets and location required
+13. Complete final ad name ending in `POSTIDXXX` before publication
+14. Policy and claim risk: LOW, MEDIUM, or HIGH, with reason
+15. Why it fits the coordinate and how it differs from the other five
 
 For a static hook, replace the three-second frames with feed object, hierarchy, primary line, and
 proof object. Do not pretend a static is a video storyboard.
@@ -45,7 +66,7 @@ proof object. Do not pretend a static is a video storyboard.
 
 Score each package from 1 to 5 on:
 
-- concept fit;
+- coordinate and execution fit;
 - stopping power;
 - clarity without context;
 - proof readiness;
@@ -69,10 +90,9 @@ unless its claim and policy burden are fully resolved.
 
 - [ ] Exactly 6 hooks across at least 4 formats
 - [ ] Required category allocation is complete
-- [ ] Every hook has all eleven fields
+- [ ] Every hook has all fifteen fields and the complete traceability set
 - [ ] Each route differs strategically
 - [ ] Visual, spoken, and on-screen elements express one idea
 - [ ] Every proof burden has a real source or is marked unavailable
 - [ ] Diversity matrix proves the batch is not cosmetic variation
 - [ ] Production order balances learning value, readiness, and effort
-

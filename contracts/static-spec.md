@@ -1,6 +1,6 @@
 # Output Contract: Static and Carousel Spec
-locked: 2026-08-26
-version: 1.0.0
+locked: 2026-08-27
+version: 1.1.0
 
 One spec per static or carousel execution. Complete enough that a designer or an image model
 can build it without asking a question.
@@ -10,14 +10,19 @@ Markdown. One spec block per asset.
 
 ## Sections, in order
 
-1. **Header** - concept code, awareness code, format from the format library, ratios required
+1. **Header** - brand, market, product, coordinate key, CONTST test ID, source classification, Who,
+   Primary Problem, awareness code and job, messaging route, primary hook, media type, execution
+   format from the format library, destination, CTA, complete final ad name ending in `POSTIDXXX`
+   before publication, and ratios required
 2. **The job** - one line: the belief this asset has to move
 3. **Layout** - zone by zone, top to bottom, with what sits in each
 4. **Copy on the asset** - every word that appears, with its zone and hierarchy level
-5. **Visual direction** - subject, composition, lighting, palette and type, all drawn from the
-   active brand folder's approved visual context
+5. **Visual direction and production needs** - subject, composition, lighting, palette and type,
+   all drawn from the active brand folder's approved visual context, plus people, assets and location
+   required
 6. **Carousel frames** - if carousel, one row per frame with its job and its copy
-7. **Claim check** - every claim against its approved wording
+7. **Proof and claim check** - every proof object and claim required, its evidence ID, approved
+   wording and status
 8. **Rationale** - the format chosen and why, the proof used, the objection pre-empted
 
 ## Layout rules
@@ -60,3 +65,7 @@ Markdown. One spec block per asset.
 - [ ] Every claim in the claim check
 - [ ] Carousel frames each carry one job
 - [ ] Readable at thumbnail
+- [ ] Header carries CONTST, source, Who, Primary Problem, awareness job and messaging route
+- [ ] Primary hook, media type, execution format, proof, destination and CTA agree
+- [ ] People, assets and location required are explicit
+- [ ] Complete final ad name uses the full ad-set name and ends in POSTIDXXX before publication
