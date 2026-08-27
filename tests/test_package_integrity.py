@@ -130,6 +130,22 @@ class PackageIntegrityTests(unittest.TestCase):
 
         self.assertEqual(set(), missing)
 
+    def test_campaign_launch_contract_protects_testing_and_scaling_rules(self):
+        contract_path = ROOT / "contracts" / "campaign-launch-plan.md"
+        self.assertTrue(contract_path.is_file(), "Campaign Launch Plan should exist")
+        contract = contract_path.read_text()
+
+        for required in (
+            "ABO",
+            "$50",
+            "approximately $100",
+            "five full days",
+            "CBO",
+            "real Post ID",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, contract)
+
     def test_ad_copy_contract_requires_length_variants(self):
         contract = (ROOT / "contracts" / "ad-copy.md").read_text()
 
@@ -243,6 +259,64 @@ class PackageIntegrityTests(unittest.TestCase):
 
         self.assertIn(
             "contracts/ad-copy.md contains a Most Aware standard-ad row", errors
+        )
+
+    def test_reports_indented_and_named_most_aware_rows_in_standard_ad_contracts(self):
+        validator = load_validator()
+        rows = (
+            "    | MWA | Offer reminder |\n",
+            "| Most Aware | Offer reminder |\n",
+            "| Mwa | Offer reminder |\n",
+        )
+
+        for row in rows:
+            with self.subTest(row=row):
+                temp, root = self.make_root()
+                self.addCleanup(temp.cleanup)
+                contracts = root / "contracts"
+                contracts.mkdir()
+                (contracts / "ad-copy.md").write_text(row)
+                (root / "references").mkdir()
+                (root / "references" / "02-customer-state.md").write_text(
+                    "| Most Aware | Conversion environment |\n"
+                )
+
+                errors = validator.validate(root)
+
+                self.assertIn(
+                    "contracts/ad-copy.md contains a Most Aware standard-ad row",
+                    errors,
+                )
+                self.assertNotIn(
+                    "references/02-customer-state.md contains a Most Aware standard-ad row",
+                    errors,
+                )
+
+    def test_reports_reused_or_gapped_contst_test_batches(self):
+        validator = load_validator()
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        register = root / "templates" / "brand-folder" / "strategy" / "test-register.yml"
+        register.parent.mkdir(parents=True)
+        register.write_text(
+            "tests:\n"
+            "  - test_id: CONTST001\n"
+            "    source: NNT\n"
+            "  - test_id: CONTST003\n"
+            "    source: INSPO\n"
+            "  - test_id: CONTST003\n"
+            "    source: ITR\n"
+        )
+
+        errors = validator.validate(root)
+
+        self.assertIn(
+            "templates/brand-folder/strategy/test-register.yml reuses CONTST003",
+            errors,
+        )
+        self.assertIn(
+            "templates/brand-folder/strategy/test-register.yml must use sequential CONTST values",
+            errors,
         )
 
     def test_reports_missing_v03_release_requirements(self):

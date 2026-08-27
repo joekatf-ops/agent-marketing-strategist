@@ -19,7 +19,15 @@ STANDARD_AD_CONTRACTS = (
     "contracts/video-script.md",
     "contracts/static-spec.md",
 )
-MOST_AWARE_ROW = re.compile(r"^\|\s*MWA\s*\|", re.MULTILINE)
+MOST_AWARE_ROW = re.compile(
+    r"^[ \t]*\|[ \t]*(?:MWA|MOST[ \t]+AWARE)[ \t]*\|",
+    re.IGNORECASE | re.MULTILINE,
+)
+TEMPLATE_TEST_REGISTER = "templates/brand-folder/strategy/test-register.yml"
+CONTST_TEST_ID = re.compile(
+    r"^[ \t-]*test_id:[ \t]*(CONTST(?P<number>\d{3}))[ \t]*$",
+    re.IGNORECASE | re.MULTILINE,
+)
 V03_REQUIRED_FILES = (
     "references/18-master-creative-strategy.md",
     "contracts/campaign-launch-plan.md",
@@ -75,6 +83,21 @@ def validate(root: pathlib.Path) -> list[str]:
         path = root / relative
         if path.is_file() and MOST_AWARE_ROW.search(path.read_text()):
             errors.append(f"{relative} contains a Most Aware standard-ad row")
+
+    test_register_path = root / TEMPLATE_TEST_REGISTER
+    if test_register_path.is_file():
+        test_ids = list(CONTST_TEST_ID.finditer(test_register_path.read_text()))
+        identifiers = [match.group(1).upper() for match in test_ids]
+        seen: set[str] = set()
+        for identifier in identifiers:
+            if identifier in seen:
+                errors.append(f"{TEMPLATE_TEST_REGISTER} reuses {identifier}")
+            seen.add(identifier)
+        numbers = sorted({int(match.group("number")) for match in test_ids})
+        if numbers and numbers != list(range(1, numbers[-1] + 1)):
+            errors.append(
+                f"{TEMPLATE_TEST_REGISTER} must use sequential CONTST values"
+            )
 
     if skill_path.is_file() and agents_path.is_file():
         if operating_body(skill_text) != operating_body(agents_path.read_text()):
