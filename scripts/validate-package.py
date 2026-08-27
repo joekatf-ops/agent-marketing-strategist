@@ -77,6 +77,140 @@ SCALING_RULES = (
         "contracts/campaign-launch-plan.md must preserve graduated ads' real Post ID",
     ),
 )
+ENTRYPOINT_ROUTE_RULES = (
+    (
+        re.compile(
+            r"manual\s+Meta\s+launch\s+asks.*contracts/campaign-launch-plan\.md.*"
+            r"references/09-testing-and-diagnosis\.md.*destination\s+asks.*"
+            r"contracts/destination-handoff\.md",
+            re.IGNORECASE | re.DOTALL,
+        ),
+        "must route manual launch and destination asks to their governed contracts",
+    ),
+)
+ENTRYPOINT_LAUNCH_RULES = (
+    (
+        re.compile(
+            r"creative\s+testing\s+uses\s+one\s+CT\s+campaign\s+per\s+product\s+and\s+region,\s*"
+            r"ABO,\s*and\s+exactly\s+one\s+CONTST\s+batch\s+per\s+ad\s+set",
+            re.IGNORECASE,
+        ),
+        "must require CT/ABO with one CONTST batch per ad set",
+    ),
+    (
+        re.compile(
+            r"initial\s+NNT\s+or\s+INSPO\s+batch\s+contains\s+exactly\s+four\s+ads:\s*"
+            r"UWA,\s*PRA,\s*SLA\s+and\s+PDA",
+            re.IGNORECASE,
+        ),
+        "must lock the four initial NNT/INSPO ads",
+    ),
+    (
+        re.compile(
+            r"daily\s+ad-set\s+budget\s+has\s+an\s+absolute\s+\$50\s+floor\s+and\s+an\s+"
+            r"approximately\s+\$100\s+preferred\s+starting\s+point",
+            re.IGNORECASE,
+        ),
+        "must preserve the $50 floor and approximately $100 preferred budget",
+    ),
+    (
+        re.compile(
+            r"five\s+full\s+days\s+of\s+observation.*five-day\s+read\s+is\s+still\s+"
+            r"directional\s+or\s+too\s+early\s+unless\s+every\s+active\s+validity\s+threshold\s+is\s+met",
+            re.IGNORECASE | re.DOTALL,
+        ),
+        "must preserve five full days and the validity caveat",
+    ),
+    (
+        re.compile(
+            r"scaling\s+uses\s+a\s+separate\s+SC\s+campaign\s+with\s+CBO,\s*and\s+"
+            r"graduated\s+ads\s+retain\s+their\s+real\s+Post\s+IDs",
+            re.IGNORECASE,
+        ),
+        "must require SC/CBO scaling with real Post IDs",
+    ),
+    (
+        re.compile(
+            re.escape("[BRAND]_[PRODUCT]_[CT|SC]_[ABO|CBO]_[REGION]_[YYYYMMDD]")
+        ),
+        "must preserve the campaign naming shape",
+    ),
+    (
+        re.compile(re.escape("[CONTST###]_[NNT|INSPO|ITR]_[WHO]_[PROBLEM]")),
+        "must preserve the ad-set naming shape",
+    ),
+    (
+        re.compile(
+            re.escape(
+                "[FULL_AD_SET_NAME]_[UWA|PRA|SLA|PDA]_[FORMAT]_[LP|PDP|HP|CP]_[POSTID]"
+            )
+        ),
+        "must preserve the full ad naming shape",
+    ),
+    (
+        re.compile(
+            r"UWA\s+and\s+PRA\s+default\s+to\s+LP;\s*SLA\s+and\s+PDA\s+default\s+to\s+PDP.*"
+            r"exception\s+maps\s+to\s+LP,\s*PDP,\s*HP\s+or\s+CP\s+through\s+a\s+Destination\s+Handoff",
+            re.IGNORECASE | re.DOTALL,
+        ),
+        "must preserve destination defaults and controlled exceptions",
+    ),
+    (
+        re.compile(
+            r"new\s+ad\s+name\s+ends\s+in\s+`?POSTIDXXX`?.*preserve\s+the\s+real\s+Post\s+ID",
+            re.IGNORECASE | re.DOTALL,
+        ),
+        "must end new ad names in POSTIDXXX and preserve published Post IDs",
+    ),
+    (
+        re.compile(
+            r"Launch\s+plans\s+and\s+changes\s+are\s+manual\s+only.*Never\s+publish\s+ads\s+or\s+"
+            r"change\s+budgets\s+automatically",
+            re.IGNORECASE | re.DOTALL,
+        ),
+        "must keep launch and budget changes manual only",
+    ),
+    (
+        re.compile(
+            r"Generic\s+count\s+overrides\s+cannot\s+change\s+the\s+locked\s+four\s+initial\s+"
+            r"NNT\s+or\s+INSPO\s+ads\s+or\s+one\s+selected\s+hook\s+per\s+launch\s+ad.*"
+            r"human-reviewed\s+universal-method\s+change",
+            re.IGNORECASE | re.DOTALL,
+        ),
+        "must protect locked initial-ad and selected-hook counts",
+    ),
+)
+LEGACY_PLATFORM_POLICIES = (
+    (
+        re.compile(r"default\s+duration\s+(?:is\s+)?7\s+days", re.IGNORECASE),
+        "legacy seven-day test default",
+    ),
+    (
+        re.compile(
+            r"current\s+standard\s+shape[^\n]*10\s+concepts\s+x\s+5\s+to\s+10\s+hook\s+variations|"
+            r"hook[^\n]*actual\s+test\s+variable|under\s+roughly\s+\$30k/month\s+use",
+            re.IGNORECASE,
+        ),
+        "legacy volume-first hook test standard",
+    ),
+)
+READ_VALIDITY_RULES = (
+    re.compile(
+        r"1\.\s+\*\*Too early\.\*\*.*fewer than five full days.*regardless of spend or "
+        r"purchases.*five or more full days.*neither.*spend.*nor.*purchase",
+        re.IGNORECASE | re.DOTALL,
+    ),
+    re.compile(
+        r"2\.\s+\*\*Verdict\.\*\*.*five or more full days.*all.*spend.*purchase.*"
+        r"no material integrity failure.*no uneven delivery.*no logged intervention",
+        re.IGNORECASE | re.DOTALL,
+    ),
+    re.compile(
+        r"3\.\s+\*\*Direction\.\*\*.*remaining.*five-or-more-day.*at least one.*"
+        r"spend.*purchase.*not all.*all thresholds.*uneven\s+delivery.*logged\s+intervention",
+        re.IGNORECASE | re.DOTALL,
+    ),
+)
 
 
 def operating_body(text: str) -> str:
@@ -101,6 +235,64 @@ def markdown_section(text: str, heading: str) -> str:
     return text[match.end() : end]
 
 
+def classify_read_validity(
+    full_days: int,
+    spend_thresholds_met: bool,
+    purchase_thresholds_met: bool,
+    material_integrity_failure: bool,
+    uneven_delivery: bool,
+    logged_intervention: bool,
+) -> str:
+    if full_days < 5:
+        return "Too early"
+    if not spend_thresholds_met and not purchase_thresholds_met:
+        return "Too early"
+    if (
+        spend_thresholds_met
+        and purchase_thresholds_met
+        and not material_integrity_failure
+        and not uneven_delivery
+        and not logged_intervention
+    ):
+        return "Verdict"
+    return "Direction"
+
+
+def prescribes_most_aware_standard_ad(text: str) -> bool:
+    sentences = re.split(r"(?<=[.!?])\s+|\n+", text)
+    for sentence in sentences:
+        if not re.search(r"\b(?:Most\s+Aware|MWA)\b", sentence, re.IGNORECASE):
+            continue
+        if not re.search(r"\bstandard[- ]ad\b", sentence, re.IGNORECASE):
+            continue
+        if re.search(
+            r"\b(?:not|never|no|exclude|excludes|excluded|without)\b",
+            sentence,
+            re.IGNORECASE,
+        ):
+            continue
+        if re.search(
+            r"\b(?:is|are|as|becomes?|include|includes|included|require|requires|required|"
+            r"create|creates|created|build|builds|built|add|adds|added|use|uses|used|must|should)\b",
+            sentence,
+            re.IGNORECASE,
+        ):
+            return True
+    return False
+
+
+def active_instruction_paths(root: pathlib.Path) -> list[pathlib.Path]:
+    paths = [
+        root / relative
+        for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md", "OUTPUT-CONTRACT.md")
+    ]
+    for folder in ("references", "contracts"):
+        directory = root / folder
+        if directory.is_dir():
+            paths.extend(sorted(directory.glob("*.md")))
+    return [path for path in paths if path.is_file()]
+
+
 def validate(root: pathlib.Path) -> list[str]:
     errors: list[str] = []
     required = ("SKILL.md", "AGENTS.md", "PROMPT.md", "VERSION")
@@ -120,8 +312,18 @@ def validate(root: pathlib.Path) -> list[str]:
 
     for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):
         path = root / relative
-        if path.is_file() and SUPERSEDED_CONCEPT_MODEL.search(path.read_text()):
+        if not path.is_file():
+            continue
+        text = path.read_text()
+        if SUPERSEDED_CONCEPT_MODEL.search(text):
             errors.append(f"{relative} contains superseded concept model")
+        for pattern, error in ENTRYPOINT_ROUTE_RULES:
+            if not pattern.search(text):
+                errors.append(f"{relative} {error}")
+        launch_invariants = markdown_section(text, "Launch invariants")
+        for pattern, error in ENTRYPOINT_LAUNCH_RULES:
+            if not pattern.search(launch_invariants):
+                errors.append(f"{relative} {error}")
 
     version_path = root / "VERSION"
     if version_path.is_file() and version_path.read_text().strip() != "0.3.0":
@@ -135,6 +337,29 @@ def validate(root: pathlib.Path) -> list[str]:
         path = root / relative
         if path.is_file() and MOST_AWARE_ROW.search(path.read_text()):
             errors.append(f"{relative} contains a Most Aware standard-ad row")
+
+    for path in active_instruction_paths(root):
+        if prescribes_most_aware_standard_ad(path.read_text()):
+            relative = path.relative_to(root).as_posix()
+            errors.append(f"{relative} prescribes a Most Aware standard ad")
+
+    platform_reference = root / "references" / "12-meta-platform.md"
+    if platform_reference.is_file():
+        platform_text = platform_reference.read_text()
+        for pattern, error in LEGACY_PLATFORM_POLICIES:
+            if pattern.search(platform_text):
+                errors.append(f"references/12-meta-platform.md contains {error}")
+
+    validity_reference = root / "references" / "09-testing-and-diagnosis.md"
+    if validity_reference.is_file():
+        validity_section = markdown_section(validity_reference.read_text(), "Read validity")
+        matches = [pattern.search(validity_section) for pattern in READ_VALIDITY_RULES]
+        if any(match is None for match in matches) or [
+            match.start() for match in matches if match is not None
+        ] != sorted(match.start() for match in matches if match is not None):
+            errors.append(
+                "references/09-testing-and-diagnosis.md must define ordered non-overlapping read validity"
+            )
 
     campaign_launch_path = root / CAMPAIGN_LAUNCH_CONTRACT
     if campaign_launch_path.is_file():

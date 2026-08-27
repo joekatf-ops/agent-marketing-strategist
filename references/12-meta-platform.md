@@ -381,6 +381,10 @@ Better sourced: **time-to-fatigue of 21 to 35 days**, with the fatigue signal be
 
 From [Flighted, 1 July 2026](https://www.flighted.co/blog/how-to-calculate-your-meta-ads-creative-testing-budget):
 
+**External benchmark observation only.** This section describes published practitioner frameworks;
+it does not set the strategist's launch structure, duration or validity policy. The governed
+protocol in `references/09-testing-and-diagnosis.md` always takes precedence.
+
 **Formula: daily test budget = target conversions x expected CPA / test duration.**
 
 | Signal | Decision |
@@ -393,15 +397,22 @@ From [Flighted, 1 July 2026](https://www.flighted.co/blog/how-to-calculate-your-
 - **5x target CPA: preferred, removes the yellow-light zone**
 - **Below 10x CPA total per concept: almost certainly underfunding the test**
 
-Default duration 7 days; 3 to 4 days for impulse products; 10 to 14 days for long consideration.
+Flighted reports a seven-day default, three to four days for impulse products and 10 to 14 days for
+long-consideration products. Those are observations about Flighted's framework, not defaults for
+this strategist. The governed review point remains five full days, followed by the separate spend,
+purchase and integrity validity checks in `references/09-testing-and-diagnosis.md`.
 
 **The stated reasoning:** at 3x CPA the expected count is 3 purchases. Under a Poisson process an expected count of 3 has wide dispersion, so 0 or 1 observed is genuinely informative while 2 is not distinguishable from noise. Moving to 5x raises the expected count to 5, enough to separate outcomes cleanly. Nobody is claiming p<0.05 at these volumes; it is a decision rule under small counts, not a significance test.
 
 **Learning phase:** Meta's documentation still specifies **50 optimised events in 7 days**. A temporary 10-events-in-3-days test ran for several months and reverted with no announcement ([Jon Loomer](https://www.jonloomer.com/qvt/learning-phase-10-or-50-events/)). Treat 50/7 as current.
 
-**Alternative volume-first view** ([Caleb Kruse, Motion, Jan 2026](https://motionapp.com/library/talk/the-new-meta-ads-testing-strategy-10-ads-vs-100-ads/)): 50 to 100 ads per month as **10 concepts x 5 to 10 hook variations**, 4-week cadence. Scale rule: double down on concepts converting ~2x better before exploring new directions.
+**External volume-first observation** ([Caleb Kruse, Motion, Jan 2026](https://motionapp.com/library/talk/the-new-meta-ads-testing-strategy-10-ads-vs-100-ads/)): Kruse describes 50 to 100 ads per month as **10 concepts x 5 to 10 hook variations** on a four-week cadence, then doubling down on concepts converting about 2x better before exploring new directions. This is a report of that practitioner's framework, not the strategist's standard batch or hook count.
 
-**These two frameworks are in genuine tension.** Flighted funds each concept to a decision threshold; Kruse floods the auction and lets allocation reveal the winner. **Under roughly $30k/month use Flighted's thresholds; above it, use volume plus liquidity and read at concept level.** `[This synthesis is not sourced.]`
+**These two external frameworks are in genuine tension.** Flighted funds each concept to a decision
+threshold; Kruse uses volume and auction allocation. Do not turn the unsourced account-spend
+synthesis into an operating policy. The governed method remains one CONTST batch per ad set,
+exactly four ads for each initial NNT or INSPO batch, and the validity protocol in
+`references/09-testing-and-diagnosis.md` at every spend level.
 
 ---
 
@@ -512,7 +523,16 @@ From [RocketShip HQ, 8 June 2026](https://www.rocketshiphq.com/text-overlays-vid
 
 ### 4.9 Hook variation as a production unit
 
-The current standard shape is **10 concepts x 5 to 10 hook variations**: the concept (body, proof, offer) is the expensive unit and is reused; the hook is the cheap unit and is the actual test variable. Motion's 25-hook catalogue ([source](https://motionapp.com/blog/best-dtc-meta-ad-hooks-2025)) is a production menu for exactly this: post-it reveal, sunglasses reflection, blurred-to-focus, phone screen text, remote-control SKU switch, chase sequence, fake text exchange, off-camera partner validation, reverse drop, jump out of phone, comment-skeptic response, "people always ask me", megaphone, whiteboard explainer, absurd demo, man-on-the-street, story-time journal, multi-creator mashup.
+Motion describes an external production pattern of **10 concepts x 5 to 10 hook variations**, where
+the body, proof and offer are reused while openings vary. This is a benchmark observation, not the
+strategist's standard batch shape or an instruction to treat the hook as an isolated test variable.
+Under the governed method, six hook packages are a pre-production option set for an approved
+execution and one coherent opening is selected per launch ad. Motion's 25-hook catalogue
+([source](https://motionapp.com/blog/best-dtc-meta-ad-hooks-2025)) remains a format menu: post-it
+reveal, sunglasses reflection, blurred-to-focus, phone screen text, remote-control SKU switch,
+chase sequence, fake text exchange, off-camera partner validation, reverse drop, jump out of phone,
+comment-skeptic response, "people always ask me", megaphone, whiteboard explainer, absurd demo,
+man-on-the-street, story-time journal and multi-creator mashup.
 
 ---
 

@@ -12,6 +12,18 @@ import re
 
 ALLOWED_EXACT = {
     "brand.yml",
+    "context/brand-core.md",
+    "context/voice.md",
+    "context/visual.md",
+    "products/catalog.yml",
+    "products/offers.yml",
+    "products/economics.yml",
+    "products/proof-library.yml",
+    "products/claims.yml",
+    "strategy/concept-register.yml",
+    "strategy/test-register.yml",
+    "strategy/winner-library.yml",
+    "strategy/hypothesis-backlog.yml",
     "research/customer-intelligence.md",
     "research/evidence-ledger/manifest.json",
     "sources/website/crawl-state.json",
@@ -22,7 +34,7 @@ ALLOWED_EXACT = {
     "learning/decisions.md",
     "connectors/capabilities.yml",
 }
-ALLOWED_PREFIXES = ("context/", "products/", "strategy/")
+SENSITIVE_SAFE_NAMESPACES = ("context/", "products/", "strategy/")
 ALLOWED_SUFFIXES = {".md", ".yml", ".yaml", ".json"}
 SECRET_ASSIGNMENT = re.compile(
     r"(?im)^\s*[\"']?[A-Za-z0-9_.-]*(?:api[_-]?key|access[_-]?token|"
@@ -34,6 +46,20 @@ AUTHORIZATION_VALUE = re.compile(
 )
 PRIVATE_KEY_BLOCK = re.compile(
     r"-----BEGIN (?:ENCRYPTED |RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----"
+)
+CREDENTIAL_FINGERPRINT = re.compile(
+    r"(?<![A-Za-z0-9])(?:"
+    r"gh[pousr]_[A-Za-z0-9]{36,255}|"
+    r"github_pat_[A-Za-z0-9_]{60,255}|"
+    r"glpat-[A-Za-z0-9_-]{20,255}|"
+    r"npm_[A-Za-z0-9]{36}|"
+    r"(?:AKIA|ASIA)[A-Z0-9]{16}|"
+    r"AIza[0-9A-Za-z_-]{35}|"
+    r"xox[baprs]-[0-9A-Za-z-]{20,255}|"
+    r"sk_live_[0-9A-Za-z]{20,255}|"
+    r"sk-(?:proj-)?[0-9A-Za-z_-]{20,255}|"
+    r"sk-ant-[0-9A-Za-z_-]{20,255}"
+    r")(?![A-Za-z0-9])"
 )
 SENSITIVE_KEY_SUFFIXES = (
     "apikey",
@@ -51,6 +77,14 @@ MANIFEST_SLUG = re.compile(r'(?m)^\s*slug:\s*["\']?([^"\'\s,}]+)')
 BRAND_SLUG_FIELD = re.compile(
     r'(?m)^\s*["\']?brand_slug["\']?\s*:\s*["\']?([^"\'\s,}]+)'
 )
+TEST_PREFIX_FIELD = re.compile(
+    r'(?m)^\s*test_prefix\s*:\s*["\']?([^"\'\s#]+)'
+)
+NEXT_TEST_NUMBER_FIELD = re.compile(r"(?m)^\s*next_test_number\s*:\s*(\d+)\s*(?:#.*)?$")
+TEST_ID_FIELD = re.compile(
+    r'(?m)^\s*-\s*test_id\s*:\s*["\']?([^"\'\s#]+)'
+)
+CONTST_ID = re.compile(r"^CONTST(?P<number>\d{3})$")
 
 
 def selected_files(folder: pathlib.Path) -> list[pathlib.Path]:
@@ -66,7 +100,11 @@ def selected_files(folder: pathlib.Path) -> list[pathlib.Path]:
         except ValueError as error:
             raise ValueError(f"bundle source resolves outside brand folder: {path}") from error
         relative = path.relative_to(folder).as_posix()
-        allowed = relative in ALLOWED_EXACT or relative.startswith(ALLOWED_PREFIXES)
+        if relative.startswith(SENSITIVE_SAFE_NAMESPACES) and relative not in ALLOWED_EXACT:
+            raise ValueError(
+                f"unapproved bundle source in sensitive namespace: {relative}"
+            )
+        allowed = relative in ALLOWED_EXACT
         if allowed and path.suffix.lower() in ALLOWED_SUFFIXES:
             selected.append(path)
     return sorted(selected, key=lambda path: path.relative_to(folder).as_posix())
@@ -108,16 +146,65 @@ def structured_contains_secret(value: object) -> bool:
     return False
 
 
+def validate_test_state(folder: pathlib.Path, manifest_text: str) -> None:
+    register = folder / "strategy" / "test-register.yml"
+    if not register.is_file():
+        return
+
+    prefix = TEST_PREFIX_FIELD.search(manifest_text)
+    if prefix is None or prefix.group(1).upper() != "CONTST":
+        raise ValueError("brand.yml naming.test_prefix must be CONTST")
+    next_number = NEXT_TEST_NUMBER_FIELD.search(manifest_text)
+    if next_number is None:
+        raise ValueError("brand.yml must contain naming.next_test_number")
+
+    identifiers = TEST_ID_FIELD.findall(register.read_text())
+    numbers: list[int] = []
+    seen: set[str] = set()
+    for identifier in identifiers:
+        match = CONTST_ID.fullmatch(identifier.upper())
+        if match is None:
+            raise ValueError(
+                f"strategy/test-register.yml has invalid test_id: {identifier}"
+            )
+        normalized = identifier.upper()
+        if normalized in seen:
+            raise ValueError(f"strategy/test-register.yml reuses {normalized}")
+        seen.add(normalized)
+        numbers.append(int(match.group("number")))
+
+    ordered = sorted(numbers)
+    if ordered and ordered != list(range(1, ordered[-1] + 1)):
+        raise ValueError(
+            "strategy/test-register.yml must use sequential CONTST values from CONTST001"
+        )
+    expected_next = ordered[-1] + 1 if ordered else 1
+    actual_next = int(next_number.group(1))
+    if actual_next != expected_next:
+        raise ValueError(
+            f"brand.yml naming.next_test_number must be {expected_next} for current test-register state"
+        )
+
+
 def build_bundle(folder: pathlib.Path, output: pathlib.Path) -> pathlib.Path:
     folder = pathlib.Path(folder).resolve()
     output = pathlib.Path(output)
+    resolved_output = output.resolve()
+    try:
+        resolved_output.relative_to(folder)
+    except ValueError:
+        pass
+    else:
+        raise ValueError("bundle output must be outside brand folder")
     manifest = folder / "brand.yml"
     if not manifest.is_file():
         raise FileNotFoundError(f"brand.yml not found in {folder}")
-    slug_match = MANIFEST_SLUG.search(manifest.read_text())
+    manifest_text = manifest.read_text()
+    slug_match = MANIFEST_SLUG.search(manifest_text)
     if not slug_match:
         raise ValueError("brand.yml does not contain brand.slug")
     manifest_slug = slug_match.group(1)
+    validate_test_state(folder, manifest_text)
 
     files = selected_files(folder)
     evidence_files = [
@@ -130,8 +217,10 @@ def build_bundle(folder: pathlib.Path, output: pathlib.Path) -> pathlib.Path:
     learning_version = digest_files(folder, learning_files)
     parts = [
         "# Brand knowledge bundle\n\n",
-        "Generated from the canonical brand folder. Raw evidence, revision history and secrets "
-        "are intentionally excluded. Return a learning patch after approved human revisions.\n\n",
+        "Generated from the canonical brand folder using an exact allowlist of approved summaries "
+        "and state files. Raw evidence, revision history, unapproved sensitive-namespace files and "
+        "secrets are excluded; generation fails when unsafe content is detected. Return a learning "
+        "patch after approved human revisions.\n\n",
         f"Evidence version: `sha256:{evidence_version}`\n\n",
         f"Learning version: `sha256:{learning_version}`\n",
     ]
@@ -159,6 +248,7 @@ def build_bundle(folder: pathlib.Path, output: pathlib.Path) -> pathlib.Path:
             SECRET_ASSIGNMENT.search(content)
             or AUTHORIZATION_VALUE.search(content)
             or PRIVATE_KEY_BLOCK.search(content)
+            or CREDENTIAL_FINGERPRINT.search(content)
             or structured_contains_secret(structured)
         ):
             raise ValueError(f"possible secret found in bundle source: {relative}")

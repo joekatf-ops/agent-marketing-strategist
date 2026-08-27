@@ -65,16 +65,24 @@ attribution setting, currency and aggregation level.
 
 ## Read validity
 
-Classify the read before interpreting performance:
+Classify the read before interpreting performance. Apply these rules in order; each read receives
+exactly one category:
 
-| Validity | Rule |
-|---|---|
-| Verdict | Meets the active brand's minimum spend and purchase thresholds and contains no material integrity failure |
-| Direction | Shows a useful signal but misses a threshold, has uneven delivery or includes a logged intervention |
-| Too early | Does not meet minimum spend, purchases or five-full-day observation requirements |
+1. **Too early.** Fewer than five full days is always Too early, regardless of spend or purchases.
+   After five or more full days, the read is also Too early when neither the active brand's minimum
+   spend threshold nor its minimum purchase threshold is met.
+2. **Verdict.** Five or more full days have elapsed, all active spend and purchase thresholds are
+   met, and there is no material integrity failure, no uneven delivery and no logged intervention
+   that limits interpretation.
+3. **Direction.** This is the remaining five-or-more-day category: at least one active spend or
+   purchase threshold is met but not all thresholds are met, or all thresholds are met but uneven
+   delivery, a logged intervention or a material integrity failure limits interpretation.
 
-Five days alone never creates statistical certainty. Report the expected and actual purchases, the
-additional spend or purchases required and any delivery imbalance. Never omit an ad that spent money.
+These rules are mutually exclusive. High volume on day three is still Too early. A five-day read
+with neither volume threshold met is also Too early; a five-day read with only one threshold met is
+Direction. Five days alone never creates statistical certainty. Report the expected and actual
+purchases, the additional spend or purchases required and any delivery imbalance. Never omit an ad
+that spent money.
 
 ## Three measurement layers
 

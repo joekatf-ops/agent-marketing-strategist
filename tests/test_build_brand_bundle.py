@@ -22,16 +22,25 @@ class BrandBundleTests(unittest.TestCase):
         temp = tempfile.TemporaryDirectory()
         folder = pathlib.Path(temp.name) / "acme-sleep"
         files = {
-            "brand.yml": 'brand:\n  name: "Acme Sleep"\n  slug: "acme-sleep"\n',
+            "brand.yml": (
+                'brand:\n  name: "Acme Sleep"\n  slug: "acme-sleep"\n'
+                'naming:\n  test_prefix: "CONTST"\n  next_test_number: 1\n'
+            ),
             "context/brand-core.md": "Brand core content\n",
             "context/voice.md": "Voice rules\n",
+            "context/visual.md": "Visual rules\n",
             "products/catalog.yml": "products: []\n",
+            "products/offers.yml": "offers: []\n",
+            "products/economics.yml": "economics: {}\n",
+            "products/proof-library.yml": "proof: []\n",
+            "products/claims.yml": "claims: []\n",
             "research/customer-intelligence.md": "Customer synthesis\n",
             "research/evidence-ledger/manifest.json": '{"evidence_version":4}\n',
             "sources/website/crawl-state.json": '{"last_full_crawl":"2026-08-26"}\n',
             "strategy/concept-register.yml": "concepts: []\n",
             "strategy/test-register.yml": "tests: []\n",
             "strategy/winner-library.yml": "winners: []\n",
+            "strategy/hypothesis-backlog.yml": "hypotheses: []\n",
             "learning/approved-rules.yml": "rules:\n  - Approved rule\n",
             "learning/learning-events.jsonl": '{"raw": "private revision history"}\n',
             "research/customer-reviews/raw.md": "raw review body\n",
@@ -104,22 +113,22 @@ class BrandBundleTests(unittest.TestCase):
 
     def test_refuses_secret_assignments_inside_allowed_sources(self):
         builder = load_builder()
-        cases = {
-            "products/private.yml": 'client_secret: "hidden-value"\n',
-            "strategy/auth.md": "Authorization: Bearer hidden-token\n",
-            "products/private.json": '{"oauth":{"clientSecret":"hidden-json"}}\n',
-            "context/environment.md": "FIRECRAWL_API_KEY=hidden-prefixed\n",
-            "context/private-key.md": (
+        cases = (
+            ("products/claims.yml", 'client_secret: "hidden-value"\n'),
+            ("context/brand-core.md", "Authorization: Bearer hidden-token\n"),
+            ("learning/active-memory.json", '{"oauth":{"clientSecret":"hidden-json"}}\n'),
+            ("context/voice.md", "FIRECRAWL_API_KEY=hidden-prefixed\n"),
+            ("context/visual.md", (
                 "-----BEGIN PRIVATE KEY-----\nsecret-material\n"
                 "-----END PRIVATE KEY-----\n"
-            ),
-            "context/encrypted-private-key.md": (
+            )),
+            ("context/brand-core.md", (
                 "-----BEGIN ENCRYPTED PRIVATE KEY-----\nsecret-material\n"
                 "-----END ENCRYPTED PRIVATE KEY-----\n"
-            ),
-        }
+            )),
+        )
 
-        for relative, content in cases.items():
+        for relative, content in cases:
             with self.subTest(relative=relative):
                 temp, folder = self.make_brand_folder()
                 self.addCleanup(temp.cleanup)
@@ -131,6 +140,129 @@ class BrandBundleTests(unittest.TestCase):
                     builder.build_bundle(
                         folder, pathlib.Path(temp.name) / "brand-bundle.md"
                     )
+
+    def test_refuses_unapproved_files_in_sensitive_safe_namespaces(self):
+        builder = load_builder()
+        cases = (
+            ("strategy/raw-review.md", "raw review body that must not travel\n"),
+            ("context/other-brand-notes.md", "unapproved cross-brand prose\n"),
+            ("products/private-pricing.yml", "unapproved: true\n"),
+        )
+
+        for relative, content in cases:
+            with self.subTest(relative=relative):
+                temp, folder = self.make_brand_folder()
+                self.addCleanup(temp.cleanup)
+                target = folder / relative
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text(content)
+
+                with self.assertRaisesRegex(ValueError, "unapproved bundle source"):
+                    builder.build_bundle(
+                        folder, pathlib.Path(temp.name) / "brand-bundle.md"
+                    )
+
+    def test_refuses_github_token_fingerprints_in_approved_prose(self):
+        builder = load_builder()
+        token_cases = (
+            "gh" + "p_" + ("A" * 36),
+            "github_" + "pat_" + ("B" * 72),
+        )
+
+        for token in token_cases:
+            with self.subTest(prefix=token.split("_", 1)[0]):
+                temp, folder = self.make_brand_folder()
+                self.addCleanup(temp.cleanup)
+                (folder / "context" / "brand-core.md").write_text(
+                    f"Accidentally pasted credential: {token}\n"
+                )
+
+                with self.assertRaisesRegex(ValueError, "possible secret"):
+                    builder.build_bundle(
+                        folder, pathlib.Path(temp.name) / "brand-bundle.md"
+                    )
+
+    def test_rejects_output_inside_brand_folder_before_self_inclusion(self):
+        builder = load_builder()
+        temp, folder = self.make_brand_folder()
+        self.addCleanup(temp.cleanup)
+        output = folder / "strategy" / "generated-brand-bundle.md"
+
+        for _attempt in range(2):
+            with self.assertRaisesRegex(ValueError, "output must be outside brand folder"):
+                builder.build_bundle(folder, output)
+            self.assertFalse(output.exists())
+
+    def test_refuses_gapped_or_reused_real_brand_test_ids(self):
+        builder = load_builder()
+        cases = (
+            (
+                "  - test_id: CONTST001\n  - test_id: CONTST003\n",
+                4,
+                "sequential CONTST",
+            ),
+            (
+                "  - test_id: CONTST001\n  - test_id: CONTST001\n",
+                2,
+                "reuses CONTST001",
+            ),
+        )
+
+        for rows, next_number, error in cases:
+            with self.subTest(error=error):
+                temp, folder = self.make_brand_folder()
+                self.addCleanup(temp.cleanup)
+                manifest = (folder / "brand.yml").read_text().replace(
+                    "next_test_number: 1", f"next_test_number: {next_number}"
+                )
+                (folder / "brand.yml").write_text(manifest)
+                (folder / "strategy" / "test-register.yml").write_text(
+                    "tests:\n" + rows
+                )
+
+                with self.assertRaisesRegex(ValueError, error):
+                    builder.build_bundle(
+                        folder, pathlib.Path(temp.name) / "brand-bundle.md"
+                    )
+
+    def test_refuses_next_test_number_that_does_not_follow_real_state(self):
+        builder = load_builder()
+        temp, folder = self.make_brand_folder()
+        self.addCleanup(temp.cleanup)
+        manifest = (folder / "brand.yml").read_text().replace(
+            "next_test_number: 1", "next_test_number: 2"
+        )
+        (folder / "brand.yml").write_text(manifest)
+
+        with self.assertRaisesRegex(ValueError, "next_test_number must be 1"):
+            builder.build_bundle(folder, pathlib.Path(temp.name) / "brand-bundle.md")
+
+    def test_bundles_every_supported_canonical_sensitive_file(self):
+        builder = load_builder()
+        temp, folder = self.make_brand_folder()
+        self.addCleanup(temp.cleanup)
+        output = pathlib.Path(temp.name) / "brand-bundle.md"
+
+        builder.build_bundle(folder, output)
+
+        bundle = output.read_text()
+        supported = (
+            "context/brand-core.md",
+            "context/voice.md",
+            "context/visual.md",
+            "products/catalog.yml",
+            "products/offers.yml",
+            "products/economics.yml",
+            "products/proof-library.yml",
+            "products/claims.yml",
+            "strategy/concept-register.yml",
+            "strategy/test-register.yml",
+            "strategy/winner-library.yml",
+            "strategy/hypothesis-backlog.yml",
+        )
+        for relative in supported:
+            with self.subTest(relative=relative):
+                self.assertIn(f"## Source: `{relative}`", bundle)
 
     def test_refuses_cross_brand_scoped_state(self):
         builder = load_builder()

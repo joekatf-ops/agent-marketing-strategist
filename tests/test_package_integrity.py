@@ -8,6 +8,28 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "scripts" / "validate-package.py"
 BUNDLE_SCRIPT = ROOT / "scripts" / "build-knowledge-bundle.py"
 
+LAUNCH_INVARIANTS = """## Upload-runtime routing
+
+For manual Meta launch asks, load `contracts/campaign-launch-plan.md` and
+`references/09-testing-and-diagnosis.md`. For destination asks, load
+`contracts/destination-handoff.md`.
+
+## Launch invariants
+
+- Creative testing uses one CT campaign per product and region, ABO, and exactly one CONTST batch per ad set.
+- Every initial NNT or INSPO batch contains exactly four ads: UWA, PRA, SLA and PDA.
+- The daily ad-set budget has an absolute $50 floor and an approximately $100 preferred starting point.
+- Protect five full days of observation. A five-day read is still directional or too early unless every active validity threshold is met.
+- Scaling uses a separate SC campaign with CBO, and graduated ads retain their real Post IDs.
+- Campaign names use `[BRAND]_[PRODUCT]_[CT|SC]_[ABO|CBO]_[REGION]_[YYYYMMDD]`.
+- Ad-set names use `[CONTST###]_[NNT|INSPO|ITR]_[WHO]_[PROBLEM]`.
+- Ad names use `[FULL_AD_SET_NAME]_[UWA|PRA|SLA|PDA]_[FORMAT]_[LP|PDP|HP|CP]_[POSTID]`.
+- UWA and PRA default to LP; SLA and PDA default to PDP. Every exception maps to LP, PDP, HP or CP through a Destination Handoff.
+- Every new ad name ends in `POSTIDXXX`; after publication, preserve the real Post ID.
+- Launch plans and changes are manual only. Never publish ads or change budgets automatically.
+- Generic count overrides cannot change the locked four initial NNT or INSPO ads or one selected hook per launch ad. Only a human-reviewed universal-method change can alter these invariants.
+"""
+
 
 def load_validator():
     if not SCRIPT.exists():
@@ -77,6 +99,61 @@ class PackageIntegrityTests(unittest.TestCase):
         errors = validator.validate(root)
 
         self.assertIn("SKILL.md and AGENTS.md operating bodies have drifted", errors)
+
+    def test_reports_launch_invariant_drift_in_all_three_entrypoints(self):
+        validator = load_validator()
+        cases = (
+            (
+                "Creative testing uses one CT campaign per product and region, ABO, and exactly one CONTST batch per ad set.",
+                "Creative testing uses CBO and mixes CONTST batches in an ad set.",
+                "must require CT/ABO with one CONTST batch per ad set",
+            ),
+            (
+                "Generic count overrides cannot change the locked four initial NNT or INSPO ads or one selected hook per launch ad.",
+                "Generic count overrides may change every launch count.",
+                "must protect locked initial-ad and selected-hook counts",
+            ),
+        )
+
+        for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):
+            for expected, opposite, error_suffix in cases:
+                with self.subTest(relative=relative, error=error_suffix):
+                    temp, root = self.make_root(
+                        skill_body="# Marketing Strategist\n\n" + LAUNCH_INVARIANTS,
+                        agents_body="# Marketing Strategist\n\n" + LAUNCH_INVARIANTS,
+                    )
+                    self.addCleanup(temp.cleanup)
+                    (root / "PROMPT.md").write_text(LAUNCH_INVARIANTS)
+                    path = root / relative
+                    path.write_text(path.read_text().replace(expected, opposite))
+
+                    errors = validator.validate(root)
+
+                    self.assertIn(f"{relative} {error_suffix}", errors)
+
+    def test_reports_each_missing_prompt_launch_invariant(self):
+        validator = load_validator()
+        required_lines = [
+            line
+            for line in LAUNCH_INVARIANTS.splitlines()
+            if line.startswith(("For manual Meta", "- "))
+        ]
+
+        for line in required_lines:
+            with self.subTest(line=line):
+                temp, root = self.make_root(
+                    skill_body="# Marketing Strategist\n\n" + LAUNCH_INVARIANTS,
+                    agents_body="# Marketing Strategist\n\n" + LAUNCH_INVARIANTS,
+                )
+                self.addCleanup(temp.cleanup)
+                (root / "PROMPT.md").write_text(LAUNCH_INVARIANTS.replace(line, ""))
+
+                errors = validator.validate(root)
+
+                self.assertTrue(
+                    any(error.startswith("PROMPT.md must") for error in errors),
+                    f"missing semantic error for: {line}",
+                )
 
     def test_v03_operating_references_exist(self):
         required = {
@@ -418,6 +495,106 @@ class PackageIntegrityTests(unittest.TestCase):
 
         self.assertIn(
             "contracts/ad-copy.md contains a Most Aware standard-ad row", errors
+        )
+
+    def test_reports_positive_most_aware_standard_ad_prose_in_active_instructions(self):
+        validator = load_validator()
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        reference = root / "references" / "06-concept-model.md"
+        reference.parent.mkdir()
+        reference.write_text(
+            "Every initial test must include a Most Aware standard ad for the offer.\n"
+        )
+
+        errors = validator.validate(root)
+
+        self.assertIn(
+            "references/06-concept-model.md prescribes a Most Aware standard ad",
+            errors,
+        )
+
+    def test_allows_most_aware_theory_and_explicit_standard_ad_negations(self):
+        validator = load_validator()
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        references = root / "references"
+        references.mkdir()
+        (references / "02-customer-state.md").write_text(
+            "Most Aware remains part of customer-awareness theory.\n"
+            "Most Aware is not a standard ad.\n"
+            "Never turn Most Aware into a standard ad.\n"
+        )
+
+        errors = validator.validate(root)
+
+        self.assertNotIn(
+            "references/02-customer-state.md prescribes a Most Aware standard ad",
+            errors,
+        )
+
+    def test_reports_legacy_platform_observations_recast_as_active_policy(self):
+        validator = load_validator()
+        cases = (
+            ("Default duration 7 days.\n", "legacy seven-day test default"),
+            (
+                "The current standard shape is 10 concepts x 5 to 10 hook variations; the hook is the actual test variable.\n",
+                "legacy volume-first hook test standard",
+            ),
+        )
+
+        for content, error_suffix in cases:
+            with self.subTest(error=error_suffix):
+                temp, root = self.make_root()
+                self.addCleanup(temp.cleanup)
+                reference = root / "references" / "12-meta-platform.md"
+                reference.parent.mkdir()
+                reference.write_text(content)
+
+                errors = validator.validate(root)
+
+                self.assertIn(
+                    f"references/12-meta-platform.md contains {error_suffix}", errors
+                )
+
+    def test_read_validity_boundaries_are_mutually_exclusive(self):
+        validator = load_validator()
+        cases = (
+            ((3, True, True, False, False, False), "Too early"),
+            ((5, False, False, False, False, False), "Too early"),
+            ((5, True, False, False, False, False), "Direction"),
+            ((5, False, True, False, False, False), "Direction"),
+            ((5, True, True, False, False, False), "Verdict"),
+            ((5, True, True, False, True, False), "Direction"),
+            ((5, True, True, False, False, True), "Direction"),
+            ((5, True, True, True, False, False), "Direction"),
+        )
+
+        for arguments, expected in cases:
+            with self.subTest(arguments=arguments):
+                self.assertEqual(
+                    expected, validator.classify_read_validity(*arguments)
+                )
+
+    def test_reports_overlapping_read_validity_policy(self):
+        validator = load_validator()
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        reference = root / "references" / "09-testing-and-diagnosis.md"
+        reference.parent.mkdir()
+        reference.write_text(
+            "## Read validity\n\n"
+            "| Validity | Rule |\n|---|---|\n"
+            "| Verdict | Meets spend and purchase thresholds |\n"
+            "| Direction | Misses a threshold |\n"
+            "| Too early | Misses spend or purchase thresholds |\n"
+        )
+
+        errors = validator.validate(root)
+
+        self.assertIn(
+            "references/09-testing-and-diagnosis.md must define ordered non-overlapping read validity",
+            errors,
         )
 
     def test_reports_indented_and_named_most_aware_rows_in_standard_ad_contracts(self):
