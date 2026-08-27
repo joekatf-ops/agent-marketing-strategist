@@ -706,6 +706,87 @@ def _write_all(descriptor: int, content: bytes) -> None:
         remaining = remaining[written:]
 
 
+def _verified_descriptor_state(
+    descriptor: int, content: bytes
+) -> os.stat_result | None:
+    """Return a stable descriptor state only when it contains the exact bytes."""
+    before = os.fstat(descriptor)
+    if (
+        not stat.S_ISREG(before.st_mode)
+        or before.st_nlink != 1
+        or before.st_size != len(content)
+    ):
+        return None
+    offset = 0
+    while offset < len(content):
+        chunk = os.pread(
+            descriptor, min(1024 * 1024, len(content) - offset), offset
+        )
+        if not chunk or chunk != content[offset : offset + len(chunk)]:
+            return None
+        offset += len(chunk)
+    if os.pread(descriptor, 1, offset):
+        return None
+    after = os.fstat(descriptor)
+    if _file_identity(after) != _file_identity(before):
+        return None
+    return after
+
+
+def _published_bundle_is_verified(
+    directory_descriptor: int,
+    name: str,
+    staging_descriptor: int,
+    content: bytes,
+) -> bool:
+    descriptor_state = _verified_descriptor_state(staging_descriptor, content)
+    if descriptor_state is None:
+        return False
+    try:
+        destination = os.stat(
+            name, dir_fd=directory_descriptor, follow_symlinks=False
+        )
+    except FileNotFoundError:
+        return False
+    final_descriptor_state = os.fstat(staging_descriptor)
+    return (
+        stat.S_ISREG(destination.st_mode)
+        and destination.st_nlink == 1
+        and _file_identity(final_descriptor_state) == _file_identity(descriptor_state)
+        and _file_identity(destination) == _file_identity(descriptor_state)
+    )
+
+
+def _remove_unverified_failed_publication(
+    directory_descriptor: int,
+    name: str,
+    original_destination: tuple[int, int, int, int, int, int] | None,
+    staging_descriptor: int,
+    content: bytes,
+) -> None:
+    """Preserve an unchanged prior output; remove anything else unverified."""
+    try:
+        current = os.stat(name, dir_fd=directory_descriptor, follow_symlinks=False)
+    except FileNotFoundError:
+        return
+    if (
+        original_destination is not None
+        and _file_identity(current) == original_destination
+    ):
+        return
+    if _published_bundle_is_verified(
+        directory_descriptor, name, staging_descriptor, content
+    ):
+        return
+    os.unlink(name, dir_fd=directory_descriptor)
+    try:
+        os.stat(name, dir_fd=directory_descriptor, follow_symlinks=False)
+    except FileNotFoundError:
+        os.fsync(directory_descriptor)
+        return
+    raise ValueError("unverified brand bundle output could not be removed")
+
+
 def _publish_bundle(output: pathlib.Path, content: bytes) -> None:
     absolute_output = _absolute_path(output)
     if not absolute_output.name or absolute_output.name in {".", ".."}:
@@ -717,13 +798,15 @@ def _publish_bundle(output: pathlib.Path, content: bytes) -> None:
         f".{absolute_output.name}.tmp-{os.getpid()}-{secrets.token_hex(8)}"
     )
     temporary_descriptor: int | None = None
+    original_destination: tuple[int, int, int, int, int, int] | None = None
+    publication_attempted = False
     try:
         original_destination = _output_destination_identity(
             parent_descriptor, absolute_output.name
         )
         temporary_descriptor = os.open(
             temporary_name,
-            os.O_WRONLY | os.O_CREAT | os.O_EXCL | NOFOLLOW_OPEN_FLAG,
+            os.O_RDWR | os.O_CREAT | os.O_EXCL | NOFOLLOW_OPEN_FLAG,
             0o600,
             dir_fd=parent_descriptor,
         )
@@ -733,17 +816,11 @@ def _publish_bundle(output: pathlib.Path, content: bytes) -> None:
         _write_all(temporary_descriptor, content)
         os.fchmod(temporary_descriptor, 0o644)
         os.fsync(temporary_descriptor)
-        staged = os.fstat(temporary_descriptor)
-        if (
-            not stat.S_ISREG(staged.st_mode)
-            or staged.st_dev != created.st_dev
-            or staged.st_ino != created.st_ino
-            or staged.st_nlink != 1
-            or staged.st_size != len(content)
+        staged = _verified_descriptor_state(temporary_descriptor, content)
+        if staged is None or (
+            staged.st_dev != created.st_dev or staged.st_ino != created.st_ino
         ):
             raise ValueError("brand bundle staging file changed before publication")
-        os.close(temporary_descriptor)
-        temporary_descriptor = None
 
         current_destination = _output_destination_identity(
             parent_descriptor, absolute_output.name
@@ -758,26 +835,31 @@ def _publish_bundle(output: pathlib.Path, content: bytes) -> None:
         if _file_identity(current_staging) != _file_identity(staged):
             raise ValueError("brand bundle staging file changed before publication")
 
+        publication_attempted = True
         os.replace(
             temporary_name,
             absolute_output.name,
             src_dir_fd=parent_descriptor,
             dst_dir_fd=parent_descriptor,
         )
-        published = os.stat(
+        if not _published_bundle_is_verified(
+            parent_descriptor,
             absolute_output.name,
-            dir_fd=parent_descriptor,
-            follow_symlinks=False,
-        )
-        if (
-            not stat.S_ISREG(published.st_mode)
-            or published.st_dev != staged.st_dev
-            or published.st_ino != staged.st_ino
-            or published.st_nlink != 1
-            or published.st_size != len(content)
+            temporary_descriptor,
+            content,
         ):
-            raise ValueError("published brand bundle identity is unsafe")
+            raise ValueError("published brand bundle identity or content is unsafe")
         os.fsync(parent_descriptor)
+    except BaseException:
+        if publication_attempted and temporary_descriptor is not None:
+            _remove_unverified_failed_publication(
+                parent_descriptor,
+                absolute_output.name,
+                original_destination,
+                temporary_descriptor,
+                content,
+            )
+        raise
     finally:
         if temporary_descriptor is not None:
             os.close(temporary_descriptor)

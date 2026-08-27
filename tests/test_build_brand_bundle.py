@@ -789,6 +789,83 @@ class BrandBundleTests(unittest.TestCase):
         self.assertEqual([1], staged_link_counts)
         self.assertTrue(output.is_file())
 
+    def test_removes_a_substituted_staging_file_at_the_replace_boundary(self):
+        builder = load_builder()
+        temp, folder = self.make_brand_folder()
+        self.addCleanup(temp.cleanup)
+        output = pathlib.Path(temp.name) / "brand-bundle.md"
+        output.write_text("previous safe bundle\n")
+        real_replace = os.replace
+        substituted = False
+
+        def substitute_then_replace(source, destination, *args, **kwargs):
+            nonlocal substituted
+            source_directory = kwargs["src_dir_fd"]
+            if not substituted:
+                substituted = True
+                os.unlink(source, dir_fd=source_directory)
+                attacker = os.open(
+                    source,
+                    os.O_WRONLY | os.O_CREAT | os.O_EXCL,
+                    0o600,
+                    dir_fd=source_directory,
+                )
+                try:
+                    os.write(attacker, b"attacker-controlled bundle\n")
+                finally:
+                    os.close(attacker)
+            return real_replace(source, destination, *args, **kwargs)
+
+        with mock.patch("os.replace", side_effect=substitute_then_replace):
+            with self.assertRaisesRegex(ValueError, "published brand bundle"):
+                builder.build_bundle(folder, output)
+
+        self.assertTrue(substituted)
+        self.assertFalse(
+            output.exists(), "a failed build left attacker-controlled output bytes"
+        )
+
+    def test_rejects_staged_bytes_changed_at_the_replace_boundary(self):
+        builder = load_builder()
+        temp, folder = self.make_brand_folder()
+        self.addCleanup(temp.cleanup)
+        output = pathlib.Path(temp.name) / "brand-bundle.md"
+        output.write_text("previous safe bundle\n")
+        real_replace = os.replace
+        mutated = False
+
+        def mutate_then_replace(source, destination, *args, **kwargs):
+            nonlocal mutated
+            source_directory = kwargs["src_dir_fd"]
+            if not mutated:
+                mutated = True
+                size = os.stat(
+                    source,
+                    dir_fd=source_directory,
+                    follow_symlinks=False,
+                ).st_size
+                attacker = os.open(
+                    source,
+                    os.O_WRONLY | getattr(os, "O_NOFOLLOW", 0),
+                    dir_fd=source_directory,
+                )
+                try:
+                    offset = 0
+                    content = b"X" * size
+                    while offset < size:
+                        offset += os.write(attacker, content[offset:])
+                    os.fsync(attacker)
+                finally:
+                    os.close(attacker)
+            return real_replace(source, destination, *args, **kwargs)
+
+        with mock.patch("os.replace", side_effect=mutate_then_replace):
+            with self.assertRaisesRegex(ValueError, "published brand bundle"):
+                builder.build_bundle(folder, output)
+
+        self.assertTrue(mutated)
+        self.assertFalse(output.exists(), "a failed build left unverified output bytes")
+
 
 if __name__ == "__main__":
     unittest.main()
