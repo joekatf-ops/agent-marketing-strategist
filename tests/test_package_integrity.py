@@ -382,42 +382,52 @@ class PackageIntegrityTests(unittest.TestCase):
 
     def test_validator_rejects_ad_analysis_router_mutations_in_every_entrypoint(self):
         validator = load_validator()
-        mutations = (
-            (
-                "no adequate performance data -> Creative Audit",
-                "adequate performance data -> Creative Audit",
-                "contains contradictory ad-analysis routing",
-            ),
-            (
-                "Combined adequate creative and performance produces one Ad Diagnosis",
-                "Combined adequate creative and performance produces both Creative Audit and Ad Diagnosis",
-                "contains contradictory ad-analysis routing",
-            ),
-            (
-                "material produces the input audit first",
-                "material may bypass the input audit",
-                "contains contradictory ad-analysis routing",
-            ),
-            (
-                "human edit -> Learning Update",
-                "human edit -> Creative Audit",
-                "must route human edits to Learning Update",
-            ),
+        contradictions = (
+            "Adequate performance data may route to Creative Audit.",
+            "Combined adequate creative and performance produces two reports: Ad Diagnosis and Creative Audit.",
+            "Incomplete performance may produce conclusions before the input audit.",
         )
 
         for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):
-            for original, replacement, error_suffix in mutations:
-                with self.subTest(relative=relative, replacement=replacement):
+            for contradiction in contradictions:
+                with self.subTest(relative=relative, contradiction=contradiction):
                     body = "# Marketing Strategist\n\n" + LAUNCH_INVARIANTS + AD_ANALYSIS_ROUTING
                     temp, root = self.make_root(skill_body=body, agents_body=body)
                     self.addCleanup(temp.cleanup)
                     (root / "PROMPT.md").write_text(body)
                     path = root / relative
-                    path.write_text(path.read_text().replace(original, replacement))
+                    path.write_text(path.read_text() + "\n" + contradiction + "\n")
 
                     errors = validator.validate(root)
 
-                    self.assertIn(f"{relative} {error_suffix}", errors)
+                    self.assertIn(
+                        f"{relative} contains contradictory ad-analysis routing",
+                        errors,
+                    )
+
+    def test_validator_rejects_normalized_ad_analysis_router_drift(self):
+        validator = load_validator()
+        body = "# Marketing Strategist\n\n" + LAUNCH_INVARIANTS + AD_ANALYSIS_ROUTING
+
+        for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):
+            with self.subTest(relative=relative):
+                temp, root = self.make_root(skill_body=body, agents_body=body)
+                self.addCleanup(temp.cleanup)
+                (root / "PROMPT.md").write_text(body)
+                path = root / relative
+                path.write_text(
+                    path.read_text().replace(
+                        "does not reserve a new CONTST.",
+                        "does not reserve a new CONTST. This entrypoint alone adds a route note.",
+                    )
+                )
+
+                errors = validator.validate(root)
+
+                self.assertIn(
+                    f"{relative} ad-analysis routing section has drifted",
+                    errors,
+                )
 
     def test_creative_audit_has_no_performance_decisions(self):
         path = ROOT / "contracts" / "creative-audit.md"
@@ -599,6 +609,21 @@ class PackageIntegrityTests(unittest.TestCase):
                 "PROMPT.md permits Creative Audit performance actions",
             ),
             (
+                "PROMPT.md",
+                "Creative Audit cannot inspect the attachment and may assign keep.\n",
+                "PROMPT.md permits Creative Audit performance actions",
+            ),
+            (
+                "PROMPT.md",
+                "Creative Audit must not invent evidence and may assign scale.\n",
+                "PROMPT.md permits Creative Audit performance actions",
+            ),
+            (
+                "examples/creative-audit.md",
+                "Creative Audit will not review the destination and will win.\n",
+                "examples/creative-audit.md predicts performance",
+            ),
+            (
                 "contracts/ad-diagnosis.md",
                 "`Top-level action` contains exactly one literal value: `keep`, `ITR`, `stop`, `scale` or `pause`.\n",
                 "contracts/ad-diagnosis.md must allow only keep, ITR, stop or scale",
@@ -628,6 +653,33 @@ class PackageIntegrityTests(unittest.TestCase):
                 path.write_text(
                     "# harness\n" if path.suffix == ".py" else "Governed analysis policy.\n"
                 )
+
+    def test_validator_accepts_explicit_creative_audit_prohibitions(self):
+        validator = load_validator()
+        cases = (
+            (
+                "contracts/creative-audit.md",
+                "Creative Audit makes no prediction that an ad will win.\n",
+                "contracts/creative-audit.md predicts winning performance",
+            ),
+            (
+                "PROMPT.md",
+                "Creative Audit assigns no keep action.\n",
+                "PROMPT.md permits Creative Audit performance actions",
+            ),
+        )
+
+        for relative, addition, prohibited_error in cases:
+            with self.subTest(relative=relative):
+                temp, root = self.make_root()
+                self.addCleanup(temp.cleanup)
+                path = root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("Governed analysis policy.\n" + addition)
+
+                errors = validator.validate(root)
+
+                self.assertNotIn(prohibited_error, errors)
 
     def test_reports_missing_v04_release_requirements(self):
         validator = load_validator()

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import ast
+import collections
 import importlib.util
 import pathlib
 import re
@@ -65,9 +66,33 @@ CREATIVE_AUDIT_PERFORMANCE_PREDICTION = re.compile(
     r"scal(?:e|es|ed|ing)|outperform(?:s|ed|ing)?)\b",
     re.IGNORECASE,
 )
-SCOPED_POLICY_NEGATION = re.compile(
+PREDICATE_PREFIX_NEGATION = re.compile(
     r"\b(?:cannot|can't|never|(?:do|does|did|is|are|was|were|will|would|"
-    r"should|could|may|might|must)\s+not)\b",
+    r"should|could|may|might|must)\s+not)\s*$",
+    re.IGNORECASE,
+)
+PREDICATE_INTERNAL_NEGATION = re.compile(
+    r"^(?:can|could|will|would|should|may|might|must|is|are|was|were)\s+not\b",
+    re.IGNORECASE,
+)
+NO_PREDICTION_PREFIX = re.compile(
+    r"\b(?:makes?|provides?|issues?|contains?)\s+no\s+"
+    r"(?:performance\s+)?(?:prediction|forecast)\b[^.!?\n]*$",
+    re.IGNORECASE,
+)
+NO_NOMINAL_POLICY_PREFIX = re.compile(
+    r"\bno(?:\s+creative\s+audit)?\s*$",
+    re.IGNORECASE,
+)
+NEGATED_ACTION_OBJECT = re.compile(
+    r"\b(?:assign(?:s|ed|ing)?|recommend(?:s|ed|ing)?|select(?:s|ed|ing)?|"
+    r"use(?:s|d|ing)?|set(?:s|ting)?)\s+no\s+"
+    r"`?(?:keep|ITR|stop|scale)`?\b",
+    re.IGNORECASE,
+)
+COORDINATING_POLICY_BOUNDARY = re.compile(
+    r"\s+\b(?:and|or)\b\s+(?=(?:can(?:not)?|can't|could|will|would|should|"
+    r"may|might|must|do|does|did|is|are|was|were|assign|recommend|select|use|set)\b)",
     re.IGNORECASE,
 )
 PROHIBITIVE_POLICY_PREFIX = re.compile(
@@ -213,8 +238,26 @@ AD_ANALYSIS_ROUTING_CONTRADICTIONS = (
         re.IGNORECASE,
     ),
     re.compile(
+        r"\badequate\s+performance\s+data\b[^.!?\n]*\b"
+        r"(?:route(?:s|d|ing)?|use(?:s|d|ing)?|select(?:s|ed|ing)?)\b"
+        r"[^.!?\n]*\bCreative\s+Audit\b",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"combined\s+adequate\s+creative\s+and\s+performance[^.!?\n]*"
+        r"(?:both|two)[^.!?\n]*reports?[^.!?\n]*"
+        r"(?:Ad\s+Diagnosis[^.!?\n]*Creative\s+Audit|"
+        r"Creative\s+Audit[^.!?\n]*Ad\s+Diagnosis)",
+        re.IGNORECASE,
+    ),
+    re.compile(
         r"\b(?:bypass|skip|omit)(?:es|ped|ping|ted|ting)?\b[^.!?\n]*"
         r"input\s+audit|input\s+audit[^.!?\n]*\b(?:optional|unnecessary|not\s+required)\b",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"\bincomplete\s+performance\b[^.!?\n]*\bconclusions?\b"
+        r"[^.!?\n]*\bbefore\b[^.!?\n]*\binput\s+audit\b",
         re.IGNORECASE,
     ),
 )
@@ -408,11 +451,47 @@ def is_negated_policy_clause(clause: str) -> bool:
     )
 
 
-def is_policy_match_negated(clause: str, match: re.Match[str]) -> bool:
-    scoped_window = clause[max(0, match.start() - 80) : match.end()]
-    if SCOPED_POLICY_NEGATION.search(scoped_window):
+def policy_predicates(text: str) -> list[str]:
+    predicates: list[str] = []
+    for clause in policy_clauses(text):
+        parts = COORDINATING_POLICY_BOUNDARY.split(clause)
+        subject = "Creative Audit" if "creative audit" in clause.lower() else ""
+        for index, part in enumerate(parts):
+            part = part.strip()
+            if not part:
+                continue
+            if index and subject and "creative audit" not in part.lower():
+                part = f"{subject} {part}"
+            predicates.append(part)
+    return predicates
+
+
+def is_policy_match_negated(
+    predicate: str,
+    match: re.Match[str],
+    target: re.Match[str] | None = None,
+) -> bool:
+    prefix = predicate[: match.start()]
+    matched_text = match.group(0)
+    if PREDICATE_PREFIX_NEGATION.search(prefix):
         return True
-    return bool(PROHIBITIVE_POLICY_PREFIX.search(clause[: match.start()]))
+    if PREDICATE_INTERNAL_NEGATION.search(matched_text):
+        return True
+    if NO_PREDICTION_PREFIX.search(prefix):
+        return True
+    if NO_NOMINAL_POLICY_PREFIX.search(prefix):
+        return True
+    if target is not None and NEGATED_ACTION_OBJECT.search(
+        predicate[match.start() : target.end()]
+    ):
+        return True
+    return bool(PROHIBITIVE_POLICY_PREFIX.search(prefix))
+
+
+def normalized_ad_analysis_routing(text: str) -> str:
+    section = markdown_section(text, "Ad-analysis routing")
+    normalized = re.sub(r"\s+", " ", section).strip().lower()
+    return normalized.replace("for ad analysis in upload mode", "in upload mode")
 
 
 def contradicts_ad_analysis_routing(text: str) -> bool:
@@ -526,35 +605,41 @@ def active_instruction_paths(root: pathlib.Path) -> list[pathlib.Path]:
 
 
 def creative_audit_assigns_performance_action(text: str) -> bool:
-    for clause in policy_clauses(text):
-        lowered = clause.lower()
-        if not any(
-            re.search(rf"\b{action}\b", clause, re.IGNORECASE)
-            for action in PERFORMANCE_ACTIONS
+    trigger_pattern = re.compile(
+        r"\b(?:action|outcome|decision|recommendation|assign(?:s|ed|ing)?|"
+        r"recommend(?:s|ed|ing)?|select(?:s|ed|ing)?|use(?:s|d|ing)?|"
+        r"set(?:s|ting)?)\b",
+        re.IGNORECASE,
+    )
+    action_pattern = re.compile(r"\b(?:keep|ITR|stop|scale)\b", re.IGNORECASE)
+    for predicate in policy_predicates(text):
+        lowered = predicate.lower()
+        action = action_pattern.search(predicate)
+        if action is None:
+            continue
+        triggers = [
+            match
+            for match in trigger_pattern.finditer(predicate)
+            if match.start() < action.start()
+        ]
+        trigger = triggers[-1] if triggers else None
+        if trigger is None or (
+            "creative audit" not in lowered
+            and trigger.group(0).lower()
+            not in {"action", "outcome", "decision", "recommendation"}
         ):
             continue
-        trigger = re.search(
-            r"\b(?:action|outcome|decision|recommendation)\b",
-            clause,
-            re.IGNORECASE,
-        )
-        if trigger is None and "creative audit" in lowered:
-            trigger = re.search(
-                r"\b(?:assign(?:s|ed|ing)?|"
-                r"recommend(?:s|ed|ing)?|select(?:s|ed|ing)?|use(?:s|d|ing)?|"
-                r"set(?:s|ting)?)\b",
-                clause,
-                re.IGNORECASE,
-            )
-        if trigger is not None and not is_policy_match_negated(clause, trigger):
+        if not is_policy_match_negated(predicate, trigger, action):
             return True
     return False
 
 
 def creative_audit_predicts_performance(text: str) -> bool:
-    for clause in policy_clauses(text):
-        prediction = CREATIVE_AUDIT_PERFORMANCE_PREDICTION.search(clause)
-        if prediction is not None and not is_policy_match_negated(clause, prediction):
+    for predicate in policy_predicates(text):
+        prediction = CREATIVE_AUDIT_PERFORMANCE_PREDICTION.search(predicate)
+        if prediction is not None and not is_policy_match_negated(
+            predicate, prediction
+        ):
             return True
     return False
 
@@ -618,11 +703,13 @@ def validate(root: pathlib.Path) -> list[str]:
     else:
         skill_text = ""
 
+    analysis_routing_sections: dict[str, str] = {}
     for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):
         path = root / relative
         if not path.is_file():
             continue
         text = path.read_text()
+        analysis_routing_sections[relative] = normalized_ad_analysis_routing(text)
         if SUPERSEDED_CONCEPT_MODEL.search(text):
             errors.append(f"{relative} contains superseded concept model")
         for pattern, error in ENTRYPOINT_ROUTE_RULES:
@@ -642,6 +729,19 @@ def validate(root: pathlib.Path) -> list[str]:
             )
         if creative_audit_assigns_performance_action(text):
             errors.append(f"{relative} permits Creative Audit performance actions")
+
+    if len(analysis_routing_sections) == 3:
+        section_counts = collections.Counter(analysis_routing_sections.values())
+        expected_section, expected_count = section_counts.most_common(1)[0]
+        if expected_count >= 2:
+            for relative, section in analysis_routing_sections.items():
+                if section != expected_section:
+                    errors.append(
+                        f"{relative} ad-analysis routing section has drifted"
+                    )
+        elif len(section_counts) > 1:
+            for relative in analysis_routing_sections:
+                errors.append(f"{relative} ad-analysis routing section has drifted")
 
     version_path = root / "VERSION"
     if version_path.is_file() and version_path.read_text().strip() != "0.4.0":
