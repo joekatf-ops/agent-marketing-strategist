@@ -442,6 +442,38 @@ class BrandBundleTests(unittest.TestCase):
                         folder, pathlib.Path(temp.name) / "brand-bundle.md"
                     )
 
+    def test_refuses_yaml_indicator_prefixed_plain_scalars(self):
+        builder = load_builder()
+        values = (
+            "- NNT",
+            "@NNT",
+            "%NNT",
+            "`NNT",
+            ",NNT",
+            "NNT#INSPO",
+            "NNT,INSPO",
+            "NNT: INSPO",
+        )
+
+        for value in values:
+            with self.subTest(value=value):
+                temp, folder = self.make_brand_folder()
+                self.addCleanup(temp.cleanup)
+                manifest = (folder / "brand.yml").read_text().replace(
+                    "next_test_number: 1", "next_test_number: 2"
+                )
+                (folder / "brand.yml").write_text(manifest)
+                (folder / "strategy" / "test-register.yml").write_text(
+                    "tests:\n"
+                    "  - test_id: CONTST001\n"
+                    f"    source: {value}\n"
+                )
+
+                with self.assertRaisesRegex(ValueError, "invalid canonical YAML"):
+                    builder.build_bundle(
+                        folder, pathlib.Path(temp.name) / "brand-bundle.md"
+                    )
+
     def test_accepts_canonical_quoted_scalars_and_json_style_flow_values(self):
         builder = load_builder()
         temp, folder = self.make_brand_folder()
@@ -475,7 +507,11 @@ class BrandBundleTests(unittest.TestCase):
         (folder / "strategy" / "test-register.yml").write_text(
             "tests:\n"
             "  - test_id: CONTST001\n"
-            "    source: NNT\n"
+            "    source: NNT # canonical inline comment\n"
+            "    spend: -12.5\n"
+            "    valid: true\n"
+            "    result: null\n"
+            "    coordinate_key: sleep/UWA-v1\n"
             "    ads:\n"
             "      - awareness_code: UWA\n"
             "        ad_name: ACME_PRODUCT_CT_UWA\n"

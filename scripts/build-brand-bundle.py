@@ -99,6 +99,14 @@ ANY_TEST_ID_KEY = re.compile(r"^\s+test_id\s*:")
 CANONICAL_MAPPING_ENTRY = re.compile(
     r"^(?P<key>[A-Za-z_][A-Za-z0-9_-]*):(?:\s+(?P<value>.*))?$"
 )
+CANONICAL_NUMBER = re.compile(
+    r"^[+-]?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$"
+)
+CANONICAL_BOOL_OR_NULL = re.compile(r"^(?:true|false|null|~)$", re.IGNORECASE)
+CANONICAL_PLAIN_SCALAR = re.compile(
+    r"^[A-Za-z0-9_./][A-Za-z0-9_./:+-]*(?: [A-Za-z0-9_./:+-]+)*$"
+)
+YAML_LEADING_INDICATORS = "-?:,[]{}#&*!|>'\"%@`"
 RESERVED_STATE_KEYS = {"naming", "test_prefix", "next_test_number", "tests", "test_id"}
 
 
@@ -244,12 +252,18 @@ def validate_yaml_value(value: str, source: str, line_number: int) -> None:
         if "'" in inner.replace("''", ""):
             raise invalid_yaml(source, line_number, "invalid single-quoted scalar")
         return
-    if any(character in value for character in "[]{}\"'"):
-        raise invalid_yaml(source, line_number, "flow and quoted values must use canonical syntax")
-    if re.search(r"(?:^|\s)[!&*](?:\S|$)", value):
-        raise invalid_yaml(source, line_number, "tags, anchors and aliases are unsupported")
-    if value.startswith(("?", ":", "|", ">")) or re.search(r":\s", value):
-        raise invalid_yaml(source, line_number, "unsupported scalar syntax")
+    if CANONICAL_NUMBER.fullmatch(value) or CANONICAL_BOOL_OR_NULL.fullmatch(value):
+        return
+    if value[0] in YAML_LEADING_INDICATORS:
+        raise invalid_yaml(source, line_number, "plain scalar starts with a YAML indicator")
+    if re.search(r":(?:\s|$)", value):
+        raise invalid_yaml(source, line_number, "plain scalar contains a mapping marker")
+    if CANONICAL_PLAIN_SCALAR.fullmatch(value) is None:
+        raise invalid_yaml(
+            source,
+            line_number,
+            "plain scalar contains unsupported or ambiguous characters",
+        )
 
 
 def validate_canonical_yaml_subset(text: str, source: str) -> list[YamlEntry]:
