@@ -133,18 +133,16 @@ class PackageIntegrityTests(unittest.TestCase):
     def test_campaign_launch_contract_protects_testing_and_scaling_rules(self):
         contract_path = ROOT / "contracts" / "campaign-launch-plan.md"
         self.assertTrue(contract_path.is_file(), "Campaign Launch Plan should exist")
-        contract = contract_path.read_text()
+        validator = load_validator()
 
-        for required in (
-            "ABO",
-            "$50",
-            "approximately $100",
-            "five full days",
-            "CBO",
-            "real Post ID",
-        ):
-            with self.subTest(required=required):
-                self.assertIn(required, contract)
+        errors = validator.validate(ROOT)
+
+        policy_errors = [
+            error
+            for error in errors
+            if error.startswith("contracts/campaign-launch-plan.md must")
+        ]
+        self.assertEqual([], policy_errors)
 
     def test_ad_copy_contract_requires_length_variants(self):
         contract = (ROOT / "contracts" / "ad-copy.md").read_text()
@@ -318,6 +316,63 @@ class PackageIntegrityTests(unittest.TestCase):
             "templates/brand-folder/strategy/test-register.yml must use sequential CONTST values",
             errors,
         )
+
+    def test_reports_opposite_campaign_launch_policies(self):
+        validator = load_validator()
+        compliant_contract = (
+            "## Creative testing\n\n"
+            "- Budget type: ABO.\n"
+            "- Absolute floor: $50 per ad set per day.\n"
+            "- Preferred starting point: approximately $100 per ad set per day.\n"
+            "- Planned observation window: five full days.\n\n"
+            "## Scaling\n\n"
+            "- Budget type: CBO.\n"
+            "- Graduated ads keep their real Post ID.\n"
+        )
+        cases = (
+            (
+                "- Budget type: ABO.",
+                "- Budget type: CBO.",
+                "contracts/campaign-launch-plan.md must require ABO creative testing",
+            ),
+            (
+                "- Absolute floor: $50 per ad set per day.",
+                "- $50 per ad set per day is not a floor.",
+                "contracts/campaign-launch-plan.md must set an absolute $50 per-ad-set daily floor",
+            ),
+            (
+                "- Preferred starting point: approximately $100 per ad set per day.",
+                "- Approximately $100 per ad set per day is not preferred.",
+                "contracts/campaign-launch-plan.md must make approximately $100 the preferred per-ad-set daily starting point",
+            ),
+            (
+                "- Planned observation window: five full days.",
+                "- Planned observation window: four full days.",
+                "contracts/campaign-launch-plan.md must set a five-full-day planned observation window",
+            ),
+            (
+                "- Budget type: CBO.",
+                "- Budget type: ABO.",
+                "contracts/campaign-launch-plan.md must require CBO scaling",
+            ),
+            (
+                "- Graduated ads keep their real Post ID.",
+                "- Graduated ads do not preserve their real Post ID.",
+                "contracts/campaign-launch-plan.md must preserve graduated ads' real Post ID",
+            ),
+        )
+
+        for expected, opposite, error in cases:
+            with self.subTest(opposite=opposite):
+                temp, root = self.make_root()
+                self.addCleanup(temp.cleanup)
+                contract = root / "contracts" / "campaign-launch-plan.md"
+                contract.parent.mkdir()
+                contract.write_text(compliant_contract.replace(expected, opposite))
+
+                errors = validator.validate(root)
+
+                self.assertIn(error, errors)
 
     def test_reports_missing_v03_release_requirements(self):
         validator = load_validator()

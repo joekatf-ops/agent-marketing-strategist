@@ -36,6 +36,47 @@ V03_REQUIRED_FILES = (
     "examples/destination-handoff.md",
     "connectors/notion-composio.md",
 )
+CAMPAIGN_LAUNCH_CONTRACT = "contracts/campaign-launch-plan.md"
+CREATIVE_TESTING_RULES = (
+    (
+        re.compile(r"^[ \t]*-[ \t]*Budget type:[ \t]*ABO\.[ \t]*$", re.MULTILINE),
+        "contracts/campaign-launch-plan.md must require ABO creative testing",
+    ),
+    (
+        re.compile(
+            r"^[ \t]*-[ \t]*Absolute floor:[ \t]*\$50 per ad set per day\.[ \t]*$",
+            re.MULTILINE,
+        ),
+        "contracts/campaign-launch-plan.md must set an absolute $50 per-ad-set daily floor",
+    ),
+    (
+        re.compile(
+            r"^[ \t]*-[ \t]*Preferred starting point:[ \t]*approximately \$100 per ad set per day\.[ \t]*$",
+            re.MULTILINE,
+        ),
+        "contracts/campaign-launch-plan.md must make approximately $100 the preferred per-ad-set daily starting point",
+    ),
+    (
+        re.compile(
+            r"^[ \t]*-[ \t]*Planned observation window:[ \t]*five full days\.[ \t]*$",
+            re.MULTILINE,
+        ),
+        "contracts/campaign-launch-plan.md must set a five-full-day planned observation window",
+    ),
+)
+SCALING_RULES = (
+    (
+        re.compile(r"^[ \t]*-[ \t]*Budget type:[ \t]*CBO\.[ \t]*$", re.MULTILINE),
+        "contracts/campaign-launch-plan.md must require CBO scaling",
+    ),
+    (
+        re.compile(
+            r"^[ \t]*-[ \t]*Graduated ads keep their real Post ID\.[ \t]*$",
+            re.MULTILINE,
+        ),
+        "contracts/campaign-launch-plan.md must preserve graduated ads' real Post ID",
+    ),
+)
 
 
 def operating_body(text: str) -> str:
@@ -47,6 +88,17 @@ def operating_body(text: str) -> str:
     if heading != -1:
         text = text[heading:]
     return text.strip()
+
+
+def markdown_section(text: str, heading: str) -> str:
+    match = re.search(
+        rf"^##[ \t]+{re.escape(heading)}[ \t]*$", text, re.IGNORECASE | re.MULTILINE
+    )
+    if match is None:
+        return ""
+    next_heading = re.search(r"^##[ \t]+", text[match.end() :], re.MULTILINE)
+    end = match.end() + next_heading.start() if next_heading else len(text)
+    return text[match.end() : end]
 
 
 def validate(root: pathlib.Path) -> list[str]:
@@ -83,6 +135,16 @@ def validate(root: pathlib.Path) -> list[str]:
         path = root / relative
         if path.is_file() and MOST_AWARE_ROW.search(path.read_text()):
             errors.append(f"{relative} contains a Most Aware standard-ad row")
+
+    campaign_launch_path = root / CAMPAIGN_LAUNCH_CONTRACT
+    if campaign_launch_path.is_file():
+        contract = campaign_launch_path.read_text()
+        for pattern, error in CREATIVE_TESTING_RULES:
+            if not pattern.search(markdown_section(contract, "Creative testing")):
+                errors.append(error)
+        for pattern, error in SCALING_RULES:
+            if not pattern.search(markdown_section(contract, "Scaling")):
+                errors.append(error)
 
     test_register_path = root / TEMPLATE_TEST_REGISTER
     if test_register_path.is_file():
