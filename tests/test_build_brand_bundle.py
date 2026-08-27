@@ -2,6 +2,7 @@ import importlib.util
 import pathlib
 import tempfile
 import unittest
+from unittest import mock
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -101,6 +102,39 @@ class BrandBundleTests(unittest.TestCase):
         self.assertNotIn("private revision history", bundle)
         self.assertNotIn("secret-value", bundle)
         self.assertNotIn("secret token", bundle)
+
+    def test_explicitly_excludes_analysis_runs_raw_assets_and_csv_files(self):
+        builder = load_builder()
+        temp, folder = self.make_brand_folder()
+        self.addCleanup(temp.cleanup)
+        unsafe = {
+            "outputs/ad-analysis/ADR-20260827-001/intake.json": (
+                '{"brand_slug":"acme-sleep","run_id":"ADR-20260827-001"}\n'
+            ),
+            "outputs/ad-analysis/ADR-20260827-001/diagnosis.md": (
+                "temporary diagnosis output\n"
+            ),
+            "assets/raw-ad.png": "raw creative asset\n",
+            "exports/performance.csv": "ad_id,spend\nad-1,100\n",
+        }
+        for relative, content in unsafe.items():
+            target = folder / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(content)
+
+        output = pathlib.Path(temp.name) / "brand-bundle.md"
+        with mock.patch.object(
+            builder, "ALLOWED_EXACT", builder.ALLOWED_EXACT | set(unsafe)
+        ), mock.patch.object(
+            builder, "ALLOWED_SUFFIXES", builder.ALLOWED_SUFFIXES | {".csv", ".png"}
+        ):
+            builder.build_bundle(folder, output)
+
+        bundle = output.read_text()
+        for relative, content in unsafe.items():
+            with self.subTest(relative=relative):
+                self.assertNotIn(f"## Source: `{relative}`", bundle)
+                self.assertNotIn(content.strip(), bundle)
 
     def test_requires_a_brand_manifest(self):
         builder = load_builder()

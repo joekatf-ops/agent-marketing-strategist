@@ -4,13 +4,13 @@ An evidence-led direct-response Meta strategist for DTC brands. One universal me
 brands. Each brand keeps its own connected folder, evidence, coordinate history, test history,
 winners and approved learning.
 
-**Version:** 0.3.0
+**Version:** 0.4.0
 
 **Status:** ready for use
 
-Version 0.3.0 is a breaking strategy release. It replaces the old concept equation with the Master
-Creative Strategy coordinate `Who x Primary Problem`. It preserves the v0.2 brand isolation,
-evidence, website-refresh, portability, security and approved-revision learning systems.
+Version 0.4.0 adds a portable, versioned ad-analysis harness with Creative Audit and Performance
+Diagnosis modes. It preserves the v0.3 Master Creative Strategy coordinate `Who x Primary Problem`,
+brand isolation, evidence, test history, portability, security and approved-revision learning.
 
 ## The operating model
 
@@ -24,6 +24,7 @@ Universal strategist
     ├── website snapshots and classified evidence
     ├── Who x Primary Problem coordinates
     ├── sequential CONTST batches and graduated winners
+    ├── versioned ad-analysis runs and governed reports
     ├── production outputs and destination records
     └── append-only revision learning and approved rules
 ```
@@ -52,7 +53,7 @@ Six hook packages are a pre-production option set for one approved execution, no
 
 ## What it produces
 
-The package has eleven governed artefacts:
+The package has twelve governed artefacts:
 
 | Artefact | What it does |
 |---|---|
@@ -65,7 +66,8 @@ The package has eleven governed artefacts:
 | Static and Carousel Spec | Produces an executable layout, exact copy, visual direction and claim check |
 | Campaign Launch Plan | Gives a human operator an exact manual Meta build, budget, naming, observation and scaling handoff |
 | Destination Handoff | Preserves ad-to-page promise, proof, offer and CTA continuity for every execution |
-| Ad Diagnosis | Reads manually supplied Meta exports, screenshots or tables without requiring live access |
+| Creative Audit | Reviews supplied first-party creative against brand truth and strategy without predicting performance |
+| Ad Diagnosis | Runs Performance Diagnosis from manually supplied Meta exports, screenshots or tables without requiring live access |
 | Learning Update | Captures approved human revisions without turning every edit into a permanent rule |
 
 Each artefact has a versioned contract in [`contracts/`](contracts/).
@@ -97,7 +99,7 @@ learning. The recorder rejects unconfigured or unauthorised approvers. Do not pu
 passwords or tokens in the brand folder.
 
 `config/brand.example.yml` is a legacy adapter that points older installations to a portable brand
-folder. It is not the v0.3 source of truth.
+folder. It is not the v0.4 source of truth.
 
 ## Migrating a v0.2 brand folder
 
@@ -109,6 +111,16 @@ winner registers while preserving all existing evidence, outputs, learning event
 and historical results. Translate old strategy records through an explicit reviewed migration. Do
 not silently rename an old concept, recycle an identifier or treat an old angle as a coordinate
 axis. The initializer refuses to overwrite a non-empty destination.
+
+## Migrating a v0.3 brand folder
+
+Do not reinitialise or rewrite an existing v0.3 brand. Work on a backup or reviewed copy, add only
+the `outputs/ad-analysis/` directory and its README, then change `method_version` from `0.3.0` to
+`0.4.0` after the migration is reviewed. Preserve all existing evidence, learning, test and
+strategy history, including register identifiers and prior outputs. The harness may create a
+limited run before migration, but controlled persistence stays blocked until the version change is
+reviewed. Migration does not reinterpret evidence, graduate a winner, reserve a CONTST or promote a
+brand rule.
 
 ## Website freshness
 
@@ -169,6 +181,51 @@ Upload `PROMPT.md`, `dist/knowledge-bundle.md` and the generated brand bundle. T
 folder remains the source of truth. Rebuild both bundles after an approved universal-method release
 or canonical brand-folder change.
 
+For upload-only ad analysis, also attach `intake.json` and every referenced attachment or source
+file. A configured connector, attachment label or saved path is not proof of access; the current
+runtime must complete a successful read-only preflight before claiming it can read the material.
+
+## Analyse supplied ads
+
+The simple request is `Analyse these ads for <brand>`. Select exactly one brand, market and product,
+then use the canonical `intake.json` shape for either mode:
+
+- `creative-audit` when adequate performance data is absent or the request is a pre-launch review;
+- `performance-diagnosis` when the supplied performance pack is adequate. This produces the
+  governed Ad Diagnosis report and includes the creative layer, so no second Creative Audit is
+  needed.
+
+Required inputs are the selected brand folder or selected brand bundle, the run's `intake.json`,
+and every creative asset, destination, export, screenshot, table or other source referenced by the
+intake. Performance Diagnosis also requires the governed date range, attribution, currency,
+spend-bearing ad mapping and required result fields. Present but incomplete performance material
+produces the input audit before any performance conclusion.
+
+In a writable connected folder, create and validate a run:
+
+```bash
+python3 scripts/init-ad-analysis-run.py /path/to/brand \
+  --mode creative-audit \
+  --product-id product-code \
+  --market AU
+
+python3 scripts/validate-ad-analysis-run.py /path/to/brand \
+  /path/to/brand/outputs/ad-analysis/ADR-YYYYMMDD-001 --write-audit
+```
+
+Use `--mode performance-diagnosis` for an adequate performance pack. Consume the generated
+`input-audit.md` before conclusions. Governed reports are written to
+`outputs/ad-analysis/<RUN_ID>/creative-audit.md` or
+`outputs/ad-analysis/<RUN_ID>/diagnosis.md`; optional proposed handoff files are
+`test-register-patch.yml`, `next-brief.md` and `persistence-summary.md`.
+
+Run reports may be written immediately when the folder is writable. Test-register, winner-library
+and approved-revision changes remain controlled records and require explicit human confirmation. A
+diagnosis can recommend an ITR but does not reserve a CONTST, and winner graduation requires a real
+Post ID and confirmation. In an upload-only runtime, return the governed report and proposed files
+to the canonical folder owner: upload-only output is a patch, not persistence. The harness performs
+no live Meta account read, publishing, budget change or other account mutation.
+
 ## Manual launch workflow
 
 1. Resolve one active brand, market, product and region.
@@ -222,6 +279,7 @@ Frozen examples live in [`examples/`](examples/).
 
 | Version | Date | Change |
 |---|---|---|
+| 0.4.0 | 2026-08-27 | Added the portable ad-analysis intake, initializer and validator, Creative Audit, Performance Diagnosis routing, safe persistence patches, schema-aware universal bundle and complete seven-runtime workflows. |
 | 0.3.0 | 2026-08-27 | Adopted `Who x Primary Problem`, four-ad CONTST batches, locked naming, manual ABO launch plans, destination handoffs, CBO scaling with real Post IDs, safe strategy registers and read-only Notion governance. |
 | 0.2.0 | 2026-08-26 | Added multi-brand folders, recurring website refresh, evidence classes, six-hook batches, copy lengths, approved-revision learning, upload bundles and seven runtime guides. |
 | 0.1.0 | 2026-08-26 | Initial strategist with research, concepts, creative production and diagnosis contracts. |

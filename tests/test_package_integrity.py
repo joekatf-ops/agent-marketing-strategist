@@ -11,6 +11,15 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "scripts" / "validate-package.py"
 BUNDLE_SCRIPT = ROOT / "scripts" / "build-knowledge-bundle.py"
+RUNTIME_GUIDES = (
+    "connectors/runtime-codex.md",
+    "connectors/runtime-claude.md",
+    "connectors/runtime-claude-code.md",
+    "connectors/runtime-chatgpt.md",
+    "connectors/runtime-gemini.md",
+    "connectors/runtime-grok.md",
+    "connectors/runtime-grok-agents.md",
+)
 
 LAUNCH_INVARIANTS = """## Upload-runtime routing
 
@@ -355,6 +364,8 @@ class PackageIntegrityTests(unittest.TestCase):
             "examples/ad-analysis-intake.json",
             "examples/creative-audit.md",
             "examples/ad-diagnosis.md",
+            "scripts/init-ad-analysis-run.py",
+            "scripts/validate-ad-analysis-run.py",
         }
 
         self.assertEqual(set(), {path for path in governed if not (ROOT / path).is_file()})
@@ -1089,6 +1100,51 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn("Firecrawl", readme)
         self.assertIn("Grok Agents", readme)
 
+    def test_v04_public_release_documents_complete_ad_analysis_workflow(self):
+        readme = (ROOT / "README.md").read_text()
+        normalized = " ".join(readme.split()).lower()
+
+        self.assertIn("**Version:** 0.4.0", readme)
+        self.assertIn("twelve governed artefacts", readme)
+        self.assertIn("| Creative Audit |", readme)
+        self.assertIn("Analyse these ads for <brand>", readme)
+        self.assertIn("creative-audit", readme)
+        self.assertIn("performance-diagnosis", readme)
+        self.assertIn("scripts/init-ad-analysis-run.py", readme)
+        self.assertIn("scripts/validate-ad-analysis-run.py", readme)
+        self.assertIn("outputs/ad-analysis/<RUN_ID>/creative-audit.md", readme)
+        self.assertIn("outputs/ad-analysis/<RUN_ID>/diagnosis.md", readme)
+        self.assertIn("upload-only output is a patch, not persistence", readme)
+        self.assertIn("Migrating a v0.3 brand folder", readme)
+        self.assertIn(
+            "preserve all existing evidence, learning, test and strategy history",
+            normalized,
+        )
+
+    def test_every_runtime_guide_supports_connected_and_upload_analysis(self):
+        required = (
+            "## Ad analysis: connected-folder mode",
+            "## Ad analysis: upload-only mode",
+            "creative-audit",
+            "performance-diagnosis",
+            "scripts/init-ad-analysis-run.py",
+            "scripts/validate-ad-analysis-run.py",
+            "intake.json",
+            "dist/knowledge-bundle.md",
+            "selected brand bundle",
+            "every referenced attachment or source file",
+            "creative-audit.md",
+            "diagnosis.md",
+            "upload-only output is a patch, not persistence",
+            "read-only preflight",
+        )
+
+        for relative in RUNTIME_GUIDES:
+            with self.subTest(relative=relative):
+                guide = " ".join((ROOT / relative).read_text().split())
+                for phrase in required:
+                    self.assertIn(phrase, guide)
+
     def test_concept_reference_uses_who_by_primary_problem(self):
         reference = (ROOT / "references" / "06-concept-model.md").read_text()
 
@@ -1110,6 +1166,19 @@ class PackageIntegrityTests(unittest.TestCase):
 
         self.assertIn("# PART: CONNECTOR AND RUNTIME GUIDES", content)
         self.assertIn("<!-- source: connectors/runtime-grok-agents.md -->", content)
+
+    def test_universal_bundle_includes_v04_contract_reference_and_schema_guidance(self):
+        builder = load_bundle_builder()
+
+        content = builder.build_body()
+
+        self.assertIn("<!-- source: contracts/creative-audit.md -->", content)
+        self.assertIn("<!-- source: references/19-ad-analysis-harness.md -->", content)
+        self.assertIn("# PART: SCHEMA GUIDANCE", content)
+        self.assertIn("<!-- source: schemas/ad-analysis-intake.schema.json -->", content)
+        self.assertIn('"performance-diagnosis"', content)
+        self.assertNotIn("<!-- source: examples/ad-diagnosis-performance.csv -->", content)
+        self.assertNotIn("<!-- source: outputs/ad-analysis/", content)
 
     def test_gemini_guide_uses_supported_firecrawl_oauth(self):
         guide = (ROOT / "connectors" / "runtime-gemini.md").read_text()

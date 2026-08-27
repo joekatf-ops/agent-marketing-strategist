@@ -1,6 +1,6 @@
 # Grok Setup
 
-Last verified: 2026-08-26
+Last verified: 2026-08-27
 
 Grok product capabilities can differ between consumer, workspace, API, and regional surfaces. This guide does not assume that a Grok chat can install arbitrary MCP servers.
 
@@ -29,3 +29,45 @@ If no such mechanism is exposed, perform research outside Grok, store cited evid
 ## Learning sync
 
 Grok conversation memory is not authoritative. Human-approved revisions must become structured learning events in the brand folder before they influence future work.
+
+## Ad analysis: connected-folder mode
+
+Use this mode only when the current Grok surface or agent host can read the strategist repository
+and write the one selected brand folder. Ask `Analyse these ads for <brand>`, then:
+
+1. Create a run with `scripts/init-ad-analysis-run.py`:
+
+   ```bash
+   python3 scripts/init-ad-analysis-run.py /path/to/brand \
+     --mode creative-audit \
+     --product-id product-code \
+     --market AU
+   ```
+
+   Use `creative-audit` without adequate performance data and `performance-diagnosis` when the
+   supplied performance pack is adequate.
+2. Complete the generated `intake.json` and make its referenced files readable.
+3. Validate the run and write its deterministic audit:
+
+   ```bash
+   python3 scripts/validate-ad-analysis-run.py /path/to/brand \
+     /path/to/brand/outputs/ad-analysis/ADR-YYYYMMDD-001 --write-audit
+   ```
+
+4. Consume `input-audit.md`, then write the governed `creative-audit.md` or `diagnosis.md` report
+   inside the run folder. A Performance Diagnosis uses the Ad Diagnosis contract. End with a
+   Persistence Summary; controlled records still require human confirmation and no command performs
+   a live Meta mutation.
+
+Do not claim a connector or attachment is available until a read-only preflight succeeds in the
+current session.
+
+## Ad analysis: upload-only mode
+
+When folder access is unavailable, attach `PROMPT.md`, `intake.json`,
+`dist/knowledge-bundle.md`, the selected brand bundle, and every referenced attachment or source
+file. Use the same `creative-audit` or `performance-diagnosis` mode in the intake. Validate against
+the bundled schema guidance, return the input audit and governed `creative-audit.md` or
+`diagnosis.md` content, and return any proposed persistence files to the canonical folder owner.
+The runtime cannot claim it wrote the run folder or controlled records: upload-only output is a
+patch, not persistence.

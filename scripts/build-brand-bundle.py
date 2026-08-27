@@ -37,6 +37,13 @@ ALLOWED_EXACT = {
 }
 SENSITIVE_SAFE_NAMESPACES = ("context/", "products/", "strategy/")
 ALLOWED_SUFFIXES = {".md", ".yml", ".yaml", ".json"}
+FORBIDDEN_PREFIXES = (
+    "assets/",
+    "exports/",
+    "outputs/ad-analysis/",
+    "raw-assets/",
+)
+FORBIDDEN_SUFFIXES = {".csv"}
 SECRET_ASSIGNMENT = re.compile(
     r"(?im)^\s*[\"']?[A-Za-z0-9_.-]*(?:api[_-]?key|access[_-]?token|"
     r"refresh[_-]?token|client[_-]?secret|private[_-]?key|secret|password)"
@@ -130,6 +137,8 @@ def selected_files(folder: pathlib.Path) -> list[pathlib.Path]:
         except ValueError as error:
             raise ValueError(f"bundle source resolves outside brand folder: {path}") from error
         relative = path.relative_to(folder).as_posix()
+        if relative.startswith(FORBIDDEN_PREFIXES) or path.suffix.lower() in FORBIDDEN_SUFFIXES:
+            continue
         if relative.startswith(SENSITIVE_SAFE_NAMESPACES) and relative not in ALLOWED_EXACT:
             raise ValueError(
                 f"unapproved bundle source in sensitive namespace: {relative}"

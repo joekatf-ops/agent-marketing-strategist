@@ -17,16 +17,16 @@ HEADER = """# Marketing Strategist: knowledge bundle
 Generated file. Do not edit by hand. Rebuild with `scripts/build-knowledge-bundle.py`.
 
 Upload this alongside `PROMPT.md` on any surface that has no filesystem. It carries the full
-reference library, every output contract, and the connector and runtime guides.
+reference library, every output contract, schema guidance, and the connector and runtime guides.
 
 """
 
 
-def collect(folder, title):
+def collect(folder, title, pattern="*.md"):
     parts = [f"\n\n{'=' * 78}\n# PART: {title}\n{'=' * 78}\n"]
-    files = sorted((ROOT / folder).glob("*.md"))
+    files = sorted((ROOT / folder).glob(pattern))
     if not files:
-        sys.exit(f"No markdown found in {folder}")
+        sys.exit(f"No files matching {pattern} found in {folder}")
     for f in files:
         parts.append(f"\n\n{'-' * 78}\n<!-- source: {folder}/{f.name} -->\n{'-' * 78}\n\n")
         parts.append(f.read_text().strip())
@@ -37,6 +37,7 @@ def build_body():
     body = HEADER
     body += collect("references", "REFERENCE LIBRARY")
     body += collect("contracts", "OUTPUT CONTRACTS")
+    body += collect("schemas", "SCHEMA GUIDANCE", "*.json")
     body += collect("connectors", "CONNECTOR AND RUNTIME GUIDES")
     return body
 
