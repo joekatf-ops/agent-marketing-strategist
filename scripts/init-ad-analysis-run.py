@@ -27,7 +27,7 @@ def main() -> int:
             market=args.market,
             run_id=args.run_id,
         )
-    except (FileExistsError, FileNotFoundError, ValueError, json.JSONDecodeError) as error:
+    except (OSError, ValueError, json.JSONDecodeError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 2
     print(run_folder)

@@ -306,6 +306,33 @@ class AdAnalysisHarnessTests(unittest.TestCase):
             (outside / "ADR-20260827-001/intake.json").exists()
         )
 
+    def test_initializer_cli_reports_an_unsafe_analysis_path_without_traceback(self):
+        analysis_root = self.brand / "outputs/ad-analysis"
+        analysis_root.rename(self.brand / "outputs/ad-analysis-template")
+        analysis_root.write_text("not a directory\n")
+
+        completed = subprocess.run(
+            [
+                "python3",
+                str(ROOT / "scripts/init-ad-analysis-run.py"),
+                str(self.brand),
+                "--mode",
+                "creative-audit",
+                "--product-id",
+                "sleep-mask",
+                "--market",
+                "AU",
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        self.assertEqual(2, completed.returncode)
+        self.assertIn("error:", completed.stderr)
+        self.assertNotIn("Traceback", completed.stderr)
+
     def test_requires_exactly_one_non_empty_product_and_market(self):
         harness = load_harness()
         cases = (("", "AU"), ("sleep-mask", ""))
