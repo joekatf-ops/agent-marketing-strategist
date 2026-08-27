@@ -36,6 +36,37 @@ V03_REQUIRED_FILES = (
     "examples/destination-handoff.md",
     "connectors/notion-composio.md",
 )
+V04_REQUIRED_FILES = (
+    "contracts/brand-readiness.md",
+    "contracts/customer-intelligence.md",
+    "contracts/concept-batch.md",
+    "contracts/hook-batch.md",
+    "contracts/ad-copy.md",
+    "contracts/video-script.md",
+    "contracts/static-spec.md",
+    "contracts/learning-update.md",
+    "contracts/campaign-launch-plan.md",
+    "contracts/destination-handoff.md",
+    "contracts/ad-diagnosis.md",
+    "contracts/creative-audit.md",
+    "references/19-ad-analysis-harness.md",
+    "schemas/ad-analysis-intake.schema.json",
+    "examples/ad-analysis-intake.json",
+    "examples/creative-audit.md",
+    "examples/ad-diagnosis.md",
+)
+CREATIVE_AUDIT_PERFORMANCE_PREDICTION = re.compile(
+    r"creative\s+audit\s+predicts\s+winning\s+performance", re.IGNORECASE
+)
+OPTIONAL_PERFORMANCE_DECISION = re.compile(
+    r"performance\s+data\s+is\s+optional\s+for\s+a\s+"
+    r"keep,\s*ITR,\s*stop\s+or\s+scale\s+decision",
+    re.IGNORECASE,
+)
+AUTOMATIC_CONTST_RESERVATION = re.compile(
+    r"diagnosis\s+automatically\s+reserves\s+the\s+next\s+CONTST",
+    re.IGNORECASE,
+)
 CAMPAIGN_LAUNCH_CONTRACT = "contracts/campaign-launch-plan.md"
 CREATIVE_TESTING_RULES = (
     (
@@ -423,12 +454,38 @@ def validate(root: pathlib.Path) -> list[str]:
             )
 
     version_path = root / "VERSION"
-    if version_path.is_file() and version_path.read_text().strip() != "0.3.0":
-        errors.append("VERSION must declare 0.3.0")
+    if version_path.is_file() and version_path.read_text().strip() != "0.4.0":
+        errors.append("VERSION must declare 0.4.0")
 
     for relative in V03_REQUIRED_FILES:
         if not (root / relative).is_file():
             errors.append(f"missing v0.3 required file: {relative}")
+
+    for relative in V04_REQUIRED_FILES:
+        if not (root / relative).is_file():
+            errors.append(f"missing v0.4 required file: {relative}")
+
+    creative_audit_path = root / "contracts" / "creative-audit.md"
+    if creative_audit_path.is_file() and CREATIVE_AUDIT_PERFORMANCE_PREDICTION.search(
+        creative_audit_path.read_text()
+    ):
+        errors.append("contracts/creative-audit.md predicts winning performance")
+
+    diagnosis_path = root / "contracts" / "ad-diagnosis.md"
+    if diagnosis_path.is_file() and OPTIONAL_PERFORMANCE_DECISION.search(
+        diagnosis_path.read_text()
+    ):
+        errors.append(
+            "contracts/ad-diagnosis.md permits performance decisions without performance data"
+        )
+
+    harness_reference = root / "references" / "19-ad-analysis-harness.md"
+    if harness_reference.is_file() and AUTOMATIC_CONTST_RESERVATION.search(
+        harness_reference.read_text()
+    ):
+        errors.append(
+            "references/19-ad-analysis-harness.md automatically reserves a CONTST"
+        )
 
     for relative in STANDARD_AD_CONTRACTS:
         path = root / relative

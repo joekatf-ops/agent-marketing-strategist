@@ -312,6 +312,115 @@ class PackageIntegrityTests(unittest.TestCase):
 
         self.assertEqual(set(), missing)
 
+    def test_v04_governed_artefacts_and_analysis_routes_exist(self):
+        governed = {
+            "contracts/brand-readiness.md",
+            "contracts/customer-intelligence.md",
+            "contracts/concept-batch.md",
+            "contracts/hook-batch.md",
+            "contracts/ad-copy.md",
+            "contracts/video-script.md",
+            "contracts/static-spec.md",
+            "contracts/learning-update.md",
+            "contracts/campaign-launch-plan.md",
+            "contracts/destination-handoff.md",
+            "contracts/ad-diagnosis.md",
+            "contracts/creative-audit.md",
+        }
+        routed = {
+            "contracts/creative-audit.md",
+            "references/19-ad-analysis-harness.md",
+            "schemas/ad-analysis-intake.schema.json",
+            "examples/ad-analysis-intake.json",
+            "examples/creative-audit.md",
+            "examples/ad-diagnosis.md",
+        }
+
+        self.assertEqual(set(), {path for path in governed if not (ROOT / path).is_file()})
+        self.assertEqual(set(), {path for path in routed if not (ROOT / path).is_file()})
+
+    def test_analysis_mode_router_requires_governed_safeguards(self):
+        required_phrases = (
+            "no adequate performance data -> Creative Audit",
+            "adequate performance data -> Ad Diagnosis",
+            "input audit",
+            "no performance prediction",
+            "human confirmation",
+            "does not reserve",
+        )
+
+        for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):
+            with self.subTest(relative=relative):
+                text = (ROOT / relative).read_text()
+                for phrase in required_phrases:
+                    self.assertIn(phrase, text)
+
+    def test_creative_audit_has_no_performance_decisions(self):
+        path = ROOT / "contracts" / "creative-audit.md"
+        self.assertTrue(path.is_file(), "Creative Audit should exist")
+        creative = path.read_text()
+        for outcome in ("ready", "revise", "block"):
+            self.assertIn(f"`{outcome}`", creative)
+        for action in ("keep", "ITR", "stop", "scale"):
+            self.assertNotIn(f"Top-level action: `{action}`", creative)
+
+    def test_ad_diagnosis_retains_governed_performance_actions(self):
+        diagnosis = (ROOT / "contracts" / "ad-diagnosis.md").read_text()
+        for action in ("keep", "ITR", "stop", "scale"):
+            self.assertIn(f"`{action}`", diagnosis)
+
+    def test_validator_rejects_v04_analysis_policy_mutations(self):
+        validator = load_validator()
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        for relative in (
+            "contracts/creative-audit.md",
+            "contracts/ad-diagnosis.md",
+            "references/19-ad-analysis-harness.md",
+        ):
+            path = root / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("Governed analysis policy.\n")
+
+        mutations = (
+            (
+                "contracts/creative-audit.md",
+                "Creative Audit predicts winning performance.\n",
+                "contracts/creative-audit.md predicts winning performance",
+            ),
+            (
+                "contracts/ad-diagnosis.md",
+                "Performance data is optional for a keep, ITR, stop or scale decision.\n",
+                "contracts/ad-diagnosis.md permits performance decisions without performance data",
+            ),
+            (
+                "references/19-ad-analysis-harness.md",
+                "Diagnosis automatically reserves the next CONTST.\n",
+                "references/19-ad-analysis-harness.md automatically reserves a CONTST",
+            ),
+        )
+        for relative, addition, expected_error in mutations:
+            with self.subTest(relative=relative):
+                path = root / relative
+                path.write_text("Governed analysis policy.\n" + addition)
+
+                errors = validator.validate(root)
+
+                self.assertIn(expected_error, errors)
+
+                path.write_text("Governed analysis policy.\n")
+
+    def test_reports_missing_v04_release_requirements(self):
+        validator = load_validator()
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+
+        errors = validator.validate(root)
+
+        self.assertIn(
+            "missing v0.4 required file: contracts/creative-audit.md", errors
+        )
+
     def test_campaign_launch_contract_protects_testing_and_scaling_rules(self):
         contract_path = ROOT / "contracts" / "campaign-launch-plan.md"
         self.assertTrue(contract_path.is_file(), "Campaign Launch Plan should exist")
@@ -349,8 +458,8 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn("manual", contract.lower())
         self.assertIn("does not require a live Meta connection", contract)
 
-    def test_package_declares_v03_and_portable_brand_folder(self):
-        self.assertEqual("0.3.0", (ROOT / "VERSION").read_text().strip())
+    def test_package_declares_v04_and_portable_brand_folder(self):
+        self.assertEqual("0.4.0", (ROOT / "VERSION").read_text().strip())
         readme = (ROOT / "README.md").read_text()
 
         self.assertIn("brand folder", readme.lower())
@@ -817,7 +926,7 @@ class PackageIntegrityTests(unittest.TestCase):
 
                 self.assertIn(error, errors)
 
-    def test_reports_missing_v03_release_requirements(self):
+    def test_reports_missing_v04_release_requirements(self):
         validator = load_validator()
         temp, root = self.make_root()
         self.addCleanup(temp.cleanup)
@@ -834,7 +943,7 @@ class PackageIntegrityTests(unittest.TestCase):
 
         errors = validator.validate(root)
 
-        self.assertIn("VERSION must declare 0.3.0", errors)
+        self.assertIn("VERSION must declare 0.4.0", errors)
 
 
 if __name__ == "__main__":

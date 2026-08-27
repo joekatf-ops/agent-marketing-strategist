@@ -49,6 +49,7 @@ class BrandFolderInitializerTests(unittest.TestCase):
                 "strategy/test-register.yml",
                 "strategy/winner-library.yml",
                 "outputs/README.md",
+                "outputs/ad-analysis/README.md",
                 "learning/learning-events.jsonl",
                 "learning/active-memory.json",
                 "learning/revisions/README.md",
