@@ -1,5 +1,6 @@
 import importlib.util
 import pathlib
+import re
 import tempfile
 import unittest
 
@@ -361,13 +362,36 @@ class PackageIntegrityTests(unittest.TestCase):
         creative = path.read_text()
         for outcome in ("ready", "revise", "block"):
             self.assertIn(f"`{outcome}`", creative)
-        for action in ("keep", "ITR", "stop", "scale"):
-            self.assertNotIn(f"Top-level action: `{action}`", creative)
 
-    def test_ad_diagnosis_retains_governed_performance_actions(self):
+    def test_ad_diagnosis_allows_only_the_four_governed_actions(self):
         diagnosis = (ROOT / "contracts" / "ad-diagnosis.md").read_text()
-        for action in ("keep", "ITR", "stop", "scale"):
-            self.assertIn(f"`{action}`", diagnosis)
+        action_policy = re.search(
+            r"`Top-level action` contains exactly one literal value:\s*([^\n.]+)",
+            diagnosis,
+        )
+
+        self.assertIsNotNone(action_policy)
+        self.assertEqual(
+            {"keep", "ITR", "stop", "scale"},
+            set(re.findall(r"`([^`]+)`", action_policy.group(1))),
+        )
+
+    def test_analysis_persistence_requires_human_confirmation(self):
+        paths = (
+            ROOT / "contracts" / "ad-diagnosis.md",
+            ROOT / "references" / "19-ad-analysis-harness.md",
+        )
+        for path in paths:
+            self.assertTrue(path.is_file(), f"{path.name} should exist")
+
+        policy = "\n".join(path.read_text() for path in paths)
+        for controlled_record in (
+            "test-register",
+            "winner-library",
+            "approved-revision",
+        ):
+            self.assertIn(controlled_record, policy)
+        self.assertIn("human confirmation", policy)
 
     def test_validator_rejects_v04_analysis_policy_mutations(self):
         validator = load_validator()
@@ -377,10 +401,13 @@ class PackageIntegrityTests(unittest.TestCase):
             "contracts/creative-audit.md",
             "contracts/ad-diagnosis.md",
             "references/19-ad-analysis-harness.md",
+            "scripts/ad_analysis_harness.py",
         ):
             path = root / relative
             path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text("Governed analysis policy.\n")
+            path.write_text(
+                "# harness\n" if path.suffix == ".py" else "Governed analysis policy.\n"
+            )
 
         mutations = (
             (
@@ -398,17 +425,45 @@ class PackageIntegrityTests(unittest.TestCase):
                 "Diagnosis automatically reserves the next CONTST.\n",
                 "references/19-ad-analysis-harness.md automatically reserves a CONTST",
             ),
+            (
+                "contracts/creative-audit.md",
+                "Creative Audit recommendation: `keep`.\n",
+                "contracts/creative-audit.md assigns a performance action",
+            ),
+            (
+                "contracts/creative-audit.md",
+                "Outcome: `scale`.\n",
+                "contracts/creative-audit.md assigns a performance action",
+            ),
+            (
+                "contracts/ad-diagnosis.md",
+                "`Top-level action` contains exactly one literal value: `keep`, `ITR`, `stop`, `scale` or `pause`.\n",
+                "contracts/ad-diagnosis.md must allow only keep, ITR, stop or scale",
+            ),
+            (
+                "scripts/ad_analysis_harness.py",
+                "import requests\n",
+                "scripts/ad_analysis_harness.py imports a non-standard or network dependency: requests",
+            ),
+            (
+                "scripts/ad_analysis_harness.py",
+                "import socket\n",
+                "scripts/ad_analysis_harness.py imports a non-standard or network dependency: socket",
+            ),
         )
         for relative, addition, expected_error in mutations:
             with self.subTest(relative=relative):
                 path = root / relative
-                path.write_text("Governed analysis policy.\n" + addition)
+                prefix = "# harness\n" if path.suffix == ".py" else "Governed analysis policy.\n"
+                path.write_text(prefix + addition)
 
                 errors = validator.validate(root)
 
                 self.assertIn(expected_error, errors)
 
-                path.write_text("Governed analysis policy.\n")
+                path.write_text(
+                    "# harness\n" if path.suffix == ".py" else "Governed analysis policy.\n"
+                )
 
     def test_reports_missing_v04_release_requirements(self):
         validator = load_validator()

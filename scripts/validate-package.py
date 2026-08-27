@@ -3,8 +3,11 @@
 
 from __future__ import annotations
 
+import ast
+import importlib.util
 import pathlib
 import re
+import sysconfig
 import sys
 
 
@@ -65,6 +68,28 @@ OPTIONAL_PERFORMANCE_DECISION = re.compile(
 )
 AUTOMATIC_CONTST_RESERVATION = re.compile(
     r"diagnosis\s+automatically\s+reserves\s+the\s+next\s+CONTST",
+    re.IGNORECASE,
+)
+PERFORMANCE_ACTIONS = frozenset({"keep", "itr", "stop", "scale"})
+NETWORK_DEPENDENCIES = frozenset(
+    {
+        "ftplib",
+        "http",
+        "imaplib",
+        "nntplib",
+        "poplib",
+        "requests",
+        "smtplib",
+        "socket",
+        "subprocess",
+        "telnetlib",
+        "urllib",
+        "webbrowser",
+        "xmlrpc",
+    }
+)
+DIAGNOSIS_ACTION_POLICY = re.compile(
+    r"`Top-level\s+action`\s+contains\s+exactly\s+one\s+literal\s+value:\s*([^\n.]+)",
     re.IGNORECASE,
 )
 CAMPAIGN_LAUNCH_CONTRACT = "contracts/campaign-launch-plan.md"
@@ -415,6 +440,73 @@ def active_instruction_paths(root: pathlib.Path) -> list[pathlib.Path]:
     return [path for path in paths if path.is_file()]
 
 
+def creative_audit_assigns_performance_action(text: str) -> bool:
+    for clause in policy_clauses(text):
+        lowered = clause.lower()
+        if is_negated_policy_clause(clause):
+            continue
+        if not any(
+            re.search(rf"\b{action}\b", clause, re.IGNORECASE)
+            for action in PERFORMANCE_ACTIONS
+        ):
+            continue
+        if re.search(
+            r"\b(?:action|outcome|decision|recommendation)\b",
+            clause,
+            re.IGNORECASE,
+        ):
+            return True
+        if "creative audit" in lowered and re.search(
+            r"\b(?:assign(?:s|ed|ing)?|"
+            r"recommend(?:s|ed|ing)?|select(?:s|ed|ing)?|use(?:s|d|ing)?|"
+            r"set(?:s|ting)?)\b",
+            clause,
+            re.IGNORECASE,
+        ):
+            return True
+    return False
+
+
+def diagnosis_actions_are_governed(text: str) -> bool:
+    policies = DIAGNOSIS_ACTION_POLICY.findall(text)
+    for policy in policies:
+        actions = {
+            action.lower()
+            for action in re.findall(r"`([^`]+)`", policy)
+        }
+        if actions != PERFORMANCE_ACTIONS:
+            return False
+    return True
+
+
+def harness_imports_are_safe(path: pathlib.Path) -> list[str]:
+    tree = ast.parse(path.read_text(), filename=str(path))
+    imports: set[str] = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            imports.update(alias.name.split(".")[0] for alias in node.names)
+        elif isinstance(node, ast.ImportFrom) and node.module:
+            imports.add(node.module.split(".")[0])
+
+    standard_library = pathlib.Path(sysconfig.get_paths()["stdlib"]).resolve()
+    unsafe: list[str] = []
+    for name in sorted(imports - {"__future__"}):
+        if name in NETWORK_DEPENDENCIES:
+            unsafe.append(name)
+            continue
+        spec = importlib.util.find_spec(name)
+        if spec is None or spec.origin not in {"built-in", "frozen"}:
+            try:
+                origin = pathlib.Path(spec.origin).resolve()
+                origin.relative_to(standard_library)
+            except (AttributeError, TypeError, ValueError):
+                unsafe.append(name)
+                continue
+            if "site-packages" in origin.parts:
+                unsafe.append(name)
+    return unsafe
+
+
 def validate(root: pathlib.Path) -> list[str]:
     errors: list[str] = []
     required = ("SKILL.md", "AGENTS.md", "PROMPT.md", "VERSION")
@@ -470,6 +562,10 @@ def validate(root: pathlib.Path) -> list[str]:
         creative_audit_path.read_text()
     ):
         errors.append("contracts/creative-audit.md predicts winning performance")
+    if creative_audit_path.is_file() and creative_audit_assigns_performance_action(
+        creative_audit_path.read_text()
+    ):
+        errors.append("contracts/creative-audit.md assigns a performance action")
 
     diagnosis_path = root / "contracts" / "ad-diagnosis.md"
     if diagnosis_path.is_file() and OPTIONAL_PERFORMANCE_DECISION.search(
@@ -478,6 +574,10 @@ def validate(root: pathlib.Path) -> list[str]:
         errors.append(
             "contracts/ad-diagnosis.md permits performance decisions without performance data"
         )
+    if diagnosis_path.is_file() and not diagnosis_actions_are_governed(
+        diagnosis_path.read_text()
+    ):
+        errors.append("contracts/ad-diagnosis.md must allow only keep, ITR, stop or scale")
 
     harness_reference = root / "references" / "19-ad-analysis-harness.md"
     if harness_reference.is_file() and AUTOMATIC_CONTST_RESERVATION.search(
@@ -486,6 +586,14 @@ def validate(root: pathlib.Path) -> list[str]:
         errors.append(
             "references/19-ad-analysis-harness.md automatically reserves a CONTST"
         )
+
+    harness_path = root / "scripts" / "ad_analysis_harness.py"
+    if harness_path.is_file():
+        for dependency in harness_imports_are_safe(harness_path):
+            errors.append(
+                "scripts/ad_analysis_harness.py imports a non-standard or network dependency: "
+                f"{dependency}"
+            )
 
     for relative in STANDARD_AD_CONTRACTS:
         path = root / relative
