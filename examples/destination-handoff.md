@@ -15,7 +15,7 @@ This document contains one complete handoff card for each ad in the fictional Fi
 - Awareness and job: UWA, recognition
 - Messaging route: story
 - Primary hook: "The cable search starts before the work does"
-- Media and execution format: VIDEO, direct-to-camera UGC
+- Media and execution format: VIDEO, Direct-to-camera UGC
 - CTA: Learn More
 - Full ad name: `CONTST004_NNT_REMOTE_WORKERS_CABLE_SEARCH_UWA_UGC_LP_POSTIDXXX`
 
@@ -51,7 +51,7 @@ a glance" wording with its product visual. The first CTA is "See the visible lay
 |---|---|---|---|---|---|---|
 | Who recognition | Shared-workspace desk setup | Same work bag, laptop and desk transition | Hero visual | PASS | None | Alex Reed |
 | Primary Problem | Searching a mixed pouch | "Getting set up starts with searching the pouch" | Hero copy | PASS | None | Alex Reed |
-| Messaging route | Story | Situation before product explanation | Hero through section 2 | PASS | None | Alex Reed |
+| Messaging route | story | Situation before product explanation | Hero through section 2 | PASS | None | Alex Reed |
 | Primary hook | "The cable search starts before the work does" | Continue work-start friction without a stronger claim | Hero headline | PASS | None | Alex Reed |
 | Mechanism | Visible divider and loops | Introduce after recognition | Section 3 | PASS | None | Alex Reed |
 | Proof | Recorded product layout | Overhead product image from `EVD-PROD-001` | Section 3 | PASS | None | Priya Shah |
@@ -99,7 +99,8 @@ break the UWA continuation. Alex Reed rechecks after any hero edit.
 - Awareness and job: PRA, diagnosis
 - Messaging route: reframe
 - Primary hook: "Packed is not the same as easy to find"
-- Media and execution format: STATIC, product-and-problem comparison
+- Media and execution format: STATIC, Problem to solution
+- Execution variant: product-and-problem comparison
 - CTA: Learn More
 - Full ad name: `CONTST004_NNT_REMOTE_WORKERS_CABLE_SEARCH_PRA_STATIC_LP_POSTIDXXX`
 
@@ -135,7 +136,7 @@ then show how a transparent divider and six loops create visible positions. The 
 |---|---|---|---|---|---|---|
 | Who recognition | Remote worker carrying a pouch | Name moving between home and shared workspaces | Hero eyebrow | PASS | None | Alex Reed |
 | Primary Problem | Packed but still searching | Repeat the visibility diagnosis | Hero headline | PASS | None | Alex Reed |
-| Messaging route | Reframe | Separate storage capacity from visibility | Hero and section 2 | PASS | None | Alex Reed |
+| Messaging route | reframe | Separate storage capacity from visibility | Hero and section 2 | PASS | None | Alex Reed |
 | Primary hook | "Packed is not the same as easy to find" | Exact same line | Hero headline | PASS | None | Alex Reed |
 | Mechanism | Visible fixed positions | Divider and six-loop explanation | Section 3 | PASS | None | Priya Shah |
 | Proof | `EVD-MKT-022` review analysis | Label sample and market-evidence status | Section 2 note | PASS | None | Alex Reed |
@@ -183,7 +184,8 @@ Fieldnote Carry customer evidence. Alex Reed owns the evidence note and review t
 - Awareness and job: SLA, differentiation
 - Messaging route: proof that can be seen
 - Primary hook: "Same six cables. Two very different ways to find one"
-- Media and execution format: VIDEO, controlled side-by-side demonstration
+- Media and execution format: VIDEO, Comparison
+- Execution variant: controlled side-by-side same-item demonstration
 - CTA: Shop Now
 - Full ad name: `CONTST004_NNT_REMOTE_WORKERS_CABLE_SEARCH_SLA_COMPARISON_PDP_POSTIDXXX`
 
@@ -218,7 +220,7 @@ name the transparent mesh divider and six elastic loops. It may not add a speed 
 |---|---|---|---|---|---|---|
 | Who recognition | Workday cable set | Show laptop, phone and audio cables | Product gallery | PASS | None | Priya Shah |
 | Primary Problem | Search through a mixed pouch | "See your cables at a glance" | Hero copy | PASS | None | Alex Reed |
-| Messaging route | Proof that can be seen | Open-product gallery before feature prose | First screen | PASS | None | Priya Shah |
+| Messaging route | proof that can be seen | Open-product gallery before feature prose | First screen | PASS | None | Priya Shah |
 | Primary hook | Same six-cable comparison | Use the exact six-cable set in image two | Gallery image 2 | PASS | None | Priya Shah |
 | Mechanism | Divider and six loops | Exact verified feature names | Feature section | PASS | None | Alex Reed |
 | Proof | Fair recorded demonstration | Video thumbnail and product stills | Gallery | PASS | None | Priya Shah |
@@ -266,7 +268,8 @@ rerun message match if the gallery order or buy box changes.
 - Awareness and job: PDA, decision
 - Messaging route: objection resolution
 - Primary hook: "See the layout before you decide"
-- Media and execution format: CAROUSEL, product decision sequence
+- Media and execution format: CAROUSEL, Benefit stack
+- Execution variant: product decision carousel
 - CTA: Shop Now
 - Full ad name: `CONTST004_NNT_REMOTE_WORKERS_CABLE_SEARCH_PDA_CAROUSEL_PDP_POSTIDXXX`
 
@@ -301,7 +304,7 @@ before checkout. Shop Now must add the exact SnapGrid variant shown in the carou
 |---|---|---|---|---|---|---|
 | Who recognition | Remote-work cable set | Same cable set and use labels | Gallery and specs | PASS | None | Priya Shah |
 | Primary Problem | Need to see where cables sit | Open layout before closed exterior | First gallery image | PASS | None | Priya Shah |
-| Messaging route | Objection resolution | Layout, loop count, price and returns in decision order | First screen through FAQ | PASS | None | Alex Reed |
+| Messaging route | objection resolution | Layout, loop count, price and returns in decision order | First screen through FAQ | PASS | None | Alex Reed |
 | Primary hook | "See the layout before you decide" | Open-layout hero | First screen | PASS | None | Priya Shah |
 | Mechanism | Divider and six loops | Exact specification wording | Feature bullets | PASS | None | Alex Reed |
 | Proof | Product stills and diagram | Same approved files | Gallery and dimensions | PASS | None | Priya Shah |

@@ -46,8 +46,8 @@ Manual Ads Manager build order:
 | Coordinate key | `remote-workers__cable-search` |
 | CONTST test ID | `CONTST004` |
 | Source | NNT |
-| Who | Remote workers who carry charging gear between home and shared workspaces |
-| Primary Problem | Finding the required cable means searching through a mixed pouch |
+| Who | remote workers who carry charging gear between home and shared workspaces |
+| Primary Problem | finding the required cable means searching through a mixed pouch |
 | Full ad-set name | `CONTST004_NNT_REMOTE_WORKERS_CABLE_SEARCH` |
 | Prior CONTST for ITR | Not applicable |
 | Pairing evidence | `EVD-MKT-021`, `EVD-MKT-022`, `JDG-STRAT-004` |
@@ -82,10 +82,10 @@ read remains directional or too early.
 
 | Order | Full ad name | CONTST | Source | Who | Primary Problem | Awareness and job | Messaging route | Primary hook | Media type | Format | Proof and claims | Destination | CTA | People, assets and location | Asset status |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1 | `CONTST004_NNT_REMOTE_WORKERS_CABLE_SEARCH_UWA_UGC_LP_POSTIDXXX` | `CONTST004` | NNT | Remote workers | Cable search | UWA, recognition | Story | "The cable search starts before the work does" | VIDEO | UGC | `EVD-MKT-021`; staged situation, no customer claim | `LP` | Learn More | Creator, work bag, mixed pouch, laptop, home-office desk | READY |
-| 2 | `CONTST004_NNT_REMOTE_WORKERS_CABLE_SEARCH_PRA_STATIC_LP_POSTIDXXX` | `CONTST004` | NNT | Remote workers | Cable search | PRA, diagnosis | Reframe | "Packed is not the same as easy to find" | STATIC | STATIC | `EVD-MKT-022`; no prevalence claim | `LP` | Learn More | SnapGrid, plain pouch, six cables, overhead product image | READY |
-| 3 | `CONTST004_NNT_REMOTE_WORKERS_CABLE_SEARCH_SLA_COMPARISON_PDP_POSTIDXXX` | `CONTST004` | NNT | Remote workers | Cable search | SLA, differentiation | Proof that can be seen | "Same six cables. Two very different ways to find one" | VIDEO | COMPARISON | `EVD-PROD-001`; fair same-item demonstration | `PDP` | Shop Now | Hand model, two pouches, matched cables, locked tabletop camera | READY |
-| 4 | `CONTST004_NNT_REMOTE_WORKERS_CABLE_SEARCH_PDA_CAROUSEL_PDP_POSTIDXXX` | `CONTST004` | NNT | Remote workers | Cable search | PDA, decision | Objection resolution | "See the layout before you decide" | CAROUSEL | CAROUSEL | `EVD-PROD-001`, `EVD-OFFER-003`, `EVD-CLAIM-006` | `PDP` | Shop Now | Product stills, dimension diagram, returns card, design files | READY |
+| 1 | `CONTST004_NNT_REMOTE_WORKERS_CABLE_SEARCH_UWA_UGC_LP_POSTIDXXX` | `CONTST004` | NNT | remote workers who carry charging gear between home and shared workspaces | finding the required cable means searching through a mixed pouch | UWA, recognition | story | "The cable search starts before the work does" | VIDEO | UGC | `EVD-MKT-021`, `EVD-PROD-001`, `EVD-CLAIM-006`; staged situation, no customer claim | `LP` | Learn More | Creator, work bag, mixed pouch, laptop, home-office desk | READY |
+| 2 | `CONTST004_NNT_REMOTE_WORKERS_CABLE_SEARCH_PRA_STATIC_LP_POSTIDXXX` | `CONTST004` | NNT | remote workers who carry charging gear between home and shared workspaces | finding the required cable means searching through a mixed pouch | PRA, diagnosis | reframe | "Packed is not the same as easy to find" | STATIC | STATIC | `EVD-MKT-022`, `EVD-PROD-001`, `EVD-CLAIM-006`; no prevalence claim | `LP` | Learn More | SnapGrid, plain pouch, six cables, overhead product image | READY |
+| 3 | `CONTST004_NNT_REMOTE_WORKERS_CABLE_SEARCH_SLA_COMPARISON_PDP_POSTIDXXX` | `CONTST004` | NNT | remote workers who carry charging gear between home and shared workspaces | finding the required cable means searching through a mixed pouch | SLA, differentiation | proof that can be seen | "Same six cables. Two very different ways to find one" | VIDEO | COMPARISON | `EVD-PROD-001`, `EVD-OFFER-003`, `EVD-CLAIM-006`; fair same-item demonstration | `PDP` | Shop Now | Hand model, two pouches, matched cables, locked tabletop camera | READY |
+| 4 | `CONTST004_NNT_REMOTE_WORKERS_CABLE_SEARCH_PDA_CAROUSEL_PDP_POSTIDXXX` | `CONTST004` | NNT | remote workers who carry charging gear between home and shared workspaces | finding the required cable means searching through a mixed pouch | PDA, decision | objection resolution | "See the layout before you decide" | CAROUSEL | CAROUSEL | `EVD-PROD-001`, `EVD-OFFER-003`, `EVD-CLAIM-006` | `PDP` | Shop Now | Product stills, dimension diagram, returns card, design files | READY |
 
 All four names inherit the complete ad-set name, use one controlled awareness code, one controlled
 format token and one controlled destination token, and end in `POSTIDXXX` before publication.

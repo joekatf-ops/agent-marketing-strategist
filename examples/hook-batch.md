@@ -17,7 +17,8 @@ launch ad. Selecting one package does not create six ads.
 - Messaging route: proof that can be seen
 - Primary hook: Hook 2, "Same six cables. Two very different ways to find one"
 - Media type: VIDEO
-- Execution format: controlled side-by-side demonstration
+- Execution format: Comparison
+- Execution variant: controlled side-by-side same-item demonstration
 - Controlled FORMAT token: `COMPARISON`
 - Destination: `PDP`, `https://fieldnotecarry.example/products/snapgrid-cable-pouch`
 - CTA: Shop Now
@@ -44,7 +45,8 @@ launch ad. Selecting one package does not create six ads.
 4. **Hook format:** Demonstration
 5. **Primary hook:** One unzip reveals the cable and the hand selects it without searching
 6. **Media type:** VIDEO
-7. **Execution format:** Tabletop product demonstration
+7. **Execution format:** Product demonstration
+   **Descriptive variant:** tabletop overhead reveal
 8. **Controlled FORMAT token:** `DEMO`
 9. **Visual opening:** 0.0s closed SnapGrid; 0.5s unzip; 1.2s overhead reveal; 2.0s hand selects one cable
 10. **Spoken opening:** "Open it. See it. Take the cable you need."
@@ -64,11 +66,12 @@ launch ad. Selecting one package does not create six ads.
 1. **Category:** Evidence-led safe
 2. **CONTST, source, Who and Primary Problem:** `CONTST004`; NNT; remote workers who carry charging
    gear between home and shared workspaces; searching through a mixed pouch for the required cable
-3. **Awareness and messaging route:** SLA, differentiation; versus the old way
+3. **Awareness and messaging route:** SLA, differentiation; proof that can be seen
 4. **Hook format:** Comparison
-5. **Primary hook:** The same six cables are searched for in a plain pouch and selected from SnapGrid
+5. **Primary hook:** "Same six cables. Two very different ways to find one"
 6. **Media type:** VIDEO
-7. **Execution format:** Controlled side-by-side demonstration
+7. **Execution format:** Comparison
+   **Descriptive variant:** controlled side-by-side same-item demonstration
 8. **Controlled FORMAT token:** `COMPARISON`
 9. **Visual opening:** 0.0s split screen; 0.5s hands open both pouches; 1.2s left hand searches while
    right hand sees the cable; 2.2s both cable sets remain visible
@@ -89,11 +92,12 @@ launch ad. Selecting one package does not create six ads.
 1. **Category:** Proven-pattern adaptation
 2. **CONTST, source, Who and Primary Problem:** `CONTST004`; NNT; remote workers who carry charging
    gear between home and shared workspaces; searching through a mixed pouch for the required cable
-3. **Awareness and messaging route:** SLA, differentiation; reframe
+3. **Awareness and messaging route:** SLA, differentiation; proof that can be seen
 4. **Hook format:** Confession
 5. **Primary hook:** A packed pouch can still leave the needed cable hidden
 6. **Media type:** VIDEO
-7. **Execution format:** Direct-to-camera UGC with tabletop cutaway
+7. **Execution format:** Problem to solution narrative
+   **Descriptive variant:** creator-led spill-and-repack confession
 8. **Controlled FORMAT token:** `UGC`
 9. **Visual opening:** 0.0s creator holds a full plain pouch; 0.8s pours cables onto desk; 1.8s points
    to the still-closed SnapGrid; 2.5s unzip reveal
@@ -114,11 +118,12 @@ launch ad. Selecting one package does not create six ads.
 1. **Category:** Proven-pattern adaptation
 2. **CONTST, source, Who and Primary Problem:** `CONTST004`; NNT; remote workers who carry charging
    gear between home and shared workspaces; searching through a mixed pouch for the required cable
-3. **Awareness and messaging route:** SLA, differentiation; story
+3. **Awareness and messaging route:** SLA, differentiation; proof that can be seen
 4. **Hook format:** POV situation
 5. **Primary hook:** Arriving at a shared desk turns a hidden cable into immediate friction
 6. **Media type:** VIDEO
-7. **Execution format:** POV UGC
+7. **Execution format:** Problem to solution narrative
+   **Descriptive variant:** first-person shared-workspace arrival
 8. **Controlled FORMAT token:** `UGC`
 9. **Visual opening:** 0.0s laptop lands on shared desk; 0.7s low-battery icon; 1.3s hand opens
    SnapGrid; 2.1s cable is selected from a visible loop
@@ -139,11 +144,12 @@ launch ad. Selecting one package does not create six ads.
 1. **Category:** Aggressive inside the claim ceiling
 2. **CONTST, source, Who and Primary Problem:** `CONTST004`; NNT; remote workers who carry charging
    gear between home and shared workspaces; searching through a mixed pouch for the required cable
-3. **Awareness and messaging route:** SLA, differentiation; versus the old way
+3. **Awareness and messaging route:** SLA, differentiation; proof that can be seen
 4. **Hook format:** Contrarian statement
 5. **Primary hook:** Pocket count is not the same as cable visibility
 6. **Media type:** VIDEO
-7. **Execution format:** Category comparison demonstration
+7. **Execution format:** Comparison
+   **Descriptive variant:** controlled pocket-count contrast
 8. **Controlled FORMAT token:** `COMPARISON`
 9. **Visual opening:** 0.0s multi-pocket pouch lands closed; 0.6s SnapGrid lands open; 1.3s finger
    checks two closed pockets; 2.2s finger points to one visible cable
@@ -164,11 +170,12 @@ launch ad. Selecting one package does not create six ads.
 1. **Category:** Experimental wildcard
 2. **CONTST, source, Who and Primary Problem:** `CONTST004`; NNT; remote workers who carry charging
    gear between home and shared workspaces; searching through a mixed pouch for the required cable
-3. **Awareness and messaging route:** SLA, differentiation; interactive demonstration
-4. **Hook format:** Visual challenge
+3. **Awareness and messaging route:** SLA, differentiation; proof that can be seen
+4. **Hook format:** Product in action
 5. **Primary hook:** The viewer is invited to locate one cable before the hand reaches it
 6. **Media type:** VIDEO
-7. **Execution format:** Silent-first tabletop demonstration
+7. **Execution format:** Product demonstration
+   **Descriptive variant:** silent-first orange-cable challenge
 8. **Controlled FORMAT token:** `DEMO`
 9. **Visual opening:** 0.0s open overhead product with six cables; 0.3s text asks for the orange
    cable; 1.5s pause; 2.2s hand selects it
@@ -186,14 +193,14 @@ launch ad. Selecting one package does not create six ads.
 
 ## 4. Diversity matrix
 
-| Hook | Category | Hook format | Media | Execution format | Lead | Visual pattern | Belief | Evidence | Risk |
-|---|---|---|---|---|---|---|---|---|---|
-| 1 | Safe | Demonstration | Video | Tabletop demo | Product action | Unzip reveal | Visibility is tangible | `EVD-PROD-001` | Low |
-| 2 | Safe | Comparison | Video | Controlled comparison | Contrast | Split screen | A visible layout differs from searching | `EVD-PROD-001` | Low |
-| 3 | Proven | Confession | Video | UGC plus cutaway | Personal failure | Spill and repack | Packed differs from visible | `EVD-MKT-022` | Low |
-| 4 | Proven | POV situation | Video | POV UGC | Situation | Desk arrival | Search friction matters during transitions | `EVD-MKT-021` | Low |
-| 5 | Aggressive | Contrarian | Video | Category comparison | Reframe | Closed pockets vs open layout | Pocket count is not visibility | `EVD-PROD-001` | Medium |
-| 6 | Wildcard | Visual challenge | Video | Silent-first demo | Participation | Find the cable | Visibility can be shown without a claim | `EVD-PROD-001` | Low |
+| Hook | Category | Hook format | Media | Execution format | Descriptive variant | Lead | Visual pattern | Belief | Evidence | Risk |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | Safe | Demonstration | Video | Product demonstration | Tabletop overhead reveal | Product action | Unzip reveal | Visibility is tangible | `EVD-PROD-001` | Low |
+| 2 | Safe | Comparison | Video | Comparison | Controlled side-by-side same-item demonstration | Contrast | Split screen | A visible layout differs from searching | `EVD-PROD-001` | Low |
+| 3 | Proven | Confession | Video | Problem to solution narrative | Creator-led spill-and-repack confession | Personal failure | Spill and repack | Packed differs from visible | `EVD-MKT-022` | Low |
+| 4 | Proven | POV situation | Video | Problem to solution narrative | First-person shared-workspace arrival | Situation | Desk arrival | Search friction matters during transitions | `EVD-MKT-021` | Low |
+| 5 | Aggressive | Contrarian statement | Video | Comparison | Controlled pocket-count contrast | Reframe | Closed pockets vs open layout | Pocket count is not visibility | `EVD-PROD-001` | Medium |
+| 6 | Wildcard | Product in action | Video | Product demonstration | Silent-first orange-cable challenge | Participation | Find the cable | Visibility can be shown without a claim | `EVD-PROD-001` | Low |
 
 ## 5. Recommended production order
 

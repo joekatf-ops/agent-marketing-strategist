@@ -212,6 +212,108 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn('"learning":', example)
         self.assertIn('"memory_key":', example)
 
+    def test_frozen_hook_batch_uses_controlled_formats_and_selected_route(self):
+        hook_example = (ROOT / "examples" / "hook-batch.md").read_text()
+        hook_formats = [
+            line.split("**Hook format:**", 1)[1].strip()
+            for line in hook_example.splitlines()
+            if "**Hook format:**" in line
+        ]
+        execution_formats = [
+            line.split("**Execution format:**", 1)[1].strip()
+            for line in hook_example.splitlines()
+            if "**Execution format:**" in line
+        ]
+
+        self.assertEqual(
+            [
+                "Demonstration",
+                "Comparison",
+                "Confession",
+                "POV situation",
+                "Contrarian statement",
+                "Product in action",
+            ],
+            hook_formats,
+        )
+        self.assertEqual(
+            [
+                "Product demonstration",
+                "Comparison",
+                "Problem to solution narrative",
+                "Problem to solution narrative",
+                "Comparison",
+                "Product demonstration",
+            ],
+            execution_formats,
+        )
+
+        selected = hook_example.split("### Hook 2:", 1)[1].split("### Hook 3:", 1)[0]
+        package_routes = [
+            line.split("**Awareness and messaging route:**", 1)[1].strip()
+            for line in hook_example.splitlines()
+            if "**Awareness and messaging route:**" in line
+        ]
+        self.assertIn("Messaging route: proof that can be seen", hook_example)
+        self.assertEqual(
+            ["SLA, differentiation; proof that can be seen"] * 6,
+            package_routes,
+        )
+        self.assertIn(
+            "SLA, differentiation; proof that can be seen", selected
+        )
+        self.assertIn(
+            'Primary hook:** "Same six cables. Two very different ways to find one"',
+            selected,
+        )
+
+        launch = (ROOT / "examples" / "campaign-launch-plan.md").read_text()
+        destination = (ROOT / "examples" / "destination-handoff.md").read_text()
+        sla_handoff = destination.split("## SLA handoff card", 1)[1].split(
+            "## PDA handoff card", 1
+        )[0]
+        self.assertIn(
+            '| SLA, differentiation | proof that can be seen | "Same six cables. Two very different ways to find one" |',
+            launch,
+        )
+        self.assertIn("Messaging route: proof that can be seen", sla_handoff)
+        self.assertIn(
+            'Primary hook: "Same six cables. Two very different ways to find one"',
+            sla_handoff,
+        )
+
+    def test_frozen_launch_manifest_preserves_full_traceability(self):
+        launch = (ROOT / "examples" / "campaign-launch-plan.md").read_text()
+        manifest = launch.split("## 5. Ad manifest", 1)[1].split(
+            "## 6. Destination validation", 1
+        )[0]
+        rows = [
+            [cell.strip() for cell in line.strip().strip("|").split("|")]
+            for line in manifest.splitlines()
+            if line.startswith(("| 1 |", "| 2 |", "| 3 |", "| 4 |"))
+        ]
+
+        self.assertEqual(4, len(rows))
+        expected_who = (
+            "remote workers who carry charging gear between home and shared workspaces"
+        )
+        expected_problem = (
+            "finding the required cable means searching through a mixed pouch"
+        )
+        self.assertEqual([expected_who] * 4, [row[4] for row in rows])
+        self.assertEqual([expected_problem] * 4, [row[5] for row in rows])
+
+        required_evidence = (
+            {"EVD-MKT-021", "EVD-PROD-001", "EVD-CLAIM-006"},
+            {"EVD-MKT-022", "EVD-PROD-001", "EVD-CLAIM-006"},
+            {"EVD-PROD-001", "EVD-OFFER-003", "EVD-CLAIM-006"},
+            {"EVD-PROD-001", "EVD-OFFER-003", "EVD-CLAIM-006"},
+        )
+        for row, evidence_ids in zip(rows, required_evidence):
+            with self.subTest(ad=row[1]):
+                for evidence_id in evidence_ids:
+                    self.assertIn(evidence_id, row[11])
+
     def test_standard_ad_contracts_exclude_most_aware_rows(self):
         for relative in (
             "contracts/ad-copy.md",
