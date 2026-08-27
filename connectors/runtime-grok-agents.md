@@ -29,6 +29,15 @@ Each connector adapter should expose:
 
 Before research, run a harmless read-only call and pass the resulting availability map to the agent. Do not silently substitute invented data when a tool fails.
 
+## Optional Notion governance
+
+The reviewed repository snapshot or injected universal bundle is sufficient for normal use. If the
+agent host exposes a user-authenticated Notion tool, it may optionally implement the read-only
+freshness workflow in `connectors/notion-composio.md` through the same adapter contract. Treat this
+as host-dependent, require a successful per-run preflight and use the reviewed snapshot when access
+is unavailable or incomplete. A detected change is `review-needed` only and must never trigger an
+automatic skill edit or method promotion.
+
 ## Learning boundary
 
 The agent may draft a proposed learning event, but only an approved human revision or explicit approval can promote it into durable brand memory. Keep raw observations, proposed rules, approved rules, and deprecated rules separate.
@@ -36,4 +45,3 @@ The agent may draft a proposed learning event, but only an approved human revisi
 ## Upload fallback
 
 If the host cannot provide secure tools or retrieval, inject the universal knowledge bundle and current brand bundle into the run. Export approved changes to the real brand folder and rebuild the bundle before the next run.
-

@@ -10,6 +10,14 @@ Place or link this repository in Codex's recognized skills location, then open t
 
 For a runtime that cannot read the full repository, build and upload the universal knowledge bundle plus the current brand bundle.
 
+## Optional Notion governance
+
+The repository snapshot is sufficient for normal use. If the current Codex host exposes a
+user-authenticated Notion connected tool, it may run the read-only freshness check in
+`connectors/notion-composio.md`. Treat setup as host-dependent, require a successful current-session
+preflight and fall back to the repository snapshot when the connection is unavailable or incomplete.
+Any detected change is `review-needed`; it must not edit or promote the skill automatically.
+
 ## Add remote MCP servers
 
 Codex uses `~/.codex/config.toml` for user configuration and can use `.codex/config.toml` for trusted project configuration. A remote Streamable HTTP server has this shape:
@@ -30,4 +38,3 @@ Use `codex mcp list` and the `/mcp` command to confirm connection and discovered
 2. Ask the skill to run the brand readiness and connector preflight.
 3. Confirm the brand identity before research or writing.
 4. Save outputs and learning events back to the active brand folder.
-

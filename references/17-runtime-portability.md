@@ -21,6 +21,18 @@ Upload the universal bundle and selected brand bundle. At the end of the session
 Update patch. Conversation memory is not a substitute for writing the patch back to the canonical
 folder.
 
+## Optional method-governance check
+
+The reviewed repository snapshot or universal knowledge bundle is sufficient for normal use. A
+runtime may optionally run the read-only Notion freshness workflow in
+`connectors/notion-composio.md` when its host exposes a user-authenticated connected tool. Do not
+assume native Composio or Notion availability from the runtime name or from saved configuration;
+require a successful read-only preflight in the current session.
+
+If the connection is unavailable, unauthorised or incomplete, state that freshness was not checked
+and continue from the reviewed snapshot. A detected Notion change is `review-needed` only and must
+never automatically edit or promote the skill.
+
 ## First-class setup guides
 
 - `connectors/runtime-codex.md`
@@ -42,5 +54,6 @@ Every setup must preserve:
 5. Claim approval status.
 6. Append-only learning events.
 7. A write-back path for approved human revisions.
+8. Read-only, human-reviewed governance for any universal-method freshness check.
 
 Runtime-specific tool names belong in connector guides, not in the universal strategy method.

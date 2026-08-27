@@ -14,6 +14,13 @@ ChatGPT capabilities vary by plan, workspace policy, desktop or web surface, Pro
 
 Replace the uploaded brand bundle after approved learning is recorded in the durable brand folder.
 
+The reviewed universal bundle is sufficient for normal use. If the current ChatGPT surface exposes
+a user-authenticated Notion connected tool, it may optionally follow
+`connectors/notion-composio.md` for a read-only method freshness check. Setup is app-, plan-, admin-
+and host-dependent: require a successful current-session preflight, otherwise report that freshness
+was not checked and keep using the reviewed bundle. A detected change is `review-needed` only and
+must not edit or promote the skill automatically.
+
 ## Connected mode
 
 If the workspace supports an approved app, connector, plugin, or remote MCP-backed tool:
@@ -28,4 +35,3 @@ Codex and ChatGPT desktop capabilities may share host configuration in some supp
 ## Learning sync
 
 Chat history and project memory are not authoritative brand memory. Export approved human edits, evidence, decisions, and outputs to the brand folder, then rebuild the bundle. Never learn from unapproved drafts simply because they appear in a conversation.
-

@@ -14,6 +14,13 @@ Claude surfaces differ across the web app, desktop app, Projects, and organizati
 
 This is the default portable mode and works without live connectors.
 
+The reviewed universal bundle is sufficient for normal use. If the current Claude surface exposes
+a user-authenticated Notion connected tool, it may optionally follow
+`connectors/notion-composio.md` for a read-only method freshness check. Setup is surface- and
+host-dependent: require a successful current-session preflight, otherwise report that freshness was
+not checked and keep using the reviewed bundle. A detected change is `review-needed` only and must
+not edit or promote the skill automatically.
+
 ## Connector mode
 
 If the Claude surface exposes connectors, integrations, or MCP setup:
@@ -28,4 +35,3 @@ If arbitrary MCP servers are not available in the current Claude plan or surface
 ## Learning sync
 
 Claude project knowledge is not the system of record. Export approved copy, revisions, decisions, and evidence to the durable brand folder, record learning events there, rebuild the brand bundle, and replace the uploaded version.
-

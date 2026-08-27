@@ -8,6 +8,13 @@ Official MCP reference: https://geminicli.com/docs/tools/mcp-server/
 
 Open the strategist repository and active brand folder in the same workspace. Use the repository instructions and `SKILL.md` as the agent's operating context.
 
+The repository snapshot is sufficient for normal use. If the current Gemini host exposes a
+user-authenticated Notion connected tool, it may optionally follow
+`connectors/notion-composio.md` for a read-only method freshness check. Treat setup as
+host-dependent, require a successful current-session preflight and use the repository snapshot when
+the connection is unavailable or incomplete. A detected change is `review-needed` only and must not
+edit or promote the skill automatically.
+
 Gemini CLI supports stdio, SSE, and Streamable HTTP MCP transports. Use Firecrawl's OAuth endpoint
 so the API key is not placed in `settings.json`. Streamable HTTP configuration uses `httpUrl` in
 `~/.gemini/settings.json` or project `.gemini/settings.json`:

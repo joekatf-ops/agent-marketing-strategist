@@ -21,9 +21,23 @@ into one generic failure.
 | Community research | public search | supplied community export |
 | Search and demand language | search and trends tools | browser |
 | Manual performance analysis | supplied export | supplied report |
+| Universal-method freshness | authenticated Notion connected tool when available | reviewed repository snapshot |
 
 Live Meta reporting is deferred. A manual export satisfies diagnosis when it contains the required
 fields.
+
+Universal-method freshness is optional for normal strategist work. When the current host exposes a
+user-authenticated Notion connection, follow `connectors/notion-composio.md`. Configured does not
+mean live: only a successful current-session preflight establishes availability.
+
+## Source precedence
+
+The Notion hub is canonical for the universal method, the repository is its human-reviewed portable
+snapshot and the selected brand folder is canonical for brand-specific truth and learning. The
+repository snapshot remains the operating method during normal use and whenever Notion is
+unavailable, unauthorised or incompletely retrieved. A detected Notion change is a `review-needed`
+finding; it must never automatically edit or promote the skill, its references or a generated
+bundle.
 
 ## Website crawl workflow
 
@@ -49,6 +63,8 @@ Examples:
 - No review source: persona, objection and language findings are thin.
 - TrendTrack missing, Foreplay available: competitor research may proceed.
 - Both ad tools missing: use Meta Ad Library or report the competitor-ad gap.
+- Notion unavailable: report that method freshness was not checked and use the reviewed repository
+  snapshot.
 
 ## Setup routing
 
