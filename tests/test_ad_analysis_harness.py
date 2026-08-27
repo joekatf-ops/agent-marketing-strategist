@@ -107,10 +107,13 @@ class AdAnalysisHarnessTests(unittest.TestCase):
         )
 
     def create_modern_run(self, harness, mode="creative-audit"):
+        return self.create_run(harness, mode)
+
+    def create_legacy_run(self, harness, mode="creative-audit"):
         manifest = self.brand / "brand.yml"
         manifest.write_text(
             manifest.read_text().replace(
-                'method_version: "0.3.0"', 'method_version: "0.4.0"'
+                'method_version: "0.4.0"', 'method_version: "0.3.0"'
             )
         )
         return self.create_run(harness, mode)
@@ -194,8 +197,6 @@ class AdAnalysisHarnessTests(unittest.TestCase):
 
     def test_uses_the_current_brand_method_version_in_the_exact_skeleton(self):
         harness = load_harness()
-        manifest = self.brand / "brand.yml"
-        manifest.write_text(manifest.read_text().replace('method_version: "0.3.0"', 'method_version: "0.4.0"'))
 
         run = self.create_run(harness)
 
@@ -222,7 +223,7 @@ class AdAnalysisHarnessTests(unittest.TestCase):
     def test_preserves_legacy_brand_version_and_records_migration_need(self):
         harness = load_harness()
 
-        run = self.create_run(harness)
+        run = self.create_legacy_run(harness)
 
         intake = harness.load_intake(run)
         self.assertEqual("0.3.0", intake["method_version"])
@@ -408,7 +409,7 @@ class AdAnalysisHarnessTests(unittest.TestCase):
 
     def test_known_migration_need_limits_but_does_not_block_analysis(self):
         harness = load_harness()
-        run = self.create_run(harness)
+        run = self.create_legacy_run(harness)
         self.write_intake(run, self.complete_creative_intake(harness, run))
 
         result = harness.validate_run(self.brand, run)
@@ -421,7 +422,7 @@ class AdAnalysisHarnessTests(unittest.TestCase):
 
     def test_validator_derives_migration_need_from_the_brand_version(self):
         harness = load_harness()
-        run = self.create_run(harness)
+        run = self.create_legacy_run(harness)
         intake = self.complete_creative_intake(harness, run)
         intake["known_limitations"] = []
         self.write_intake(run, intake)
@@ -489,12 +490,6 @@ class AdAnalysisHarnessTests(unittest.TestCase):
         harness = load_harness()
         brand = self.temp_root / "quiet-arc"
         load_initializer().initialise(brand, "Quiet Arc", "quiet-arc")
-        manifest = brand / "brand.yml"
-        manifest.write_text(
-            manifest.read_text().replace(
-                'method_version: "0.3.0"', 'method_version: "0.4.0"'
-            )
-        )
         run = harness.initialise_run(
             brand_folder=brand,
             mode="performance-diagnosis",

@@ -53,15 +53,19 @@ instructions. Do not copy raw assets or exports automatically. Local `file` sour
 to the selected brand folder and are validated without following symlinks. Attachment labels and
 URLs do not authorise unrelated file or network access.
 
-In upload-only mode require all of:
+In upload-only mode, require the following files.
 
-- `intake.json`;
-- the universal bundle;
-- the selected brand bundle;
-- every referenced attachment needed for the selected mode.
+The exact upload pack is:
 
-Return a limitation when any referenced attachment cannot be opened. Never claim live Meta or
-connector access without a successful read-only preflight.
+1. `PROMPT.md`;
+2. `intake.json`;
+3. `dist/knowledge-bundle.md`;
+4. the selected generated brand bundle;
+5. every referenced attachment or source file whose content the runtime must inspect.
+
+URL and table labels do not become uploaded files or prove connector access. Return a limitation
+when any required content cannot be opened. Never claim live Meta or connector access without a
+successful read-only preflight.
 
 ## Run folder and outputs
 

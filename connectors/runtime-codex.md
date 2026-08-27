@@ -73,10 +73,18 @@ current session.
 
 ## Ad analysis: upload-only mode
 
-When folder access is unavailable, attach `PROMPT.md`, `intake.json`,
-`dist/knowledge-bundle.md`, the selected brand bundle, and every referenced attachment or source
-file. Use the same `creative-audit` or `performance-diagnosis` mode in the intake. Validate against
-the bundled schema guidance, return the input audit and governed `creative-audit.md` or
-`diagnosis.md` content, and return any proposed persistence files to the canonical folder owner.
-The runtime cannot claim it wrote the run folder or controlled records: upload-only output is a
-patch, not persistence.
+When folder access is unavailable, use upload-only mode.
+
+The exact upload pack is:
+
+1. `PROMPT.md`;
+2. `intake.json`;
+3. `dist/knowledge-bundle.md`;
+4. the selected generated brand bundle;
+5. every referenced attachment or source file whose content the runtime must inspect.
+
+URL and table labels do not become uploaded files or prove connector access. Use the same
+`creative-audit` or `performance-diagnosis` mode in the intake. Validate against the bundled schema
+guidance, return the input audit and governed `creative-audit.md` or `diagnosis.md` content, and
+return any proposed persistence files to the canonical folder owner. The runtime cannot claim it
+wrote the run folder or controlled records: upload-only output is a patch, not persistence.

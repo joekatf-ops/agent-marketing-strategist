@@ -43,17 +43,19 @@ python3 scripts/build-knowledge-bundle.py
 python3 scripts/build-brand-bundle.py /path/to/brand /path/to/brand-bundle.md
 ```
 
-For ad analysis attach all of:
+For ad analysis in upload-only mode, use the following files.
 
-- `PROMPT.md`;
-- the run's `intake.json`;
-- `dist/knowledge-bundle.md`, which includes contracts, references, schema guidance and runtime
-  instructions;
-- the selected generated brand bundle;
-- every attachment or source file referenced by the intake.
+The exact upload pack is:
 
-An attachment label or source inventory entry is not proof that the file can be opened. Preflight
-every required input in the current session and state any limitation. Return the input audit,
+1. `PROMPT.md`;
+2. `intake.json`;
+3. `dist/knowledge-bundle.md`;
+4. the selected generated brand bundle;
+5. every referenced attachment or source file whose content the runtime must inspect.
+
+URL and table labels do not become uploaded files or prove connector access. An attachment label or
+source inventory entry is not proof that content can be opened. Preflight every required input in
+the current session and state any limitation. Return the input audit,
 governed report and proposed persistence patches to the canonical folder owner. Conversation or
 project memory is not persistence, and the runtime must not claim the run folder or controlled
 records changed. The upload-only output is a patch, not persistence.

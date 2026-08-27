@@ -20,6 +20,22 @@ RUNTIME_GUIDES = (
     "connectors/runtime-grok.md",
     "connectors/runtime-grok-agents.md",
 )
+UPLOAD_WORKFLOW_DOCS = (
+    "README.md",
+    "references/17-runtime-portability.md",
+    "references/19-ad-analysis-harness.md",
+    *RUNTIME_GUIDES,
+)
+UPLOAD_CHECKLIST = (
+    "`PROMPT.md`",
+    "`intake.json`",
+    "`dist/knowledge-bundle.md`",
+    "the selected generated brand bundle",
+    "every referenced attachment or source file whose content the runtime must inspect",
+)
+UPLOAD_LABEL_BOUNDARY = (
+    "URL and table labels do not become uploaded files or prove connector access."
+)
 
 LAUNCH_INVARIANTS = """## Upload-runtime routing
 
@@ -1131,7 +1147,7 @@ class PackageIntegrityTests(unittest.TestCase):
             "scripts/validate-ad-analysis-run.py",
             "intake.json",
             "dist/knowledge-bundle.md",
-            "selected brand bundle",
+            "selected generated brand bundle",
             "every referenced attachment or source file",
             "creative-audit.md",
             "diagnosis.md",
@@ -1144,6 +1160,20 @@ class PackageIntegrityTests(unittest.TestCase):
                 guide = " ".join((ROOT / relative).read_text().split())
                 for phrase in required:
                     self.assertIn(phrase, guide)
+
+    def test_every_upload_workflow_uses_the_exact_five_part_pack(self):
+        anchor = "The exact upload pack is:"
+
+        for relative in UPLOAD_WORKFLOW_DOCS:
+            with self.subTest(relative=relative):
+                normalized = " ".join((ROOT / relative).read_text().split())
+                self.assertIn(anchor, normalized)
+                upload_section = normalized.split(anchor, 1)[1]
+                for item in UPLOAD_CHECKLIST:
+                    self.assertIn(item, upload_section)
+                positions = [upload_section.index(item) for item in UPLOAD_CHECKLIST]
+                self.assertEqual(sorted(positions), positions)
+                self.assertIn(UPLOAD_LABEL_BOUNDARY, upload_section)
 
     def test_concept_reference_uses_who_by_primary_problem(self):
         reference = (ROOT / "references" / "06-concept-model.md").read_text()

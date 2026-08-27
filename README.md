@@ -82,6 +82,10 @@ python3 scripts/init-brand-folder.py /path/to/brands/example-brand \
   --slug example-brand
 ```
 
+A freshly initialised brand starts with `method_version: "0.4.0"` and can use controlled
+persistence after its normal readiness checks. The migration section below applies only to existing
+v0.3 folders.
+
 Then fill the folder in this order:
 
 1. `brand.yml`: identity, market, currency, method version, website monitoring, controlled naming
@@ -177,13 +181,22 @@ python3 scripts/build-knowledge-bundle.py
 python3 scripts/build-brand-bundle.py /path/to/brands/example-brand /path/to/example-brand-bundle.md
 ```
 
-Upload `PROMPT.md`, `dist/knowledge-bundle.md` and the generated brand bundle. The canonical brand
-folder remains the source of truth. Rebuild both bundles after an approved universal-method release
-or canonical brand-folder change.
+The canonical brand folder remains the source of truth. Rebuild both bundles after an approved
+universal-method release or canonical brand-folder change.
 
-For upload-only ad analysis, also attach `intake.json` and every referenced attachment or source
-file. A configured connector, attachment label or saved path is not proof of access; the current
-runtime must complete a successful read-only preflight before claiming it can read the material.
+For ad analysis in upload-only mode, use the following files.
+
+The exact upload pack is:
+
+1. `PROMPT.md`;
+2. `intake.json`;
+3. `dist/knowledge-bundle.md`;
+4. the selected generated brand bundle;
+5. every referenced attachment or source file whose content the runtime must inspect.
+
+URL and table labels do not become uploaded files or prove connector access. A configured connector,
+attachment label or saved path is not proof of access; the current runtime must complete a
+successful read-only preflight before claiming it can read the material.
 
 ## Analyse supplied ads
 

@@ -95,7 +95,7 @@ class BrandFolderInitializerTests(unittest.TestCase):
             self.assertIn("# Acme Sleep brand folder", readme)
             self.assertNotIn("__BRAND_", manifest + readme)
 
-    def test_initializes_locked_v03_testing_memory(self):
+    def test_initializes_current_v04_testing_memory(self):
         initializer = load_initializer()
         with tempfile.TemporaryDirectory() as temp:
             destination = pathlib.Path(temp) / "acme-sleep"
@@ -103,7 +103,7 @@ class BrandFolderInitializerTests(unittest.TestCase):
             initializer.initialise(destination, "Acme Sleep", "acme-sleep")
 
             manifest = (destination / "brand.yml").read_text()
-            self.assertIn('method_version: "0.3.0"', manifest)
+            self.assertIn('method_version: "0.4.0"', manifest)
             self.assertIn('test_prefix: "CONTST"', manifest)
             self.assertIn("next_test_number: 1", manifest)
             self.assertIn('brand_code: ""', manifest)
