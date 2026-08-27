@@ -357,6 +357,113 @@ class BrandBundleTests(unittest.TestCase):
         ):
             builder.build_bundle(folder, pathlib.Path(temp.name) / "brand-bundle.md")
 
+    def test_refuses_ambiguous_or_malformed_yaml_in_state_files(self):
+        builder = load_builder()
+        cases = (
+            (
+                "strategy/test-register.yml",
+                "tests:\n"
+                "  - test_id: CONTST001\n"
+                '    "test_id": CONTST002\n',
+            ),
+            (
+                "strategy/test-register.yml",
+                "tests:\n"
+                "  - test_id: CONTST001\n"
+                "    ? test_id\n"
+                "    : CONTST002\n",
+            ),
+            (
+                "brand.yml",
+                'brand:\n  name: "Acme Sleep"\n  slug: "acme-sleep"\n'
+                'naming:\n  test_prefix: "CONTST"\n  next_test_number: 1\n'
+                '  "next_test_number": 99\n',
+            ),
+            (
+                "brand.yml",
+                'brand:\n  name: "Acme Sleep"\n  slug: "acme-sleep"\n'
+                'naming:\n  test_prefix: "CONTST"\n  next_test_number: 1\n'
+                '  "test_prefix": "OTHER"\n',
+            ),
+            (
+                "strategy/test-register.yml",
+                "tests:\n"
+                "  - test_id: CONTST001\n"
+                "    ads: [UWA, PRA\n",
+            ),
+            (
+                "brand.yml",
+                'brand:\n  name: "Acme Sleep"\n  slug: "acme-sleep"\n'
+                '  markets: ["AU"\n'
+                'naming:\n  test_prefix: "CONTST"\n  next_test_number: 1\n',
+            ),
+        )
+
+        for relative, content in cases:
+            with self.subTest(relative=relative, content=content):
+                temp, folder = self.make_brand_folder()
+                self.addCleanup(temp.cleanup)
+                (folder / "brand.yml").write_text(
+                    (folder / "brand.yml").read_text().replace(
+                        "next_test_number: 1", "next_test_number: 2"
+                    )
+                )
+                (folder / relative).write_text(content)
+
+                with self.assertRaisesRegex(ValueError, "invalid canonical YAML"):
+                    builder.build_bundle(
+                        folder, pathlib.Path(temp.name) / "brand-bundle.md"
+                    )
+
+    def test_refuses_unsupported_yaml_key_and_indentation_syntax(self):
+        builder = load_builder()
+        cases = (
+            '    !!str test_id: CONTST002\n',
+            '    &duplicate test_id: CONTST002\n',
+            '    *test_id: CONTST002\n',
+            '     source: NNT\n',
+            '    source value without a mapping key\n',
+        )
+
+        for addition in cases:
+            with self.subTest(addition=addition):
+                temp, folder = self.make_brand_folder()
+                self.addCleanup(temp.cleanup)
+                manifest = (folder / "brand.yml").read_text().replace(
+                    "next_test_number: 1", "next_test_number: 2"
+                )
+                (folder / "brand.yml").write_text(manifest)
+                (folder / "strategy" / "test-register.yml").write_text(
+                    "tests:\n  - test_id: CONTST001\n" + addition
+                )
+
+                with self.assertRaisesRegex(ValueError, "invalid canonical YAML"):
+                    builder.build_bundle(
+                        folder, pathlib.Path(temp.name) / "brand-bundle.md"
+                    )
+
+    def test_accepts_canonical_quoted_scalars_and_json_style_flow_values(self):
+        builder = load_builder()
+        temp, folder = self.make_brand_folder()
+        self.addCleanup(temp.cleanup)
+        (folder / "brand.yml").write_text(
+            "brand:\n"
+            "  name: 'Joe''s Sleep' # YAML single-quoted scalar\n"
+            '  slug: "acme-sleep"\n'
+            '  markets: ["AU", "NZ"]\n'
+            "  attributes: {}\n"
+            "naming:\n"
+            '  test_prefix: "CONTST"\n'
+            "  next_test_number: 1\n"
+        )
+
+        output = pathlib.Path(temp.name) / "brand-bundle.md"
+        builder.build_bundle(folder, output)
+
+        bundle = output.read_text()
+        self.assertIn("name: 'Joe''s Sleep'", bundle)
+        self.assertIn('markets: ["AU", "NZ"]', bundle)
+
     def test_accepts_realistic_canonical_nonempty_register_with_nested_ads(self):
         builder = load_builder()
         temp, folder = self.make_brand_folder()

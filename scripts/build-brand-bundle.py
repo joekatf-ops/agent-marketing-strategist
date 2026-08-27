@@ -8,6 +8,7 @@ import hashlib
 import json
 import pathlib
 import re
+from typing import NamedTuple
 
 
 ALLOWED_EXACT = {
@@ -95,6 +96,17 @@ CANONICAL_TEST_ITEM = re.compile(
     r"^  - test_id:\s*(?P<identifier>CONTST(?P<number>\d{3}))\s*(?:#.*)?$"
 )
 ANY_TEST_ID_KEY = re.compile(r"^\s+test_id\s*:")
+CANONICAL_MAPPING_ENTRY = re.compile(
+    r"^(?P<key>[A-Za-z_][A-Za-z0-9_-]*):(?:\s+(?P<value>.*))?$"
+)
+RESERVED_STATE_KEYS = {"naming", "test_prefix", "next_test_number", "tests", "test_id"}
+
+
+class YamlEntry(NamedTuple):
+    line_index: int
+    indent: int
+    sequence: bool
+    key: str | None
 
 
 def selected_files(folder: pathlib.Path) -> list[pathlib.Path]:
@@ -154,6 +166,168 @@ def structured_contains_secret(value: object) -> bool:
     elif isinstance(value, list):
         return any(structured_contains_secret(item) for item in value)
     return False
+
+
+def invalid_yaml(source: str, line_number: int, detail: str) -> ValueError:
+    return ValueError(
+        f"invalid canonical YAML in {source} at line {line_number}: {detail}"
+    )
+
+
+def strip_inline_comment(text: str) -> str:
+    quote = ""
+    escaped = False
+    index = 0
+    while index < len(text):
+        character = text[index]
+        if quote == '"':
+            if escaped:
+                escaped = False
+            elif character == "\\":
+                escaped = True
+            elif character == quote:
+                quote = ""
+            index += 1
+            continue
+        if quote == "'":
+            if character == quote:
+                if index + 1 < len(text) and text[index + 1] == quote:
+                    index += 2
+                    continue
+                quote = ""
+            index += 1
+            continue
+        if character in {'"', "'"}:
+            quote = character
+        elif character == "#" and (index == 0 or text[index - 1].isspace()):
+            return text[:index].rstrip()
+        index += 1
+    return text.rstrip()
+
+
+def flow_contains_reserved_key(value: object) -> bool:
+    if isinstance(value, dict):
+        return any(
+            key in RESERVED_STATE_KEYS or flow_contains_reserved_key(nested)
+            for key, nested in value.items()
+        )
+    if isinstance(value, list):
+        return any(flow_contains_reserved_key(item) for item in value)
+    return False
+
+
+def validate_yaml_value(value: str, source: str, line_number: int) -> None:
+    if not value:
+        return
+    if value[0] in "[{":
+        try:
+            parsed = json.loads(value)
+        except json.JSONDecodeError as error:
+            raise invalid_yaml(source, line_number, "invalid or unbalanced flow value") from error
+        if not isinstance(parsed, (list, dict)):
+            raise invalid_yaml(source, line_number, "flow value must be a list or object")
+        if flow_contains_reserved_key(parsed):
+            raise invalid_yaml(source, line_number, "quoted reserved key in flow value")
+        return
+    if value.startswith('"'):
+        try:
+            parsed = json.loads(value)
+        except json.JSONDecodeError as error:
+            raise invalid_yaml(source, line_number, "invalid double-quoted scalar") from error
+        if not isinstance(parsed, str):
+            raise invalid_yaml(source, line_number, "quoted scalar must contain text")
+        return
+    if value.startswith("'"):
+        if len(value) < 2 or not value.endswith("'"):
+            raise invalid_yaml(source, line_number, "invalid single-quoted scalar")
+        inner = value[1:-1]
+        if "'" in inner.replace("''", ""):
+            raise invalid_yaml(source, line_number, "invalid single-quoted scalar")
+        return
+    if any(character in value for character in "[]{}\"'"):
+        raise invalid_yaml(source, line_number, "flow and quoted values must use canonical syntax")
+    if re.search(r"(?:^|\s)[!&*](?:\S|$)", value):
+        raise invalid_yaml(source, line_number, "tags, anchors and aliases are unsupported")
+    if value.startswith(("?", ":", "|", ">")) or re.search(r":\s", value):
+        raise invalid_yaml(source, line_number, "unsupported scalar syntax")
+
+
+def validate_canonical_yaml_subset(text: str, source: str) -> list[YamlEntry]:
+    entries: list[YamlEntry] = []
+    contexts: dict[int, tuple[str, set[str]]] = {}
+    previous_indent: int | None = None
+    previous_can_descend = False
+
+    for line_index, raw_line in enumerate(text.splitlines()):
+        line_number = line_index + 1
+        if "\t" in raw_line:
+            raise invalid_yaml(source, line_number, "tabs are unsupported")
+        line = strip_inline_comment(raw_line)
+        if not line.strip():
+            continue
+        indent = len(line) - len(line.lstrip(" "))
+        if indent % 2:
+            raise invalid_yaml(source, line_number, "indentation must use two-space steps")
+        if previous_indent is None:
+            if indent != 0:
+                raise invalid_yaml(source, line_number, "first entry must be top-level")
+        elif indent > previous_indent and (
+            not previous_can_descend or indent != previous_indent + 2
+        ):
+            raise invalid_yaml(source, line_number, "invalid indentation transition")
+
+        for level in [level for level in contexts if level > indent]:
+            del contexts[level]
+
+        content = line[indent:]
+        sequence = content == "-" or content.startswith("- ")
+        if content.startswith("-") and not sequence:
+            raise invalid_yaml(source, line_number, "invalid sequence item")
+        item = content[2:].strip() if content.startswith("- ") else ""
+        candidate = item if sequence else content
+        mapping_match = CANONICAL_MAPPING_ENTRY.fullmatch(candidate)
+        key: str | None = None
+        value = ""
+        inline_mapping = False
+        if mapping_match is not None:
+            key = mapping_match.group("key")
+            value = (mapping_match.group("value") or "").strip()
+            inline_mapping = sequence
+            validate_yaml_value(value, source, line_number)
+        elif sequence and item:
+            value = item
+            validate_yaml_value(value, source, line_number)
+        elif not sequence:
+            raise invalid_yaml(source, line_number, "mapping keys must be unquoted bare names")
+
+        line_kind = "sequence" if sequence else "mapping"
+        context = contexts.get(indent)
+        if context is not None and context[0] != line_kind:
+            raise invalid_yaml(source, line_number, "cannot mix mapping and sequence entries")
+        if context is None:
+            contexts[indent] = (line_kind, set())
+
+        if key is not None:
+            key_indent = indent + 2 if inline_mapping else indent
+            key_context = contexts.get(key_indent)
+            if key_context is not None and key_context[0] != "mapping":
+                raise invalid_yaml(source, line_number, "mapping entry has an invalid parent")
+            if key_context is None:
+                key_context = ("mapping", set())
+                contexts[key_indent] = key_context
+            if key in key_context[1]:
+                raise invalid_yaml(source, line_number, f"duplicate mapping key: {key}")
+            key_context[1].add(key)
+
+        entries.append(YamlEntry(line_index, indent, sequence, key))
+        previous_indent = indent
+        previous_can_descend = (key is not None and not value) or inline_mapping or (
+            sequence and not item
+        )
+
+    if not entries:
+        raise invalid_yaml(source, 1, "state file must not be empty")
+    return entries
 
 
 def block_end(lines: list[str], start: int) -> int:
@@ -288,7 +462,31 @@ def validate_test_state(folder: pathlib.Path, manifest_text: str) -> None:
         return
 
     actual_next = parse_manifest_test_state(manifest_text)
-    numbers = parse_test_register(register.read_text())
+    register_text = register.read_text()
+    numbers = parse_test_register(register_text)
+    manifest_entries = validate_canonical_yaml_subset(manifest_text, "brand.yml")
+    register_entries = validate_canonical_yaml_subset(
+        register_text, "strategy/test-register.yml"
+    )
+
+    for key in ("naming", "test_prefix", "next_test_number"):
+        occurrences = [entry for entry in manifest_entries if entry.key == key]
+        if len(occurrences) != 1:
+            raise invalid_yaml("brand.yml", 1, f"reserved key must occur once: {key}")
+    tests_entries = [entry for entry in register_entries if entry.key == "tests"]
+    if len(tests_entries) != 1 or tests_entries[0].indent != 0:
+        raise invalid_yaml(
+            "strategy/test-register.yml", 1, "reserved tests key must occur once at top level"
+        )
+    test_id_entries = [entry for entry in register_entries if entry.key == "test_id"]
+    if len(test_id_entries) != len(numbers) or any(
+        entry.indent != 2 or not entry.sequence for entry in test_id_entries
+    ):
+        raise invalid_yaml(
+            "strategy/test-register.yml",
+            1,
+            "test_id is only valid as a canonical top-level tests item",
+        )
 
     ordered = sorted(numbers)
     if ordered and ordered != list(range(1, ordered[-1] + 1)):
