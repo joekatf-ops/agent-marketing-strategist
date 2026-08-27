@@ -557,6 +557,43 @@ class PackageIntegrityTests(unittest.TestCase):
             self.assertIn(controlled_record, policy)
         self.assertIn("human confirmation", policy)
 
+    def test_diagnosis_contract_and_harness_preserve_persistence_boundaries(self):
+        required_boundaries = (
+            "recommend ITR != reserve CONTST",
+            "proposed test observation != approved revision learning",
+            "winner graduation requires real Post ID and confirmation",
+            "upload-only output is a patch, not persistence",
+        )
+
+        for relative in (
+            "contracts/ad-diagnosis.md",
+            "references/19-ad-analysis-harness.md",
+        ):
+            with self.subTest(relative=relative):
+                policy = (ROOT / relative).read_text()
+                for boundary in required_boundaries:
+                    self.assertIn(boundary, policy)
+
+    def test_diagnosis_contract_requires_run_provenance_and_patch_only_outputs(self):
+        contract = (ROOT / "contracts" / "ad-diagnosis.md").read_text()
+        section_one = contract.split("2. **What was tested**", 1)[0]
+
+        for required in (
+            "run ID",
+            "intake path",
+            "validator status",
+            "input-audit path",
+        ):
+            self.assertIn(required, section_one)
+        self.assertIn("## Persistence Summary", contract)
+        self.assertIn("test-register-patch.yml", contract)
+        self.assertIn("matching existing test", contract)
+        self.assertIn("must not contain a new test ID", contract)
+        self.assertIn(
+            "CONTST: unreserved — human decision required",
+            contract,
+        )
+
     def test_validator_rejects_v04_analysis_policy_mutations(self):
         validator = load_validator()
         temp, root = self.make_root()
@@ -592,6 +629,11 @@ class PackageIntegrityTests(unittest.TestCase):
             (
                 "references/19-ad-analysis-harness.md",
                 "Diagnosis automatically reserves the next CONTST.\n",
+                "references/19-ad-analysis-harness.md automatically reserves a CONTST",
+            ),
+            (
+                "references/19-ad-analysis-harness.md",
+                "Diagnosis automatically increments next_test_number.\n",
                 "references/19-ad-analysis-harness.md automatically reserves a CONTST",
             ),
             (

@@ -6,14 +6,17 @@ Reading performance data and returning what to do about it. Not a dashboard, not
 This workflow accepts manually supplied Meta exports, screenshots or tables. It does not require a live Meta connection.
 
 ## Artefact
-Markdown report. `diagnosis-{{brand.slug}}-YYYYMMDD.md`
+Markdown report. `outputs/ad-analysis/<RUN_ID>/diagnosis.md`
 
 ## Sections, in order
 
-1. **Input audit and read validity** - names every manual file, screenshot or table supplied, its
-   date range, attribution setting, currency, level of aggregation and missing fields. Then checks
-   spend, purchases and days elapsed against the minimum thresholds in the brand folder. States
-   plainly whether this is a verdict, a direction, or too early to call. This section comes first
+1. **Input audit and read validity** - names the run ID, intake path, validator status and
+   input-audit path before any conclusion. Names every manual file, screenshot or table supplied,
+   its date range, attribution setting, currency, level of aggregation and missing fields. Then
+   checks spend, purchases and days elapsed against the minimum thresholds in the brand folder.
+   States plainly whether this is a verdict, a direction, or too early to call. A `ready` or
+   `limited` Performance Diagnosis intake may proceed; optional funnel or video gaps limit only the
+   affected claims. A `blocked` intake stops performance conclusions. This section comes first
    because it governs how much weight everything after it carries.
 2. **What was tested** - coordinate key, CONTST test ID, source, Who, Primary Problem, campaign and
    ad-set names, each complete ad name, awareness job, messaging route, format, destination,
@@ -36,6 +39,36 @@ Markdown report. `diagnosis-{{brand.slug}}-YYYYMMDD.md`
 10. **What we learned** - retained test observations, including losers and scale failures, kept
     separate from approved human-revision learning
 11. **What this does not tell us** - the honest limits of this read
+
+After section 11, append the unnumbered Persistence Summary specified below. It is a handoff, not a
+twelfth diagnosis section and not evidence that a controlled record changed.
+
+## Persistence Summary
+
+State which run-folder files were written, what controlled-record changes are merely proposed,
+their evidence and explanation confidence, the destination record, the required confirmation and
+the owner. A diagnosis may produce these optional files:
+
+- `test-register-patch.yml` may contain only matching existing test observations, supplied results,
+  confidence, verdict and next action. It must not contain a new test ID and must not mutate
+  `strategy/test-register.yml`.
+- `next-brief.md` may describe a recommended ITR, but it must display exactly
+  `CONTST: unreserved — human decision required` until a human chooses to build the batch.
+- `persistence-summary.md` may repeat the handoff outside `diagnosis.md`; it never claims a proposed
+  patch was applied.
+
+Winner graduation requires a real Post ID and explicit human confirmation. Human copy, claim or
+voice edits route through `contracts/learning-update.md`. Upload-only output remains a patch for the
+canonical folder owner; it is never persistence.
+
+Preserve these boundary statements verbatim:
+
+```text
+recommend ITR != reserve CONTST
+proposed test observation != approved revision learning
+winner graduation requires real Post ID and confirmation
+upload-only output is a patch, not persistence
+```
 
 ## Ranked change list, fixed row shape
 
@@ -74,8 +107,11 @@ implement the selected action.
 9. Initial broad tests compare complete executions. Do not infer isolated awareness, route, hook,
    format, proof or destination causation from them
 10. Keep initial-test performance and CBO scaling performance as separate result records
-11. An ITR retains Who and Primary Problem but always receives a new CONTST ID
+11. An ITR retains Who and Primary Problem. Recommending it never reserves a new CONTST; a new ID is
+    allocated only after a human decides to build that batch
 12. Every decision records exactly one literal top-level action: keep, ITR, stop or scale
+13. Performance observations remain proposed test memory until the matching existing test update is
+    confirmed. A diagnosis never promotes them into approved revision learning
 
 ## Never
 
@@ -100,3 +136,6 @@ implement the selected action.
 - [ ] Every decision uses the six-decision taxonomy and exactly one literal top-level action field
 - [ ] Section 11 is filled honestly
 - [ ] If the test is underpowered, that governs the whole report rather than a footnote
+- [ ] The Persistence Summary distinguishes written run outputs from proposed controlled-record changes
+- [ ] Any recommended ITR leaves CONTST unreserved pending a human build decision
+- [ ] No winner graduation is proposed without a real Post ID and confirmation

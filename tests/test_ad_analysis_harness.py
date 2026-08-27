@@ -4,6 +4,7 @@ import importlib.util
 import json
 import os
 import pathlib
+import re
 import subprocess
 import sys
 import sysconfig
@@ -463,6 +464,58 @@ class AdAnalysisHarnessTests(unittest.TestCase):
         self.assertEqual("limited", result.status)
         self.assertIn("optional funnel field mappings are unavailable", result.limitations)
         self.assertIn("optional video field mappings are unavailable", result.limitations)
+
+    def test_frozen_performance_diagnosis_covers_the_limited_five_day_pack(self):
+        example_path = ROOT / "examples" / "ad-diagnosis.md"
+        self.assertTrue(example_path.is_file(), "frozen diagnosis example should exist")
+        example = example_path.read_text()
+
+        for provenance in (
+            "Run ID: `ADR-20260827-015`",
+            "Intake path: `outputs/ad-analysis/ADR-20260827-015/intake.json`",
+            "Validator status: `limited`",
+            "Input-audit path: `outputs/ad-analysis/ADR-20260827-015/input-audit.md`",
+        ):
+            self.assertIn(provenance, example)
+        self.assertIn("five full days", example)
+        self.assertIn("Read validity: **Direction**", example)
+        self.assertIn("first-frame retention: unavailable", example)
+        self.assertIn("associated with", example)
+        self.assertNotIn("caused by", example.lower())
+
+        business_section = example.split(
+            "## 3. What happened: business result", 1
+        )[1].split("## 4. What happened: funnel result", 1)[0]
+        business_ads = set(
+            re.findall(r"^\| `AD-QA-PD-\d{3}`", business_section, re.MULTILINE)
+        )
+        self.assertEqual(
+            {"| `AD-QA-PD-001`", "| `AD-QA-PD-002`"},
+            business_ads,
+        )
+
+        decision_section = example.split("## 8. Six-decision taxonomy", 1)[1].split(
+            "## 9. Ranked change list", 1
+        )[0]
+        decision_rows = re.findall(
+            r"^\| `(?P<ad>AD-QA-PD-\d{3})` \| [^|]+ \| (?P<action>[^|]+) \|",
+            decision_section,
+            re.MULTILINE,
+        )
+        self.assertEqual(
+            {"AD-QA-PD-001", "AD-QA-PD-002"},
+            {ad for ad, _ in decision_rows},
+        )
+        self.assertEqual(2, len(decision_rows))
+        for _, action_cell in decision_rows:
+            self.assertEqual(
+                1,
+                len(re.findall(r"`(?:keep|ITR|stop|scale)`", action_cell)),
+            )
+
+        self.assertIn("CONTST: unreserved — human decision required", example)
+        self.assertIn("test-register-patch.yml", example)
+        self.assertIn("Upload-only status: patch only; persistence not claimed", example)
 
     def test_performance_mapping_can_omit_an_unserved_intake_ad(self):
         harness = load_harness()

@@ -106,7 +106,8 @@ OPTIONAL_PERFORMANCE_DECISION = re.compile(
     re.IGNORECASE,
 )
 AUTOMATIC_CONTST_RESERVATION = re.compile(
-    r"diagnosis\s+automatically\s+reserves\s+the\s+next\s+CONTST",
+    r"diagnosis\s+automatically\s+(?:reserves\s+the\s+next\s+CONTST|"
+    r"increments\s+next_test_number)",
     re.IGNORECASE,
 )
 PERFORMANCE_ACTIONS = frozenset({"keep", "itr", "stop", "scale"})

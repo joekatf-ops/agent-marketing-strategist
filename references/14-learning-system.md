@@ -100,6 +100,16 @@ removing the source test. Store initial-test and scaling outcomes separately. Pr
 attempts, stopped tests, rejected hypotheses and archived records so later work can distinguish a
 repeat from a genuinely new test.
 
+Performance Diagnosis may propose an update for the matching existing test, but the proposal stays
+in test memory and never becomes approved revision learning automatically. It may include only the
+supplied results, observation, explanation confidence, verdict and next action for that matching
+test; a recommended ITR does not allocate its future CONTST. Winner graduation waits for both a real
+Post ID and explicit human confirmation.
+
+Human changes to copy, claims or voice remain a separate record class. Route those edits through
+`contracts/learning-update.md`, including when the edit was prompted by a diagnosis. The diagnosis
+report itself never promotes a performance observation or human revision into a controlled record.
+
 All test, winner and revision records remain scoped to the `brand_slug` that produced them. Never
 merge evidence, observations, preferences or rules across brands automatically. Reusing a general
 method pattern in another brand still requires that brand's own facts, claims and evidence.
@@ -109,6 +119,9 @@ method pattern in another brand still requires that brand's own facts, claims an
 In a writable brand folder, use `scripts/record-learning.py` to append events and rebuild active
 memory. In an upload-only runtime, return the Learning Update contract as a patch. The canonical
 folder owner applies each event with the same script, then rebuilds the brand bundle.
+
+Ad-analysis upload-only output follows the same truth boundary: a returned diagnosis or proposed
+test-register patch is not evidence that test, winner or revision memory changed.
 
 ## What not to learn
 

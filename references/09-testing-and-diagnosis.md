@@ -138,6 +138,10 @@ record a future review trigger, but it does not add a second top-level action. A
 creates learning. Record what happened, the likely explanation, confidence and selected action
 without promoting association into causal learning.
 
+An ITR recommendation preserves the coordinate and describes the next hypothesis, but it does not
+reserve a new CONTST. Allocate the new CONTST only after the human decides to build the batch. Until
+then, any next brief states `CONTST: unreserved — human decision required`.
+
 ## Scaling stage
 
 Scaling uses one SC campaign per product and region.
@@ -176,3 +180,14 @@ increase rule, and this package does not authorise automatic budget changes.
 7. Audit validity, then read business, funnel and creative layers.
 8. Apply one of the six decisions and record exactly one literal top-level action: keep, ITR, stop or scale.
 9. Preserve the test record separately from approved human-revision learning.
+10. Present proposed persistence files and obtain human confirmation before any controlled-record
+    update. Winner graduation additionally requires a verified real Post ID.
+
+## Diagnosis persistence handoff
+
+Performance Diagnosis can write its governed run report immediately. It may also propose a
+`test-register-patch.yml`, `next-brief.md` or `persistence-summary.md`, but those files do not update
+the selected brand's controlled records. A test-register patch is limited to the matching existing
+test's observations, supplied results, confidence, verdict and next action; it contains no new test
+ID. Approved human copy, claim and voice changes follow `contracts/learning-update.md` rather than
+the test-memory path. Upload-only runtimes return the same patches and never claim persistence.

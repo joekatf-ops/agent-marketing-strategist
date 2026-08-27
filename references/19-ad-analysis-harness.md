@@ -86,12 +86,24 @@ explanation confidence, destination record and owner.
 
 Controlled records require explicit human confirmation:
 
-- a `test-register` observation is a proposed patch until the matching CONTST update is confirmed;
+- `test-register-patch.yml` may contain only the matching existing test's observations, supplied
+  results, confidence, verdict and next action. It contains no new test ID and remains proposed
+  until the matching CONTST update is confirmed;
 - a `winner-library` change additionally requires graduation confirmation and a verified real Post
   ID;
 - an `approved-revision` routes through Learning Update and is not test learning or a permanent
   brand rule by default.
 
 Diagnosis does not reserve a new CONTST for a proposed follow-up. Reserve one only when the human
-chooses to build that batch. Upload-only runtimes return patches and never claim the selected
-brand's controlled records changed.
+chooses to build that batch. `next-brief.md` may describe the ITR but must display
+`CONTST: unreserved — human decision required`. Upload-only runtimes return patches and never claim
+the selected brand's controlled records changed. No direct controlled-record mutation API exists.
+
+Preserve these boundary statements verbatim:
+
+```text
+recommend ITR != reserve CONTST
+proposed test observation != approved revision learning
+winner graduation requires real Post ID and confirmation
+upload-only output is a patch, not persistence
+```
