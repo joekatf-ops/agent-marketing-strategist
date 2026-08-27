@@ -121,17 +121,29 @@ the supplied test did not isolate it.
 4. **Read first-party customer and behavioural evidence.** Record what exists and what does not.
 5. **Sweep the market.** Competitor sites, ads, reviews, communities, search language, and demand.
 6. **Build the evidence ledger.** Class, source, date, finding, confidence, contradiction, permitted use.
-7. **Synthesize cautiously.** Sophistication, awareness, personas, outcomes, objections, and language.
+7. **Synthesize cautiously.** Sophistication, awareness, possible Who definitions, primary Problems,
+   objections, desired outcomes and language.
 8. **Propose opportunities.** Name the reviewed competitor set, supporting evidence, contrary
    evidence, confidence, and validation step.
 9. **Publish what remains thin.** Missing evidence and the best next research action.
+
+The Customer Intelligence Brief ends with these five outputs in order:
+
+1. a prioritised list of possible Who definitions;
+2. a prioritised list of primary Problems;
+3. evidence supporting each proposed Who x Primary Problem pairing;
+4. commercial and claim constraints;
+5. open questions the creative test should answer.
+
+An early brand may have fewer supported definitions. Counts never justify invented certainty.
 
 ## Evidence ledger row
 
 | ID | Finding or quote | Source class | Source | Retrieved | Confidence | Contradiction | Permitted use |
 |---|---|---|---|---|---|---|---|
 
-Every persona, objection, angle, and proof point must trace to one or more ledger rows. Use
+Every proposed Who, Primary Problem, objection, messaging route and proof point must trace to one or
+more ledger rows. Use
 `[UNSOURCED, strategist judgement]` only when the judgement is necessary and include a validation
 step. Never quietly present judgement as evidence.
 

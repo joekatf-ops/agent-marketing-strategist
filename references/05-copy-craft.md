@@ -8,7 +8,7 @@ Keep the levels separate. AIDA, PAS, FOMO and hook types do not do the same job.
 |---|---|---|
 | Market force | What desire already exists? | Mass desire, LF8, Jobs to Be Done |
 | Customer state | What do they know and believe? | Awareness, sophistication, necessary beliefs |
-| Strategic argument | Why this product, this person, now? | Positioning, angle, unique mechanism, offer |
+| Messaging route | Which persuasive argument should this execution make? | How it works, reframe, old way, visible proof, objection, mechanism, demonstration, comparison, story, belief shift |
 | Lead | How should the message enter? | Offer, promise, problem-solution, big secret, proclamation, story |
 | Body structure | In what order should the case unfold? | PAS, AIDA, BAB, 4P, PASTOR, ACCA, QUEST, Hook-Story-Offer |
 | Persuasion device | What strengthens belief or action? | Proof, authority, social proof, risk reversal, scarcity, contrast |
@@ -41,7 +41,7 @@ audience, more indirect lead.
 
 | Lead type | Best fit | Core move |
 |---|---|---|
-| Offer | Most aware | Open with the deal, terms or access |
+| Offer | Purchase-ready conversion environment or verified product-aware offer context | Open with the deal, terms or access |
 | Promise | Product or solution aware | Lead with a desirable, credible result |
 | Problem-solution | Problem aware | Name the pain, expose its cost, introduce the solution |
 | Big secret | A credible hidden cause exists | Reveal information that changes how they see the problem |
@@ -113,7 +113,7 @@ with data rather than opinion.
 ## Headline checks
 
 **4U test.** Useful (does it promise something the right prospect values?), Urgent (a credible
-reason to care now?), Unique (distinct angle, mechanism or framing?), Ultra-specific (concrete
+reason to care now?), Unique (distinct route, mechanism or framing?), Ultra-specific (concrete
 enough to be understood and believed?).
 
 **Caples.** Lead with self-interest, news or curiosity, grounded in a clear benefit. Curiosity
@@ -142,6 +142,6 @@ decision. Biography without buyer relevance is not persuasion.
 
 ## Message match
 
-The ad creates an expectation the destination must fulfil. Keep consistent: persona and
-situation, core promise, mechanism, proof, offer terms, language, and the CTA as the natural
-next step.
+The ad creates an expectation the destination must fulfil. Keep consistent: Who and activating
+situation, Primary Problem, messaging route, core promise, mechanism, proof, offer terms, language,
+and the CTA as the natural next step.

@@ -4,7 +4,7 @@ A hook is the first complete unit of an ad, not just one sentence. For video it 
 visual opening, spoken opening and on-screen anchor. For static it combines feed pattern, primary
 line, image or proof object and visual hierarchy.
 
-## Default selected-video batch
+## Pre-production option set for an approved execution
 
 Create six hook packages across at least four formats:
 
@@ -14,13 +14,14 @@ Create six hook packages across at least four formats:
 - One experimental wildcard
 
 The six packages must change the route into the argument. Swapping adjectives does not create a
-new hook.
+new hook. Select one coherent opening for each launch execution. These six options do not create six
+launch ads, a new coordinate or a new CONTST batch.
 
 ## Video hook formats
 
 | Format | Opening move | Strong fit | Production need |
 |---|---|---|---|
-| Offer-first | Terms and value immediately | most aware | product and offer |
+| Offer-first | Terms and value immediately when a verified offer supports a product-aware decision | product aware | product and offer |
 | Confession | Admit a credible doubt or mistake | unaware, problem aware | credible speaker |
 | Unexpected cause | Replace the assumed explanation | problem aware | supportable mechanism |
 | Demonstration | Show the product truth in motion | solution, product aware | visible test |
@@ -32,7 +33,7 @@ new hook.
 | POV situation | Show the activating moment | unaware | recognisable situation |
 | Problem visualisation | Show the failure state before explaining | problem aware | specific scene |
 | Product in action | Product enters and acts immediately | solution, product aware | product demo |
-| Proof-first | Verified result or evidence opens | product, most aware | approved proof |
+| Proof-first | Verified result or evidence opens | solution, product aware | approved proof |
 | Myth or reframe | Challenge a common explanation | problem, solution aware | credible reason why |
 | Story cold-open | Enter at the moment of tension | unaware | speaker and scene |
 | Objection-first | Say the blocking doubt honestly | product aware | proof answer |
@@ -67,6 +68,6 @@ question is the strongest route into the idea.
 8. Evidence and proof burden
 9. Production requirements
 10. Policy risk
-11. Why it fits the concept
+11. Why it fits the Who, Primary Problem, awareness job and messaging route
 
 All three opening elements express one idea. The body must cash the cheque written by the hook.
