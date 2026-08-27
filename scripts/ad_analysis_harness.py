@@ -4,9 +4,11 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+import os
 import pathlib
 import re
 import shlex
+import stat
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -35,17 +37,31 @@ def _validate_method_version(method_version: str) -> tuple[int, int, int]:
     return tuple(int(match.group(name)) for name in ("major", "minor", "patch"))
 
 
+def _require_no_symlink_components(path: pathlib.Path) -> pathlib.Path:
+    """Return an absolute lexical path after rejecting every symlinked component."""
+    path = pathlib.Path(path)
+    if not path.is_absolute():
+        path = pathlib.Path.cwd() / path
+    current = pathlib.Path(path.anchor)
+    for component in path.parts[1:]:
+        current /= component
+        try:
+            mode = os.lstat(current).st_mode
+        except FileNotFoundError:
+            return path
+        if stat.S_ISLNK(mode):
+            raise ValueError(f"path must not contain a symlink: {current}")
+    return path
+
+
 def load_brand_identity(brand_folder: pathlib.Path) -> dict[str, str]:
     """Return brand_slug and method_version from a validated local brand.yml."""
-    brand_folder = pathlib.Path(brand_folder)
-    if brand_folder.is_symlink():
-        raise ValueError(f"brand folder must not be a symlink: {brand_folder}")
+    brand_folder = _require_no_symlink_components(brand_folder)
     if not brand_folder.is_dir():
         raise FileNotFoundError(f"brand folder not found: {brand_folder}")
 
     manifest = brand_folder / "brand.yml"
-    if manifest.is_symlink():
-        raise ValueError(f"brand manifest must not be a symlink: {manifest}")
+    _require_no_symlink_components(manifest)
     if not manifest.is_file():
         raise FileNotFoundError(f"brand manifest not found: {manifest}")
 
@@ -102,9 +118,8 @@ def _validate_run_id(run_id: object) -> str:
 def _analysis_root(brand_folder: pathlib.Path) -> pathlib.Path:
     outputs = brand_folder / "outputs"
     analysis = outputs / "ad-analysis"
-    for path in (outputs, analysis):
-        if path.is_symlink():
-            raise ValueError(f"analysis output path must not be a symlink: {path}")
+    _require_no_symlink_components(outputs)
+    _require_no_symlink_components(analysis)
     return analysis
 
 
@@ -169,6 +184,7 @@ def initialise_run(
     else:
         run_id = _validate_run_id(run_id)
     run_folder = analysis_root / run_id
+    _require_no_symlink_components(run_folder)
     if run_folder.exists() or run_folder.is_symlink():
         raise FileExistsError(f"analysis run already exists: {run_folder}")
 
@@ -202,12 +218,9 @@ def initialise_run(
 
 def load_intake(run_folder: pathlib.Path) -> dict[str, object]:
     """Load a run's JSON intake manifest without mutating it."""
-    run_folder = pathlib.Path(run_folder)
-    if run_folder.is_symlink():
-        raise ValueError(f"run folder must not be a symlink: {run_folder}")
+    run_folder = _require_no_symlink_components(run_folder)
     intake_path = run_folder / "intake.json"
-    if intake_path.is_symlink():
-        raise ValueError(f"intake manifest must not be a symlink: {intake_path}")
+    _require_no_symlink_components(intake_path)
     if not intake_path.is_file():
         raise FileNotFoundError(f"intake manifest not found: {intake_path}")
     intake = json.loads(intake_path.read_text(encoding="utf-8"))

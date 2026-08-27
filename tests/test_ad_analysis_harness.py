@@ -62,7 +62,8 @@ class AdAnalysisHarnessTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
-        self.brand = pathlib.Path(self.temp.name) / "acme-sleep"
+        self.temp_root = pathlib.Path(self.temp.name).resolve()
+        self.brand = self.temp_root / "acme-sleep"
         load_initializer().initialise(self.brand, "Acme Sleep", "acme-sleep")
 
     def create_run(self, harness, mode="creative-audit"):
@@ -190,6 +191,29 @@ class AdAnalysisHarnessTests(unittest.TestCase):
             intake["known_limitations"],
         )
 
+    def test_refuses_a_brand_folder_below_a_symlinked_parent(self):
+        harness = load_harness()
+        real_parent = self.temp_root / "real-brands"
+        real_brand = real_parent / "acme-sleep"
+        real_parent.mkdir()
+        load_initializer().initialise(real_brand, "Acme Sleep", "acme-sleep")
+        alias = self.temp_root / "brand-alias"
+        alias.symlink_to(real_parent, target_is_directory=True)
+        supplied_brand = alias / "acme-sleep"
+
+        with self.assertRaisesRegex(ValueError, "symlink"):
+            harness.initialise_run(
+                brand_folder=supplied_brand,
+                mode="creative-audit",
+                product_id="sleep-mask",
+                market="AU",
+                today=dt.date(2026, 8, 27),
+            )
+
+        self.assertFalse(
+            (real_brand / "outputs/ad-analysis/ADR-20260827-001").exists()
+        )
+
     def test_requires_exactly_one_non_empty_product_and_market(self):
         harness = load_harness()
         cases = (("", "AU"), ("sleep-mask", ""))
@@ -286,7 +310,7 @@ class AdAnalysisHarnessTests(unittest.TestCase):
         harness = load_harness()
         connected_run = self.create_run(harness)
         connected = harness.load_intake(connected_run)
-        upload_run = pathlib.Path(self.temp.name) / "uploaded-analysis"
+        upload_run = self.temp_root / "uploaded-analysis"
         upload_run.mkdir()
         self.write_intake(upload_run, connected)
 
@@ -391,7 +415,7 @@ class AdAnalysisHarnessTests(unittest.TestCase):
     def test_rejects_symlinked_local_sources(self):
         harness = load_harness()
         run = self.create_run(harness)
-        target = pathlib.Path(self.temp.name) / "ad-one.mp4"
+        target = self.temp_root / "ad-one.mp4"
         target.write_text("not an ad")
         (run / "linked-ad.mp4").symlink_to(target)
         intake = harness.load_intake(run)
