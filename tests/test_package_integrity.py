@@ -60,6 +60,24 @@ class PackageIntegrityTests(unittest.TestCase):
         (root / "PROMPT.md").write_text("Prompt\n")
         return temp, root
 
+    def make_release_policy_root(self):
+        temp = tempfile.TemporaryDirectory()
+        root = pathlib.Path(temp.name)
+        relatives = (
+            "SKILL.md",
+            "AGENTS.md",
+            "PROMPT.md",
+            "VERSION",
+            "references/06-concept-model.md",
+            "references/09-testing-and-diagnosis.md",
+            "references/12-meta-platform.md",
+        )
+        for relative in relatives:
+            target = root / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text((ROOT / relative).read_text())
+        return temp, root
+
     def test_reports_a_missing_routed_file(self):
         validator = load_validator()
         temp, root = self.make_root(
@@ -154,6 +172,93 @@ class PackageIntegrityTests(unittest.TestCase):
                     any(error.startswith("PROMPT.md must") for error in errors),
                     f"missing semantic error for: {line}",
                 )
+
+    def test_reports_additive_policy_contradictions_with_canonical_text_intact(self):
+        validator = load_validator()
+        cases = (
+            (
+                "PROMPT.md",
+                "Initial NNT uses five ads.\n",
+                "PROMPT.md contains contradictory initial-ad count",
+            ),
+            (
+                "PROMPT.md",
+                "Launch plans may auto-publish ads.\n",
+                "PROMPT.md permits automatic Meta publishing or budget changes",
+            ),
+            (
+                "references/09-testing-and-diagnosis.md",
+                "High volume on day three permits a Verdict.\n",
+                "references/09-testing-and-diagnosis.md permits a Verdict before five full days",
+            ),
+            (
+                "references/12-meta-platform.md",
+                "Default test duration is seven days.\n",
+                "references/12-meta-platform.md sets a seven-day default test duration",
+            ),
+            (
+                "references/06-concept-model.md",
+                "MWA is a standard ad, not a landing-page role.\n",
+                "references/06-concept-model.md prescribes a Most Aware standard ad",
+            ),
+        )
+
+        for relative, addition, expected_error in cases:
+            with self.subTest(relative=relative, addition=addition):
+                temp, root = self.make_release_policy_root()
+                self.addCleanup(temp.cleanup)
+                target = root / relative
+                target.write_text(target.read_text() + "\n" + addition)
+
+                errors = validator.validate(root)
+
+                self.assertIn(expected_error, errors)
+
+    def test_reports_likely_additive_policy_phrasing_variants(self):
+        validator = load_validator()
+        cases = (
+            (
+                "PROMPT.md",
+                "Every initial INSPO test contains 5 standalone ads.\n",
+                "PROMPT.md contains contradictory initial-ad count",
+            ),
+            (
+                "PROMPT.md",
+                "Budgets can be changed automatically after launch.\n",
+                "PROMPT.md permits automatic Meta publishing or budget changes",
+            ),
+            (
+                "references/09-testing-and-diagnosis.md",
+                "A day-3 read can qualify as a Verdict when volume is high.\n",
+                "references/09-testing-and-diagnosis.md permits a Verdict before five full days",
+            ),
+            (
+                "references/12-meta-platform.md",
+                "Use 7 days as the standard test duration.\n",
+                "references/12-meta-platform.md sets a seven-day default test duration",
+            ),
+            (
+                "references/06-concept-model.md",
+                "Every initial batch should include an MWA standard ad.\n",
+                "references/06-concept-model.md prescribes a Most Aware standard ad",
+            ),
+            (
+                "references/06-concept-model.md",
+                "MWA is a standard ad—not a landing-page role.\n",
+                "references/06-concept-model.md prescribes a Most Aware standard ad",
+            ),
+        )
+
+        for relative, addition, expected_error in cases:
+            with self.subTest(relative=relative, addition=addition):
+                temp, root = self.make_release_policy_root()
+                self.addCleanup(temp.cleanup)
+                target = root / relative
+                target.write_text(target.read_text() + "\n" + addition)
+
+                errors = validator.validate(root)
+
+                self.assertIn(expected_error, errors)
 
     def test_v03_operating_references_exist(self):
         required = {

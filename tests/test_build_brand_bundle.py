@@ -237,6 +237,159 @@ class BrandBundleTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "next_test_number must be 1"):
             builder.build_bundle(folder, pathlib.Path(temp.name) / "brand-bundle.md")
 
+    def test_refuses_noncanonical_test_register_item_forms(self):
+        builder = load_builder()
+        cases = (
+            (
+                "tests:\n  - {test_id: CONTST001, source: NNT}\n",
+                "canonical block-style",
+            ),
+            (
+                "tests:\n  - test_id: contst001\n    source: NNT\n",
+                "canonical block-style",
+            ),
+            (
+                "tests:\n  - source: NNT\n",
+                "canonical block-style",
+            ),
+            (
+                "tests:\n"
+                "  - test_id: CONTST001\n"
+                "    source: NNT\n"
+                "  - {test_id: CONTST002, source: INSPO}\n",
+                "canonical block-style",
+            ),
+        )
+
+        for register, error in cases:
+            with self.subTest(register=register):
+                temp, folder = self.make_brand_folder()
+                self.addCleanup(temp.cleanup)
+                manifest = (folder / "brand.yml").read_text().replace(
+                    "next_test_number: 1", "next_test_number: 2"
+                )
+                (folder / "brand.yml").write_text(manifest)
+                (folder / "strategy" / "test-register.yml").write_text(register)
+
+                with self.assertRaisesRegex(ValueError, error):
+                    builder.build_bundle(
+                        folder, pathlib.Path(temp.name) / "brand-bundle.md"
+                    )
+
+    def test_refuses_lowercase_or_duplicate_naming_state_keys(self):
+        builder = load_builder()
+        cases = (
+            (
+                'test_prefix: "CONTST"',
+                'test_prefix: "contst"',
+                "test_prefix must be literal uppercase CONTST",
+            ),
+            (
+                'test_prefix: "CONTST"',
+                'test_prefix: "CONTST"\n  test_prefix: "CONTST"',
+                "exactly one naming.test_prefix",
+            ),
+            (
+                "next_test_number: 1",
+                "next_test_number: 1\n  next_test_number: 1",
+                "exactly one naming.next_test_number",
+            ),
+            (
+                'naming:\n  test_prefix: "CONTST"\n  next_test_number: 1',
+                'test_prefix: "CONTST"\nnaming:\n  next_test_number: 1',
+                "exactly one naming.test_prefix",
+            ),
+            (
+                'naming:\n  test_prefix: "CONTST"\n  next_test_number: 1',
+                'next_test_number: 1\nnaming:\n  test_prefix: "CONTST"',
+                "exactly one naming.next_test_number",
+            ),
+            (
+                'naming:\n  test_prefix: "CONTST"\n  next_test_number: 1',
+                'naming:\n  test_prefix: "CONTST"\n  next_test_number: 1\n'
+                'naming: {test_prefix: "CONTST", next_test_number: 1}',
+                "exactly one top-level naming block",
+            ),
+        )
+
+        for original, replacement, error in cases:
+            with self.subTest(error=error):
+                temp, folder = self.make_brand_folder()
+                self.addCleanup(temp.cleanup)
+                manifest = (folder / "brand.yml").read_text().replace(
+                    original, replacement
+                )
+                (folder / "brand.yml").write_text(manifest)
+
+                with self.assertRaisesRegex(ValueError, error):
+                    builder.build_bundle(
+                        folder, pathlib.Path(temp.name) / "brand-bundle.md"
+                    )
+
+    def test_refuses_duplicate_test_id_key_within_one_item(self):
+        builder = load_builder()
+        temp, folder = self.make_brand_folder()
+        self.addCleanup(temp.cleanup)
+        manifest = (folder / "brand.yml").read_text().replace(
+            "next_test_number: 1", "next_test_number: 2"
+        )
+        (folder / "brand.yml").write_text(manifest)
+        (folder / "strategy" / "test-register.yml").write_text(
+            "tests:\n"
+            "  - test_id: CONTST001\n"
+            "    test_id: CONTST002\n"
+        )
+
+        with self.assertRaisesRegex(ValueError, "duplicate test_id key"):
+            builder.build_bundle(folder, pathlib.Path(temp.name) / "brand-bundle.md")
+
+    def test_refuses_additional_noncanonical_top_level_tests_key(self):
+        builder = load_builder()
+        temp, folder = self.make_brand_folder()
+        self.addCleanup(temp.cleanup)
+        (folder / "strategy" / "test-register.yml").write_text(
+            "tests: []\n"
+            "tests: {archived: []}\n"
+        )
+
+        with self.assertRaisesRegex(
+            ValueError, "exactly one canonical top-level tests key"
+        ):
+            builder.build_bundle(folder, pathlib.Path(temp.name) / "brand-bundle.md")
+
+    def test_accepts_realistic_canonical_nonempty_register_with_nested_ads(self):
+        builder = load_builder()
+        temp, folder = self.make_brand_folder()
+        self.addCleanup(temp.cleanup)
+        manifest = (folder / "brand.yml").read_text().replace(
+            "next_test_number: 1", "next_test_number: 3"
+        )
+        (folder / "brand.yml").write_text(manifest)
+        (folder / "strategy" / "test-register.yml").write_text(
+            "tests:\n"
+            "  - test_id: CONTST001\n"
+            "    source: NNT\n"
+            "    ads:\n"
+            "      - awareness_code: UWA\n"
+            "        ad_name: ACME_PRODUCT_CT_UWA\n"
+            "      - awareness_code: PRA\n"
+            "        ad_name: ACME_PRODUCT_CT_PRA\n"
+            "  - test_id: CONTST002\n"
+            "    source: ITR\n"
+            "    ads:\n"
+            "      - awareness_code: SLA\n"
+            "        ad_name: ACME_PRODUCT_CT_SLA\n"
+        )
+        output = pathlib.Path(temp.name) / "brand-bundle.md"
+
+        result = builder.build_bundle(folder, output)
+
+        self.assertEqual(output, result)
+        bundle = output.read_text()
+        self.assertIn("test_id: CONTST001", bundle)
+        self.assertIn("test_id: CONTST002", bundle)
+        self.assertIn("awareness_code: UWA", bundle)
+
     def test_bundles_every_supported_canonical_sensitive_file(self):
         builder = load_builder()
         temp, folder = self.make_brand_folder()

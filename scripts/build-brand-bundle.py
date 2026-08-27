@@ -77,14 +77,24 @@ MANIFEST_SLUG = re.compile(r'(?m)^\s*slug:\s*["\']?([^"\'\s,}]+)')
 BRAND_SLUG_FIELD = re.compile(
     r'(?m)^\s*["\']?brand_slug["\']?\s*:\s*["\']?([^"\'\s,}]+)'
 )
-TEST_PREFIX_FIELD = re.compile(
-    r'(?m)^\s*test_prefix\s*:\s*["\']?([^"\'\s#]+)'
+ANY_TOP_LEVEL_NAMING = re.compile(r'^["\']?naming["\']?\s*:')
+CANONICAL_TOP_LEVEL_NAMING = re.compile(r"^naming:\s*(?:#.*)?$")
+ANY_TEST_PREFIX = re.compile(r"^\s*test_prefix\s*:")
+CANONICAL_TEST_PREFIX = re.compile(
+    r'^  test_prefix:\s*"CONTST"\s*(?:#.*)?$'
 )
-NEXT_TEST_NUMBER_FIELD = re.compile(r"(?m)^\s*next_test_number\s*:\s*(\d+)\s*(?:#.*)?$")
-TEST_ID_FIELD = re.compile(
-    r'(?m)^\s*-\s*test_id\s*:\s*["\']?([^"\'\s#]+)'
+ANY_NEXT_TEST_NUMBER = re.compile(r"^\s*next_test_number\s*:")
+CANONICAL_NEXT_TEST_NUMBER = re.compile(
+    r"^  next_test_number:\s*(?P<number>[1-9]\d*)\s*(?:#.*)?$"
 )
-CONTST_ID = re.compile(r"^CONTST(?P<number>\d{3})$")
+ANY_TOP_LEVEL_TESTS = re.compile(r'^["\']?tests["\']?\s*:')
+CANONICAL_TOP_LEVEL_TESTS = re.compile(
+    r"^tests:\s*(?P<value>\[\])?\s*(?:#.*)?$"
+)
+CANONICAL_TEST_ITEM = re.compile(
+    r"^  - test_id:\s*(?P<identifier>CONTST(?P<number>\d{3}))\s*(?:#.*)?$"
+)
+ANY_TEST_ID_KEY = re.compile(r"^\s+test_id\s*:")
 
 
 def selected_files(folder: pathlib.Path) -> list[pathlib.Path]:
@@ -146,32 +156,139 @@ def structured_contains_secret(value: object) -> bool:
     return False
 
 
+def block_end(lines: list[str], start: int) -> int:
+    """Return the next non-comment top-level YAML line after ``start``."""
+    for index in range(start + 1, len(lines)):
+        line = lines[index]
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        if line == line.lstrip():
+            return index
+    return len(lines)
+
+
+def parse_manifest_test_state(manifest_text: str) -> int:
+    lines = manifest_text.splitlines()
+    naming_indexes = [
+        index for index, line in enumerate(lines) if ANY_TOP_LEVEL_NAMING.match(line)
+    ]
+    if (
+        len(naming_indexes) != 1
+        or not CANONICAL_TOP_LEVEL_NAMING.fullmatch(lines[naming_indexes[0]])
+    ):
+        raise ValueError("brand.yml must contain exactly one top-level naming block")
+
+    naming_start = naming_indexes[0]
+    naming_end = block_end(lines, naming_start)
+    prefix_indexes = [
+        index for index, line in enumerate(lines) if ANY_TEST_PREFIX.match(line)
+    ]
+    if (
+        len(prefix_indexes) != 1
+        or not naming_start < prefix_indexes[0] < naming_end
+        or not CANONICAL_TEST_PREFIX.fullmatch(lines[prefix_indexes[0]])
+    ):
+        if (
+            len(prefix_indexes) == 1
+            and naming_start < prefix_indexes[0] < naming_end
+        ):
+            raise ValueError(
+                "brand.yml naming.test_prefix must be literal uppercase CONTST"
+            )
+        raise ValueError(
+            "brand.yml must contain exactly one naming.test_prefix inside top-level naming block"
+        )
+
+    next_indexes = [
+        index for index, line in enumerate(lines) if ANY_NEXT_TEST_NUMBER.match(line)
+    ]
+    if (
+        len(next_indexes) != 1
+        or not naming_start < next_indexes[0] < naming_end
+    ):
+        raise ValueError(
+            "brand.yml must contain exactly one naming.next_test_number inside top-level naming block"
+        )
+    next_match = CANONICAL_NEXT_TEST_NUMBER.fullmatch(lines[next_indexes[0]])
+    if next_match is None:
+        raise ValueError(
+            "brand.yml naming.next_test_number must be a canonical positive integer"
+        )
+    return int(next_match.group("number"))
+
+
+def parse_test_register(register_text: str) -> list[int]:
+    lines = register_text.splitlines()
+    tests_indexes = [
+        index for index, line in enumerate(lines) if ANY_TOP_LEVEL_TESTS.match(line)
+    ]
+    if (
+        len(tests_indexes) != 1
+        or not CANONICAL_TOP_LEVEL_TESTS.fullmatch(lines[tests_indexes[0]])
+    ):
+        raise ValueError(
+            "strategy/test-register.yml must contain exactly one canonical top-level tests key"
+        )
+
+    tests_start = tests_indexes[0]
+    tests_match = CANONICAL_TOP_LEVEL_TESTS.fullmatch(lines[tests_start])
+    assert tests_match is not None
+    tests_end = block_end(lines, tests_start)
+    block_lines = lines[tests_start + 1 : tests_end]
+    if tests_match.group("value") == "[]":
+        has_content = any(
+            line.strip() and not line.lstrip().startswith("#") for line in block_lines
+        )
+        if has_content:
+            raise ValueError(
+                "strategy/test-register.yml tests must use an empty list or canonical block-style items"
+            )
+        return []
+
+    numbers: list[int] = []
+    seen: set[str] = set()
+    current_item = False
+    for line in block_lines:
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        if line.startswith("  -"):
+            item_match = CANONICAL_TEST_ITEM.fullmatch(line)
+            if item_match is None:
+                raise ValueError(
+                    "strategy/test-register.yml tests must use canonical block-style "
+                    "`  - test_id: CONTST###` items"
+                )
+            identifier = item_match.group("identifier")
+            if identifier in seen:
+                raise ValueError(f"strategy/test-register.yml reuses {identifier}")
+            seen.add(identifier)
+            numbers.append(int(item_match.group("number")))
+            current_item = True
+            continue
+        if not current_item or not line.startswith("    "):
+            raise ValueError(
+                "strategy/test-register.yml tests must use canonical block-style "
+                "`  - test_id: CONTST###` items"
+            )
+        if ANY_TEST_ID_KEY.match(line):
+            raise ValueError(
+                "strategy/test-register.yml has a duplicate test_id key within one item"
+            )
+
+    if not numbers:
+        raise ValueError(
+            "strategy/test-register.yml empty tests must use canonical `tests: []`"
+        )
+    return numbers
+
+
 def validate_test_state(folder: pathlib.Path, manifest_text: str) -> None:
     register = folder / "strategy" / "test-register.yml"
     if not register.is_file():
         return
 
-    prefix = TEST_PREFIX_FIELD.search(manifest_text)
-    if prefix is None or prefix.group(1).upper() != "CONTST":
-        raise ValueError("brand.yml naming.test_prefix must be CONTST")
-    next_number = NEXT_TEST_NUMBER_FIELD.search(manifest_text)
-    if next_number is None:
-        raise ValueError("brand.yml must contain naming.next_test_number")
-
-    identifiers = TEST_ID_FIELD.findall(register.read_text())
-    numbers: list[int] = []
-    seen: set[str] = set()
-    for identifier in identifiers:
-        match = CONTST_ID.fullmatch(identifier.upper())
-        if match is None:
-            raise ValueError(
-                f"strategy/test-register.yml has invalid test_id: {identifier}"
-            )
-        normalized = identifier.upper()
-        if normalized in seen:
-            raise ValueError(f"strategy/test-register.yml reuses {normalized}")
-        seen.add(normalized)
-        numbers.append(int(match.group("number")))
+    actual_next = parse_manifest_test_state(manifest_text)
+    numbers = parse_test_register(register.read_text())
 
     ordered = sorted(numbers)
     if ordered and ordered != list(range(1, ordered[-1] + 1)):
@@ -179,7 +296,6 @@ def validate_test_state(folder: pathlib.Path, manifest_text: str) -> None:
             "strategy/test-register.yml must use sequential CONTST values from CONTST001"
         )
     expected_next = ordered[-1] + 1 if ordered else 1
-    actual_next = int(next_number.group(1))
     if actual_next != expected_next:
         raise ValueError(
             f"brand.yml naming.next_test_number must be {expected_next} for current test-register state"

@@ -258,24 +258,115 @@ def classify_read_validity(
     return "Direction"
 
 
+def policy_clauses(text: str) -> list[str]:
+    return re.split(
+        r"(?<=[.!?])\s+|\n+|[,;](?=\s)|[—–]|\s+-{1,2}\s+|"
+        r"\s+(?=\(\s*not\b)|\s+\b(?:but|although|however)\b\s+",
+        text,
+        flags=re.IGNORECASE,
+    )
+
+
+def is_negated_policy_clause(clause: str) -> bool:
+    return bool(
+        re.search(
+            r"\b(?:not|never|no|without|exclude(?:d|s)?|prohibit(?:ed|s)?|"
+            r"forbid(?:den|s)?|disallow(?:ed|s)?|cannot|can't|isn't|aren't|do\s+not)\b",
+            clause,
+            re.IGNORECASE,
+        )
+    )
+
+
 def prescribes_most_aware_standard_ad(text: str) -> bool:
-    sentences = re.split(r"(?<=[.!?])\s+|\n+", text)
-    for sentence in sentences:
-        if not re.search(r"\b(?:Most\s+Aware|MWA)\b", sentence, re.IGNORECASE):
+    for clause in policy_clauses(text):
+        if not re.search(r"\b(?:Most\s+Aware|MWA)\b", clause, re.IGNORECASE):
             continue
-        if not re.search(r"\bstandard[- ]ad\b", sentence, re.IGNORECASE):
+        if not re.search(r"\bstandard[- ]ad\b", clause, re.IGNORECASE):
+            continue
+        if is_negated_policy_clause(clause):
             continue
         if re.search(
-            r"\b(?:not|never|no|exclude|excludes|excluded|without)\b",
-            sentence,
+            r"\b(?:is|are|as|becomes?|serves?|counts?|remains?|include|includes|included|"
+            r"require|requires|required|create|creates|created|build|builds|built|add|adds|"
+            r"added|use|uses|used|treat|treats|treated|make|makes|made|must|should)\b",
+            clause,
             re.IGNORECASE,
         ):
+            return True
+    return False
+
+
+def contradicts_initial_ad_count(text: str) -> bool:
+    for clause in policy_clauses(text):
+        if is_negated_policy_clause(clause):
             continue
-        if re.search(
-            r"\b(?:is|are|as|becomes?|include|includes|included|require|requires|required|"
-            r"create|creates|created|build|builds|built|add|adds|added|use|uses|used|must|should)\b",
-            sentence,
+        if (
+            re.search(r"\binitial\b", clause, re.IGNORECASE)
+            and re.search(r"\b(?:NNT|INSPO)\b", clause, re.IGNORECASE)
+            and re.search(r"\b(?:5|five)\b", clause, re.IGNORECASE)
+            and re.search(r"\bads?\b", clause, re.IGNORECASE)
+        ):
+            return True
+    return False
+
+
+def permits_automatic_meta_change(text: str) -> bool:
+    for clause in policy_clauses(text):
+        if is_negated_policy_clause(clause):
+            continue
+        automatic = re.search(
+            r"\b(?:auto(?:matic(?:ally|ed)?)?|automated)\b", clause, re.IGNORECASE
+        ) or re.search(r"\bauto-(?:publish|change|adjust)", clause, re.IGNORECASE)
+        action = re.search(
+            r"\b(?:publish(?:ed|es|ing)?|budget(?:s)?|change(?:d|s|ing)?|"
+            r"adjust(?:ed|s|ing)?)\b",
+            clause,
             re.IGNORECASE,
+        )
+        if automatic and action:
+            return True
+    return False
+
+
+def permits_pre_five_day_verdict(text: str) -> bool:
+    pre_five = re.compile(
+        r"\b(?:day[- ]?(?:1|2|3|4|one|two|three|four)|"
+        r"(?:1|2|3|4|one|two|three|four)[- ]days?|"
+        r"before\s+(?:day\s+)?(?:5|five)|fewer\s+than\s+(?:5|five)\s+full\s+days|"
+        r"under\s+(?:5|five)\s+full\s+days)\b",
+        re.IGNORECASE,
+    )
+    for clause in policy_clauses(text):
+        if is_negated_policy_clause(clause):
+            continue
+        if (
+            re.search(r"\bVerdict\b", clause, re.IGNORECASE)
+            and pre_five.search(clause)
+            and re.search(
+                r"\b(?:permit(?:s|ted)?|allow(?:s|ed)?|qualif(?:y|ies|ied)|"
+                r"can|may|is|becomes?)\b",
+                clause,
+                re.IGNORECASE,
+            )
+        ):
+            return True
+    return False
+
+
+def sets_seven_day_test_default(text: str) -> bool:
+    for clause in policy_clauses(text):
+        if is_negated_policy_clause(clause):
+            continue
+        if (
+            re.search(r"\b(?:7|seven)[- ]days?\b", clause, re.IGNORECASE)
+            and re.search(r"\btest\s+duration\b", clause, re.IGNORECASE)
+            and re.search(r"\b(?:default|standard|use|set)\b", clause, re.IGNORECASE)
+            and not re.search(
+                r"\b(?:external|benchmark|observation|reported?|source|Flighted|Kruse)\b",
+                clause,
+                re.IGNORECASE,
+            )
         ):
             return True
     return False
@@ -324,6 +415,12 @@ def validate(root: pathlib.Path) -> list[str]:
         for pattern, error in ENTRYPOINT_LAUNCH_RULES:
             if not pattern.search(launch_invariants):
                 errors.append(f"{relative} {error}")
+        if contradicts_initial_ad_count(text):
+            errors.append(f"{relative} contains contradictory initial-ad count")
+        if permits_automatic_meta_change(text):
+            errors.append(
+                f"{relative} permits automatic Meta publishing or budget changes"
+            )
 
     version_path = root / "VERSION"
     if version_path.is_file() and version_path.read_text().strip() != "0.3.0":
@@ -349,16 +446,25 @@ def validate(root: pathlib.Path) -> list[str]:
         for pattern, error in LEGACY_PLATFORM_POLICIES:
             if pattern.search(platform_text):
                 errors.append(f"references/12-meta-platform.md contains {error}")
+        if sets_seven_day_test_default(platform_text):
+            errors.append(
+                "references/12-meta-platform.md sets a seven-day default test duration"
+            )
 
     validity_reference = root / "references" / "09-testing-and-diagnosis.md"
     if validity_reference.is_file():
-        validity_section = markdown_section(validity_reference.read_text(), "Read validity")
+        validity_text = validity_reference.read_text()
+        validity_section = markdown_section(validity_text, "Read validity")
         matches = [pattern.search(validity_section) for pattern in READ_VALIDITY_RULES]
         if any(match is None for match in matches) or [
             match.start() for match in matches if match is not None
         ] != sorted(match.start() for match in matches if match is not None):
             errors.append(
                 "references/09-testing-and-diagnosis.md must define ordered non-overlapping read validity"
+            )
+        if permits_pre_five_day_verdict(validity_text):
+            errors.append(
+                "references/09-testing-and-diagnosis.md permits a Verdict before five full days"
             )
 
     campaign_launch_path = root / CAMPAIGN_LAUNCH_CONTRACT
