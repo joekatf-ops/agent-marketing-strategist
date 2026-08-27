@@ -45,12 +45,25 @@ CTA. Every row has a beat. A row that cannot be named is a row that gets cut.
 
 | Awareness | Opening job | Body job | Close |
 |---|---|---|---|
-| UWA | Reflect the experience, create curiosity | Build relevance before naming the category | Soft, to an educational destination |
-| PRA | Name the problem precisely | Explain the underlying cause, introduce the mechanism | To education or PDP |
-| SLA | Mechanism, comparison or demonstration | Why this route works and alternatives fall short | To PDP |
-| PDA | Proof or differentiation | Objection handling, offer terms | Direct, to PDP |
+| UWA | Reflect the experience, create curiosity | Build relevance before naming the category | Soft, to LP by default |
+| PRA | Name the problem precisely | Explain the underlying cause, introduce the mechanism | To LP by default |
+| SLA | Mechanism, comparison or demonstration | Why this route works and alternatives fall short | To PDP by default |
+| PDA | Proof or differentiation | Objection handling, offer terms | Direct, to PDP by default |
 
 Most Aware is handled by the offer and conversion environment, not as a standard script output.
+
+## Destination defaults and exceptions
+
+| Awareness code | Default destination |
+|---|---|
+| UWA | LP |
+| PRA | LP |
+| SLA | PDP |
+| PDA | PDP |
+
+Every deviation from these defaults must remain congruent with the execution and be documented as
+a deliberate exception in the Destination Handoff. The selected page must map to exactly one
+controlled destination token: LP, PDP, HP or CP. If it cannot, the script is blocked from launch.
 
 ## Formatting rules
 
@@ -81,6 +94,7 @@ Most Aware is handled by the offer and conversion environment, not as a standard
 - [ ] Shot list is in shooting order and complete
 - [ ] Header carries CONTST, source, Who, Primary Problem, awareness job and messaging route
 - [ ] Primary hook, media type, execution format, proof, destination and CTA agree
+- [ ] Destination follows the awareness default or has a congruent documented Destination Handoff exception
 - [ ] People, assets and location required are explicit
 - [ ] Complete final ad name uses the full ad-set name and ends in POSTIDXXX before publication
 - [ ] Read aloud without stumbling

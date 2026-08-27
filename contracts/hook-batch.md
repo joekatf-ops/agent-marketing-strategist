@@ -13,15 +13,18 @@ Every hook package carries all of these fields, even when the values repeat acro
 2. Who and Primary Problem
 3. Awareness code and job
 4. Messaging route and primary hook
-5. Media type and execution format
-6. Proof and claims required
-7. Destination and CTA
-8. People, assets and location required
-9. Complete final ad name ending in `POSTIDXXX` before publication
+5. Hook format from `references/16-hook-formats.md`
+6. Media type
+7. Execution format from `references/08-formats.md`
+8. Controlled ad-name FORMAT token from `references/07-naming.md`
+9. Proof and claims required
+10. Destination and CTA
+11. People, assets and location required
+12. Complete final ad name ending in `POSTIDXXX` before publication
 
 ## Default batch
 
-Create exactly six hook packages across at least four formats:
+Create exactly six hook packages across at least four hook formats:
 
 - 2 evidence-led safe hooks
 - 2 proven-pattern hooks adapted to the brand and concept
@@ -34,11 +37,12 @@ or opening questions do not create a strategically new hook.
 ## Sections, in order
 
 1. **Batch header** - brand, market, product, coordinate key, CONTST test ID, source, Who, Primary
-   Problem, awareness code and job, messaging route, media type, execution format, destination, CTA,
-   complete final ad name and format constraints
+   Problem, awareness code and job, messaging route, media type, execution format, controlled FORMAT
+   token, destination, CTA, complete final ad name and production constraints
 2. **Evidence and claim gate** - proof available, approved language, prohibited language
 3. **Hook packages** - six fixed cards
-4. **Diversity matrix** - category, format, lead type, visual pattern, belief, evidence, risk
+4. **Diversity matrix** - category, hook format, media type, execution format, lead type, visual
+   pattern, belief, evidence and risk
 5. **Recommended production order** - ranked with the learning value and effort
 
 ## Hook package shape
@@ -46,18 +50,21 @@ or opening questions do not create a strategically new hook.
 1. Hook number and category
 2. CONTST test ID, source, Who and Primary Problem
 3. Awareness code, awareness job and messaging route
-4. Primary hook, expressed as one coherent visual, spoken or written and on-screen idea
-5. Media type and execution format from `references/16-hook-formats.md`
-6. Visual opening, frame by frame for the first three seconds when video
-7. Spoken opening or primary written line
-8. On-screen anchor
-9. Body handoff that cashes the hook's promise
-10. Proof and claims required, with evidence IDs and approval status
-11. Destination and CTA
-12. People, assets and location required
-13. Complete final ad name ending in `POSTIDXXX` before publication
-14. Policy and claim risk: LOW, MEDIUM, or HIGH, with reason
-15. Why it fits the coordinate and how it differs from the other five
+4. Hook format from `references/16-hook-formats.md`, such as Confession or Demonstration
+5. Primary hook, expressed as one coherent visual, spoken or written and on-screen idea
+6. Media type: VIDEO, STATIC or CAROUSEL
+7. Execution format from `references/08-formats.md`, such as Direct-to-camera UGC
+8. Controlled ad-name FORMAT token from `references/07-naming.md`, such as UGC
+9. Visual opening, frame by frame for the first three seconds when video
+10. Spoken opening or primary written line
+11. On-screen anchor
+12. Body handoff that cashes the hook's promise
+13. Proof and claims required, with evidence IDs and approval status
+14. Destination and CTA
+15. People, assets and location required
+16. Complete final ad name ending in `POSTIDXXX` before publication
+17. Policy and claim risk: LOW, MEDIUM, or HIGH, with reason
+18. Why it fits the coordinate and how it differs from the other five
 
 For a static hook, replace the three-second frames with feed object, hierarchy, primary line, and
 proof object. Do not pretend a static is a video storyboard.
@@ -88,9 +95,10 @@ unless its claim and policy burden are fully resolved.
 
 ## Self-check
 
-- [ ] Exactly 6 hooks across at least 4 formats
+- [ ] Exactly 6 hooks across at least 4 hook formats
 - [ ] Required category allocation is complete
-- [ ] Every hook has all fifteen fields and the complete traceability set
+- [ ] Every hook has all eighteen fields and the complete traceability set
+- [ ] Hook format, media type, execution format and controlled FORMAT token are separate fields
 - [ ] Each route differs strategically
 - [ ] Visual, spoken, and on-screen elements express one idea
 - [ ] Every proof burden has a real source or is marked unavailable

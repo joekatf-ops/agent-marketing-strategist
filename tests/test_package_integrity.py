@@ -222,6 +222,65 @@ class PackageIntegrityTests(unittest.TestCase):
             with self.subTest(relative=relative):
                 self.assertNotIn("| MWA |", (ROOT / relative).read_text())
 
+    def test_hook_contract_separates_hook_and_execution_formats(self):
+        contract = (ROOT / "contracts" / "hook-batch.md").read_text()
+
+        self.assertIn("Hook format from `references/16-hook-formats.md`", contract)
+        self.assertIn("Execution format from `references/08-formats.md`", contract)
+        self.assertIn("FORMAT token from `references/07-naming.md`", contract)
+        self.assertNotIn(
+            "Media type and execution format from `references/16-hook-formats.md`",
+            contract,
+        )
+
+    def test_video_contract_locks_destination_defaults_and_exceptions(self):
+        contract = (ROOT / "contracts" / "video-script.md").read_text()
+
+        for row in (
+            "| UWA | LP |",
+            "| PRA | LP |",
+            "| SLA | PDP |",
+            "| PDA | PDP |",
+        ):
+            self.assertIn(row, contract)
+        self.assertIn("Destination Handoff", contract)
+        self.assertIn("congruent", contract)
+        self.assertNotIn("to an educational destination", contract)
+        self.assertNotIn("To education or PDP", contract)
+
+    def test_diagnosis_decisions_have_one_literal_top_level_action(self):
+        reference = (ROOT / "references" / "09-testing-and-diagnosis.md").read_text()
+        section = reference.split("## Six-decision taxonomy", 1)[1].split(
+            "## Scaling stage", 1
+        )[0]
+        rows = [line for line in section.splitlines() if line.startswith("|")][2:]
+        actions = [row.split("|")[3].strip() for row in rows]
+
+        self.assertEqual(6, len(rows))
+        self.assertEqual(
+            ["scale", "ITR", "keep", "stop", "stop", "keep"], actions
+        )
+        self.assertTrue(all(action in {"keep", "ITR", "stop", "scale"} for action in actions))
+
+    def test_destination_exceptions_always_use_a_controlled_name_token(self):
+        relatives = (
+            "references/07-naming.md",
+            "references/09-testing-and-diagnosis.md",
+            "contracts/campaign-launch-plan.md",
+            "contracts/concept-batch.md",
+            "contracts/destination-handoff.md",
+        )
+        forbidden = ("other destination", "another destination")
+
+        for relative in relatives:
+            with self.subTest(relative=relative):
+                contract = (ROOT / relative).read_text()
+                self.assertTrue(
+                    all(phrase not in contract.lower() for phrase in forbidden),
+                    f"{relative} permits a destination that cannot be named",
+                )
+                self.assertIn("controlled destination token", contract.lower())
+
     def test_naming_reference_uses_locked_v03_shapes(self):
         naming = (ROOT / "references" / "07-naming.md").read_text()
 

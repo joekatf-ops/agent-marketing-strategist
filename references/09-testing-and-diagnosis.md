@@ -38,8 +38,9 @@ brand-specific validity thresholds are not met.
 | PDA | Decision | PDP |
 
 Each ad must make a complete argument because delivery order and spend distribution are not
-guaranteed. A deliberate HP, CP or other destination exception is allowed only when the page
-continues the execution's promise, proof and CTA and the Destination Handoff records the exception.
+guaranteed. Every deliberate deviation must map to one controlled destination token: LP, PDP, HP or
+CP. It is allowed only when the page continues the execution's promise, proof and CTA and the
+Destination Handoff records the exception. A page that cannot map to one of those tokens blocks launch.
 
 Initial tests make large changes across awareness, messaging route, hook, format, proof presentation
 and destination. They compare complete executions in a live acquisition environment. They identify
@@ -110,20 +111,24 @@ follow-up isolated the variable.
 
 ## Six-decision taxonomy
 
-Every reviewed execution or batch receives one of these six decisions and one governed next action.
+Every reviewed execution or batch receives one of these six decisions and exactly one literal
+top-level action.
 
-| Decision | Evidence pattern | Governed next action |
-|---|---|---|
-| Financial winner | At or below target CAC with useful volume in a valid read | Keep in testing, graduate a proven ad to scale, or build an evidence-led ITR |
-| Directional promise | Economics miss target but attention, click, conversion or response shows a bounded signal | ITR against the same coordinate with a new CONTST ID |
-| Interest, weak conversion | Ad earns traffic but destination, product explanation, offer or checkout underperforms | Stop launch changes, repair continuity or conversion environment, then decide whether an ITR is warranted |
-| Weak throughout | No meaningful attention or action after a valid read | Stop the batch, retain the losing evidence and prioritise a materially different NNT |
-| Initial winner, scale failure | Testing economics were acceptable but deteriorated materially at higher spend | Stop or reduce scaling, preserve both records and propose a justified ITR |
-| Winner at scale | Acceptable economics persist at higher spend | Keep in CBO scaling and add to the evergreen winner library |
+| Decision | Evidence pattern | Top-level action | Execution instruction |
+|---|---|---|---|
+| Financial winner | At or below target CAC with useful volume in a valid read | scale | Graduate the published winner by its real Post ID into CBO scaling |
+| Directional promise | Economics miss target but attention, click, conversion or response shows a bounded signal | ITR | Create a new CONTST batch against the same coordinate and cite this signal |
+| Interest, weak conversion | Ad earns traffic but destination, product explanation, offer or checkout underperforms | keep | Keep the execution and coordinate unchanged while repairing the identified conversion-environment break before further spend |
+| Weak throughout | No meaningful attention or action after a valid read | stop | Stop the batch, retain the losing evidence and prioritise a materially different NNT |
+| Initial winner, scale failure | Testing economics were acceptable but deteriorated materially at higher spend | stop | Stop scaling, preserve the initial and scale records separately, and return any later follow-up as a separately decided ITR |
+| Winner at scale | Acceptable economics persist at higher spend | keep | Keep the real-Post-ID ad in CBO scaling and add it to the evergreen winner library |
 
-The top-level action vocabulary is keep, ITR, stop or scale. The named decision preserves why that
-action was chosen. A losing ad still creates learning. Record what happened, the likely explanation,
-confidence and next action without promoting association into causal learning.
+The top-level action field contains exactly one of `keep`, `ITR`, `stop` or `scale`, with the
+capitalisation shown in the table. Never join actions with "or", encode a sequence in that field or
+leave the choice to the operator. The execution instruction implements the selected action and may
+record a future review trigger, but it does not add a second top-level action. A losing ad still
+creates learning. Record what happened, the likely explanation, confidence and selected action
+without promoting association into causal learning.
 
 ## Scaling stage
 
@@ -150,6 +155,7 @@ increase rule, and this package does not authorise automatic budget changes.
 6. Use association language for broad tests and record explanation confidence.
 7. Preserve losers, interventions, destination exceptions and scale failures.
 8. Zero recommended changes is valid when the evidence does not support action.
+9. Every six-decision result has one literal top-level action field: keep, ITR, stop or scale.
 
 ## Operating loop
 
@@ -160,5 +166,5 @@ increase rule, and this package does not authorise automatic budget changes.
 5. Produce the manual Campaign Launch Plan and run preflight.
 6. Observe five full days without routine changes.
 7. Audit validity, then read business, funnel and creative layers.
-8. Apply one of the six decisions and one next action: keep, ITR, stop or scale.
+8. Apply one of the six decisions and record exactly one literal top-level action: keep, ITR, stop or scale.
 9. Preserve the test record separately from approved human-revision learning.

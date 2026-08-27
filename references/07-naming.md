@@ -106,9 +106,11 @@ folder before use. Do not use generic VID, IMG or CAR when the controlled execut
 | HP | Homepage |
 | CP | Collection page |
 
-UWA and PRA default to LP. SLA and PDA default to PDP. A deliberate HP, CP or other exception is
-valid only when the destination remains congruent and the Destination Handoff records the reason,
-evidence, risk, owner and approval.
+UWA and PRA default to LP. SLA and PDA default to PDP. Every deliberate deviation must select
+exactly one controlled destination token: LP, PDP, HP or CP. It is valid only when the destination
+remains congruent and the Destination Handoff records the reason, evidence, risk, owner and
+approval. If a page cannot be accurately represented by one of the four tokens, block launch rather
+than inventing a token or producing an invalid ad name.
 
 ## Locked rules
 
@@ -120,6 +122,7 @@ evidence, risk, owner and approval.
 6. Never leave a blank token in a manual Meta build.
 7. `POSTIDXXX` is only a pre-publication placeholder; scaling uses the real Post ID.
 8. Read names from controlled records. Never reconstruct them from conversation memory.
+9. Every destination, including an exception, maps to one controlled destination token.
 
 ## Preflight
 

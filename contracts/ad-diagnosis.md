@@ -31,7 +31,7 @@ Markdown report. `diagnosis-{{brand.slug}}-YYYYMMDD.md`
    disconfirming evidence, explanation confidence and what would test it
 8. **Six-decision taxonomy** - each reviewed item classified as Financial winner, Directional
    promise, Interest weak conversion, Weak throughout, Initial winner scale failure or Winner at
-   scale, with one next action: keep, ITR, stop or scale
+   scale, with exactly one literal top-level action field: keep, ITR, stop or scale
 9. **Ranked change list** - what to do, in order
 10. **What we learned** - retained test observations, including losers and scale failures, kept
     separate from approved human-revision learning
@@ -43,6 +43,15 @@ Markdown report. `diagnosis-{{brand.slug}}-YYYYMMDD.md`
 |---|---|---|---|---|---|---|---|
 
 Every row carries a number in the number column. A row without one does not get written.
+
+## Decision row, fixed shape
+
+| Reviewed item | Decision | Top-level action | Numbers and thresholds | Likely explanation | Explanation confidence | Execution instruction |
+|---|---|---|---|---|---|---|
+
+`Top-level action` contains exactly one literal value: `keep`, `ITR`, `stop` or `scale`. Do not put
+alternatives, sequences or conditional prose in that field. Use the execution instruction only to
+implement the selected action.
 
 ## Counts
 
@@ -66,6 +75,7 @@ Every row carries a number in the number column. A row without one does not get 
    format, proof or destination causation from them
 10. Keep initial-test performance and CBO scaling performance as separate result records
 11. An ITR retains Who and Primary Problem but always receives a new CONTST ID
+12. Every decision records exactly one literal top-level action: keep, ITR, stop or scale
 
 ## Never
 
@@ -87,6 +97,6 @@ Every row carries a number in the number column. A row without one does not get 
 - [ ] Coordinate, batch, execution and scaling results remain separate
 - [ ] Strongest and weakest executions are identified only within the valid supplied read
 - [ ] Every likely explanation has confidence, disconfirming evidence and a follow-up test
-- [ ] Every decision uses the six-decision taxonomy and one action: keep, ITR, stop or scale
+- [ ] Every decision uses the six-decision taxonomy and exactly one literal top-level action field
 - [ ] Section 11 is filled honestly
 - [ ] If the test is underpowered, that governs the whole report rather than a footnote

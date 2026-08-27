@@ -81,8 +81,9 @@ version suffix.
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 
 Initial NNT and INSPO manifests contain exactly four rows in UWA, PRA, SLA and PDA order. UWA and
-PRA default to LP. SLA and PDA default to PDP. HP, CP or another destination is a deliberate
-exception and requires a complete Destination Handoff.
+PRA default to LP. SLA and PDA default to PDP. Every deliberate deviation must use one controlled
+destination token: LP, PDP, HP or CP, and requires a complete Destination Handoff. A page that
+cannot be accurately represented by one of those tokens blocks launch.
 
 ## Manual preflight
 
@@ -95,6 +96,7 @@ exception and requires a complete Destination Handoff.
 - [ ] Every ad opens the intended asset and its copy, CTA and URL match the production record
 - [ ] Every claim and proof object has the required approval for the active market
 - [ ] Every Destination Handoff passes or records an approved deliberate exception
+- [ ] Every default and exception uses one controlled destination token: LP, PDP, HP or CP
 - [ ] Tracking parameters, page status, stock, price, shipping, offer and checkout are verified
 - [ ] Start and end timestamps provide five full days in the recorded account timezone
 - [ ] Manual operator and review owner are named

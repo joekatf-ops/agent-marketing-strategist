@@ -15,8 +15,8 @@ Markdown document with one handoff card per ad.
 1. **Execution identity** - brand, market, product, coordinate key, CONTST test ID, source, Who,
    Primary Problem, awareness code and job, messaging route, primary hook, media type, execution
    format, CTA and complete final ad name ending in `POSTIDXXX` before publication
-2. **Destination decision** - default destination code and URL, selected destination code and final
-   URL, DEFAULT or EXCEPTION status, rationale, evidence and approval owner
+2. **Destination decision** - default destination code and URL, selected controlled destination
+   token and final URL, DEFAULT or EXCEPTION status, rationale, evidence and approval owner
 3. **Ad promise** - exact opening promise, problem framing, mechanism, proof, offer language,
    objection handled and expectation created by the CTA
 4. **Required page continuation** - first-screen promise, Who recognition, problem language,
@@ -46,17 +46,19 @@ the selected execution's Who, Primary Problem, messaging route, proof and CTA.
 
 ## Deliberate destination exception
 
-An HP, CP or other non-default destination is allowed only when it remains congruent. Record:
+Every deliberate deviation must select exactly one controlled destination token: LP, PDP, HP or CP,
+and is allowed only when it remains congruent. Record:
 
 1. awareness code and default destination;
-2. selected destination and final URL;
+2. selected controlled destination token and final URL;
 3. why the default is unsuitable;
 4. how the selected page continues the exact promise, proof and CTA;
 5. supporting evidence and known risk;
 6. page changes required before launch;
 7. approver, approval date and review trigger.
 
-An unexplained URL swap is not an exception. It is a failed handoff and blocks launch.
+An unexplained URL swap is not an exception. A page that cannot be accurately represented by LP,
+PDP, HP or CP is also invalid. Either case blocks launch.
 
 ## Message-match map, fixed row shape
 
@@ -73,6 +75,7 @@ proof, claim qualifier, offer where used and CTA next step.
 - Do not send a differentiation or decision execution to a page that hides the mechanism, proof or product.
 - Preserve exact price, offer, shipping, guarantee and availability truth across ad and page.
 - Record deliberate destination exceptions before the Campaign Launch Plan is marked ready.
+- Map every default and exception to exactly one controlled destination token: LP, PDP, HP or CP.
 - This is a production handoff and manual preflight. It does not edit or publish the destination.
 
 ## Self-check before presenting
@@ -80,6 +83,7 @@ proof, claim qualifier, offer where used and CTA next step.
 - [ ] The execution identity carries the complete traceability set
 - [ ] UWA and PRA default to LP; SLA and PDA default to PDP
 - [ ] Every exception records reason, congruence, evidence, risk and approval
+- [ ] Every default and exception uses exactly one controlled destination token
 - [ ] Every load-bearing ad element has a page continuation and owner
 - [ ] Claims, qualifiers, offer and CTA agree across ad and page
 - [ ] URL, mobile page, tracking, stock, price, shipping and checkout are verified manually

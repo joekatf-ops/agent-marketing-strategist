@@ -71,9 +71,10 @@ Each execution records: awareness code and job, messaging route, primary hook, m
 format, required proof and claims, destination, CTA, people, assets and location required, and the
 complete final ad name ending in `POSTIDXXX` before publication.
 
-A deliberate HP, CP or other destination exception is permitted only when the execution and page
-remain congruent. Record the default, selected destination, reason, supporting evidence, risks,
-owner and approval in the Destination Handoff.
+A deliberate deviation is permitted only when the execution and page remain congruent and the page
+maps to one controlled destination token: LP, PDP, HP or CP. Record the default, selected token,
+final URL, reason, supporting evidence, risks, owner and approval in the Destination Handoff. If the
+page cannot be accurately represented by one of the four tokens, block launch.
 
 ## ITR execution set
 
@@ -98,5 +99,6 @@ execution variable, justify the narrower set and state what the comparison canno
 - [ ] Every execution includes route, format, proof, destination and job
 - [ ] UWA and PRA default to LP; SLA and PDA default to PDP
 - [ ] Every deliberate destination exception is recorded and remains congruent
+- [ ] Every default and exception maps to one controlled destination token: LP, PDP, HP or CP
 - [ ] Every ITR cites a prior signal and receives a new CONTST ID
 - [ ] The interpretation states association and limits rather than unsupported causation
