@@ -66,6 +66,12 @@ class BrandFolderInitializerTests(unittest.TestCase):
             }
             self.assertTrue(required.issubset(actual), required - actual)
 
+            analysis_instructions = (
+                destination / "outputs/ad-analysis/README.md"
+            ).read_text()
+            self.assertIn("raw assets and exports may be placed or referenced", analysis_instructions)
+            self.assertIn("excluded from generated brand bundles", analysis_instructions)
+
             crawl_state = (destination / "sources/website/crawl-state.json").read_text()
             self.assertIn('"brand_slug": "acme-sleep"', crawl_state)
             self.assertIn('"full_refresh_days": 7', crawl_state)

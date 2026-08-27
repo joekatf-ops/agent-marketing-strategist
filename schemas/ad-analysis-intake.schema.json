@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Ad analysis intake",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "mode",
+    "brand_slug",
+    "method_version",
+    "market",
+    "product_id",
+    "account_timezone",
+    "requester",
+    "requested_at",
+    "ads",
+    "sources",
+    "performance",
+    "known_limitations"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "run_id": {"type": "string", "pattern": "^ADR-\\d{8}-\\d{3}$"},
+    "mode": {"enum": ["creative-audit", "performance-diagnosis"]},
+    "brand_slug": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "method_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "market": {"type": "string", "minLength": 1},
+    "product_id": {"type": "string", "minLength": 1},
+    "account_timezone": {"type": "string"},
+    "requester": {"type": "string"},
+    "requested_at": {"type": "string", "format": "date"},
+    "ads": {"type": "array", "items": {"$ref": "#/$defs/ad"}},
+    "sources": {"type": "array", "items": {"$ref": "#/$defs/source"}},
+    "performance": {"type": ["object", "null"]},
+    "known_limitations": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "kind", "label", "location", "sha256"],
+      "properties": {
+        "source_id": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["file", "attachment", "url", "screenshot", "table"]},
+        "label": {"type": "string", "minLength": 1},
+        "location": {"type": "string", "minLength": 1},
+        "sha256": {"type": ["string", "null"], "pattern": "^[a-fA-F0-9]{64}$"}
+      }
+    },
+    "ad": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ad_id", "asset_source_ids"],
+      "properties": {
+        "ad_id": {"type": "string", "minLength": 1},
+        "asset_source_ids": {"type": "array", "items": {"type": "string"}},
+        "primary_text": {"type": ["string", "null"]},
+        "headline": {"type": ["string", "null"]},
+        "description": {"type": ["string", "null"]},
+        "cta": {"type": ["string", "null"]},
+        "destination_url": {"type": ["string", "null"]},
+        "destination_type": {"type": ["string", "null"]},
+        "coordinate_key": {"type": ["string", "null"]}
+      }
+    }
+  }
+}

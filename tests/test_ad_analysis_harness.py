@@ -134,10 +134,11 @@ class AdAnalysisHarnessTests(unittest.TestCase):
         }
         return intake
 
-    def test_initialises_a_brand_scoped_analysis_run(self):
+    def test_initialises_sequential_run(self):
         harness = load_harness()
 
         run = self.create_run(harness)
+        second = self.create_run(harness)
 
         self.assertEqual("ADR-20260827-001", run.name)
         intake = json.loads((run / "intake.json").read_text())
@@ -145,6 +146,49 @@ class AdAnalysisHarnessTests(unittest.TestCase):
         self.assertEqual("creative-audit", intake["mode"])
         self.assertEqual("sleep-mask", intake["product_id"])
         self.assertEqual("AU", intake["market"])
+        self.assertEqual({"README.md", "intake.json"}, {path.name for path in run.iterdir()})
+        self.assertEqual("ADR-20260827-002", second.name)
+
+    def test_uses_the_current_brand_method_version_in_the_exact_skeleton(self):
+        harness = load_harness()
+        manifest = self.brand / "brand.yml"
+        manifest.write_text(manifest.read_text().replace('method_version: "0.3.0"', 'method_version: "0.4.0"'))
+
+        run = self.create_run(harness)
+
+        self.assertEqual(
+            {
+                "schema_version": 1,
+                "run_id": "ADR-20260827-001",
+                "mode": "creative-audit",
+                "brand_slug": "acme-sleep",
+                "method_version": "0.4.0",
+                "market": "AU",
+                "product_id": "sleep-mask",
+                "account_timezone": "",
+                "requester": "",
+                "requested_at": "2026-08-27",
+                "ads": [],
+                "sources": [],
+                "performance": None,
+                "known_limitations": [],
+            },
+            json.loads((run / "intake.json").read_text()),
+        )
+
+    def test_preserves_legacy_brand_version_and_records_migration_need(self):
+        harness = load_harness()
+
+        run = self.create_run(harness)
+
+        intake = harness.load_intake(run)
+        self.assertEqual("0.3.0", intake["method_version"])
+        self.assertEqual(
+            [
+                "Brand method version 0.3.0 requires reviewed migration before controlled persistence."
+            ],
+            intake["known_limitations"],
+        )
 
     def test_requires_exactly_one_non_empty_product_and_market(self):
         harness = load_harness()
@@ -172,7 +216,7 @@ class AdAnalysisHarnessTests(unittest.TestCase):
         self.assertTrue(any("product_id" in error for error in result.errors))
         self.assertTrue(any("market" in error for error in result.errors))
 
-    def test_refuses_to_overwrite_an_existing_analysis_run(self):
+    def test_refuses_existing_or_invalid_run(self):
         harness = load_harness()
         run = self.create_run(harness)
 
@@ -185,13 +229,30 @@ class AdAnalysisHarnessTests(unittest.TestCase):
                 run_id=run.name,
             )
 
-    def test_sequences_run_identifiers_for_the_same_day(self):
-        harness = load_harness()
-        self.create_run(harness)
+        for kwargs in (
+            {"mode": "unsupported"},
+            {"run_id": "not-an-analysis-run"},
+            {"run_id": "ADR-20261327-001"},
+        ):
+            with self.subTest(**kwargs):
+                with self.assertRaises(ValueError):
+                    parameters = {
+                        "brand_folder": self.brand,
+                        "mode": "creative-audit",
+                        "product_id": "sleep-mask",
+                        "market": "AU",
+                    }
+                    parameters.update(kwargs)
+                    harness.initialise_run(**parameters)
 
-        second = self.create_run(harness)
-
-        self.assertEqual("ADR-20260827-002", second.name)
+        explicit = harness.initialise_run(
+            brand_folder=self.brand,
+            mode="creative-audit",
+            product_id="sleep-mask",
+            market="AU",
+            run_id="ADR-20260827-003",
+        )
+        self.assertEqual("ADR-20260827-003", explicit.name)
 
     def test_marks_complete_creative_inputs_ready(self):
         harness = load_harness()
