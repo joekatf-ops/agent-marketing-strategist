@@ -30,6 +30,8 @@ class BrandBundleTests(unittest.TestCase):
             "research/evidence-ledger/manifest.json": '{"evidence_version":4}\n',
             "sources/website/crawl-state.json": '{"last_full_crawl":"2026-08-26"}\n',
             "strategy/concept-register.yml": "concepts: []\n",
+            "strategy/test-register.yml": "tests: []\n",
+            "strategy/winner-library.yml": "winners: []\n",
             "learning/approved-rules.yml": "rules:\n  - Approved rule\n",
             "learning/learning-events.jsonl": '{"raw": "private revision history"}\n',
             "research/customer-reviews/raw.md": "raw review body\n",
@@ -72,6 +74,8 @@ class BrandBundleTests(unittest.TestCase):
         self.assertIn("website_crawling: firecrawl", bundle)
         self.assertIn('"last_full_crawl":"2026-08-26"', bundle)
         self.assertIn('"evidence_version":4', bundle)
+        self.assertIn("tests: []", bundle)
+        self.assertIn("winners: []", bundle)
         self.assertIn("Evidence version: `sha256:", bundle)
         self.assertIn("Learning version: `sha256:", bundle)
 

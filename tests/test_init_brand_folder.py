@@ -46,6 +46,8 @@ class BrandFolderInitializerTests(unittest.TestCase):
                 "sources/market/README.md",
                 "strategy/concept-register.yml",
                 "strategy/hypothesis-backlog.yml",
+                "strategy/test-register.yml",
+                "strategy/winner-library.yml",
                 "outputs/README.md",
                 "learning/learning-events.jsonl",
                 "learning/active-memory.json",

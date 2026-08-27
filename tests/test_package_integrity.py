@@ -78,13 +78,14 @@ class PackageIntegrityTests(unittest.TestCase):
 
         self.assertIn("SKILL.md and AGENTS.md operating bodies have drifted", errors)
 
-    def test_v02_operating_references_exist(self):
+    def test_v03_operating_references_exist(self):
         required = {
             "references/13-brand-folder.md",
             "references/14-learning-system.md",
             "references/15-connectors.md",
             "references/16-hook-formats.md",
             "references/17-runtime-portability.md",
+            "references/18-master-creative-strategy.md",
         }
 
         missing = {relative for relative in required if not (ROOT / relative).is_file()}
@@ -110,14 +111,19 @@ class PackageIntegrityTests(unittest.TestCase):
 
         self.assertEqual(set(), missing)
 
-    def test_v02_contracts_and_frozen_examples_exist(self):
+    def test_v03_contracts_and_governance_guides_exist(self):
         required = {
             "contracts/brand-readiness.md",
             "contracts/hook-batch.md",
             "contracts/learning-update.md",
+            "contracts/campaign-launch-plan.md",
+            "contracts/destination-handoff.md",
             "examples/brand-readiness.md",
+            "examples/campaign-launch-plan.md",
+            "examples/destination-handoff.md",
             "examples/hook-batch.md",
             "examples/learning-update.md",
+            "connectors/notion-composio.md",
         }
 
         missing = {relative for relative in required if not (ROOT / relative).is_file()}
@@ -132,12 +138,14 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn("Long version", contract)
         self.assertIn("exactly 5", contract)
 
-    def test_concept_contract_uses_portfolio_awareness_coverage(self):
+    def test_concept_contract_requires_four_initial_awareness_ads(self):
         contract = (ROOT / "contracts" / "concept-batch.md").read_text()
 
-        self.assertIn("portfolio", contract.lower())
-        self.assertIn("Most aware", contract)
-        self.assertNotIn("exactly 4, one per awareness state", contract)
+        self.assertIn("Who x Primary Problem", contract)
+        self.assertIn("exactly four", contract.lower())
+        for awareness in ("UWA", "PRA", "SLA", "PDA"):
+            self.assertIn(awareness, contract)
+        self.assertNotIn("MWA", contract)
 
     def test_diagnosis_contract_accepts_manual_exports(self):
         contract = (ROOT / "contracts" / "ad-diagnosis.md").read_text()
@@ -145,21 +153,20 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn("manual", contract.lower())
         self.assertIn("does not require a live Meta connection", contract)
 
-    def test_package_declares_v02_and_portable_brand_folder(self):
-        self.assertEqual("0.2.0", (ROOT / "VERSION").read_text().strip())
+    def test_package_declares_v03_and_portable_brand_folder(self):
+        self.assertEqual("0.3.0", (ROOT / "VERSION").read_text().strip())
         readme = (ROOT / "README.md").read_text()
 
         self.assertIn("brand folder", readme.lower())
         self.assertIn("Firecrawl", readme)
         self.assertIn("Grok Agents", readme)
 
-    def test_concept_reference_removes_rigid_launch_mix(self):
+    def test_concept_reference_uses_who_by_primary_problem(self):
         reference = (ROOT / "references" / "06-concept-model.md").read_text()
 
-        self.assertNotIn("Every launch concept covers four awareness states", reference)
-        self.assertNotIn("Three videos and one static per concept", reference)
-        self.assertIn("Most aware", reference)
-        self.assertIn("portfolio", reference.lower())
+        self.assertIn("Who x Primary Problem", reference)
+        self.assertNotIn("Persona x Outcome x Angle", reference)
+        self.assertIn("CONTST", reference)
 
     def test_legacy_config_points_to_portable_brand_folder(self):
         config = (ROOT / "config" / "brand.example.yml").read_text()
@@ -191,13 +198,71 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn('"learning":', example)
         self.assertIn('"memory_key":', example)
 
-    def test_most_aware_is_supported_in_video_contract_and_formats(self):
-        script_contract = (ROOT / "contracts" / "video-script.md").read_text()
-        formats = (ROOT / "references" / "08-formats.md").read_text()
+    def test_standard_ad_contracts_exclude_most_aware_rows(self):
+        for relative in (
+            "contracts/ad-copy.md",
+            "contracts/hook-batch.md",
+            "contracts/video-script.md",
+            "contracts/static-spec.md",
+        ):
+            with self.subTest(relative=relative):
+                self.assertNotIn("| MWA |", (ROOT / relative).read_text())
 
-        self.assertIn("| MWA |", script_contract)
-        video_section = formats.split("## Video formats", 1)[1]
-        self.assertIn("MWA", video_section)
+    def test_naming_reference_uses_locked_v03_shapes(self):
+        naming = (ROOT / "references" / "07-naming.md").read_text()
+
+        self.assertIn(
+            "[BRAND]_[PRODUCT]_[CT|SC]_[ABO|CBO]_[REGION]_[YYYYMMDD]", naming
+        )
+        self.assertIn("[CONTST###]_[NNT|INSPO|ITR]_[WHO]_[PROBLEM]", naming)
+        self.assertIn(
+            "[FULL_AD_SET_NAME]_[UWA|PRA|SLA|PDA]_[FORMAT]_[LP|PDP|HP|CP]_[POSTID]",
+            naming,
+        )
+
+    def test_reports_superseded_concept_model_in_skill(self):
+        validator = load_validator()
+        temp, root = self.make_root(
+            skill_body="# Marketing Strategist\n\nPersona x Outcome x Angle\n",
+        )
+        self.addCleanup(temp.cleanup)
+
+        errors = validator.validate(root)
+
+        self.assertIn("SKILL.md contains superseded concept model", errors)
+
+    def test_reports_most_aware_rows_in_standard_ad_contracts(self):
+        validator = load_validator()
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        contracts = root / "contracts"
+        contracts.mkdir()
+        (contracts / "ad-copy.md").write_text("| MWA | Offer reminder |\n")
+
+        errors = validator.validate(root)
+
+        self.assertIn(
+            "contracts/ad-copy.md contains a Most Aware standard-ad row", errors
+        )
+
+    def test_reports_missing_v03_release_requirements(self):
+        validator = load_validator()
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+
+        errors = validator.validate(root)
+
+        self.assertIn("missing required file: VERSION", errors)
+        self.assertIn(
+            "missing v0.3 required file: references/18-master-creative-strategy.md",
+            errors,
+        )
+
+        (root / "VERSION").write_text("0.2.0\n")
+
+        errors = validator.validate(root)
+
+        self.assertIn("VERSION must declare 0.3.0", errors)
 
 
 if __name__ == "__main__":
