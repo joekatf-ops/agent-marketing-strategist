@@ -386,6 +386,9 @@ class PackageIntegrityTests(unittest.TestCase):
             "Adequate performance data may route to Creative Audit.",
             "Combined adequate creative and performance produces two reports: Ad Diagnosis and Creative Audit.",
             "Incomplete performance may produce conclusions before the input audit.",
+            "Adequate performance data must not use preliminary notes before it routes to Creative Audit.",
+            "Combined adequate creative and performance must not use preliminary notes before it produces two reports: Ad Diagnosis and Creative Audit.",
+            "Incomplete performance must not use preliminary notes before it produces conclusions before the input audit.",
         )
 
         for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):

@@ -506,9 +506,12 @@ def contradicts_ad_analysis_routing(text: str) -> bool:
             match = pattern.search(predicate)
             if match is None:
                 continue
-            action = AD_ANALYSIS_ROUTING_ACTION.search(
-                predicate, match.start(), match.end()
+            actions = tuple(
+                AD_ANALYSIS_ROUTING_ACTION.finditer(
+                    predicate, match.start(), match.end()
+                )
             )
+            action = actions[-1] if actions else None
             if action is not None and PREDICATE_PREFIX_NEGATION.search(
                 predicate[: action.start()]
             ):
