@@ -469,6 +469,8 @@ def creative_audit_assigns_performance_action(text: str) -> bool:
 
 def diagnosis_actions_are_governed(text: str) -> bool:
     policies = DIAGNOSIS_ACTION_POLICY.findall(text)
+    if not policies:
+        return False
     for policy in policies:
         actions = {
             action.lower()

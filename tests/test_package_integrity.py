@@ -363,6 +363,11 @@ class PackageIntegrityTests(unittest.TestCase):
         for outcome in ("ready", "revise", "block"):
             self.assertIn(f"`{outcome}`", creative)
 
+        errors = load_validator().validate(ROOT)
+        self.assertNotIn(
+            "contracts/creative-audit.md assigns a performance action", errors
+        )
+
     def test_ad_diagnosis_allows_only_the_four_governed_actions(self):
         diagnosis = (ROOT / "contracts" / "ad-diagnosis.md").read_text()
         action_policy = re.search(
@@ -410,6 +415,11 @@ class PackageIntegrityTests(unittest.TestCase):
             )
 
         mutations = (
+            (
+                "contracts/ad-diagnosis.md",
+                "",
+                "contracts/ad-diagnosis.md must allow only keep, ITR, stop or scale",
+            ),
             (
                 "contracts/creative-audit.md",
                 "Creative Audit predicts winning performance.\n",
