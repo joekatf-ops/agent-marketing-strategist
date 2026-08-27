@@ -261,6 +261,12 @@ AD_ANALYSIS_ROUTING_CONTRADICTIONS = (
         re.IGNORECASE,
     ),
 )
+AD_ANALYSIS_ROUTING_ACTION = re.compile(
+    r"\b(?:route(?:s|d|ing)?|use(?:s|d|ing)?|select(?:s|ed|ing)?|"
+    r"produce(?:s|d|ing)?|bypass(?:es|ed|ing)?|skip(?:s|ped|ping)?|"
+    r"omit(?:s|ted|ting)?)\b",
+    re.IGNORECASE,
+)
 ENTRYPOINT_LAUNCH_RULES = (
     (
         re.compile(
@@ -495,7 +501,20 @@ def normalized_ad_analysis_routing(text: str) -> str:
 
 
 def contradicts_ad_analysis_routing(text: str) -> bool:
-    return any(pattern.search(text) for pattern in AD_ANALYSIS_ROUTING_CONTRADICTIONS)
+    for predicate in policy_predicates(text):
+        for pattern in AD_ANALYSIS_ROUTING_CONTRADICTIONS:
+            match = pattern.search(predicate)
+            if match is None:
+                continue
+            action = AD_ANALYSIS_ROUTING_ACTION.search(
+                predicate, match.start(), match.end()
+            )
+            if action is not None and PREDICATE_PREFIX_NEGATION.search(
+                predicate[: action.start()]
+            ):
+                continue
+            return True
+    return False
 
 
 def prescribes_most_aware_standard_ad(text: str) -> bool:

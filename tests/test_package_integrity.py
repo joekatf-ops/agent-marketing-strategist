@@ -405,6 +405,31 @@ class PackageIntegrityTests(unittest.TestCase):
                         errors,
                     )
 
+    def test_validator_accepts_explicit_ad_analysis_router_prohibitions(self):
+        validator = load_validator()
+        safeguards = (
+            "Adequate performance data must not route to Creative Audit.",
+            "Combined adequate creative and performance never produces two reports: Ad Diagnosis and Creative Audit.",
+            "Incomplete performance must not produce conclusions before the input audit.",
+        )
+
+        for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):
+            for safeguard in safeguards:
+                with self.subTest(relative=relative, safeguard=safeguard):
+                    body = "# Marketing Strategist\n\n" + LAUNCH_INVARIANTS + AD_ANALYSIS_ROUTING
+                    temp, root = self.make_root(skill_body=body, agents_body=body)
+                    self.addCleanup(temp.cleanup)
+                    (root / "PROMPT.md").write_text(body)
+                    path = root / relative
+                    path.write_text(path.read_text() + "\n" + safeguard + "\n")
+
+                    errors = validator.validate(root)
+
+                    self.assertNotIn(
+                        f"{relative} contains contradictory ad-analysis routing",
+                        errors,
+                    )
+
     def test_validator_rejects_normalized_ad_analysis_router_drift(self):
         validator = load_validator()
         body = "# Marketing Strategist\n\n" + LAUNCH_INVARIANTS + AD_ANALYSIS_ROUTING
