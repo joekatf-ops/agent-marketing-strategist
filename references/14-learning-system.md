@@ -2,6 +2,12 @@
 
 The brand gets smarter through traceable approved changes, not through general conversation memory.
 
+Test memory and human-revision learning are separate record classes. Performance and execution
+observations, tentative explanations, confidence and next actions belong in
+`strategy/test-register.yml`. Human edits teach future work only through the approval-gated,
+append-only learning ledger described below. A test result never creates an approved voice,
+preference, factual or universal rule by itself, and a human revision never rewrites test history.
+
 ## Learning event
 
 Every event records brand, market, product, source asset, before, after, edit reason, normalized
@@ -24,7 +30,7 @@ brand approver list before active memory is rebuilt.
 | Voice rule | Never call the customer a biohacker | brand |
 | Preference | Approved copy repeatedly removes hype | proposed brand preference |
 | Execution-specific | This creator needs shorter sentences | execution |
-| Strategic learning | Persona rejects the mechanism explanation | product or market |
+| Strategic learning | Approved revision rejects the mechanism explanation for this Who | product or market |
 | Editor preference | One editor avoids a phrase | editor |
 | Accidental edit | Typo or incomplete revision | none |
 
@@ -79,6 +85,24 @@ in the same brand ledger.
 Raw events remain the audit history. Active memory is the compact, bundled projection for the next
 run. Human-curated `approved-rules.yml` remains an additional controlled source and conflicts with
 active memory must be surfaced.
+
+## Test observations and hypotheses
+
+Store supplied performance at the CONTST batch and ad level. Keep what was tested, what happened,
+the observation, proposed explanation, explanation confidence, causal limits, verdict and next
+action together. Initial batches deliberately vary awareness, messaging route, format and
+destination, so their results identify stronger complete executions; they do not isolate which
+single variable caused the difference. An association may justify a narrower ITR hypothesis, not a
+causal rule.
+
+Graduation copies the published ad and its real Post ID into `strategy/winner-library.yml` without
+removing the source test. Store initial-test and scaling outcomes separately. Preserve failed scale
+attempts, stopped tests, rejected hypotheses and archived records so later work can distinguish a
+repeat from a genuinely new test.
+
+All test, winner and revision records remain scoped to the `brand_slug` that produced them. Never
+merge evidence, observations, preferences or rules across brands automatically. Reusing a general
+method pattern in another brand still requires that brand's own facts, claims and evidence.
 
 ## Writable and upload-only runtimes
 

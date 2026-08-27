@@ -1,4 +1,5 @@
-schema_version: 2
+schema_version: 3
+method_version: "0.3.0"
 
 brand:
   name: "__BRAND_NAME_YAML__"
@@ -28,9 +29,21 @@ website_monitoring:
   state_file: "sources/website/crawl-state.json"
 
 naming:
+  # CONTST is locked by the method. Increment after reserving every NNT, INSPO or ITR batch;
+  # never reuse a number, including for a rejected, stopped or archived batch.
+  test_prefix: "CONTST"
+  next_test_number: 1
   brand_code: ""
-  concept_code: ""
-  next_concept_number: 1
+  product_codes: {}
+  region_codes: {}
+
+testing_defaults:
+  budget_type: "ABO"
+  daily_ad_set_floor: 50
+  preferred_daily_ad_set_budget: 100
+  planned_observation_full_days: 5
+  initial_awareness_codes: ["UWA", "PRA", "SLA", "PDA"]
+  scaling_budget_type: "CBO"
 
 run:
   language: "en-AU"

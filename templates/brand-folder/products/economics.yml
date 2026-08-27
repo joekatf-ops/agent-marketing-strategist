@@ -3,4 +3,8 @@ markets: []
 
 # Record economics per market and offer:
 # currency, AOV, contribution margin, break-even CAC, target CAC, target MER,
-# target ROAS, test budget and payback constraint.
+# target ROAS, payback constraint, available test capital and scaling constraints.
+# For each CONTST batch, record the daily ad-set budget, planned full days, total planned spend,
+# expected purchases at target CAC and the minimum read-validity threshold. The manifest defaults
+# ($50 floor, approximately $100 preferred and five full days) are planning defaults, not evidence
+# that a result is conclusive or that the same budget is safe in every market.

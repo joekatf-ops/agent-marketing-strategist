@@ -88,6 +88,51 @@ class BrandFolderInitializerTests(unittest.TestCase):
             self.assertIn("# Acme Sleep brand folder", readme)
             self.assertNotIn("__BRAND_", manifest + readme)
 
+    def test_initializes_locked_v03_testing_memory(self):
+        initializer = load_initializer()
+        with tempfile.TemporaryDirectory() as temp:
+            destination = pathlib.Path(temp) / "acme-sleep"
+
+            initializer.initialise(destination, "Acme Sleep", "acme-sleep")
+
+            manifest = (destination / "brand.yml").read_text()
+            self.assertIn('method_version: "0.3.0"', manifest)
+            self.assertIn('test_prefix: "CONTST"', manifest)
+            self.assertIn("next_test_number: 1", manifest)
+            self.assertIn('brand_code: ""', manifest)
+            self.assertIn("product_codes: {}", manifest)
+            self.assertIn("region_codes: {}", manifest)
+            self.assertIn('budget_type: "ABO"', manifest)
+            self.assertIn("daily_ad_set_floor: 50", manifest)
+            self.assertIn("preferred_daily_ad_set_budget: 100", manifest)
+            self.assertIn("planned_observation_full_days: 5", manifest)
+            self.assertNotIn("concept_code:", manifest)
+            self.assertNotIn("next_concept_number:", manifest)
+
+            concept_register = (
+                destination / "strategy/concept-register.yml"
+            ).read_text()
+            test_register = (destination / "strategy/test-register.yml").read_text()
+            winner_library = (
+                destination / "strategy/winner-library.yml"
+            ).read_text()
+            for register in (concept_register, test_register, winner_library):
+                self.assertIn('brand_slug: "acme-sleep"', register)
+
+            self.assertIn("coordinates: []", concept_register)
+            self.assertIn("coordinate_key", concept_register)
+            self.assertIn("linked_test_ids", concept_register)
+            self.assertIn("tests: []", test_register)
+            self.assertIn("Initial NNT and INSPO batches contain", test_register)
+            for awareness_code in ("UWA", "PRA", "SLA", "PDA"):
+                self.assertIn(awareness_code, test_register)
+            self.assertIn("ITR batches may be narrower", test_register)
+            self.assertIn("explanation_confidence", test_register)
+            self.assertIn("winners: []", winner_library)
+            self.assertIn("real_post_id", winner_library)
+            self.assertIn("scaling_history", winner_library)
+            self.assertIn("linked_itr_test_ids", winner_library)
+
     def test_refuses_to_overwrite_a_non_empty_destination(self):
         initializer = load_initializer()
         with tempfile.TemporaryDirectory() as temp:

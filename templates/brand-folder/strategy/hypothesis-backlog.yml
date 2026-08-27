@@ -1,4 +1,8 @@
-schema_version: 1
+schema_version: 2
+brand_slug: "__BRAND_SLUG__"
 hypotheses: []
 
-# Each hypothesis records evidence, confidence, priority, intended test and status.
+# Each hypothesis records hypothesis_id, type, coordinate_key, evidence_refs, observed_test_ids,
+# observation, proposed_explanation, confidence, causal_limits, priority, intended_test and status.
+# Test results may motivate an ITR, but a broad-batch association is not proof of an isolated cause.
+# Keep rejected and archived hypotheses. Hypotheses and results never transfer between brands.
