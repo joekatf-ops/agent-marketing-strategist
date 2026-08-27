@@ -25,7 +25,9 @@ Ad Diagnosis requires the governed performance-readiness inputs and retains its 
 1. Resolve exactly one selected brand, market and product. State the brand, method version, evidence
    version, approved-learning version and limitations before analysis.
 2. Use an existing run or initialise one under the selected brand with
-   `scripts/init-ad-analysis-run.py`. Never overwrite a run.
+   `scripts/init-ad-analysis-run.py`. Never overwrite a run. The initializer writes and verifies
+   both owned files in a private sibling staging directory, syncs them, then atomically publishes
+   the complete directory under its sequential canonical run ID.
 3. Complete `intake.json` and inventory every supplied ad and source. Follow
    `schemas/ad-analysis-intake.schema.json` for fields and enums. Keep every nullable ad taxonomy
    and provenance field explicit; use `null` when the intake does not establish it, never an

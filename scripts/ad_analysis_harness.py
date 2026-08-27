@@ -164,6 +164,8 @@ _VIDEO_FIELD_MAPPINGS = {
 _FIELD_MAPPING_KEYS = (
     _REQUIRED_FIELD_MAPPINGS | _FUNNEL_FIELD_MAPPINGS | _VIDEO_FIELD_MAPPINGS
 )
+_RENAME_SUPPORTS_DIR_FD = os.rename in os.supports_dir_fd
+_RMDIR_SUPPORTS_DIR_FD = os.rmdir in os.supports_dir_fd
 
 
 class ValidationResult(NamedTuple):
@@ -530,7 +532,7 @@ def _directory_descriptor_matches_path(
 
 def _write_new_regular_no_follow(
     directory_descriptor: int, filename: str, content: bytes
-) -> None:
+) -> tuple[int, ...]:
     if pathlib.Path(filename).name != filename:
         raise OSError("output filename must be one path component")
     descriptor = os.open(
@@ -540,16 +542,137 @@ def _write_new_regular_no_follow(
         dir_fd=directory_descriptor,
     )
     try:
-        metadata = os.fstat(descriptor)
-        if not stat.S_ISREG(metadata.st_mode) or metadata.st_nlink != 1:
+        created = os.fstat(descriptor)
+        if not stat.S_ISREG(created.st_mode) or created.st_nlink != 1:
             raise OSError("output target must be one regular, unlinked path")
-        output = os.fdopen(descriptor, "wb")
-        descriptor = -1
-        with output:
-            output.write(content)
+        remaining = memoryview(content)
+        while remaining:
+            written = os.write(descriptor, remaining)
+            if written <= 0:
+                raise OSError(f"failed to write initial run file: {filename}")
+            remaining = remaining[written:]
+        os.fsync(descriptor)
+        written_metadata = os.fstat(descriptor)
+        path_metadata = os.stat(
+            filename,
+            dir_fd=directory_descriptor,
+            follow_symlinks=False,
+        )
+        if (
+            not stat.S_ISREG(path_metadata.st_mode)
+            or written_metadata.st_dev != created.st_dev
+            or written_metadata.st_ino != created.st_ino
+            or written_metadata.st_nlink != 1
+            or written_metadata.st_size != len(content)
+            or _stable_file_identity(path_metadata)
+            != _stable_file_identity(written_metadata)
+        ):
+            raise OSError(f"initial run file changed while being written: {filename}")
+        return _stable_file_identity(written_metadata)
     finally:
-        if descriptor >= 0:
-            os.close(descriptor)
+        os.close(descriptor)
+
+
+def _verify_new_regular_no_follow(
+    directory_descriptor: int, filename: str, expected: bytes
+) -> None:
+    descriptor = _open_regular_relative_from_descriptor_no_follow(
+        directory_descriptor, pathlib.Path(filename)
+    )
+    try:
+        before = os.fstat(descriptor)
+        chunks: list[bytes] = []
+        while True:
+            chunk = os.read(descriptor, 1024 * 1024)
+            if not chunk:
+                break
+            chunks.append(chunk)
+        after = os.fstat(descriptor)
+        path_metadata = os.stat(
+            filename,
+            dir_fd=directory_descriptor,
+            follow_symlinks=False,
+        )
+        if (
+            _stable_file_identity(before) != _stable_file_identity(after)
+            or _stable_file_identity(after) != _stable_file_identity(path_metadata)
+            or b"".join(chunks) != expected
+        ):
+            raise OSError(f"initial run file failed verification: {filename}")
+    finally:
+        os.close(descriptor)
+
+
+def _directory_entry_matches_descriptor(
+    parent_descriptor: int, name: str, directory_descriptor: int
+) -> bool:
+    try:
+        path_metadata = os.stat(
+            name, dir_fd=parent_descriptor, follow_symlinks=False
+        )
+        descriptor_metadata = os.fstat(directory_descriptor)
+    except OSError:
+        return False
+    return (
+        stat.S_ISDIR(path_metadata.st_mode)
+        and path_metadata.st_dev == descriptor_metadata.st_dev
+        and path_metadata.st_ino == descriptor_metadata.st_ino
+    )
+
+
+def _create_private_run_staging_directory(
+    analysis_descriptor: int, run_id: str
+) -> tuple[str, int]:
+    if not _RENAME_SUPPORTS_DIR_FD or not _RMDIR_SUPPORTS_DIR_FD:
+        raise OSError("descriptor-anchored atomic run publication is unavailable")
+    for counter in range(1000):
+        name = f".{run_id}.staging-{os.getpid()}-{counter}"
+        try:
+            os.mkdir(name, 0o700, dir_fd=analysis_descriptor)
+        except FileExistsError:
+            continue
+        descriptor = -1
+        try:
+            descriptor = os.open(
+                name,
+                os.O_RDONLY | os.O_DIRECTORY | _no_follow_flag(),
+                dir_fd=analysis_descriptor,
+            )
+            if not _directory_entry_matches_descriptor(
+                analysis_descriptor, name, descriptor
+            ):
+                raise OSError("run staging directory identity changed while opening")
+            return name, descriptor
+        except BaseException:
+            if descriptor >= 0:
+                os.close(descriptor)
+            try:
+                os.rmdir(name, dir_fd=analysis_descriptor)
+            except OSError:
+                pass
+            raise
+    raise OSError("could not allocate a private run staging directory")
+
+
+def _discard_private_run_staging_directory(
+    analysis_descriptor: int, name: str, staging_descriptor: int
+) -> None:
+    expected = {"intake.json", "README.md"}
+    entries = set(os.listdir(staging_descriptor))
+    if not entries.issubset(expected):
+        raise OSError("run staging directory contains an unexpected entry")
+    for filename in sorted(entries):
+        metadata = os.stat(
+            filename,
+            dir_fd=staging_descriptor,
+            follow_symlinks=False,
+        )
+        if not stat.S_ISREG(metadata.st_mode) or metadata.st_nlink != 1:
+            raise OSError("run staging cleanup found an unsafe file")
+        os.unlink(filename, dir_fd=staging_descriptor)
+    os.fsync(staging_descriptor)
+    os.rmdir(name, dir_fd=analysis_descriptor)
+    os.fsync(analysis_descriptor)
 
 
 def _require_no_symlink_components(path: pathlib.Path) -> pathlib.Path:
@@ -746,75 +869,167 @@ def initialise_run(
             )
         )
         try:
-            if run_id is None:
-                run_id = _next_run_id_from_descriptor(analysis_descriptor, today)
-            else:
-                run_id = _validate_run_id(run_id)
-            run_folder = analysis_root / run_id
-
-            requested_at = today.isoformat()
-            intake = {
-                "schema_version": 1,
-                "run_id": run_id,
-                "mode": mode,
-                "brand_slug": identity["brand_slug"],
-                "method_version": identity["method_version"],
-                "market": market,
-                "product_id": product_id,
-                "account_timezone": "",
-                "requester": "",
-                "requested_at": requested_at,
-                "ads": [],
-                "sources": [],
-                "performance": None,
-                "known_limitations": _migration_limitations(identity["method_version"]),
-            }
-            intake_content = (
-                json.dumps(intake, indent=2, ensure_ascii=False) + "\n"
-            ).encode("utf-8")
-            readme_content = _render_run_readme(brand_folder, run_folder).encode(
-                "utf-8"
-            )
-            if not _directory_descriptor_matches_path(
-                brand_descriptor, brand_folder
-            ):
-                raise OSError("brand directory changed during run initialisation")
-            if not _directory_descriptor_matches_path(
-                analysis_descriptor, analysis_root
-            ):
-                raise OSError("analysis directory changed during run initialisation")
-
-            try:
-                os.mkdir(run_id, 0o755, dir_fd=analysis_descriptor)
-            except FileExistsError as error:
-                raise FileExistsError(
-                    f"analysis run already exists: {run_folder}"
-                ) from error
-            run_descriptor = os.open(
-                run_id,
-                os.O_RDONLY | os.O_DIRECTORY | _no_follow_flag(),
-                dir_fd=analysis_descriptor,
-            )
-            try:
-                if not stat.S_ISDIR(os.fstat(run_descriptor).st_mode):
-                    raise OSError(f"analysis run is not a directory: {run_folder}")
-                _write_new_regular_no_follow(
-                    run_descriptor, "intake.json", intake_content
+            automatic_run_id = run_id is None
+            requested_run_id = None if automatic_run_id else _validate_run_id(run_id)
+            while True:
+                candidate = (
+                    _next_run_id_from_descriptor(analysis_descriptor, today)
+                    if automatic_run_id
+                    else requested_run_id
                 )
-                _write_new_regular_no_follow(
-                    run_descriptor, "README.md", readme_content
-                )
-            finally:
-                os.close(run_descriptor)
-            if not _directory_descriptor_matches_path(
-                brand_descriptor, brand_folder
-            ):
-                raise OSError("brand directory changed during run initialisation")
-            if not _directory_descriptor_matches_path(
-                analysis_descriptor, analysis_root
-            ):
-                raise OSError("analysis directory changed during run initialisation")
-            return run_folder
+                assert candidate is not None
+                run_folder = analysis_root / candidate
+                try:
+                    os.stat(
+                        candidate,
+                        dir_fd=analysis_descriptor,
+                        follow_symlinks=False,
+                    )
+                except FileNotFoundError:
+                    pass
+                else:
+                    if automatic_run_id:
+                        continue
+                    raise FileExistsError(
+                        f"analysis run already exists: {run_folder}"
+                    )
+
+                intake = {
+                    "schema_version": 1,
+                    "run_id": candidate,
+                    "mode": mode,
+                    "brand_slug": identity["brand_slug"],
+                    "method_version": identity["method_version"],
+                    "market": market,
+                    "product_id": product_id,
+                    "account_timezone": "",
+                    "requester": "",
+                    "requested_at": today.isoformat(),
+                    "ads": [],
+                    "sources": [],
+                    "performance": None,
+                    "known_limitations": _migration_limitations(
+                        identity["method_version"]
+                    ),
+                }
+                intake_content = (
+                    json.dumps(intake, indent=2, ensure_ascii=False) + "\n"
+                ).encode("utf-8")
+                readme_content = _render_run_readme(
+                    brand_folder, run_folder
+                ).encode("utf-8")
+                if not _directory_descriptor_matches_path(
+                    brand_descriptor, brand_folder
+                ):
+                    raise OSError("brand directory changed during run initialisation")
+                if not _directory_descriptor_matches_path(
+                    analysis_descriptor, analysis_root
+                ):
+                    raise OSError("analysis directory changed during run initialisation")
+
+                staging_name = ""
+                staging_descriptor = -1
+                published = False
+                try:
+                    staging_name, staging_descriptor = (
+                        _create_private_run_staging_directory(
+                            analysis_descriptor, candidate
+                        )
+                    )
+                    _write_new_regular_no_follow(
+                        staging_descriptor, "intake.json", intake_content
+                    )
+                    _write_new_regular_no_follow(
+                        staging_descriptor, "README.md", readme_content
+                    )
+                    if set(os.listdir(staging_descriptor)) != {
+                        "intake.json",
+                        "README.md",
+                    }:
+                        raise OSError(
+                            "run staging directory must contain exactly both initial files"
+                        )
+                    _verify_new_regular_no_follow(
+                        staging_descriptor, "intake.json", intake_content
+                    )
+                    _verify_new_regular_no_follow(
+                        staging_descriptor, "README.md", readme_content
+                    )
+                    os.fsync(staging_descriptor)
+                    if not _directory_entry_matches_descriptor(
+                        analysis_descriptor, staging_name, staging_descriptor
+                    ):
+                        raise OSError(
+                            "run staging directory identity changed before publication"
+                        )
+                    if not _directory_descriptor_matches_path(
+                        brand_descriptor, brand_folder
+                    ):
+                        raise OSError(
+                            "brand directory changed during run initialisation"
+                        )
+                    if not _directory_descriptor_matches_path(
+                        analysis_descriptor, analysis_root
+                    ):
+                        raise OSError(
+                            "analysis directory changed during run initialisation"
+                        )
+                    try:
+                        os.stat(
+                            candidate,
+                            dir_fd=analysis_descriptor,
+                            follow_symlinks=False,
+                        )
+                    except FileNotFoundError:
+                        pass
+                    else:
+                        if automatic_run_id:
+                            continue
+                        raise FileExistsError(
+                            f"analysis run already exists: {run_folder}"
+                        )
+
+                    try:
+                        os.rename(
+                            staging_name,
+                            candidate,
+                            src_dir_fd=analysis_descriptor,
+                            dst_dir_fd=analysis_descriptor,
+                        )
+                    except OSError as error:
+                        try:
+                            os.stat(
+                                candidate,
+                                dir_fd=analysis_descriptor,
+                                follow_symlinks=False,
+                            )
+                        except FileNotFoundError:
+                            raise error
+                        if automatic_run_id:
+                            continue
+                        raise FileExistsError(
+                            f"analysis run already exists: {run_folder}"
+                        ) from error
+                    published = True
+                    if not _directory_entry_matches_descriptor(
+                        analysis_descriptor, candidate, staging_descriptor
+                    ):
+                        raise OSError(
+                            "published run directory identity does not match staging"
+                        )
+                    os.fsync(analysis_descriptor)
+                    return run_folder
+                finally:
+                    if staging_descriptor >= 0:
+                        try:
+                            if not published:
+                                _discard_private_run_staging_directory(
+                                    analysis_descriptor,
+                                    staging_name,
+                                    staging_descriptor,
+                                )
+                        finally:
+                            os.close(staging_descriptor)
         finally:
             os.close(analysis_descriptor)
     finally:

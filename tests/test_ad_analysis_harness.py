@@ -11,6 +11,7 @@ import re
 import subprocess
 import sys
 import sysconfig
+import stat
 import tempfile
 import unittest
 from unittest import mock
@@ -438,6 +439,137 @@ class AdAnalysisHarnessTests(unittest.TestCase):
         self.assertEqual("AU", intake["market"])
         self.assertEqual({"README.md", "intake.json"}, {path.name for path in run.iterdir()})
         self.assertEqual("ADR-20260827-002", second.name)
+
+    def test_initialise_run_never_publishes_a_partial_canonical_directory(self):
+        harness = load_harness()
+        real_write = harness._write_new_regular_no_follow
+        writes = 0
+
+        def fail_second_initial_file(*args, **kwargs):
+            nonlocal writes
+            writes += 1
+            if writes == 2:
+                raise OSError("simulated README write failure")
+            return real_write(*args, **kwargs)
+
+        with mock.patch.object(
+            harness,
+            "_write_new_regular_no_follow",
+            side_effect=fail_second_initial_file,
+        ):
+            with self.assertRaisesRegex(OSError, "simulated README write failure"):
+                self.create_run(harness)
+
+        analysis = self.brand / "outputs" / "ad-analysis"
+        self.assertFalse((analysis / "ADR-20260827-001").exists())
+        self.assertEqual([], list(analysis.glob(".*.staging-*")))
+
+    def test_initialise_run_atomically_renames_one_complete_private_staging_run(self):
+        harness = load_harness()
+        real_rename = os.rename
+        observations = []
+
+        def inspect_then_rename(source, destination, *args, **kwargs):
+            source_directory = kwargs["src_dir_fd"]
+            destination_directory = kwargs["dst_dir_fd"]
+            descriptor = os.open(
+                source,
+                os.O_RDONLY | os.O_DIRECTORY,
+                dir_fd=source_directory,
+            )
+            try:
+                observations.append(
+                    (
+                        source,
+                        destination,
+                        set(os.listdir(descriptor)),
+                        os.stat("intake.json", dir_fd=descriptor).st_nlink,
+                        os.stat("README.md", dir_fd=descriptor).st_nlink,
+                    )
+                )
+                with self.assertRaises(FileNotFoundError):
+                    os.stat(destination, dir_fd=destination_directory)
+            finally:
+                os.close(descriptor)
+            return real_rename(source, destination, *args, **kwargs)
+
+        with mock.patch("os.rename", side_effect=inspect_then_rename):
+            run = self.create_run(harness)
+
+        self.assertEqual(1, len(observations))
+        staging, destination, files, intake_links, readme_links = observations[0]
+        self.assertRegex(staging, r"^\.ADR-20260827-001\.staging-")
+        self.assertEqual("ADR-20260827-001", destination)
+        self.assertEqual({"intake.json", "README.md"}, files)
+        self.assertEqual((1, 1), (intake_links, readme_links))
+        self.assertEqual(run, self.brand / "outputs/ad-analysis/ADR-20260827-001")
+
+    def test_automatic_run_id_retries_after_a_concurrent_atomic_publication(self):
+        harness = load_harness()
+        real_rename = os.rename
+        raced = False
+
+        def publish_competing_run_then_rename(source, destination, *args, **kwargs):
+            nonlocal raced
+            destination_directory = kwargs["dst_dir_fd"]
+            if not raced:
+                raced = True
+                os.mkdir(destination, 0o755, dir_fd=destination_directory)
+                run_descriptor = os.open(
+                    destination,
+                    os.O_RDONLY | os.O_DIRECTORY,
+                    dir_fd=destination_directory,
+                )
+                try:
+                    competitor = os.open(
+                        "competitor.marker",
+                        os.O_WRONLY | os.O_CREAT | os.O_EXCL,
+                        0o644,
+                        dir_fd=run_descriptor,
+                    )
+                    os.close(competitor)
+                finally:
+                    os.close(run_descriptor)
+            return real_rename(source, destination, *args, **kwargs)
+
+        with mock.patch("os.rename", side_effect=publish_competing_run_then_rename):
+            run = self.create_run(harness)
+
+        analysis = self.brand / "outputs" / "ad-analysis"
+        self.assertEqual("ADR-20260827-002", run.name)
+        self.assertTrue(
+            (analysis / "ADR-20260827-001" / "competitor.marker").is_file()
+        )
+        self.assertEqual({"intake.json", "README.md"}, {path.name for path in run.iterdir()})
+        self.assertEqual([], list(analysis.glob(".*.staging-*")))
+
+    def test_atomic_run_publication_failure_leaves_no_run_or_staging_directory(self):
+        harness = load_harness()
+
+        with mock.patch("os.rename", side_effect=OSError("simulated rename failure")):
+            with self.assertRaisesRegex(OSError, "simulated rename failure"):
+                self.create_run(harness)
+
+        analysis = self.brand / "outputs" / "ad-analysis"
+        self.assertFalse((analysis / "ADR-20260827-001").exists())
+        self.assertEqual([], list(analysis.glob(".*.staging-*")))
+
+    def test_initialise_run_fsyncs_both_files_and_staging_then_parent_directories(self):
+        harness = load_harness()
+        real_fsync = os.fsync
+        synced_modes = []
+
+        def record_fsync(descriptor):
+            synced_modes.append(os.fstat(descriptor).st_mode)
+            return real_fsync(descriptor)
+
+        with mock.patch("os.fsync", side_effect=record_fsync):
+            self.create_run(harness)
+
+        regular_syncs = sum(stat.S_ISREG(mode) for mode in synced_modes)
+        directory_syncs = sum(stat.S_ISDIR(mode) for mode in synced_modes)
+        self.assertGreaterEqual(regular_syncs, 2)
+        self.assertGreaterEqual(directory_syncs, 2)
 
     def test_uses_the_current_brand_method_version_in_the_exact_skeleton(self):
         harness = load_harness()
