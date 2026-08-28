@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import os
 import pathlib
+import secrets
 import stat
 import sys
 
@@ -42,9 +43,22 @@ def _arguments() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def _audit_file_identity(
+    metadata: os.stat_result,
+) -> tuple[int, int, int, int, int, int]:
+    return (
+        metadata.st_dev,
+        metadata.st_ino,
+        metadata.st_size,
+        metadata.st_mtime_ns,
+        metadata.st_ctime_ns,
+        metadata.st_nlink,
+    )
+
+
 def _audit_destination_identity(
     directory_descriptor: int, filename: str
-) -> tuple[int, int] | None:
+) -> tuple[int, int, int, int, int, int] | None:
     try:
         metadata = os.stat(
             filename,
@@ -55,7 +69,103 @@ def _audit_destination_identity(
         return None
     if not stat.S_ISREG(metadata.st_mode) or metadata.st_nlink != 1:
         raise OSError("audit target must be one regular, single-link path")
-    return metadata.st_dev, metadata.st_ino
+    return _audit_file_identity(metadata)
+
+
+def _write_all(descriptor: int, content: bytes) -> None:
+    remaining = memoryview(content)
+    while remaining:
+        written = os.write(descriptor, remaining)
+        if written <= 0:
+            raise OSError("failed to write staged input audit")
+        remaining = remaining[written:]
+
+
+def _verified_audit_descriptor(
+    descriptor: int, content: bytes
+) -> os.stat_result | None:
+    before = os.fstat(descriptor)
+    if (
+        not stat.S_ISREG(before.st_mode)
+        or before.st_nlink != 1
+        or before.st_size != len(content)
+    ):
+        return None
+    offset = 0
+    while offset < len(content):
+        chunk = os.pread(
+            descriptor, min(1024 * 1024, len(content) - offset), offset
+        )
+        if not chunk or chunk != content[offset : offset + len(chunk)]:
+            return None
+        offset += len(chunk)
+    if os.pread(descriptor, 1, offset):
+        return None
+    after = os.fstat(descriptor)
+    if _audit_file_identity(after) != _audit_file_identity(before):
+        return None
+    return after
+
+
+def _published_audit_is_verified(
+    directory_descriptor: int,
+    filename: str,
+    staging_descriptor: int,
+    content: bytes,
+) -> bool:
+    descriptor_state = _verified_audit_descriptor(staging_descriptor, content)
+    if descriptor_state is None:
+        return False
+    try:
+        destination = os.stat(
+            filename,
+            dir_fd=directory_descriptor,
+            follow_symlinks=False,
+        )
+    except FileNotFoundError:
+        return False
+    final_descriptor_state = os.fstat(staging_descriptor)
+    return (
+        stat.S_ISREG(destination.st_mode)
+        and destination.st_nlink == 1
+        and _audit_file_identity(final_descriptor_state)
+        == _audit_file_identity(descriptor_state)
+        and _audit_file_identity(destination)
+        == _audit_file_identity(descriptor_state)
+    )
+
+
+def _remove_unverified_failed_audit(
+    directory_descriptor: int,
+    filename: str,
+    original_destination: tuple[int, int, int, int, int, int] | None,
+    staging_descriptor: int,
+    content: bytes,
+) -> None:
+    try:
+        current = os.stat(
+            filename,
+            dir_fd=directory_descriptor,
+            follow_symlinks=False,
+        )
+    except FileNotFoundError:
+        return
+    if (
+        original_destination is not None
+        and _audit_file_identity(current) == original_destination
+    ):
+        return
+    if _published_audit_is_verified(
+        directory_descriptor, filename, staging_descriptor, content
+    ):
+        return
+    os.unlink(filename, dir_fd=directory_descriptor)
+    try:
+        os.stat(filename, dir_fd=directory_descriptor, follow_symlinks=False)
+    except FileNotFoundError:
+        os.fsync(directory_descriptor)
+        return
+    raise OSError("unverified input audit could not be removed")
 
 
 def _write_input_audit(path: pathlib.Path, content: str, *, session=None) -> None:
@@ -70,16 +180,18 @@ def _write_input_audit(path: pathlib.Path, content: str, *, session=None) -> Non
         directory_descriptor = _open_directory_no_follow(path.parent)
     temporary_name = ""
     descriptor = -1
+    initial_destination: tuple[int, int, int, int, int, int] | None = None
+    publication_attempted = False
     try:
         initial_destination = _audit_destination_identity(
             directory_descriptor, path.name
         )
-        for counter in range(1000):
-            candidate = f".{path.name}.tmp-{os.getpid()}-{counter}"
+        for _ in range(1000):
+            candidate = f".{path.name}.tmp-{secrets.token_hex(16)}"
             try:
                 descriptor = os.open(
                     candidate,
-                    os.O_WRONLY | os.O_CREAT | os.O_EXCL | no_follow,
+                    os.O_RDWR | os.O_CREAT | os.O_EXCL | no_follow,
                     0o600,
                     dir_fd=directory_descriptor,
                 )
@@ -92,28 +204,54 @@ def _write_input_audit(path: pathlib.Path, content: str, *, session=None) -> Non
         metadata = os.fstat(descriptor)
         if not stat.S_ISREG(metadata.st_mode) or metadata.st_nlink != 1:
             raise OSError("audit staging file must be regular and single-link")
-        audit_file = os.fdopen(descriptor, "wb")
-        descriptor = -1
-        with audit_file:
-            audit_file.write(encoded_content)
-            audit_file.flush()
-            os.fsync(audit_file.fileno())
+        _write_all(descriptor, encoded_content)
+        os.fsync(descriptor)
+        staged = _verified_audit_descriptor(descriptor, encoded_content)
+        if staged is None or (
+            staged.st_dev != metadata.st_dev or staged.st_ino != metadata.st_ino
+        ):
+            raise OSError("audit staging file changed before publication")
 
         if session is not None and not session.is_current():
             raise OSError("validated run identity changed before audit publication")
-        if _audit_destination_identity(directory_descriptor, path.name) != initial_destination:
+        if (
+            _audit_destination_identity(directory_descriptor, path.name)
+            != initial_destination
+        ):
             raise OSError("audit destination changed before publication")
+        current_staging = os.stat(
+            temporary_name,
+            dir_fd=directory_descriptor,
+            follow_symlinks=False,
+        )
+        if _audit_file_identity(current_staging) != _audit_file_identity(staged):
+            raise OSError("audit staging file changed before publication")
+        publication_attempted = True
         os.replace(
             temporary_name,
             path.name,
             src_dir_fd=directory_descriptor,
             dst_dir_fd=directory_descriptor,
         )
-        temporary_name = ""
-        published = _audit_destination_identity(directory_descriptor, path.name)
-        if published is None:
-            raise OSError("audit publication did not create its destination")
+        if not _published_audit_is_verified(
+            directory_descriptor,
+            path.name,
+            descriptor,
+            encoded_content,
+        ):
+            raise OSError("published input audit identity or content is unsafe")
         os.fsync(directory_descriptor)
+        temporary_name = ""
+    except BaseException:
+        if publication_attempted and descriptor >= 0:
+            _remove_unverified_failed_audit(
+                directory_descriptor,
+                path.name,
+                initial_destination,
+                descriptor,
+                encoded_content,
+            )
+        raise
     finally:
         if descriptor >= 0:
             os.close(descriptor)

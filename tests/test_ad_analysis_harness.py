@@ -2403,6 +2403,68 @@ class AdAnalysisHarnessTests(unittest.TestCase):
             else:
                 self.fail("audit write did not fail closed")
 
+    def test_validator_rejects_staging_substitution_at_audit_replace_boundary(self):
+        harness = load_harness()
+        validator = load_validator(harness)
+        run = self.create_modern_run(harness)
+        intake = self.complete_creative_intake(harness, run)
+        self.write_intake(run, intake)
+        audit = run / "input-audit.md"
+        audit.write_text("previous safe audit\n")
+        real_replace = os.replace
+        substituted = False
+
+        def substitute_then_replace(source, destination, *args, **kwargs):
+            nonlocal substituted
+            source_directory = kwargs["src_dir_fd"]
+            if not substituted:
+                substituted = True
+                os.unlink(source, dir_fd=source_directory)
+                attacker = os.open(
+                    source,
+                    os.O_WRONLY | os.O_CREAT | os.O_EXCL,
+                    0o600,
+                    dir_fd=source_directory,
+                )
+                try:
+                    os.write(attacker, b"attacker-controlled audit\n")
+                finally:
+                    os.close(attacker)
+            return real_replace(source, destination, *args, **kwargs)
+
+        arguments = mock.Mock(brand=self.brand, run=run, write_audit=True)
+        with mock.patch.object(
+            validator, "_arguments", return_value=arguments
+        ), mock.patch.object(
+            validator.os, "replace", side_effect=substitute_then_replace
+        ):
+            return_code = validator.main()
+
+        self.assertTrue(substituted)
+        self.assertEqual(1, return_code)
+        self.assertFalse(audit.exists(), "failed CLI left an unrelated audit")
+
+    def test_audit_staging_name_is_fresh_for_each_publication(self):
+        harness = load_harness()
+        validator = load_validator(harness)
+        run = self.create_run(harness)
+        audit = run / "input-audit.md"
+        real_replace = os.replace
+        staging_names = []
+
+        def capture_staging_name(source, destination, *args, **kwargs):
+            staging_names.append(source)
+            return real_replace(source, destination, *args, **kwargs)
+
+        with mock.patch.object(
+            validator.os, "replace", side_effect=capture_staging_name
+        ):
+            validator._write_input_audit(audit, "first audit\n")
+            validator._write_input_audit(audit, "second audit\n")
+
+        self.assertEqual(2, len(staging_names))
+        self.assertEqual(2, len(set(staging_names)))
+
 
 if __name__ == "__main__":
     unittest.main()
