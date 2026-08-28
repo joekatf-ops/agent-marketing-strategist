@@ -4,7 +4,6 @@ import csv
 import datetime as dt
 import importlib.util
 import json
-import math
 import os
 import pathlib
 import re
@@ -15,7 +14,6 @@ import stat
 import tempfile
 import unittest
 from unittest import mock
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -30,6 +28,7 @@ INTAKE_PORTABLE_CONFORMANCE = (
 INTAKE_CONFORMANCE = (
     ROOT / "tests" / "fixtures" / "ad-analysis-intake-conformance.json"
 )
+ECMASCRIPT_SCHEMA_RUNNER = ROOT / "tests" / "ecmascript-json-schema-runner.mjs"
 CONTROLLED_RECORDS = (
     "strategy/test-register.yml",
     "strategy/winner-library.yml",
@@ -140,6 +139,24 @@ def materialize_conformance_case(corpus, case):
     return document
 
 
+def parse_portable_calendar_date(value):
+    if not isinstance(value, str):
+        return None
+    match = re.fullmatch(
+        r"(?P<year>[0-9]{4})-(?P<month>[0-9]{2})-(?P<day>[0-9]{2})", value
+    )
+    if match is None:
+        return None
+    try:
+        return dt.date(
+            int(match.group("year")),
+            int(match.group("month")),
+            int(match.group("day")),
+        )
+    except ValueError:
+        return None
+
+
 def portable_conformance_errors(instance, contract, context):
     """Execute the governed relational operations declared by the portable contract."""
     errors = []
@@ -149,7 +166,7 @@ def portable_conformance_errors(instance, contract, context):
         if operation == "valid_run_id":
             value = instance.get(rule["field"])
             match = re.fullmatch(
-                r"ADR-(?P<date>\d{8})-(?P<number>\d{3})", value or ""
+                r"ADR-(?P<date>[0-9]{8})-(?P<number>[0-9]{3})", value or ""
             )
             valid = bool(match and int(match.group("number")) >= 1)
             if match:
@@ -225,135 +242,33 @@ def portable_conformance_errors(instance, contract, context):
                     break
                 value = value[field]
             if isinstance(value, dict):
-                try:
-                    start = dt.date.fromisoformat(value[rule["start_field"]])
-                    end = dt.date.fromisoformat(value[rule["end_field"]])
-                except (KeyError, TypeError, ValueError):
-                    pass
-                else:
-                    if end < start:
-                        errors.append(identifier)
+                start = parse_portable_calendar_date(value.get(rule["start_field"]))
+                end = parse_portable_calendar_date(value.get(rule["end_field"]))
+                if start is not None and end is not None and end < start:
+                    errors.append(identifier)
         else:
             raise AssertionError(f"unsupported portable conformance operation: {operation}")
     return errors
 
 
-def json_schema_errors(instance, schema, *, root=None, path="$"):
-    """Evaluate the deterministic JSON-Schema subset used by the intake contract."""
-    root = schema if root is None else root
-    if "$ref" in schema:
-        target = root
-        for part in schema["$ref"].removeprefix("#/").split("/"):
-            target = target[part.replace("~1", "/").replace("~0", "~")]
-        return json_schema_errors(instance, target, root=root, path=path)
-
-    errors = []
-    if "oneOf" in schema:
-        matches = [
-            not json_schema_errors(instance, subschema, root=root, path=path)
-            for subschema in schema["oneOf"]
-        ]
-        if sum(matches) != 1:
-            errors.append(f"{path} must match exactly one schema")
-    for subschema in schema.get("allOf", []):
-        errors.extend(json_schema_errors(instance, subschema, root=root, path=path))
-    condition = schema.get("if")
-    if condition is not None:
-        branch = "then" if not json_schema_errors(instance, condition, root=root, path=path) else "else"
-        if branch in schema:
-            errors.extend(json_schema_errors(instance, schema[branch], root=root, path=path))
-
-    if "const" in schema and instance != schema["const"]:
-        errors.append(f"{path} does not equal the required constant")
-    if "enum" in schema and instance not in schema["enum"]:
-        errors.append(f"{path} is not in the allowed enum")
-
-    allowed_types = schema.get("type")
-    if allowed_types is not None:
-        allowed_types = [allowed_types] if isinstance(allowed_types, str) else allowed_types
-
-        def matches_type(type_name):
-            return {
-                "null": instance is None,
-                "object": isinstance(instance, dict),
-                "array": isinstance(instance, list),
-                "string": isinstance(instance, str),
-                "integer": type(instance) is int,
-                "number": type(instance) in {int, float} and math.isfinite(instance),
-                "boolean": isinstance(instance, bool),
-            }[type_name]
-
-        if not any(matches_type(type_name) for type_name in allowed_types):
-            return errors + [f"{path} has the wrong type"]
-
-    if isinstance(instance, dict):
-        for required in schema.get("required", []):
-            if required not in instance:
-                errors.append(f"{path}.{required} is required")
-        properties = schema.get("properties", {})
-        additional = schema.get("additionalProperties", True)
-        for key, value in instance.items():
-            child_path = f"{path}.{key}"
-            if key in properties:
-                errors.extend(
-                    json_schema_errors(value, properties[key], root=root, path=child_path)
-                )
-            elif additional is False:
-                errors.append(f"{child_path} is not allowed")
-            elif isinstance(additional, dict):
-                errors.extend(
-                    json_schema_errors(value, additional, root=root, path=child_path)
-                )
-        if len(instance) < schema.get("minProperties", 0):
-            errors.append(f"{path} has too few properties")
-        property_names = schema.get("propertyNames")
-        if property_names:
-            for key in instance:
-                errors.extend(
-                    json_schema_errors(
-                        key,
-                        property_names,
-                        root=root,
-                        path=f"{path} property name {key!r}",
-                    )
-                )
-
-    if isinstance(instance, list):
-        if len(instance) < schema.get("minItems", 0):
-            errors.append(f"{path} has too few items")
-        if "maxItems" in schema and len(instance) > schema["maxItems"]:
-            errors.append(f"{path} has too many items")
-        if schema.get("uniqueItems"):
-            canonical = [json.dumps(item, sort_keys=True, separators=(",", ":")) for item in instance]
-            if len(canonical) != len(set(canonical)):
-                errors.append(f"{path} contains duplicate items")
-        item_schema = schema.get("items")
-        if item_schema:
-            for index, value in enumerate(instance):
-                errors.extend(
-                    json_schema_errors(value, item_schema, root=root, path=f"{path}[{index}]")
-                )
-
-    if isinstance(instance, str):
-        if len(instance) < schema.get("minLength", 0):
-            errors.append(f"{path} is too short")
-        if "pattern" in schema and re.fullmatch(schema["pattern"], instance) is None:
-            errors.append(f"{path} does not match its pattern")
-        if schema.get("format") == "date":
-            try:
-                dt.date.fromisoformat(instance)
-            except ValueError:
-                errors.append(f"{path} is not a calendar date")
-        if schema.get("format") == "iana-timezone":
-            try:
-                ZoneInfo(instance)
-            except (ValueError, ZoneInfoNotFoundError):
-                errors.append(f"{path} is not an IANA timezone")
-
-    if type(instance) in {int, float}:
-        if "minimum" in schema and instance < schema["minimum"]:
-            errors.append(f"{path} is below its minimum")
-    return errors
+def ecmascript_schema_results(schema, instances):
+    """Assert the intake schema with ECMAScript regex and independent date semantics."""
+    completed = subprocess.run(
+        ("node", str(ECMASCRIPT_SCHEMA_RUNNER)),
+        input=json.dumps({"schema": schema, "instances": instances}),
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if completed.returncode != 0:
+        raise AssertionError(
+            "ECMAScript JSON Schema runner failed: "
+            f"{completed.stderr or completed.stdout}"
+        )
+    results = json.loads(completed.stdout)
+    if len(results) != len(instances):
+        raise AssertionError("ECMAScript JSON Schema runner returned the wrong result count")
+    return results
 
 
 class AdAnalysisHarnessTests(unittest.TestCase):
@@ -503,15 +418,23 @@ class AdAnalysisHarnessTests(unittest.TestCase):
         )
         harness = load_harness()
 
+        materialized = []
         for case in corpus["cases"]:
-            with self.subTest(case=case["name"]):
-                intake = materialize_conformance_case(corpus, case)
-                run = self.create_modern_run(harness, mode=intake["mode"])
-                if not case.get("preserve_run_id"):
-                    intake["run_id"] = run.name
-                self.write_intake(run, intake)
+            intake = materialize_conformance_case(corpus, case)
+            run = self.create_modern_run(harness, mode=intake["mode"])
+            if not case.get("preserve_run_id"):
+                intake["run_id"] = run.name
+            self.write_intake(run, intake)
+            materialized.append((case, intake, run))
 
-                schema_valid = not json_schema_errors(intake, schema)
+        schema_results = ecmascript_schema_results(
+            schema, [intake for _, intake, _ in materialized]
+        )
+        for (case, intake, run), schema_result in zip(
+            materialized, schema_results
+        ):
+            with self.subTest(case=case["name"]):
+                schema_valid = schema_result["valid"]
                 extension_errors = portable_conformance_errors(
                     intake,
                     portable_contract,
@@ -538,6 +461,67 @@ class AdAnalysisHarnessTests(unittest.TestCase):
             INTAKE_PORTABLE_CONFORMANCE.is_file(),
             "portable relational conformance contract should exist",
         )
+
+    def test_engine_neutral_lexical_policy_is_shared_by_every_contract_layer(self):
+        schema = json.loads(INTAKE_SCHEMA.read_text())
+        portable_contract = json.loads(INTAKE_PORTABLE_CONFORMANCE.read_text())
+        harness = load_harness()
+        boundary_fragment = (
+            r"\u0009-\u000D\u001C-\u0020\u0085\u00A0\u1680"
+            r"\u2000-\u200A\u2028-\u2029\u202F\u205F\u3000\uFEFF"
+        )
+        line_break_fragment = r"\u000A-\u000D\u0085\u2028-\u2029"
+
+        self.assertTrue(ECMASCRIPT_SCHEMA_RUNNER.is_file())
+        self.assertEqual(
+            "https://json-schema.org/draft/2020-12/schema", schema["$schema"]
+        )
+        self.assertEqual(
+            boundary_fragment,
+            portable_contract["text_policy"]["boundary_pattern_fragment"],
+        )
+        self.assertEqual(
+            line_break_fragment,
+            portable_contract["text_policy"]["line_break_pattern_fragment"],
+        )
+        self.assertEqual(boundary_fragment, harness._TEXT_BOUNDARY_PATTERN_FRAGMENT)
+        self.assertEqual(line_break_fragment, harness._TEXT_LINE_BREAK_PATTERN_FRAGMENT)
+        required_pattern = (
+            f"^(?!.*[{line_break_fragment}])(?![{boundary_fragment}])"
+            f".*[^{boundary_fragment}]$"
+        )
+        allow_empty_pattern = (
+            f"^(?!.*[{line_break_fragment}])"
+            f"(?:|(?![{boundary_fragment}]).*[^{boundary_fragment}])$"
+        )
+        self.assertEqual(required_pattern, schema["$defs"]["requiredText"]["pattern"])
+        self.assertEqual(
+            allow_empty_pattern, schema["$defs"]["singleLineText"]["pattern"]
+        )
+        self.assertEqual(
+            allow_empty_pattern, schema["$defs"]["nullableText"]["pattern"]
+        )
+        self.assertEqual(
+            "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+            schema["$defs"]["isoDate"]["pattern"],
+        )
+        self.assertEqual("date", schema["$defs"]["isoDate"]["format"])
+
+        encoded_schema = json.dumps(schema)
+        for engine_class in (r"\d", r"\s", r"\S"):
+            self.assertNotIn(engine_class, encoded_schema)
+        self.assertEqual(
+            r"^ADR-(?P<date>[0-9]{8})-(?P<number>[0-9]{3})$",
+            harness.RUN_ID.pattern,
+        )
+        self.assertEqual(
+            r"^(?P<major>[0-9]+)\.(?P<minor>[0-9]+)\.(?P<patch>[0-9]+)$",
+            harness._VERSION.pattern,
+        )
+        self.assertEqual(r"^CONTST[0-9]{3}$", harness._CONTST.pattern)
+        self.assertFalse(harness._is_date("20260827"))
+        self.assertFalse(harness._is_date("2026-W35-4"))
+        self.assertTrue(harness._is_date("2028-02-29"))
 
     def test_load_intake_rejects_duplicate_routing_keys_and_nonfinite_numbers(self):
         harness = load_harness()

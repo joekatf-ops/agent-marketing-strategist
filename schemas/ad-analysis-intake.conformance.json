@@ -4,6 +4,11 @@
   "title": "Portable ad analysis intake conformance rules",
   "description": "Apply these rules after JSON Schema validation. A runtime must assert the date and iana-timezone formats and execute every rule before selecting an analysis route.",
   "format_assertions": ["date", "iana-timezone"],
+  "text_policy": {
+    "boundary_pattern_fragment": "\\u0009-\\u000D\\u001C-\\u0020\\u0085\\u00A0\\u1680\\u2000-\\u200A\\u2028-\\u2029\\u202F\\u205F\\u3000\\uFEFF",
+    "line_break_pattern_fragment": "\\u000A-\\u000D\\u0085\\u2028-\\u2029",
+    "requirement": "Every text value must exclude the line-break set everywhere and the boundary set at both ends; an empty value is valid only for fields whose base schema explicitly permits it."
+  },
   "rules": [
     {
       "id": "valid-run-id",

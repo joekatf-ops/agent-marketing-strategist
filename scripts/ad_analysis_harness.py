@@ -39,17 +39,27 @@ RUN_TEMPLATE = ROOT / "templates" / "brand-folder" / "outputs" / "ad-analysis" /
 MODES = {"creative-audit", "performance-diagnosis"}
 MAX_INTAKE_BYTES = 1_048_576
 MAX_JSON_DEPTH = 32
-RUN_ID = re.compile(r"^ADR-(?P<date>\d{8})-(?P<number>\d{3})$")
+RUN_ID = re.compile(r"^ADR-(?P<date>[0-9]{8})-(?P<number>[0-9]{3})$")
 _SLUG = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
-_VERSION = re.compile(r"^(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)$")
-_TOP_LEVEL_METHOD = re.compile(
-    r'^method_version:\s*(?:"(?P<double>[^"]*)"|\'(?P<single>[^\']*)\'|(?P<bare>[^\s#]+))\s*(?:#.*)?$'
+_VERSION = re.compile(
+    r"^(?P<major>[0-9]+)\.(?P<minor>[0-9]+)\.(?P<patch>[0-9]+)$"
 )
-_BRAND = re.compile(r"^brand:\s*(?:#.*)?$")
+_TOP_LEVEL_METHOD = re.compile(
+    r'^method_version:[ \t]*(?:"(?P<double>[^"]*)"|\'(?P<single>[^\']*)\'|(?P<bare>[^ \t#]+))[ \t]*(?:#.*)?$'
+)
+_BRAND = re.compile(r"^brand:[ \t]*(?:#.*)?$")
 _INDENTED_SLUG = re.compile(
-    r'^\s+slug:\s*(?:"(?P<double>[^"]*)"|\'(?P<single>[^\']*)\'|(?P<bare>[^\s#]+))\s*(?:#.*)?$'
+    r'^[ \t]+slug:[ \t]*(?:"(?P<double>[^"]*)"|\'(?P<single>[^\']*)\'|(?P<bare>[^ \t#]+))[ \t]*(?:#.*)?$'
 )
 _SHA256 = re.compile(r"^[a-fA-F0-9]{64}$")
+_ISO_DATE = re.compile(r"^(?P<year>[0-9]{4})-(?P<month>[0-9]{2})-(?P<day>[0-9]{2})$")
+_TEXT_BOUNDARY_PATTERN_FRAGMENT = (
+    r"\u0009-\u000D\u001C-\u0020\u0085\u00A0\u1680"
+    r"\u2000-\u200A\u2028-\u2029\u202F\u205F\u3000\uFEFF"
+)
+_TEXT_LINE_BREAK_PATTERN_FRAGMENT = r"\u000A-\u000D\u0085\u2028-\u2029"
+_TEXT_BOUNDARY = re.compile(f"[{_TEXT_BOUNDARY_PATTERN_FRAGMENT}]")
+_TEXT_LINE_BREAK = re.compile(f"[{_TEXT_LINE_BREAK_PATTERN_FRAGMENT}]")
 _URL_LIKE = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*://")
 _TOP_LEVEL_KEYS = {
     "schema_version",
@@ -109,7 +119,7 @@ _ASSET_TYPES = {"video", "static", "carousel", "other"}
 _DESTINATION_TYPES = {"LP", "PDP", "HP", "CP"}
 _AD_SOURCES = {"NNT", "INSPO", "ITR"}
 _AWARENESS_CODES = {"UWA", "PRA", "SLA", "PDA"}
-_CONTST = re.compile(r"^CONTST\d{3}$")
+_CONTST = re.compile(r"^CONTST[0-9]{3}$")
 _PERFORMANCE_KEYS = {
     "source_ids",
     "date_range",
@@ -768,7 +778,7 @@ def _parse_brand_identity(manifest_text: str) -> dict[str, str]:
     slugs: list[str] = []
     in_brand = False
     for line in manifest_text.splitlines():
-        if not line or line.lstrip().startswith("#"):
+        if not line or line.lstrip(" \t").startswith("#"):
             continue
         if line.startswith("method_version:"):
             match = _TOP_LEVEL_METHOD.fullmatch(line)
@@ -776,10 +786,10 @@ def _parse_brand_identity(manifest_text: str) -> dict[str, str]:
                 raise ValueError("brand method_version is malformed")
             method_versions.append(_scalar(match))
             continue
-        if not line[0].isspace():
+        if line[0] not in " \t":
             in_brand = bool(_BRAND.fullmatch(line))
             continue
-        if in_brand and line.lstrip().startswith("slug:"):
+        if in_brand and line.lstrip(" \t").startswith("slug:"):
             match = _INDENTED_SLUG.fullmatch(line)
             if not match:
                 raise ValueError("brand slug is malformed")
@@ -829,9 +839,21 @@ def load_brand_identity(brand_folder: pathlib.Path) -> dict[str, str]:
         os.close(brand_descriptor)
 
 
+def _text_matches_policy(value: object, *, allow_empty: bool = False) -> bool:
+    if not isinstance(value, str) or _TEXT_LINE_BREAK.search(value) is not None:
+        return False
+    if not value:
+        return allow_empty
+    return (
+        _TEXT_BOUNDARY.fullmatch(value[0]) is None
+        and _TEXT_BOUNDARY.fullmatch(value[-1]) is None
+    )
+
+
 def _require_text(value: object, field: str) -> str:
-    if not isinstance(value, str) or not value or value != value.strip() or "\n" in value or "\r" in value:
+    if not _text_matches_policy(value):
         raise ValueError(f"{field} must be non-empty single-line text")
+    assert isinstance(value, str)
     return value
 
 
@@ -1320,13 +1342,7 @@ def _open_validation_session(
 
 
 def _is_text(value: object, *, allow_empty: bool = False) -> bool:
-    return (
-        isinstance(value, str)
-        and "\n" not in value
-        and "\r" not in value
-        and value == value.strip()
-        and (allow_empty or bool(value))
-    )
+    return _text_matches_policy(value, allow_empty=allow_empty)
 
 
 def _contains_credential(value: str) -> bool:
@@ -1353,14 +1369,24 @@ def _validation_result(
     return ValidationResult(status, safe_errors, safe_limitations, safe_inventory)
 
 
-def _is_date(value: object) -> bool:
+def _parse_iso_date(value: object) -> dt.date | None:
     if not isinstance(value, str):
-        return False
+        return None
+    match = _ISO_DATE.fullmatch(value)
+    if match is None:
+        return None
     try:
-        dt.date.fromisoformat(value)
+        return dt.date(
+            int(match.group("year")),
+            int(match.group("month")),
+            int(match.group("day")),
+        )
     except ValueError:
-        return False
-    return True
+        return None
+
+
+def _is_date(value: object) -> bool:
+    return _parse_iso_date(value) is not None
 
 
 def _is_timezone(value: object) -> bool:
@@ -1814,12 +1840,13 @@ def _validate_optional_performance_shape(
             for endpoint in ("start", "end"):
                 if endpoint in date_range:
                     raw = date_range[endpoint]
-                    if not _is_date(raw):
+                    parsed_date = _parse_iso_date(raw)
+                    if parsed_date is None:
                         errors.append(
                             f"performance.date_range.{endpoint} must be an ISO calendar date"
                         )
                     else:
-                        parsed[endpoint] = dt.date.fromisoformat(raw)
+                        parsed[endpoint] = parsed_date
             if (
                 parsed.get("start")
                 and parsed.get("end")
@@ -1928,12 +1955,13 @@ def _validate_performance(
         dates: dict[str, dt.date] = {}
         for endpoint in ("start", "end"):
             raw = date_range.get(endpoint)
-            if not _is_date(raw):
+            parsed_date = _parse_iso_date(raw)
+            if parsed_date is None:
                 errors.append(
                     f"performance.date_range.{endpoint} must be an ISO calendar date"
                 )
             else:
-                dates[endpoint] = dt.date.fromisoformat(raw)
+                dates[endpoint] = parsed_date
         if dates.get("start") and dates.get("end") and dates["end"] < dates["start"]:
             errors.append("performance.date_range.end must not precede start")
 
