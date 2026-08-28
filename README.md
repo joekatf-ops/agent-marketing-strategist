@@ -279,7 +279,15 @@ learned until the canonical folder is updated.
 
 ## Validate and build
 
+The full test suite has one test-only prerequisite: Node.js 16.9.0 or newer. It uses the
+dependency-free `tests/ecmascript-json-schema-runner.mjs` support runner to assert ECMAScript
+schema behavior; no Node package or network dependency is required. The conformance test
+preflights the installed version and reports an actionable error when Node is missing or too old.
+Production analysis, validation, and bundle building remain Python-standard-library-only and do
+not require Node.
+
 ```bash
+node --version
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v
 python3 scripts/validate-package.py .
 python3 scripts/build-knowledge-bundle.py

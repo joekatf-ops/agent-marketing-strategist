@@ -29,6 +29,8 @@ INTAKE_CONFORMANCE = (
     ROOT / "tests" / "fixtures" / "ad-analysis-intake-conformance.json"
 )
 ECMASCRIPT_SCHEMA_RUNNER = ROOT / "tests" / "ecmascript-json-schema-runner.mjs"
+NODE_MINIMUM_VERSION = (16, 9, 0)
+NODE_MINIMUM_VERSION_TEXT = ".".join(str(part) for part in NODE_MINIMUM_VERSION)
 CONTROLLED_RECORDS = (
     "strategy/test-register.yml",
     "strategy/winner-library.yml",
@@ -251,8 +253,53 @@ def portable_conformance_errors(instance, contract, context):
     return errors
 
 
+def preflight_ecmascript_schema_node():
+    """Require the oldest Node release that supports every runner API."""
+    requirement = (
+        f"Node.js {NODE_MINIMUM_VERSION_TEXT} or newer is required only for the "
+        "ECMAScript JSON Schema conformance test"
+    )
+    production_boundary = (
+        "Production runtime remains Python-standard-library-only."
+    )
+    try:
+        completed = subprocess.run(
+            ("node", "--version"),
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+    except FileNotFoundError as error:
+        raise AssertionError(
+            f"{requirement}; the node executable was not found. {production_boundary}"
+        ) from error
+
+    reported = completed.stdout.strip()
+    match = re.fullmatch(
+        r"v(?P<major>[0-9]+)\.(?P<minor>[0-9]+)\.(?P<patch>[0-9]+)(?:-.*)?",
+        reported,
+    )
+    version = (
+        tuple(int(match.group(part)) for part in ("major", "minor", "patch"))
+        if match is not None
+        else None
+    )
+    if completed.returncode != 0 or version is None:
+        detail = reported or completed.stderr.strip() or "no version was reported"
+        raise AssertionError(
+            f"{requirement}; could not verify the installed version ({detail}). "
+            f"{production_boundary}"
+        )
+    if version < NODE_MINIMUM_VERSION:
+        raise AssertionError(
+            f"{requirement}; found {reported}. {production_boundary}"
+        )
+    return reported
+
+
 def ecmascript_schema_results(schema, instances):
     """Assert the intake schema with ECMAScript regex and independent date semantics."""
+    preflight_ecmascript_schema_node()
     completed = subprocess.run(
         ("node", str(ECMASCRIPT_SCHEMA_RUNNER)),
         input=json.dumps({"schema": schema, "instances": instances}),
@@ -269,6 +316,51 @@ def ecmascript_schema_results(schema, instances):
     if len(results) != len(instances):
         raise AssertionError("ECMAScript JSON Schema runner returned the wrong result count")
     return results
+
+
+class EcmascriptSchemaRunnerSupportTests(unittest.TestCase):
+    def test_missing_node_reports_the_test_only_prerequisite(self):
+        with mock.patch.object(
+            subprocess,
+            "run",
+            side_effect=FileNotFoundError("node"),
+        ):
+            try:
+                ecmascript_schema_results({}, [])
+            except AssertionError as error:
+                self.assertRegex(
+                    str(error),
+                    r"Node\.js 16\.9\.0 or newer is required only for the "
+                    r"ECMAScript JSON Schema conformance test; the node executable "
+                    r"was not found\. Production runtime remains "
+                    r"Python-standard-library-only\.",
+                )
+            except FileNotFoundError:
+                self.fail("the raw missing-node error escaped the test preflight")
+            else:
+                self.fail("a missing Node runtime passed the test preflight")
+
+    def test_unsupported_node_reports_the_minimum_supported_version(self):
+        unsupported = subprocess.CompletedProcess(
+            ("node", "--version"),
+            returncode=0,
+            stdout="v16.8.0\n",
+            stderr="",
+        )
+        with mock.patch.object(subprocess, "run", return_value=unsupported):
+            try:
+                ecmascript_schema_results({}, [])
+            except AssertionError as error:
+                self.assertRegex(
+                    str(error),
+                    r"Node\.js 16\.9\.0 or newer is required only for the "
+                    r"ECMAScript JSON Schema conformance test; found v16\.8\.0\. "
+                    r"Production runtime remains Python-standard-library-only\.",
+                )
+            except Exception as error:
+                self.fail(f"the unsupported Node runtime bypassed preflight: {error}")
+            else:
+                self.fail("an unsupported Node runtime passed the test preflight")
 
 
 class AdAnalysisHarnessTests(unittest.TestCase):
