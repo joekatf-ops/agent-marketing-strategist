@@ -74,21 +74,21 @@ CANONICAL_TEST_PREFIX = re.compile(
 )
 ANY_NEXT_TEST_NUMBER = re.compile(r"^\s*next_test_number\s*:")
 CANONICAL_NEXT_TEST_NUMBER = re.compile(
-    r"^  next_test_number:\s*(?P<number>[1-9]\d*)\s*(?:#.*)?$"
+    r"^  next_test_number:\s*(?P<number>[1-9][0-9]*)\s*(?:#.*)?$"
 )
 ANY_TOP_LEVEL_TESTS = re.compile(r'^["\']?tests["\']?\s*:')
 CANONICAL_TOP_LEVEL_TESTS = re.compile(
     r"^tests:\s*(?P<value>\[\])?\s*(?:#.*)?$"
 )
 CANONICAL_TEST_ITEM = re.compile(
-    r"^  - test_id:\s*(?P<identifier>CONTST(?P<number>\d{3}))\s*(?:#.*)?$"
+    r"^  - test_id:\s*(?P<identifier>CONTST(?P<number>[0-9]{3}))\s*(?:#.*)?$"
 )
 ANY_TEST_ID_KEY = re.compile(r"^\s+test_id\s*:")
 CANONICAL_MAPPING_ENTRY = re.compile(
     r"^(?P<key>[A-Za-z_][A-Za-z0-9_-]*):(?:\s+(?P<value>.*))?$"
 )
 CANONICAL_NUMBER = re.compile(
-    r"^[+-]?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$"
+    r"^[+-]?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?$"
 )
 CANONICAL_BOOL_OR_NULL = re.compile(r"^(?:true|false|null|~)$", re.IGNORECASE)
 CANONICAL_PLAIN_SCALAR = re.compile(

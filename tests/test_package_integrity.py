@@ -1813,6 +1813,16 @@ class PackageIntegrityTests(unittest.TestCase):
             errors,
         )
 
+    def test_package_contst_lexeme_accepts_only_ascii_digits(self):
+        validator = load_validator()
+
+        self.assertIsNotNone(
+            validator.CONTST_TEST_ID.search("  - test_id: CONTST001")
+        )
+        self.assertIsNone(
+            validator.CONTST_TEST_ID.search("  - test_id: CONTST٠٠١")
+        )
+
     def test_reports_opposite_campaign_launch_policies(self):
         validator = load_validator()
         compliant_contract = (

@@ -322,6 +322,27 @@ class BrandBundleTests(unittest.TestCase):
                         folder, pathlib.Path(temp.name) / "brand-bundle.md"
                     )
 
+    def test_digit_governed_yaml_lexemes_accept_only_ascii_digits(self):
+        builder = load_builder()
+        cases = (
+            (
+                builder.CANONICAL_NEXT_TEST_NUMBER,
+                "  next_test_number: 1٠",
+                "  next_test_number: 10",
+            ),
+            (
+                builder.CANONICAL_TEST_ITEM,
+                "  - test_id: CONTST٠٠١",
+                "  - test_id: CONTST001",
+            ),
+            (builder.CANONICAL_NUMBER, "1٠.٢", "10.2"),
+        )
+
+        for pattern, unicode_value, ascii_value in cases:
+            with self.subTest(pattern=pattern.pattern):
+                self.assertIsNone(pattern.fullmatch(unicode_value))
+                self.assertIsNotNone(pattern.fullmatch(ascii_value))
+
     def test_refuses_lowercase_or_duplicate_naming_state_keys(self):
         builder = load_builder()
         cases = (

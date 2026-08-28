@@ -31,7 +31,7 @@ MOST_AWARE_ROW = re.compile(
 )
 TEMPLATE_TEST_REGISTER = "templates/brand-folder/strategy/test-register.yml"
 CONTST_TEST_ID = re.compile(
-    r"^[ \t-]*test_id:[ \t]*(CONTST(?P<number>\d{3}))[ \t]*$",
+    r"^[ \t-]*test_id:[ \t]*(CONTST(?P<number>[0-9]{3}))[ \t]*$",
     re.IGNORECASE | re.MULTILINE,
 )
 V03_REQUIRED_FILES = (
@@ -892,7 +892,7 @@ def creative_audit_predicts_performance(text: str) -> bool:
 
 def _numbered_markdown_section(text: str, number: int) -> str:
     match = re.search(
-        rf"^## {number}\. [^\n]+\n(?P<body>.*?)(?=^## \d+\.|\Z)",
+        rf"^## {number}\. [^\n]+\n(?P<body>.*?)(?=^## [0-9]+\.|\Z)",
         text,
         re.MULTILINE | re.DOTALL,
     )
@@ -922,7 +922,7 @@ def creative_audit_example_errors(
     errors: list[str] = []
     headings = [
         (int(number), title.strip())
-        for number, title in re.findall(r"^## (\d+)\. ([^\n]+)$", text, re.MULTILINE)
+        for number, title in re.findall(r"^## ([0-9]+)\. ([^\n]+)$", text, re.MULTILINE)
     ]
     expected_headings = list(enumerate(CREATIVE_AUDIT_SECTIONS, start=1))
     if headings != expected_headings:
