@@ -1297,6 +1297,15 @@ class AdAnalysisHarnessTests(unittest.TestCase):
 
         self.assertEqual(4, len(supplied))
         performance = intake["performance"]
+        self.assertEqual(3, len(performance["account_norms"]))
+        self.assertEqual("unavailable", performance["reference_ranges"]["status"])
+        self.assertIn(
+            "Three account norms were supplied. External reference ranges were unavailable",
+            report,
+        )
+        self.assertNotIn("No account norms were supplied", report)
+        self.assertIn("external reference ranges, margin inputs", report)
+        self.assertNotIn("account norms, margin inputs", report)
         start = dt.date.fromisoformat(performance["date_range"]["start"])
         end = dt.date.fromisoformat(performance["date_range"]["end"])
         self.assertEqual(5, (end - start).days + 1)

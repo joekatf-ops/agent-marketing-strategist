@@ -66,7 +66,8 @@ delivery and the batch's three missing purchases keep this read directional.
 | `CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_SLA_COMPARISON_PDP_991003000000003` | `1.80%` (`36/2,000`) | `83.33%` (`30/36`) | `13.33%` (`4/30`) | `50.00%` (`2/4`) | `0.00%` (`0/2`) |
 | `CONTST042_NNT_NIGHTREADERS_SHAREDROOMGLARE_PDA_STATIC_PDP_991004000000004` | `2.50%` (`25/1,000`) | `48.00%` (`12/25`) | `8.33%` (`1/12`) | `0.00%` (`0/1`) | unavailable; no checkout |
 
-No account norms were supplied. These rows support comparisons within this pack only. The PRA and
+Three account norms were supplied. External reference ranges were unavailable, so these rows
+support comparisons within this pack only. The PRA and
 PDA executions have the highest outbound CTRs but materially lower landing-page-view rates than
 the UWA and SLA executions.
 
@@ -144,9 +145,9 @@ literal governed value and contains no sequence, alternative or conditional pros
 
 This five-day read does not isolate awareness, route, format, hook, proof or destination causation.
 It does not supply the three additional purchases required for a Verdict, first-frame retention,
-account norms, margin inputs, a destination technical audit or evidence that any proposed patch was
-confirmed. The complete names contain real Post IDs, but no winner can graduate because graduation
-confirmation was not supplied.
+external reference ranges, margin inputs, a destination technical audit or evidence that any
+proposed patch was confirmed. The complete names contain real Post IDs, but no winner can graduate
+because graduation confirmation was not supplied.
 
 ## Persistence Summary
 
