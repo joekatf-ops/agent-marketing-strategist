@@ -616,7 +616,7 @@ class AdAnalysisHarnessTests(unittest.TestCase):
 
     def test_initialise_run_atomically_renames_one_complete_private_staging_run(self):
         harness = load_harness()
-        real_rename = os.rename
+        real_rename = harness._rename_directory_no_replace
         observations = []
 
         def inspect_then_rename(source, destination, *args, **kwargs):
@@ -643,7 +643,11 @@ class AdAnalysisHarnessTests(unittest.TestCase):
                 os.close(descriptor)
             return real_rename(source, destination, *args, **kwargs)
 
-        with mock.patch("os.rename", side_effect=inspect_then_rename):
+        with mock.patch.object(
+            harness,
+            "_rename_directory_no_replace",
+            side_effect=inspect_then_rename,
+        ):
             run = self.create_run(harness)
 
         self.assertEqual(1, len(observations))
@@ -654,55 +658,150 @@ class AdAnalysisHarnessTests(unittest.TestCase):
         self.assertEqual((1, 1), (intake_links, readme_links))
         self.assertEqual(run, self.brand / "outputs/ad-analysis/ADR-20260827-001")
 
-    def test_automatic_run_id_retries_after_a_concurrent_atomic_publication(self):
+    def test_automatic_run_id_retries_after_an_empty_directory_collision(self):
         harness = load_harness()
-        real_rename = os.rename
+        real_stat = os.stat
+        absence_checks = 0
         raced = False
 
-        def publish_competing_run_then_rename(source, destination, *args, **kwargs):
-            nonlocal raced
-            destination_directory = kwargs["dst_dir_fd"]
-            if not raced:
-                raced = True
-                os.mkdir(destination, 0o755, dir_fd=destination_directory)
-                run_descriptor = os.open(
-                    destination,
-                    os.O_RDONLY | os.O_DIRECTORY,
-                    dir_fd=destination_directory,
-                )
-                try:
-                    competitor = os.open(
-                        "competitor.marker",
-                        os.O_WRONLY | os.O_CREAT | os.O_EXCL,
-                        0o644,
-                        dir_fd=run_descriptor,
-                    )
-                    os.close(competitor)
-                finally:
-                    os.close(run_descriptor)
-            return real_rename(source, destination, *args, **kwargs)
+        def create_empty_destination_after_final_check(path, *args, **kwargs):
+            nonlocal absence_checks, raced
+            try:
+                return real_stat(path, *args, **kwargs)
+            except FileNotFoundError:
+                if path == "ADR-20260827-001" and kwargs.get("dir_fd") is not None:
+                    absence_checks += 1
+                    if absence_checks == 2:
+                        raced = True
+                        os.mkdir(path, 0o755, dir_fd=kwargs["dir_fd"])
+                raise
 
-        with mock.patch("os.rename", side_effect=publish_competing_run_then_rename):
+        with mock.patch.object(
+            harness, "_no_follow_flag", return_value=os.O_NOFOLLOW
+        ), mock.patch.object(
+            harness.os,
+            "stat",
+            side_effect=create_empty_destination_after_final_check,
+        ):
             run = self.create_run(harness)
 
         analysis = self.brand / "outputs" / "ad-analysis"
+        self.assertTrue(raced)
         self.assertEqual("ADR-20260827-002", run.name)
-        self.assertTrue(
-            (analysis / "ADR-20260827-001" / "competitor.marker").is_file()
-        )
+        self.assertEqual([], list((analysis / "ADR-20260827-001").iterdir()))
         self.assertEqual({"intake.json", "README.md"}, {path.name for path in run.iterdir()})
         self.assertEqual([], list(analysis.glob(".*.staging-*")))
+
+    def test_explicit_run_id_raises_on_an_empty_directory_collision(self):
+        harness = load_harness()
+        real_stat = os.stat
+        absence_checks = 0
+        raced = False
+
+        def create_empty_destination_after_final_check(path, *args, **kwargs):
+            nonlocal absence_checks, raced
+            try:
+                return real_stat(path, *args, **kwargs)
+            except FileNotFoundError:
+                if path == "ADR-20260827-007" and kwargs.get("dir_fd") is not None:
+                    absence_checks += 1
+                    if absence_checks == 2:
+                        raced = True
+                        os.mkdir(path, 0o755, dir_fd=kwargs["dir_fd"])
+                raise
+
+        with mock.patch.object(
+            harness, "_no_follow_flag", return_value=os.O_NOFOLLOW
+        ), mock.patch.object(
+            harness.os,
+            "stat",
+            side_effect=create_empty_destination_after_final_check,
+        ):
+            with self.assertRaisesRegex(FileExistsError, "already exists"):
+                harness.initialise_run(
+                    brand_folder=self.brand,
+                    mode="creative-audit",
+                    product_id="sleep-mask",
+                    market="AU",
+                    run_id="ADR-20260827-007",
+                    today=dt.date(2026, 8, 27),
+                )
+
+        collision = self.brand / "outputs/ad-analysis/ADR-20260827-007"
+        self.assertTrue(raced)
+        self.assertEqual([], list(collision.iterdir()))
+        self.assertEqual([], list(collision.parent.glob(".*.staging-*")))
 
     def test_atomic_run_publication_failure_leaves_no_run_or_staging_directory(self):
         harness = load_harness()
 
-        with mock.patch("os.rename", side_effect=OSError("simulated rename failure")):
+        with mock.patch.object(
+            harness,
+            "_rename_directory_no_replace",
+            side_effect=OSError("simulated rename failure"),
+        ):
             with self.assertRaisesRegex(OSError, "simulated rename failure"):
                 self.create_run(harness)
 
         analysis = self.brand / "outputs" / "ad-analysis"
         self.assertFalse((analysis / "ADR-20260827-001").exists())
         self.assertEqual([], list(analysis.glob(".*.staging-*")))
+
+    def test_atomic_no_replace_dispatches_to_each_governed_platform_primitive(self):
+        harness = load_harness()
+
+        class FakeRename:
+            def __init__(self):
+                self.calls = []
+                self.argtypes = None
+                self.restype = None
+
+            def __call__(self, *args):
+                self.calls.append(args)
+                return 0
+
+        for platform, symbol, expected_flag in (
+            ("darwin", "renameatx_np", 0x00000004),
+            ("linux", "renameat2", 1),
+        ):
+            with self.subTest(platform=platform):
+                rename = FakeRename()
+                libc = mock.Mock()
+                setattr(libc, symbol, rename)
+                with mock.patch.object(
+                    harness.sys, "platform", platform
+                ), mock.patch.object(
+                    harness.ctypes, "CDLL", return_value=libc
+                ):
+                    harness._rename_directory_no_replace(
+                        "staging",
+                        "destination",
+                        src_dir_fd=11,
+                        dst_dir_fd=12,
+                    )
+
+                self.assertEqual(
+                    [(11, b"staging", 12, b"destination", expected_flag)],
+                    rename.calls,
+                )
+
+    def test_atomic_no_replace_fails_closed_on_an_unsupported_platform(self):
+        harness = load_harness()
+
+        with mock.patch.object(
+            harness.sys, "platform", "unsupported"
+        ), mock.patch.object(
+            harness.ctypes, "CDLL", return_value=mock.Mock()
+        ), mock.patch.object(harness.os, "rename") as ordinary_rename:
+            with self.assertRaisesRegex(OSError, "unavailable"):
+                harness._rename_directory_no_replace(
+                    "staging",
+                    "destination",
+                    src_dir_fd=11,
+                    dst_dir_fd=12,
+                )
+
+        ordinary_rename.assert_not_called()
 
     def test_initialise_run_fsyncs_both_files_and_staging_then_parent_directories(self):
         harness = load_harness()

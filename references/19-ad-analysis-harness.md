@@ -28,7 +28,9 @@ Ad Diagnosis requires the governed performance-readiness inputs and retains its 
 2. Use an existing run or initialise one under the selected brand with
    `scripts/init-ad-analysis-run.py`. Never overwrite a run. The initializer writes and verifies
    both owned files in a private sibling staging directory, syncs them, then atomically publishes
-   the complete directory under its sequential canonical run ID.
+   the complete directory under its sequential canonical run ID with the platform no-replace
+   primitive. Unsupported no-replace primitives fail closed; they never fall back to ordinary
+   overwrite-capable rename.
 3. Complete `intake.json` and inventory every supplied ad and source. Follow
    `schemas/ad-analysis-intake.schema.json` for fields and enums, then apply every rule in
    `schemas/ad-analysis-intake.conformance.json`. Keep every nullable ad taxonomy and provenance

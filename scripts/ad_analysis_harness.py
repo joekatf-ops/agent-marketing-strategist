@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import ctypes
 import datetime as dt
+import errno
 import hashlib
 import json
 import math
@@ -11,6 +13,7 @@ import pathlib
 import re
 import shlex
 import stat
+import sys
 from typing import NamedTuple
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
@@ -164,8 +167,9 @@ _VIDEO_FIELD_MAPPINGS = {
 _FIELD_MAPPING_KEYS = (
     _REQUIRED_FIELD_MAPPINGS | _FUNNEL_FIELD_MAPPINGS | _VIDEO_FIELD_MAPPINGS
 )
-_RENAME_SUPPORTS_DIR_FD = os.rename in os.supports_dir_fd
 _RMDIR_SUPPORTS_DIR_FD = os.rmdir in os.supports_dir_fd
+_DARWIN_RENAME_EXCL = 0x00000004
+_LINUX_RENAME_NOREPLACE = 1
 
 
 class ValidationResult(NamedTuple):
@@ -620,10 +624,77 @@ def _directory_entry_matches_descriptor(
     )
 
 
+def _rename_directory_no_replace(
+    source: str,
+    destination: str,
+    *,
+    src_dir_fd: int,
+    dst_dir_fd: int,
+) -> None:
+    """Atomically rename one directory without replacing any destination."""
+    if not source or not destination or "/" in source or "/" in destination:
+        raise ValueError("atomic run publication requires single path components")
+    try:
+        libc = ctypes.CDLL(None, use_errno=True)
+    except OSError as error:
+        raise OSError(
+            errno.ENOTSUP,
+            "atomic no-replace run publication is unavailable",
+        ) from error
+
+    if sys.platform == "darwin":
+        # renameatx_np is the descriptor-relative form of
+        # renamex_np(..., RENAME_EXCL).
+        rename = getattr(libc, "renameatx_np", None)
+        flag = _DARWIN_RENAME_EXCL
+    elif sys.platform.startswith("linux"):
+        rename = getattr(libc, "renameat2", None)
+        flag = _LINUX_RENAME_NOREPLACE
+    else:
+        rename = None
+        flag = 0
+    if rename is None:
+        raise OSError(
+            errno.ENOTSUP,
+            "atomic no-replace run publication is unavailable",
+        )
+
+    rename.argtypes = [
+        ctypes.c_int,
+        ctypes.c_char_p,
+        ctypes.c_int,
+        ctypes.c_char_p,
+        ctypes.c_uint,
+    ]
+    rename.restype = ctypes.c_int
+    ctypes.set_errno(0)
+    result = rename(
+        src_dir_fd,
+        os.fsencode(source),
+        dst_dir_fd,
+        os.fsencode(destination),
+        flag,
+    )
+    if result == 0:
+        return
+    error_number = ctypes.get_errno() or errno.EIO
+    if error_number in {errno.EEXIST, errno.ENOTEMPTY}:
+        raise FileExistsError(
+            error_number,
+            os.strerror(error_number),
+            destination,
+        )
+    raise OSError(
+        error_number,
+        f"atomic no-replace run publication failed: {os.strerror(error_number)}",
+        destination,
+    )
+
+
 def _create_private_run_staging_directory(
     analysis_descriptor: int, run_id: str
 ) -> tuple[str, int]:
-    if not _RENAME_SUPPORTS_DIR_FD or not _RMDIR_SUPPORTS_DIR_FD:
+    if not _RMDIR_SUPPORTS_DIR_FD:
         raise OSError("descriptor-anchored atomic run publication is unavailable")
     for counter in range(1000):
         name = f".{run_id}.staging-{os.getpid()}-{counter}"
@@ -990,21 +1061,13 @@ def initialise_run(
                         )
 
                     try:
-                        os.rename(
+                        _rename_directory_no_replace(
                             staging_name,
                             candidate,
                             src_dir_fd=analysis_descriptor,
                             dst_dir_fd=analysis_descriptor,
                         )
-                    except OSError as error:
-                        try:
-                            os.stat(
-                                candidate,
-                                dir_fd=analysis_descriptor,
-                                follow_symlinks=False,
-                            )
-                        except FileNotFoundError:
-                            raise error
+                    except FileExistsError as error:
                         if automatic_run_id:
                             continue
                         raise FileExistsError(
