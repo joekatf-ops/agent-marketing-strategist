@@ -16,6 +16,7 @@ launch ad. Selecting one package does not create six ads.
 - Awareness code and job: SLA, differentiation
 - Messaging route: proof that can be seen
 - Primary hook: Hook 2, "Same six cables. Two very different ways to find one"
+- Opening type: Open loop
 - Media type: VIDEO
 - Execution format: Comparison
 - Execution variant: controlled side-by-side same-item demonstration
@@ -58,6 +59,10 @@ launch ad. Selecting one package does not create six ads.
 16. **Complete final ad name:** `CONTST004_NNT_REMOTE_WORKERS_CABLE_SEARCH_SLA_DEMO_PDP_POSTIDXXX`
 17. **Policy and claim risk:** LOW; every load-bearing feature is visible and verified
 18. **Fit and difference:** Direct product action makes visibility tangible without comparison
+19. **Hook quality gate:** Promise. Emotion: relief, carried by the overhead reveal at 1.2s;
+    curiosity gap: narrow, carried by the closed-to-unzip beat before the reveal; high stakes:
+    absent, and this package is the deliberate low-stakes control. Cleared: no prior context, action
+    at 0.0s, one legible idea.
 
 **Scores:** fit 5, stopping power 4, clarity 5, proof 5, brand 5, feasibility 5, learning 4
 
@@ -84,6 +89,10 @@ launch ad. Selecting one package does not create six ads.
 16. **Complete final ad name:** `CONTST004_NNT_REMOTE_WORKERS_CABLE_SEARCH_SLA_COMPARISON_PDP_POSTIDXXX`
 17. **Policy and claim risk:** LOW; fair comparison with no universal superiority claim
 18. **Fit and difference:** Enters through controlled contrast rather than a solo reveal
+19. **Hook quality gate:** Open loop. Emotion: recognition, carried by the searching left hand;
+    curiosity gap: carried by the spoken line withholding which side is which; high stakes: carried
+    by the anchor "Searching vs seeing". Cleared: no prior context, action at 0.0s, two legible
+    panels.
 
 **Scores:** fit 5, stopping power 5, clarity 5, proof 5, brand 4, feasibility 4, learning 5
 
@@ -110,6 +119,9 @@ launch ad. Selecting one package does not create six ads.
 16. **Complete final ad name:** `CONTST004_NNT_REMOTE_WORKERS_CABLE_SEARCH_SLA_UGC_PDP_POSTIDXXX`
 17. **Policy and claim risk:** LOW; staged actor experience must not be labelled a customer testimonial
 18. **Fit and difference:** Uses personal failure and reframe instead of product-first proof
+19. **Hook quality gate:** Open loop. Emotion: embarrassment, carried by the spoken confession; high
+    stakes: carried by the cables spilling onto the desk at 0.8s; curiosity gap: carried by the
+    still-closed SnapGrid at 1.8s. Cleared: no prior context, action at 0.0s, one legible idea.
 
 **Scores:** fit 4, stopping power 4, clarity 5, proof 3, brand 5, feasibility 5, learning 4
 
@@ -136,6 +148,10 @@ launch ad. Selecting one package does not create six ads.
 16. **Complete final ad name:** `CONTST004_NNT_REMOTE_WORKERS_CABLE_SEARCH_SLA_UGC_PDP_POSTIDXXX`
 17. **Policy and claim risk:** LOW; no prevalence or guaranteed time-saving claim
 18. **Fit and difference:** Starts with the Who's transition moment rather than storage comparison
+19. **Hook quality gate:** Open loop. Emotion: time pressure, carried by the low-battery icon at
+    0.7s; high stakes: carried by the shared-desk arrival with no time to search; curiosity gap:
+    narrow, carried by the unopened pouch before 1.3s. Cleared: no prior context, action at 0.0s, one
+    legible idea.
 
 **Scores:** fit 5, stopping power 5, clarity 4, proof 3, brand 4, feasibility 4, learning 5
 
@@ -162,6 +178,10 @@ launch ad. Selecting one package does not create six ads.
 16. **Complete final ad name:** `CONTST004_NNT_REMOTE_WORKERS_CABLE_SEARCH_SLA_COMPARISON_PDP_POSTIDXXX`
 17. **Policy and claim risk:** MEDIUM; comparison must remain fair and conditional
 18. **Fit and difference:** Challenges the category convention instead of demonstrating SnapGrid alone
+19. **Hook quality gate:** Promise. Emotion: doubt about an assumed feature, carried by the spoken
+    claim; high stakes: carried by the finger checking two closed pockets; curiosity gap: absent by
+    design, because the contrarian claim is handed over whole. Cleared: no prior context, action at
+    0.0s, one legible idea.
 
 **Scores:** fit 5, stopping power 5, clarity 4, proof 4, brand 5, feasibility 4, learning 5
 
@@ -188,19 +208,25 @@ launch ad. Selecting one package does not create six ads.
 16. **Complete final ad name:** `CONTST004_NNT_REMOTE_WORKERS_CABLE_SEARCH_SLA_DEMO_PDP_POSTIDXXX`
 17. **Policy and claim risk:** LOW; the challenge proves only what is visible in-frame
 18. **Fit and difference:** Uses silent viewer participation rather than narration or comparison
+19. **Hook quality gate:** Open loop. Curiosity gap: carried by the on-screen challenge "Find the
+    orange cable"; high stakes: carried by the two-second silence that leaves the viewer searching;
+    emotion: mild satisfaction, carried by the selection at 2.2s. Cleared: no prior context, action
+    at 0.0s, one legible idea.
 
 **Scores:** fit 4, stopping power 5, clarity 5, proof 5, brand 5, feasibility 5, learning 5
 
 ## 4. Diversity matrix
 
-| Hook | Category | Hook format | Media | Execution format | Descriptive variant | Lead | Visual pattern | Belief | Evidence | Risk |
-|---|---|---|---|---|---|---|---|---|---|---|
-| 1 | Safe | Demonstration | Video | Product demonstration | Tabletop overhead reveal | Product action | Unzip reveal | Visibility is tangible | `EVD-PROD-001` | Low |
-| 2 | Safe | Comparison | Video | Comparison | Controlled side-by-side same-item demonstration | Contrast | Split screen | A visible layout differs from searching | `EVD-PROD-001` | Low |
-| 3 | Proven | Confession | Video | Problem to solution narrative | Creator-led spill-and-repack confession | Personal failure | Spill and repack | Packed differs from visible | `EVD-MKT-022` | Low |
-| 4 | Proven | POV situation | Video | Problem to solution narrative | First-person shared-workspace arrival | Situation | Desk arrival | Search friction matters during transitions | `EVD-MKT-021` | Low |
-| 5 | Aggressive | Contrarian statement | Video | Comparison | Controlled pocket-count contrast | Reframe | Closed pockets vs open layout | Pocket count is not visibility | `EVD-PROD-001` | Medium |
-| 6 | Wildcard | Product in action | Video | Product demonstration | Silent-first orange-cable challenge | Participation | Find the cable | Visibility can be shown without a claim | `EVD-PROD-001` | Low |
+| Hook | Category | Hook format | Opening type | Media | Execution format | Descriptive variant | Lead | Visual pattern | Belief | Evidence | Risk |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | Safe | Demonstration | Promise | Video | Product demonstration | Tabletop overhead reveal | Product action | Unzip reveal | Visibility is tangible | `EVD-PROD-001` | Low |
+| 2 | Safe | Comparison | Open loop | Video | Comparison | Controlled side-by-side same-item demonstration | Contrast | Split screen | A visible layout differs from searching | `EVD-PROD-001` | Low |
+| 3 | Proven | Confession | Open loop | Video | Problem to solution narrative | Creator-led spill-and-repack confession | Personal failure | Spill and repack | Packed differs from visible | `EVD-MKT-022` | Low |
+| 4 | Proven | POV situation | Open loop | Video | Problem to solution narrative | First-person shared-workspace arrival | Situation | Desk arrival | Search friction matters during transitions | `EVD-MKT-021` | Low |
+| 5 | Aggressive | Contrarian statement | Promise | Video | Comparison | Controlled pocket-count contrast | Reframe | Closed pockets vs open layout | Pocket count is not visibility | `EVD-PROD-001` | Medium |
+| 6 | Wildcard | Product in action | Open loop | Video | Product demonstration | Silent-first orange-cable challenge | Participation | Find the cable | Visibility can be shown without a claim | `EVD-PROD-001` | Low |
+
+The batch carries both ways in: hooks 1 and 5 are promises, hooks 2, 3, 4 and 6 are open loops.
 
 ## 5. Recommended production order
 

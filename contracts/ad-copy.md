@@ -1,6 +1,6 @@
 # Output Contract: Ad Copy
 locked: 2026-08-27
-version: 2.1.0
+version: 2.2.0
 
 Primary text, headlines, descriptions, and one Meta CTA for one approved ad execution.
 
@@ -50,6 +50,11 @@ must state the reason and the actual word count.
 copy. It may name the situation, make a supportable promise, open a curiosity gap, present proof, or
 answer an objection. It never starts with the brand name or "Introducing".
 
+Every first line and every headline clears `references/20-hook-quality-standard.md`. State the
+opening type as promise or open loop in the route header, and check the first line cold: no prior
+context, no setup before the claim, one legible idea. The route's body cashes what its first line
+opened, and the headline set does not mix a promise and an open loop inside one line.
+
 **Route A and route B enter through different arguments.** A promise lead and a confession lead are
 meaningfully different. Two synonyms inside the same sentence are not.
 
@@ -97,6 +102,9 @@ Most Aware is handled by the offer and conversion environment, not as a standard
 - [ ] The two lead types differ strategically and are named
 - [ ] Exactly 5 headlines, 2 descriptions, and 1 CTA
 - [ ] Every first line stands alone before truncation
+- [ ] Every route declares its opening type as promise or open loop
+- [ ] Every first line and headline reads cold with no prior context and no setup
+- [ ] Every route's body cashes what its first line opened
 - [ ] Every body structure is named and proof precedes the ask
 - [ ] Every claim appears in the claim check
 - [ ] CONTST, source, Who, Primary Problem, awareness job and messaging route are explicit
