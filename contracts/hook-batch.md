@@ -1,9 +1,12 @@
 # Output Contract: Hook Batch
 locked: 2026-08-27
-version: 1.1.0
+version: 1.2.0
 
 A pre-production option set of strategically different openings for one approved execution. The six
 packages do not create six launch ads. Select one coherent opening for the execution.
+
+Every package clears the quality gate in `references/20-hook-quality-standard.md`. A package that
+fails a non-negotiable is replaced, not scored.
 
 ## Required execution traceability
 
@@ -34,6 +37,9 @@ Create exactly six hook packages across at least four hook formats:
 The six hooks must change the route into the argument. New adjectives, punctuation, camera angles,
 or opening questions do not create a strategically new hook.
 
+The batch carries at least one promise opening and at least one open loop, so the option set tests
+the way in and not only the format.
+
 ## Sections, in order
 
 1. **Batch header** - brand, market, product, coordinate key, CONTST test ID, source, Who, Primary
@@ -41,8 +47,8 @@ or opening questions do not create a strategically new hook.
    token, destination, CTA, complete final ad name and production constraints
 2. **Evidence and claim gate** - proof available, approved language, prohibited language
 3. **Hook packages** - six fixed cards
-4. **Diversity matrix** - category, hook format, media type, execution format, lead type, visual
-   pattern, belief, evidence and risk
+4. **Diversity matrix** - category, hook format, opening type, media type, execution format, lead
+   type, visual pattern, belief, evidence and risk
 5. **Recommended production order** - ranked with the learning value and effort
 
 ## Hook package shape
@@ -65,6 +71,9 @@ or opening questions do not create a strategically new hook.
 16. Complete final ad name ending in `POSTIDXXX` before publication
 17. Policy and claim risk: LOW, MEDIUM, or HIGH, with reason
 18. Why it fits the coordinate and how it differs from the other five
+19. Hook quality gate from `references/20-hook-quality-standard.md`: opening type as promise or open
+    loop; which element carries emotion, curiosity gap and high stakes, with at least two named and
+    absent ones stated; and the clearance for no prior context, starts in action and no chaos
 
 For a static hook, replace the three-second frames with feed object, hierarchy, primary line, and
 proof object. Do not pretend a static is a video storyboard.
@@ -92,15 +101,23 @@ unless its claim and policy burden are fully resolved.
 - An intrusive personal-attribute question
 - A proven competitor execution copied line for line
 - A visual opening that contradicts the spoken or written opening
+- An opening that assumes prior context or spends its first words on setup
+- A promise and an open loop mixed into one opening
+- A must-have claimed without a carrier in a named frame or line
+- Editing energy or sensory overload standing in for a reason to keep watching
 
 ## Self-check
 
 - [ ] Exactly 6 hooks across at least 4 hook formats
 - [ ] Required category allocation is complete
-- [ ] Every hook has all eighteen fields and the complete traceability set
+- [ ] Every hook has all nineteen fields and the complete traceability set
 - [ ] Hook format, media type, execution format and controlled FORMAT token are separate fields
 - [ ] Each route differs strategically
 - [ ] Visual, spoken, and on-screen elements express one idea
+- [ ] Every hook declares one opening type, and the batch carries both promise and open loop
+- [ ] Every hook names at least two must-have carriers and states any absent element
+- [ ] Every hook reads cold with no prior context, opens in action and stays legible
+- [ ] Every body handoff can cash what its opening promised
 - [ ] Every proof burden has a real source or is marked unavailable
 - [ ] Diversity matrix proves the batch is not cosmetic variation
 - [ ] Production order balances learning value, readiness, and effort

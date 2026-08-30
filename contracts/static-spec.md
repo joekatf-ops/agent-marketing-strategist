@@ -1,6 +1,6 @@
 # Output Contract: Static and Carousel Spec
 locked: 2026-08-27
-version: 1.1.0
+version: 1.2.0
 
 One spec per static or carousel execution. Complete enough that a designer or an image model
 can build it without asking a question.
@@ -33,6 +33,21 @@ Markdown. One spec block per asset.
 - **Hierarchy:** exactly one primary line. Everything else is secondary or tertiary
 - **Legibility:** the primary line readable at thumbnail size, on a phone, at arm's length
 
+## Opening gate
+
+The primary line, feed object and hierarchy together are the hook, so they clear
+`references/20-hook-quality-standard.md` as one unit. Record the result under section 2:
+
+- Opening type: promise or open loop, declared once
+- Must-have carriers: which of the primary line, feed object or proof object carries emotion,
+  curiosity gap and high stakes, with at least two named and any absent element stated
+- Non-negotiables: no prior context, starts in action, no chaos
+
+For a static, `starts in action` means the asset shows the situation or the proof rather than
+introducing it. For a carousel, frame one alone clears the gate; the later frames may not be used to
+supply context the opening needed. `No chaos` is a hierarchy requirement here: competing type
+weights, more than one primary idea or a crowded frame fail the gate whatever the copy says.
+
 ## Counts
 
 - Primary line: 1
@@ -51,6 +66,9 @@ Markdown. One spec block per asset.
 ## Never
 
 - More than one primary line
+- An opening that assumes prior context, or a carousel whose first frame needs frame two to land
+- A promise and an open loop mixed into one primary line
+- A crowded frame standing in for a reason to stop
 - Copy that only works if the reader zooms
 - A comparison table with an unfair or unsubstantiated column
 - Invented review text, star counts or press logos
@@ -59,6 +77,10 @@ Markdown. One spec block per asset.
 ## Self-check before presenting
 
 - [ ] Exactly one primary line
+- [ ] Opening type declared as promise or open loop
+- [ ] At least two must-have carriers named, and any absent element stated
+- [ ] Primary line reads cold with no prior context, and frame one lands alone
+- [ ] The asset or the destination cashes what the primary line opened
 - [ ] Word count inside the limit for the format
 - [ ] All copy clear of safe zones in every ratio
 - [ ] Every visual value traces to the active brand folder's visual context

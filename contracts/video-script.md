@@ -1,6 +1,6 @@
 # Output Contract: Video Script
 locked: 2026-08-27
-version: 1.2.0
+version: 1.3.0
 
 One script for one awareness execution.
 
@@ -41,6 +41,20 @@ CTA. Every row has a beat. A row that cannot be named is a row that gets cut.
 - One CTA, in the final beat
 - Proof appears before the ask, never after
 
+## Opening gate
+
+The three-part opening clears `references/20-hook-quality-standard.md` before the script is
+presented. Record the result under section 3:
+
+- Opening type: promise or open loop, declared once
+- Must-have carriers: which of the visual, spoken or on-screen element carries emotion, curiosity gap
+  and high stakes, with at least two named and any absent element stated
+- Non-negotiables: no prior context, starts in action, no chaos
+
+Frame one is mid-scene, not mid-explanation. A dialogue-heavy opening still qualifies when it wastes
+no words on setup. A stakes-raising visual may be oblique, but it may not contradict the spoken line
+or promise an argument the body abandons.
+
 ## Awareness rules
 
 | Awareness | Opening job | Body job | Close |
@@ -76,6 +90,9 @@ controlled destination token: LP, PDP, HP or CP. If it cannot, the script is blo
 ## Never
 
 - A hook the body does not deliver on
+- An opening that assumes prior context or spends its first words on setup
+- A promise and an open loop mixed into one opening
+- Editing energy or sensory overload standing in for a reason to keep watching
 - A beat with no named structural job
 - Stock-footage vagueness in the visual column
 - An unapproved claim, spoken or on screen
@@ -85,6 +102,10 @@ controlled destination token: LP, PDP, HP or CP. If it cannot, the script is blo
 ## Self-check before presenting
 
 - [ ] Three-part opening present, all three expressing one idea
+- [ ] Opening type declared as promise or open loop
+- [ ] At least two must-have carriers named, and any absent element stated
+- [ ] Opening reads cold with no prior context, starts in action and stays legible
+- [ ] The body cashes what the opening promised
 - [ ] Every script row has a named beat
 - [ ] Beat count between 5 and 9
 - [ ] Proof lands before the ask
