@@ -524,6 +524,28 @@ READ_VALIDITY_RULES = (
 )
 
 
+def load_agents_renderer(root: pathlib.Path):
+    """Load the AGENTS.md generator so validation and generation cannot diverge.
+
+    Prefers the generator in the validated root and falls back to the one beside
+    this validator, so a minimal root still exercises the real rendering rule.
+    """
+    candidates = (
+        root / "scripts" / "build-agents-md.py",
+        pathlib.Path(__file__).resolve().parent / "build-agents-md.py",
+    )
+    for path in candidates:
+        if not path.is_file():
+            continue
+        spec = importlib.util.spec_from_file_location("build_agents_md", path)
+        if spec is None or spec.loader is None:
+            continue
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module.render
+    return None
+
+
 def operating_body(text: str) -> str:
     if text.startswith("---\n"):
         closing = text.find("\n---\n", 4)
@@ -1399,8 +1421,21 @@ def validate(root: pathlib.Path) -> list[str]:
             )
 
     if skill_path.is_file() and agents_path.is_file():
-        if operating_body(skill_text) != operating_body(agents_path.read_text()):
-            errors.append("SKILL.md and AGENTS.md operating bodies have drifted")
+        render_agents = load_agents_renderer(root)
+        if render_agents is None:
+            if operating_body(skill_text) != operating_body(agents_path.read_text()):
+                errors.append("SKILL.md and AGENTS.md operating bodies have drifted")
+        else:
+            try:
+                expected_agents = render_agents(skill_text)
+            except ValueError as error:
+                errors.append(f"SKILL.md cannot be rendered to AGENTS.md: {error}")
+            else:
+                if agents_path.read_text() != expected_agents:
+                    errors.append(
+                        "AGENTS.md is stale; regenerate it with "
+                        "scripts/build-agents-md.py"
+                    )
 
     examples = root / "examples"
     if examples.is_dir():

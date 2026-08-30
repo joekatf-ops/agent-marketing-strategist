@@ -93,6 +93,16 @@ def load_bundle_builder():
     return module
 
 
+def load_agents_builder():
+    script = ROOT / "scripts" / "build-agents-md.py"
+    if not script.exists():
+        raise AssertionError("scripts/build-agents-md.py should exist")
+    spec = importlib.util.spec_from_file_location("build_agents_md", script)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 class PackageIntegrityTests(unittest.TestCase):
     def make_root(self, skill_body=None, agents_body=None):
         temp = tempfile.TemporaryDirectory()
@@ -152,7 +162,7 @@ class PackageIntegrityTests(unittest.TestCase):
             "examples/sample.md contains an unfinished placeholder", errors
         )
 
-    def test_reports_entrypoint_drift(self):
+    def test_reports_stale_generated_agents_file(self):
         validator = load_validator()
         temp, root = self.make_root(
             skill_body="# Marketing Strategist\n\nOne body.\n",
@@ -162,7 +172,37 @@ class PackageIntegrityTests(unittest.TestCase):
 
         errors = validator.validate(root)
 
-        self.assertIn("SKILL.md and AGENTS.md operating bodies have drifted", errors)
+        self.assertIn(
+            "AGENTS.md is stale; regenerate it with scripts/build-agents-md.py",
+            errors,
+        )
+
+    def test_accepts_agents_file_rendered_from_skill(self):
+        validator = load_validator()
+        body = "# Marketing Strategist\n\nOne body.\n"
+        temp, root = self.make_root(skill_body=body, agents_body=body)
+        self.addCleanup(temp.cleanup)
+
+        errors = validator.validate(root)
+
+        self.assertNotIn(
+            "AGENTS.md is stale; regenerate it with scripts/build-agents-md.py",
+            errors,
+        )
+
+    def test_generated_agents_file_is_committed_and_current(self):
+        builder = load_agents_builder()
+
+        self.assertEqual(
+            (ROOT / "AGENTS.md").read_text(),
+            builder.render((ROOT / "SKILL.md").read_text()),
+        )
+
+    def test_agents_renderer_rejects_a_skill_file_without_frontmatter(self):
+        builder = load_agents_builder()
+
+        with self.assertRaises(ValueError):
+            builder.render("# Marketing Strategist\n\nNo frontmatter.\n")
 
     def test_reports_launch_invariant_drift_in_all_three_entrypoints(self):
         validator = load_validator()

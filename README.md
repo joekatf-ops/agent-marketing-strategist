@@ -286,8 +286,13 @@ preflights the installed version and reports an actionable error when Node is mi
 Production analysis, validation, and bundle building remain Python-standard-library-only and do
 not require Node.
 
+`AGENTS.md` is generated from `SKILL.md` and must never be hand-edited. Codex reads `SKILL.md` with
+its frontmatter; other hosts read the bare `AGENTS.md`. Edit `SKILL.md`, then regenerate. Validation
+fails when the committed `AGENTS.md` is stale.
+
 ```bash
 node --version
+python3 scripts/build-agents-md.py
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v
 python3 scripts/validate-package.py .
 python3 scripts/build-knowledge-bundle.py
