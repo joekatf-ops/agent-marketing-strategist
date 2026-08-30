@@ -40,10 +40,10 @@ end.
 | Check whether a brand is ready | `contracts/brand-readiness.md` | `references/13-brand-folder.md`, `references/15-connectors.md` |
 | Research a market or customer | `contracts/customer-intelligence.md` | `references/11-research-tools.md`, `references/10-voice-and-claims.md`, `references/13-brand-folder.md`, `references/15-connectors.md` |
 | Build concepts or a portfolio | `contracts/concept-batch.md` | `references/02-customer-state.md`, `references/03-strategy-and-offer.md`, `references/06-concept-model.md` |
-| Build hooks | `contracts/hook-batch.md` | `references/05-copy-craft.md`, `references/10-voice-and-claims.md`, `references/16-hook-formats.md` |
-| Write primary text or headlines | `contracts/ad-copy.md` | `references/04-persuasion.md`, `references/05-copy-craft.md`, `references/10-voice-and-claims.md` |
-| Write a video script | `contracts/video-script.md` | `references/05-copy-craft.md`, `references/08-formats.md`, `references/12-meta-platform.md`, `references/16-hook-formats.md` |
-| Specify a static or carousel | `contracts/static-spec.md` | `references/08-formats.md`, `references/12-meta-platform.md`, `references/16-hook-formats.md` |
+| Build hooks | `contracts/hook-batch.md` | `references/05-copy-craft.md`, `references/10-voice-and-claims.md`, `references/16-hook-formats.md`, `references/20-hook-quality-standard.md` |
+| Write primary text or headlines | `contracts/ad-copy.md` | `references/04-persuasion.md`, `references/05-copy-craft.md`, `references/10-voice-and-claims.md`, `references/20-hook-quality-standard.md` |
+| Write a video script | `contracts/video-script.md` | `references/05-copy-craft.md`, `references/08-formats.md`, `references/12-meta-platform.md`, `references/16-hook-formats.md`, `references/20-hook-quality-standard.md` |
+| Specify a static or carousel | `contracts/static-spec.md` | `references/08-formats.md`, `references/12-meta-platform.md`, `references/16-hook-formats.md`, `references/20-hook-quality-standard.md` |
 | Plan a manual Meta launch | `contracts/campaign-launch-plan.md` | `references/06-concept-model.md`, `references/07-naming.md`, `references/09-testing-and-diagnosis.md`, `references/18-master-creative-strategy.md` |
 | Hand off an ad destination | `contracts/destination-handoff.md` | `references/03-strategy-and-offer.md`, `references/06-concept-model.md`, `references/18-master-creative-strategy.md` |
 | Analyse supplied ads | `contracts/creative-audit.md` or `contracts/ad-diagnosis.md` | `references/19-ad-analysis-harness.md`; diagnosis also loads `references/09-testing-and-diagnosis.md`, `references/12-meta-platform.md` |
@@ -181,3 +181,7 @@ follow `references/14-learning-system.md`.
 13. The Notion Master Creative Strategy is canonical for the universal method, and the repository
     is its reviewed portable snapshot. A freshness check is read-only: detected changes require
     human review and must never automatically mutate this skill or its references.
+14. Every hook, primary-text first line, script opening and static primary line clears
+    `references/20-hook-quality-standard.md`. Declare the opening type as promise or open loop, name
+    which element carries each must-have, and record the three non-negotiables. A hook the body
+    cannot cash fails the gate however well it holds the first three seconds.
