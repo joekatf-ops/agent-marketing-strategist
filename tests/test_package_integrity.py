@@ -1368,7 +1368,7 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn("does not require a live Meta connection", contract)
 
     def test_package_declares_v04_and_portable_brand_folder(self):
-        self.assertEqual("0.4.0", (ROOT / "VERSION").read_text().strip())
+        self.assertRegex((ROOT / "VERSION").read_text().strip(), r"^\d+\.\d+\.\d+$")
         readme = (ROOT / "README.md").read_text()
 
         self.assertIn("brand folder", readme.lower())
@@ -1379,7 +1379,8 @@ class PackageIntegrityTests(unittest.TestCase):
         readme = (ROOT / "README.md").read_text()
         normalized = " ".join(readme.split()).lower()
 
-        self.assertIn("**Version:** 0.4.0", readme)
+        declared = (ROOT / "VERSION").read_text().strip()
+        self.assertIn(f"**Version:** {declared}", readme)
         self.assertIn("twelve governed artefacts", readme)
         self.assertIn("| Creative Audit |", readme)
         self.assertIn("Analyse these ads for <brand>", readme)
@@ -1937,7 +1938,59 @@ class PackageIntegrityTests(unittest.TestCase):
 
         errors = validator.validate(root)
 
-        self.assertIn("VERSION must declare 0.4.0", errors)
+        self.assertNotIn(
+            "VERSION must use major.minor.patch format, found '0.2.0'", errors
+        )
+
+    def test_reports_a_malformed_version(self):
+        validator = load_validator()
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        (root / "VERSION").write_text("v0.5\n")
+
+        errors = validator.validate(root)
+
+        self.assertIn(
+            "VERSION must use major.minor.patch format, found 'v0.5'", errors
+        )
+
+    def test_reports_a_version_declaration_that_disagrees_with_version_file(self):
+        validator = load_validator()
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        (root / "VERSION").write_text("0.5.0\n")
+        (root / "README.md").write_text("**Version:** 0.4.0\n")
+        brand = root / "templates" / "brand-folder" / "brand.yml"
+        brand.parent.mkdir(parents=True, exist_ok=True)
+        brand.write_text('slug: "example"\nmethod_version: "0.4.0"\n')
+
+        errors = validator.validate(root)
+
+        self.assertIn(
+            "README.md declares the package version '0.4.0' but VERSION is '0.5.0'",
+            errors,
+        )
+        self.assertIn(
+            "templates/brand-folder/brand.yml declares method_version '0.4.0' "
+            "but VERSION is '0.5.0'",
+            errors,
+        )
+
+    def test_accepts_version_declarations_that_agree(self):
+        validator = load_validator()
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        (root / "VERSION").write_text("0.5.0\n")
+        (root / "README.md").write_text("**Version:** 0.5.0\n")
+        brand = root / "templates" / "brand-folder" / "brand.yml"
+        brand.parent.mkdir(parents=True, exist_ok=True)
+        brand.write_text('slug: "example"\nmethod_version: "0.5.0"\n')
+
+        errors = validator.validate(root)
+
+        self.assertEqual(
+            [], [error for error in errors if "VERSION" in error]
+        )
 
 
 if __name__ == "__main__":

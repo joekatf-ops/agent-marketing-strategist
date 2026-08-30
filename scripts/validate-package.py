@@ -17,6 +17,21 @@ import sys
 ROUTED_PATH = re.compile(
     r"`((?:references|contracts|examples|connectors|schemas)/[^`]+\.(?:md|json))`"
 )
+SEMVER = re.compile(r"[0-9]+\.[0-9]+\.[0-9]+")
+VERSION_DECLARATIONS = (
+    (
+        "README.md",
+        re.compile(r"^\*\*Version:\*\*[ \t]*(?P<version>[^\s]+)[ \t]*$", re.MULTILINE),
+        "the package version",
+    ),
+    (
+        "templates/brand-folder/brand.yml",
+        re.compile(
+            r'^method_version:[ \t]*"(?P<version>[^"]+)"[ \t]*$', re.MULTILINE
+        ),
+        "method_version",
+    ),
+)
 PLACEHOLDER = re.compile(r"\{\{[^}]+\}\}|\b(?:TODO|TBD)\b")
 SUPERSEDED_CONCEPT_MODEL = re.compile(r"persona\s+x\s+outcome\s+x\s+angle", re.IGNORECASE)
 STANDARD_AD_CONTRACTS = (
@@ -522,6 +537,36 @@ READ_VALIDITY_RULES = (
         re.IGNORECASE | re.DOTALL,
     ),
 )
+
+
+def version_agreement_errors(root: pathlib.Path) -> list[str]:
+    """Check that every live declaration agrees with VERSION.
+
+    VERSION is the single source of truth. Pinning a literal here instead meant
+    a release could not be cut without editing the validator.
+    """
+    version_path = root / "VERSION"
+    if not version_path.is_file():
+        return []
+
+    declared = version_path.read_text().strip()
+    if not SEMVER.fullmatch(declared):
+        return [f"VERSION must use major.minor.patch format, found {declared!r}"]
+
+    errors: list[str] = []
+    for relative, pattern, label in VERSION_DECLARATIONS:
+        path = root / relative
+        if not path.is_file():
+            continue
+        match = pattern.search(path.read_text())
+        if match is None:
+            errors.append(f"{relative} does not declare {label}")
+        elif match.group("version") != declared:
+            errors.append(
+                f"{relative} declares {label} {match.group('version')!r} "
+                f"but VERSION is {declared!r}"
+            )
+    return errors
 
 
 def load_agents_renderer(root: pathlib.Path):
@@ -1230,9 +1275,7 @@ def validate(root: pathlib.Path) -> list[str]:
             for relative in analysis_routing_sections:
                 errors.append(f"{relative} ad-analysis routing section has drifted")
 
-    version_path = root / "VERSION"
-    if version_path.is_file() and version_path.read_text().strip() != "0.4.0":
-        errors.append("VERSION must declare 0.4.0")
+    errors.extend(version_agreement_errors(root))
 
     for relative in V03_REQUIRED_FILES:
         if not (root / relative).is_file():
