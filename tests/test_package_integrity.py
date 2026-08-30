@@ -1279,7 +1279,7 @@ class PackageIntegrityTests(unittest.TestCase):
 
                 self.assertNotIn(prohibited_error, errors)
 
-    def test_reports_missing_v04_release_requirements(self):
+    def test_reports_missing_v04_required_artefacts(self):
         validator = load_validator()
         temp, root = self.make_root()
         self.addCleanup(temp.cleanup)

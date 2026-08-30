@@ -1405,6 +1405,18 @@ def _unknown_key_errors(value: dict[str, object], allowed: set[str], path: str) 
     return [f"{prefix}{key} is not allowed" for key in value if key not in allowed]
 
 
+def _digest_descriptor(descriptor: int) -> str:
+    digest = hashlib.sha256()
+    offset = 0
+    while True:
+        chunk = os.pread(descriptor, 1024 * 1024, offset)
+        if not chunk:
+            break
+        offset += len(chunk)
+        digest.update(chunk)
+    return digest.hexdigest()
+
+
 def _hash_regular_file(descriptor: int) -> str:
     try:
         before = os.fstat(descriptor)
@@ -1412,18 +1424,19 @@ def _hash_regular_file(descriptor: int) -> str:
             raise ValueError("source is not a regular file")
         if before.st_nlink != 1:
             raise _LinkedFileError("source has multiple hard links")
-        digest = hashlib.sha256()
-        while True:
-            chunk = os.read(descriptor, 1024 * 1024)
-            if not chunk:
-                break
-            digest.update(chunk)
+        first = _digest_descriptor(descriptor)
         after = os.fstat(descriptor)
         if after.st_nlink != 1:
             raise _LinkedFileError("source has multiple hard links")
         if _stable_file_identity(before) != _stable_file_identity(after):
             raise _ChangedFileError("source changed while it was being read")
-        return digest.hexdigest()
+        # Metadata comparison alone cannot detect an equal-length in-place
+        # overwrite: Linux timestamps are coarse enough that a fast write lands
+        # inside the same tick and leaves mtime_ns and ctime_ns untouched. Only
+        # re-reading the bytes makes the check deterministic.
+        if _digest_descriptor(descriptor) != first:
+            raise _ChangedFileError("source changed while it was being read")
+        return first
     finally:
         os.close(descriptor)
 

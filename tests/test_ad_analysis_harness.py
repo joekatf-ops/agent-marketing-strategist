@@ -1976,12 +1976,15 @@ class AdAnalysisHarnessTests(unittest.TestCase):
         )
         self.write_intake(run, intake)
         asset_identity = (asset.stat().st_dev, asset.stat().st_ino)
-        original_read = harness.os.read
+        original_pread = harness.os.pread
         mutated = False
 
-        def mutate_after_first_asset_chunk(descriptor, size):
+        # The overwrite keeps the file length identical, so mtime and ctime
+        # granularity cannot be relied on to expose it. The harness must notice
+        # by re-reading the bytes.
+        def mutate_after_first_asset_chunk(descriptor, size, offset):
             nonlocal mutated
-            content = original_read(descriptor, size)
+            content = original_pread(descriptor, size, offset)
             metadata = os.fstat(descriptor)
             if (metadata.st_dev, metadata.st_ino) == asset_identity and not mutated:
                 mutated = True
@@ -1992,7 +1995,9 @@ class AdAnalysisHarnessTests(unittest.TestCase):
                     os.fsync(file.fileno())
             return content
 
-        with mock.patch.object(harness.os, "read", side_effect=mutate_after_first_asset_chunk):
+        with mock.patch.object(
+            harness.os, "pread", side_effect=mutate_after_first_asset_chunk
+        ):
             result = harness.validate_run(self.brand, run)
 
         self.assertTrue(mutated)
