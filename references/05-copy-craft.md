@@ -108,7 +108,8 @@ argument. Neither completes the sale.
 | Offer | Convert existing intent | Get [product or terms] before [real limit] |
 
 See `12-meta-platform.md` for what is currently working in the first three seconds on Meta,
-with data rather than opinion.
+with data rather than opinion. The family above chooses the route in; `20-hook-quality-standard.md`
+sets the quality gate every opening must clear, including the promise or open loop declaration.
 
 ## Headline checks
 

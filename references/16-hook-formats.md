@@ -4,6 +4,9 @@ A hook is the first complete unit of an ad, not just one sentence. For video it 
 visual opening, spoken opening and on-screen anchor. For static it combines feed pattern, primary
 line, image or proof object and visual hierarchy.
 
+This file supplies the format taxonomy. `20-hook-quality-standard.md` decides whether a chosen
+opening is strong enough to produce. Choosing a format here does not clear that gate.
+
 ## Pre-production option set for an approved execution
 
 Create six hook packages across at least four formats:
