@@ -197,9 +197,10 @@ python3 scripts/build-knowledge-bundle.py
 python3 scripts/build-brand-bundle.py /path/to/brands/example-brand /path/to/example-brand-bundle.md
 ```
 
-Most of the craft bundle is `references/12-meta-platform.md`, at roughly 12,500 tokens. It earns the
-space: it is the only sourced and dated platform layer here. If a surface cannot take 46,000 tokens,
-splitting that file into a specs half and a hook-craft half is the next reduction to make.
+The largest single file in the craft bundle is `references/12-meta-platform.md`, at roughly 10,000
+tokens. It earns the space: it is the only sourced and dated platform layer here. Its benchmark
+section was split into `references/25-meta-benchmarks.md`, which loads with the ops stack instead,
+because a benchmark tells you whether a number is good and cannot help you write.
 
 The canonical brand folder remains the source of truth. Rebuild both bundles after an approved
 universal-method release or canonical brand-folder change.
