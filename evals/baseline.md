@@ -99,10 +99,48 @@ what `scripts/build-craft-bundle.py` already did and why the bundle never drifte
 reference now stops the run rather than being silently skipped, and two tests hold the two halves:
 the eval's list must equal the builder's, and the standards file behind a criterion must be loaded.
 
-What this does not establish is whether loading the file fixes the score. Nobody has re-run it. The
-plausible outcome is that `end_state` improves and something else surfaces, because 35.25 out of 36
-was already a suspiciously flat result from a judge instructed that "most competent-but-unremarkable
-output should land on 1".
+## Does loading the file actually fix it
+
+A two-brief A/B, run through subagents because no API key was available. Same model on both sides,
+same judge, same brief, identical prompts from `run.generation_prompt`. The only difference is the
+craft stack: twelve references against fifteen. The absolute totals are not comparable to the CI run,
+which used `claude-sonnet-4-5`, but the within-pair delta is a controlled reading.
+
+| Brief | Awareness | Twelve refs | Fifteen refs |
+|---|---|---|---|
+| pet-food-topper-unaware | UWA | 33 / 36 | 33 / 36 |
+| protein-coffee-offer | PDA | 31 / 36 | 32 / 36 |
+
+`end_state` went 1.00 to 1.50, and the average hides the shape of it. **On the cold brief it moved 1
+to 2**, which is the brief the whole investigation came from. Without the file the judge said the
+end state was "never named in a sentence the reader could carry away". With it, the output writes an
+explicit end state into all six body handoffs, none of which needs the product's name: "the sentence
+on the fridge stops being true", "the bowl becomes something he has an opinion about". That is
+standard 1's own check appearing as an artefact in the output. Only the fifteen-reference outputs
+cite the numbered standards at all, which is the cleanest evidence that the file was the difference.
+
+**On the offer brief it did not move.** Five of six packages still sell attributes, price and
+reassurance. Loading the standard fixed the case where the end state has to carry the argument and
+left the case where an offer is competing with it.
+
+Two things this found that the CI run did not.
+
+**`concision` is measuring the harness, not the copy.** It scored 1.00 in all four cells here, and
+every judge blamed the same thing: the summary tables, gate records and per-package rationale that
+`generation_prompt` explicitly demands. "The delivered lines are tight, but the surrounding
+apparatus restates itself." The prompt asks for opening type, must-have carriers, three
+non-negotiables and a body handoff on every option, then the rubric marks the output down for
+repeating itself. Some of that verbosity is this model rather than the harness, so the size of the
+effect is not established. The conflict in the instructions is.
+
+**`mechanism_payoff` improved in kind without improving in score.** The cold brief's handoffs now
+attach a payoff to the ingredients and to the bag staying, and still lose the point on "portioned to
+his weight", which appears in five of six as bare machinery. Standard 12 is landing partially.
+
+Treat all of this as directional. Two briefs move every criterion mean in steps of 0.5, a total
+delta of +0.50 is inside the noise for that sample, and one brief is an observation rather than a
+finding. The claim it does support is narrow and was the question asked: on the cold brief that lost
+the point, loading the standard recovers it.
 
 ## What moved, and the mechanism
 
