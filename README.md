@@ -4,13 +4,17 @@ An evidence-led direct-response Meta strategist for DTC brands. One universal me
 brands. Each brand keeps its own connected folder, evidence, coordinate history, test history,
 winners and approved learning.
 
-**Version:** 0.4.0
+**Version:** 1.0.0
 
-**Status:** ready for use
+**Status:** ready for use by an operator who can run Python and keep a brand folder, or by
+anyone on a chat surface using the craft bundle. See Multiple LLM support for what each runtime
+actually supports, because they differ a great deal.
 
-Version 0.4.0 adds a portable, versioned ad-analysis harness with Creative Audit and Performance
-Diagnosis modes. It preserves the v0.3 Master Creative Strategy coordinate `Who x Primary Problem`,
-brand isolation, evidence, test history, portability, security and approved-revision learning.
+Version 1.0.0 opens the router so any advertising request is served, always loads the craft stack,
+adds judgement as an output, adds an annotated swipe corpus and an eval that scores the output, and
+moves the ad-analysis tooling to its own repository. It preserves the `Who x Primary Problem`
+coordinate, brand isolation, the evidence classes, the claim gate, test history and
+approved-revision learning.
 
 ## The operating model
 
@@ -174,7 +178,8 @@ Use the guide for the selected LLM surface:
 - [ChatGPT](connectors/runtime-chatgpt.md)
 - [Gemini](connectors/runtime-gemini.md)
 - [Grok](connectors/runtime-grok.md)
-- [Grok Agents](connectors/runtime-grok-agents.md)
+- [Grok Agents](connectors/runtime-grok-agents.md), which is an architecture spec for a Grok agent
+  you build yourself rather than an install path. Nothing in it is automated.
 
 Writable runtimes open the strategist and exactly one active brand folder.
 
@@ -343,6 +348,7 @@ Frozen examples live in [`examples/`](examples/).
 
 | Version | Date | Change |
 |---|---|---|
+| 1.0.0 | 2026-08-31 | Opened the closed router so any advertising request is served, always loaded the 25k craft stack instead of routing craft references selectively, added the Strategist Read contract so judgement has an output, marked thin input rather than refusing it, resolved the library's contradictions against the measured data, made option counts advisory, added the annotated swipe corpus and its Foreplay sync, added the eval harness and its CI scoring, extended the static contract to generated imagery, split the craft bundle from the full bundle, banned em dashes everywhere with a character check, retired Notion as canonical, fixed a TOCTOU hash guard that accepted a corrupted digest 86 percent of the time, and moved the ad-analysis tooling to agent-ad-analysis-harness. The v0.4 claim of complete seven-runtime workflows was overstated: three runtimes are first class, three are upload-only with a developer maintaining bundles, and Grok Agents is a build spec. |
 | 0.4.0 | 2026-08-27 | Added the portable ad-analysis intake, initializer and validator, Creative Audit, Performance Diagnosis routing, safe persistence patches, schema-aware universal bundle and complete seven-runtime workflows. |
 | 0.3.0 | 2026-08-27 | Adopted `Who x Primary Problem`, four-ad CONTST batches, locked naming, manual ABO launch plans, destination handoffs, CBO scaling with real Post IDs, safe strategy registers and read-only Notion governance. |
 | 0.2.0 | 2026-08-26 | Added multi-brand folders, recurring website refresh, evidence classes, six-hook batches, copy lengths, approved-revision learning, upload bundles and seven runtime guides. |

@@ -103,7 +103,8 @@ class BrandFolderInitializerTests(unittest.TestCase):
             initializer.initialise(destination, "Acme Sleep", "acme-sleep")
 
             manifest = (destination / "brand.yml").read_text()
-            self.assertIn('method_version: "0.4.0"', manifest)
+            declared = (ROOT / "VERSION").read_text().strip()
+            self.assertIn(f'method_version: "{declared}"', manifest)
             self.assertIn('test_prefix: "CONTST"', manifest)
             self.assertIn("next_test_number: 1", manifest)
             self.assertIn('brand_code: ""', manifest)
