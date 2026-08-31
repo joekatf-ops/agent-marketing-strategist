@@ -99,6 +99,64 @@ the small fraction who expand and for the argument's completeness, and it must s
 Write the long version so that truncating it at 80 characters leaves a complete, compelling
 proposition. If it does not, the long version is not long copy, it is a buried lead.
 
+### Benefit versus mechanism
+
+`26-copywriting-standards.md` says lead with the benefit, not the mechanism. `02-customer-state.md`
+gives Solution Aware the strong leads "mechanism, comparison, demonstration", `contracts/ad-copy.md`
+repeats it, and `contracts/video-script.md` makes mechanism the SLA opening job. Read flat, the
+standard forbids what the awareness model requires.
+
+The two are answering different questions, as usual. "Benefit, not mechanism" is a rule against
+feature-dumping: describing how the machinery works to a reader who has not yet agreed they want what
+it produces. The SLA mechanism requirement addresses a reader who has already conceded the benefit and
+is choosing between competing routes to it. For that reader the benefit is not news and the mechanism
+is the only remaining question.
+
+The resolution, and it is worth stating precisely because the flat reading of either rule produces bad
+copy:
+
+**The benefit is a requirement, not a slot.** It must be present and felt in every ad at every
+awareness level. It does not have to occupy the first line. What occupies the first line is set by
+awareness: the situation at UWA, the problem at PRA, the mechanism at SLA, the proof or offer at PDA.
+
+**Mechanism is never the point, it is the argument for the point.** A mechanism may lead. A mechanism
+may never appear without the payoff it produces, at any awareness level. "Cold-pressed in small
+batches" is machinery. "Cold-pressed in small batches, so it still tastes like the fruit" is an
+argument. The first fails at SLA as surely as at UWA, and the difference is one clause.
+
+So the checkable form of the rule is not "benefit first". It is: no mechanism without its payoff, and
+no mechanism-led opening to a reader who has not yet conceded the benefit. That is the So What test in
+`10-voice-and-claims.md` applied to the specific case, and it is why the So What test survives
+contact with the SLA mechanism requirement.
+
+The same shape resolves "sell the end state" against
+`24-writing-for-low-awareness.md`, which forbids benefit-led openings on cold traffic. The end state is
+what the ad must ultimately sell. It is not required to be the first thing said, and at UWA it must
+not be.
+
+### Hedging: which ones to kill
+
+`26-copywriting-standards.md` says kill empty hedges. `24-writing-for-low-awareness.md` holds up
+"I think maybe what works for me, I don't know if it's everyone?" as a strong cold opening, and the
+corpus agrees.
+
+The resolution turns on what the hedge is doing to the claim.
+
+A **claim-weakening hedge** attaches to the promise and drains it. "May potentially help support
+healthy energy levels" makes an assertion no reader can act on. Kill these always. They are worse than
+a weak claim, because they read as compliance while providing none: a hedge is not approved wording and
+never substitutes for it. If the claim needs qualifying to be true, the qualifier is part of the
+approved wording and it stays. If it is being hedged because nobody checked, that is a claim gate
+failure wearing a disguise.
+
+A **register hedge** belongs to a speaker inside quoted or first-person copy, and does the opposite
+job: it signals a real person rather than a marketer, which is the entire mechanism of the confession
+opening that outperforms plain storytelling by 40% relative. Keep these where the brand voice permits.
+
+The test is whether removing the hedge would make the copy assert something it cannot support. If yes,
+the hedge is doing the claim gate's job badly and the claim needs fixing instead. If no, the hedge is
+either voice, and may stay, or filler, and goes.
+
 ### Rule of three, emoji, and the machine-writing tells
 
 `10-voice-and-claims.md` used to ban these outright. The corpus contains long-running winners built

@@ -127,4 +127,7 @@ unless its claim and policy burden are fully resolved.
 - [ ] Every body handoff can cash what its opening promised
 - [ ] Every proof burden has a real source or is marked unavailable
 - [ ] Diversity matrix proves the batch is not cosmetic variation
+- [ ] Every spoken hook uses an interrupting register, not an explanatory one
+- [ ] No tier-one machine-writing phrase from `config/copy-lexicon.yml`
+- [ ] No hedge that weakens a claim, and any register hedge is deliberate voice
 - [ ] Production order balances learning value, readiness, and effort

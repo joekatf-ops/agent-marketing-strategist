@@ -15,10 +15,16 @@ contracts a chat surface actually produces, and the operating prompt. Roughly ha
 the size, and none of it is documentation about installation.
 
 Half rather than a tenth because the craft itself is large, and most of that is
-`12-meta-platform.md` at about 12,500 tokens. That file is worth its size: it is
-the only sourced, dated platform layer in the package. Splitting it into a specs
-half and a hook-craft half would shrink this bundle further and is the obvious next
-move if a target surface cannot take the current size.
+`12-meta-platform.md` at about 10,100 tokens even after the diagnostic benchmarks
+were split out to `25-meta-benchmarks.md` in the ops stack. That file is worth its
+size: it is the only sourced, dated platform layer in the package.
+
+The warning threshold is 220 KB, raised from 200 KB when
+`26-copywriting-standards.md` joined the craft stack. The threshold exists to catch
+silent bloat, not to cap the method, so a deliberate addition raises it and an
+accidental one trips it. If a target surface cannot take the current size, the next
+cuts in order of payoff are `22-swipe-corpus.md` at about 5,400 tokens, which is
+evidence rather than instruction, and the specs half of `12-meta-platform.md`.
 """
 
 from __future__ import annotations
@@ -104,7 +110,7 @@ def main() -> int:
     if full.is_file():
         other = len(full.read_text())
         print(f"Full bundle for comparison: {other / 1024:.0f} KB, ~{other // 4:,} tokens")
-    if kilobytes > 200:
+    if kilobytes > 220:
         print("WARNING: the craft bundle is larger than intended for a chat surface.")
     return 0
 

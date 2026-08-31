@@ -83,12 +83,18 @@ Most Aware is handled by the offer and conversion environment, not as a standard
 
 ## Formatting rules
 
-- Write to one person.
-- Prefer specific evidence and real numbers to adjectives.
+- Write to one person, and let the wrong reader move on. Select by situation, not by label.
+- Prefer specific evidence and real numbers to adjectives. Where no figure exists, mark the gap or
+  use a concrete situation. Never substitute an adjective and never produce a number.
 - Use no em dashes or en dashes.
 - Apply `references/10-voice-and-claims.md` and approved brand-folder voice rules.
 - Brand voice may change style, never the claim gate.
 - Keep the important meaning early in every length.
+- Match the register to the slot: line one interrupts, the body explains, the headline compresses, the
+  description supports, the CTA instructs. See the slot table in `references/26-copywriting-standards.md`.
+- Every mechanism clause carries the payoff it produces. Machinery without a "so that" is not an
+  argument.
+- Cut, then cut again. State the word count before and after on the long version.
 
 ## Never
 
@@ -116,4 +122,9 @@ Most Aware is handled by the offer and conversion environment, not as a standard
 - [ ] People, assets and location required are named
 - [ ] Complete final ad name uses the full ad-set name and ends in POSTIDXXX before publication
 - [ ] No banned vocabulary, em dashes, or en dashes
+- [ ] No tier-one machine-writing phrase from `config/copy-lexicon.yml`, and any flagged word justified
+- [ ] Every hedge either belongs to an approved claim or has been cut
+- [ ] The end state is present in every route, and nameable without using the product's name
+- [ ] Every mechanism clause states or plainly implies its payoff
+- [ ] Truncating each long version at 80 characters still leaves a complete proposition
 - [ ] The You Test and So What Test both pass

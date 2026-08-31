@@ -42,8 +42,9 @@ wrong shape.
 | `references/22-swipe-corpus.md` | Real ads that ran, with the transferable move named |
 | `references/23-commercial-context.md` | Economics, fit, offer levers, conversion, channels, retention |
 | `references/24-writing-for-low-awareness.md` | How to actually write a cold or problem-aware opening |
+| `references/26-copywriting-standards.md` | The sixteen line-level standards, their checks and their precedence |
 
-That is roughly 34,000 tokens. Load it all.
+That is roughly 39,000 tokens. Load it all.
 
 `22-swipe-corpus.md` is the worked evidence. Read the moves rather than the words: copying a line from
 a corpus ad produces a worse ad than the original and may copy a claim this brand cannot support.
@@ -248,3 +249,8 @@ When a human supplies an approved revision, compare the generated and approved v
 14. Launch is manual. Never publish an ad or change a budget automatically.
 15. The locked four initial NNT or INSPO ads and the one selected hook per launch ad can only change
     through a human-reviewed universal-method change. Other counts are guidance.
+16. Every delivered line clears `references/26-copywriting-standards.md`. Where two of the sixteen
+    collide, the precedence order in that file decides, and the losing rule gets named in the
+    rationale. Tier-one machine-writing phrases are banned outright and listed in
+    `config/copy-lexicon.yml`; a mechanism never appears without the payoff it produces; and the
+    absence of a real number is never a reason to produce one.

@@ -1,0 +1,103 @@
+# Copy lexicon: machine-writing tells and hedges.
+#
+# Data behind rule 16 and rule 7 of references/26-copywriting-standards.md.
+# Held as data so the lists can be extended without editing scripts/check-copy-lexicon.py.
+#
+# Scope: this is checked against examples/, which are frozen representations of agent output.
+# It is deliberately NOT checked across the whole repository, because the reference files
+# legitimately quote and discuss these words in order to ban them, and the swipe corpus records
+# third-party ad copy verbatim. A repo-wide scan would flag the documentation of the rule as a
+# violation of the rule.
+#
+# Only em and en dashes are checked repository-wide. That check lives in validate-package.py.
+
+version: 1
+
+# Tier one: banned outright in delivered copy. No brand voice earns these.
+# Stored as lowercase literal substrings, matched case-insensitively.
+# Keep this list tight. A false positive here costs more than a missed tell, because a checker
+# that cries wolf gets switched off.
+banned_phrases:
+  - "in today's world"
+  - "in today's fast-paced"
+  - "in the ever-evolving"
+  - "in an increasingly"
+  - "unlock the power"
+  - "unlock the secret"
+  - "harness the power"
+  - "elevate your"
+  - "delve into"
+  - "when it comes to"
+  - "to the next level"
+  - "look no further"
+  - "the perfect blend"
+  - "game-changer"
+  - "game changer"
+  - "revolutionize"
+  - "revolutionise"
+  - "it's not just"
+  - "it is not just"
+  - "whether you're"
+  - "whether you are"
+  - "say hello to a new"
+  - "that's where * comes in"
+
+# Tier two: words a language model overuses that also have honest literal uses.
+# Reported, not an error. Using one is fine when the rationale says why.
+# "Seamless" is a lie in a brand promise and a fact in a garment description.
+flagged_words:
+  - seamless
+  - robust
+  - harness
+  - transform
+  - effortless
+  - curated
+  - leverage
+  - empower
+  - streamline
+  - cutting-edge
+  - state-of-the-art
+  - holistic
+  - synergy
+  - bespoke
+  - innovative
+  - unparalleled
+  - meticulously
+  - boasts
+  - nestled
+  - testament
+  - vibrant
+  - elevate
+
+# Claim-weakening hedges, per rule 7.
+#
+# REPORTED, NEVER AN ERROR, and the reason matters. In several markets "helps support healthy X"
+# is the approved structure-function wording for a supplement, so the hedge is the compliant form
+# and removing it would create an unapproved claim. The same string is filler in one ad and
+# required wording in another, and no scanner can tell which.
+#
+# The judgement, from references/21-evidence-and-doctrine.md: delete the hedge and read the line.
+# If it now asserts something unsupportable, the hedge belongs to the claim and stays. If it says
+# the same thing more directly, the hedge was filler.
+hedge_phrases:
+  - "may help"
+  - "may potentially"
+  - "can help support"
+  - "helps support"
+  - "may support"
+  - "could potentially"
+  - "is designed to help"
+  - "works to help"
+  - "aims to"
+  - "quite possibly"
+  - "in some cases"
+  - "somewhat"
+  - "arguably"
+
+# Structural tells that need a human read. Listed so they are not forgotten, not machine-checked,
+# because detecting a filler rule-of-three mechanically produces mostly false positives.
+structural_tells:
+  - "Rule-of-three lists where the third item exists to complete the rhythm"
+  - "Two or more rhetorical questions stacked back to back"
+  - "Paragraphs where every sentence is the same length"
+  - "A closing line that summarises what was just said"

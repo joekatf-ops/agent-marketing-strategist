@@ -8,6 +8,15 @@ rubric and the same judge.
 | v0.4.0, pristine `main` | 15.67 / 20 | `results/baseline-v0.4.0.json` |
 | v1.0.0, restructured | 18.00 / 20 | `results/baseline.json` |
 
+**These numbers are out of 20 and the rubric now scores out of 36.** The eight line-level craft
+criteria added with `references/26-copywriting-standards.md` did not exist when these runs happened,
+so the totals are not comparable to anything measured after that change and must not be read as a
+percentage. The per-criterion table below is still valid, because those ten criteria are unchanged in
+wording and still scored the same way.
+
+Re-baselining needs an `ANTHROPIC_API_KEY` and a run of `evals/run.py` against both revisions. Until
+that happens, treat the 36-point scale as unmeasured rather than as a regression or an improvement.
+
 ```
 brief                           before   after
 greens-powder-cold                  15      18

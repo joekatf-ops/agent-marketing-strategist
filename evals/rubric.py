@@ -51,6 +51,86 @@ CRITERIA = (
         "Options differ strategically, by route into the argument, rather than cosmetically by "
         "adjective or camera angle.",
     ),
+    (
+        "end_state",
+        "Sells the life the product produces rather than the object. Score 2 only if the end state "
+        "can be named in one sentence without using the product's name. It does not have to lead: at "
+        "UWA it should not.",
+    ),
+    (
+        "concision",
+        "No word carries no weight. Deleting any sentence would cost the argument something. Padding, "
+        "throat-clearing and restatement at length all fail.",
+    ),
+    (
+        "reader_selection",
+        "The intended reader can tell inside the first line that this is about them, and it is done "
+        "with a recognisable situation rather than a label. Score 0 for a bare qualifier such as "
+        "\"if you're someone who\", which spends words without selecting anyone.",
+    ),
+    (
+        "tone_per_slot",
+        "Register matches the job of each slot: the opening interrupts, the body explains, a headline "
+        "compresses, a CTA instructs. Score 0 if one register is applied across all of them, most "
+        "commonly a hook that reads like body copy.",
+    ),
+    (
+        "no_hedging",
+        "No qualifier that drains the claim without adding accuracy. A hedge that belongs to approved "
+        "regulated wording is correct and does not count against this. A hedge in quoted or "
+        "first-person voice that signals a real speaker is also fine.",
+    ),
+    (
+        "mechanism_payoff",
+        "Every mechanism appears with the payoff it produces, stated or plainly implied. A mechanism "
+        "may lead when the reader has already conceded the benefit. Machinery with no \"so that\" "
+        "fails at every awareness level.",
+    ),
+    (
+        "front_loaded",
+        "The most important thing comes first at every scale. Truncating the first line at 80 "
+        "characters should still leave a complete, compelling proposition. At UWA the important thing "
+        "is the situation, not the product, so a withheld product name is not a failure here.",
+    ),
+    (
+        "no_ai_lexicon",
+        "No machine-writing tells. Score 0 for any of: \"in today's world\", \"it's not just X it's "
+        "Y\", \"unlock the power\", \"elevate your\", \"delve into\", \"when it comes to\", \"to the "
+        "next level\", \"whether you're\". Also penalise filler rule-of-three, stacked rhetorical "
+        "questions, and paragraphs of uniform sentence length.",
+    ),
+)
+
+# Rendered as headings in the judge prompt so an eighteen-criterion rubric stays legible.
+# Purely presentational: CRITERIA remains the single flat source of truth for scoring.
+GROUPS = (
+    (
+        "Opening quality",
+        (
+            "opening_type",
+            "must_have_carriers",
+            "no_prior_context",
+            "starts_in_action",
+            "no_chaos",
+            "body_handoff",
+        ),
+    ),
+    (
+        "Strategy",
+        ("awareness_fit", "specificity", "placeholder_discipline", "distinctness", "end_state"),
+    ),
+    (
+        "Line-level craft",
+        (
+            "concision",
+            "reader_selection",
+            "tone_per_slot",
+            "no_hedging",
+            "mechanism_payoff",
+            "front_loaded",
+            "no_ai_lexicon",
+        ),
+    ),
 )
 
 SCALE = """Score each criterion 0, 1 or 2.
@@ -81,8 +161,12 @@ def judge_prompt(brief: str, output: str) -> str:
         "## Rubric",
         "",
     ]
-    for key, description in CRITERIA:
-        lines.append(f"- `{key}`: {description}")
+    described = dict(CRITERIA)
+    for group, keys in GROUPS:
+        lines.extend([f"### {group}", ""])
+        for key in keys:
+            lines.append(f"- `{key}`: {described[key]}")
+        lines.append("")
     lines.extend(
         [
             "",
@@ -101,3 +185,8 @@ def judge_prompt(brief: str, output: str) -> str:
 
 
 MAX_SCORE = len(CRITERIA) * 2
+
+_grouped = tuple(key for _, keys in GROUPS for key in keys)
+assert _grouped == tuple(key for key, _ in CRITERIA), (
+    "GROUPS must list every criterion exactly once, in CRITERIA order"
+)

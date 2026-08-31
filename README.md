@@ -208,8 +208,8 @@ have different constraints:
 
 | Bundle | Size | Use it when |
 |---|---|---|
-| `dist/craft-bundle.md` | about 46,000 tokens | A chat surface. Carries the craft stack and the output contracts, and nothing about installation |
-| `dist/knowledge-bundle.md` | about 87,000 tokens | A runtime that will act on the whole method, including naming, testing, brand folders, connectors and the analysis harness |
+| `dist/craft-bundle.md` | about 54,000 tokens | A chat surface. Carries the craft stack and the output contracts, and nothing about installation |
+| `dist/knowledge-bundle.md` | about 96,000 tokens | A runtime that will act on the whole method, including naming, testing, brand folders, connectors and the analysis harness |
 
 ```bash
 python3 scripts/build-craft-bundle.py

@@ -1,0 +1,45 @@
+name: Checks
+
+# The structural checks, on every push and pull request. These need no API key and no
+# secrets, so unlike the eval they run for everybody including forks.
+#
+# The eval measures whether the copy is any good. This measures whether the package is
+# internally consistent, which is the cheaper question and the one that catches most
+# mistakes.
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: AGENTS.md is generated, so it must be current
+        run: python3 scripts/build-agents-md.py --check
+
+      - name: Validate the package
+        run: python3 scripts/validate-package.py .
+
+      - name: Tests
+        run: python3 -m unittest discover -s tests
+
+      - name: Copy lexicon, over the frozen examples
+        run: python3 scripts/check-copy-lexicon.py
+
+      - name: Bundles rebuild without error
+        run: |
+          python3 scripts/build-craft-bundle.py
+          python3 scripts/build-knowledge-bundle.py

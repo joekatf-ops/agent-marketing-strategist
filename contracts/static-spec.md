@@ -142,6 +142,9 @@ prohibition it was checked against.
 - [ ] Safe-zone margins reserved in the prompt, not left to a later crop
 - [ ] Every claim in the claim check, covering imagery as well as words
 - [ ] Carousel frames each carry one job
+- [ ] No tier-one machine-writing phrase from `config/copy-lexicon.yml` in any rendered line
+- [ ] Primary line compresses one idea rather than summarising the body
+- [ ] The end state is nameable without using the product's name
 - [ ] Readable at thumbnail
 - [ ] Header carries CONTST, source, Who, Primary Problem, awareness job and messaging route
 - [ ] Primary hook, media type, execution format, proof, destination and CTA agree
