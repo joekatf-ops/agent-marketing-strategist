@@ -14,8 +14,47 @@ so the totals are not comparable to anything measured after that change and must
 percentage. The per-criterion table below is still valid, because those ten criteria are unchanged in
 wording and still scored the same way.
 
-Re-baselining needs an `ANTHROPIC_API_KEY` and a run of `evals/run.py` against both revisions. Until
-that happens, treat the 36-point scale as unmeasured rather than as a regression or an improvement.
+## The full-brief CI run
+
+The two runs above were three briefs each, generated and judged through subagents. CI then scored all
+eight briefs against the real API on pull request 1, before the rubric grew. That is the most complete
+measurement of the ten-criterion rubric and it is recorded here because the raw JSON is a CI artefact
+rather than a committed file.
+
+Model and judge both `claude-sonnet-4-5`. Mean **19.5 / 20 across 8 briefs**.
+
+```
+brief                            score
+---------------------------------------
+collagen-switch-solution         20/20
+greens-powder-cold               20/20
+grounding-sheet-thin             19/20
+hair-growth-regulated            19/20
+mushroom-coffee-problem          20/20
+pet-food-topper-unaware          18/20
+protein-coffee-offer             20/20
+survival-water-filter-static     20/20
+```
+
+Eight of ten criteria scored a clean 2.00. The two that did not:
+
+| Criterion | Mean | Reading |
+|---|---|---|
+| specificity | 1.75 | The one criterion that went **down** against the 3-brief run, where it was 2.00 |
+| placeholder_discipline | 1.75 | Improved from 1.67, still the joint weakest |
+
+**`awareness_fit` reached 2.00**, from 1.33. That is the cold-traffic regression fixed and confirmed
+on real API calls across all eight briefs rather than on the three that found it.
+
+Two things not to over-read. The 18.0 to 19.5 movement mixes three changes at once, a different brief
+count, a different model and a different judge, so only `awareness_fit` is a claim this run supports
+on its own. And `pet-food-topper-unaware` at 18 being the lowest score is consistent with unaware
+traffic staying the hardest case, which is what `references/24-writing-for-low-awareness.md` exists
+for, but one brief is an observation and not a finding.
+
+The 36-point scale is still unmeasured. The next CI run on a branch carrying
+`references/26-copywriting-standards.md` produces the first reading of it, and `report.py` will print
+a `RUBRIC CHANGED` notice rather than subtracting across the two scales.
 
 ```
 brief                           before   after
