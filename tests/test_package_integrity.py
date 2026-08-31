@@ -1386,6 +1386,36 @@ class PackageIntegrityTests(unittest.TestCase):
                 self.assertIn("Never invent. Never refuse. Always mark.", text)
                 self.assertIn("[CLAIM: needs approved wording]", text)
 
+    def test_craft_bundle_carries_the_stack_and_no_install_guides(self):
+        builder = load_module(ROOT / "scripts" / "build-craft-bundle.py", "build_craft")
+        bundle = builder.build()
+
+        for relative in self.CRAFT_STACK:
+            with self.subTest(relative=relative):
+                self.assertIn(f"<!-- source: {relative} -->", bundle)
+        self.assertIn("<!-- source: contracts/strategist-read.md -->", bundle)
+        self.assertIn("<!-- source: PROMPT.md -->", bundle)
+        # The point of the craft bundle is that it spends no context on setup.
+        for excluded in (
+            "connectors/runtime-chatgpt.md",
+            "references/17-runtime-portability.md",
+            "references/07-naming.md",
+            "references/19-ad-analysis-harness.md",
+        ):
+            with self.subTest(excluded=excluded):
+                self.assertNotIn(f"<!-- source: {excluded} -->", bundle)
+
+    def test_craft_bundle_reads_the_stack_from_the_skill(self):
+        builder = load_module(ROOT / "scripts" / "build-craft-bundle.py", "build_craft")
+
+        self.assertEqual(list(self.CRAFT_STACK), builder.craft_stack())
+
+    def test_craft_bundle_is_smaller_than_the_full_bundle(self):
+        craft = load_module(ROOT / "scripts" / "build-craft-bundle.py", "build_craft")
+        full = load_bundle_builder()
+
+        self.assertLess(len(craft.build()), len(full.build_body()))
+
     def load_corpus(self):
         path = ROOT / "corpus" / "swipe" / "entries.json"
         self.assertTrue(path.is_file(), "corpus/swipe/entries.json should exist")

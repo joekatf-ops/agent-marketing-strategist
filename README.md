@@ -176,13 +176,25 @@ Use the guide for the selected LLM surface:
 - [Grok](connectors/runtime-grok.md)
 - [Grok Agents](connectors/runtime-grok-agents.md)
 
-Writable runtimes open the strategist and exactly one active brand folder. Upload-only runtimes use
-two generated files:
+Writable runtimes open the strategist and exactly one active brand folder.
+
+Upload-only runtimes use a generated bundle. There are two, because a chat window and an agent IDE
+have different constraints:
+
+| Bundle | Size | Use it when |
+|---|---|---|
+| `dist/craft-bundle.md` | about 46,000 tokens | A chat surface. Carries the craft stack and the output contracts, and nothing about installation |
+| `dist/knowledge-bundle.md` | about 87,000 tokens | A runtime that will act on the whole method, including naming, testing, brand folders, connectors and the analysis harness |
 
 ```bash
+python3 scripts/build-craft-bundle.py
 python3 scripts/build-knowledge-bundle.py
 python3 scripts/build-brand-bundle.py /path/to/brands/example-brand /path/to/example-brand-bundle.md
 ```
+
+Most of the craft bundle is `references/12-meta-platform.md`, at roughly 12,500 tokens. It earns the
+space: it is the only sourced and dated platform layer here. If a surface cannot take 46,000 tokens,
+splitting that file into a specs half and a hook-craft half is the next reduction to make.
 
 The canonical brand folder remains the source of truth. Rebuild both bundles after an approved
 universal-method release or canonical brand-folder change.
