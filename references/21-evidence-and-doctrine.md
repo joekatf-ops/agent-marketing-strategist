@@ -53,6 +53,15 @@ product-aware traffic where offer-first is genuinely correct. So this comparison
 where the money goes, not what works on cold audiences. Do not open a genuinely unaware audience
 with a discount.
 
+**This is a constraint, not a trade-off.** On a UWA brief, an opening that leads with the product
+name, a price, an offer or a product benefit is a failure of the brief, however high the aggregate
+rate for that shape. It was measured on traffic that already knew the product. Scoring an opening as
+strong on stopping power does not license using it against an audience it was never measured on.
+
+The measured evidence for this is inside the same table. Confession at 8.74 percent and curiosity at
+7.77 percent both beat baseline substantially and neither requires prior product knowledge. There is
+no need to reach for an offer-led opening on cold traffic to find something that performs.
+
 But take the real lesson, because there is one. **Confession beats plain storytelling by 40%
 relative.** The winning cold opening is not "a story"; it is a specific, self-incriminating admission
 that lands immediately. When a cold opening underperforms, the usual cause is setup before the

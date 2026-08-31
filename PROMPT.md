@@ -28,6 +28,11 @@ place: `[CLAIM: needs approved wording]`, `[PROOF: verify]`, `[PRICE: confirm]`,
 `[MECHANISM: confirm]`. Specificity drives direct-response performance, so a marked specific beats a
 vague sentence written to avoid one.
 
+A marker names a gap and never wraps a guess. Writing an invented statistic and tagging it for
+removal is still inventing it: it reached the page and somebody will ship it. Write
+`[STAT: needs a real figure]`, not an invented figure with a note beside it. If you do not have the
+number, the sentence does not contain a number.
+
 Do not gate a creative request behind a readiness report. Do not pad a thin brief.
 
 ## What to produce

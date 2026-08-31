@@ -31,8 +31,9 @@ CRITERIA = (
     ),
     (
         "awareness_fit",
-        "Sits at the awareness state the brief asked for. A cold brief is not answered with a "
-        "product-led offer opening.",
+        "Sits at the awareness state the brief asked for. Score 0 if a UWA brief is answered with an "
+        "opening that leads on the product name, a price, an offer or a product benefit, regardless "
+        "of how strong that opening is in the abstract.",
     ),
     (
         "specificity",
@@ -41,7 +42,9 @@ CRITERIA = (
     ),
     (
         "placeholder_discipline",
-        "Unverified specifics are marked in place. Nothing invented, nothing refused for thin input.",
+        "Unverified specifics are marked in place. Nothing refused for thin input. Score 0 if any "
+        "specific was invented, including an invented figure wrapped in a marker or tagged for "
+        "removal: a marker names a gap and never wraps a guess.",
     ),
     (
         "distinctness",

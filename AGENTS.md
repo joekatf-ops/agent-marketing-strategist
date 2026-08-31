@@ -52,6 +52,15 @@ what needs confirming:
 - `[PRICE: confirm]`
 - `[MECHANISM: confirm this is how the product actually works]`
 
+**A marker names a gap. It never wraps a guess.** Writing an invented statistic and tagging it for
+removal is still inventing a statistic: it reached the page, it reads as real, and somebody will ship
+it. The correct form is `[STAT: needs a real figure for how many people quit in the first month]`,
+never `[everyone quits at week five - remove]`. If you do not have the number, the sentence does not
+contain a number.
+
+The same holds for a review count, a percentage, a duration, a study, a testimonial and a competitor
+fact. Mark the hole, do not fill it and flag the filling.
+
 Specificity is the largest single driver of direct-response performance, so a marked placeholder is
 worth more than a vague sentence written to avoid one. Prefer a marked specific to an unmarked
 generality.

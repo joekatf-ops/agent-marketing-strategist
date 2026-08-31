@@ -1391,6 +1391,23 @@ class PackageIntegrityTests(unittest.TestCase):
                 self.assertIn("Never invent. Never refuse. Always mark.", text)
                 self.assertIn("[CLAIM: needs approved wording]", text)
 
+    def test_a_marker_may_not_wrap_a_guess(self):
+        # The first eval run found the agent writing an invented statistic and
+        # tagging it for removal. A marker that wraps a guess is worse than none.
+        for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):
+            with self.subTest(relative=relative):
+                text = (ROOT / relative).read_text()
+                self.assertIn("never wraps a guess", text)
+                self.assertIn("[STAT: needs a real figure", text)
+
+    def test_cold_traffic_may_not_be_answered_with_a_product_led_opening(self):
+        # The same run found offer-led openings on a UWA brief, pulled by the
+        # aggregate hit-rate data. The resolution states it as a constraint.
+        resolution = (ROOT / "references" / "21-evidence-and-doctrine.md").read_text()
+
+        self.assertIn("This is a constraint, not a trade-off.", resolution)
+        self.assertIn("is a failure of the brief", resolution)
+
     def test_every_produced_artefact_has_a_frozen_example(self):
         # The package previously had no example of ad copy, a script or a static
         # spec: every artefact a customer would read was unexemplified while every

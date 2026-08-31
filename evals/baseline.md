@@ -1,0 +1,86 @@
+# Baseline
+
+First recorded measurement of this package's output. Both runs used the same three briefs, the same
+rubric and the same judge.
+
+| Version | Mean | Detail |
+|---|---|---|
+| v0.4.0, pristine `main` | 15.67 / 20 | `results/baseline-v0.4.0.json` |
+| v1.0.0, restructured | 18.00 / 20 | `results/baseline.json` |
+
+```
+brief                           before   after
+greens-powder-cold                  15      18
+grounding-sheet-thin                15      19
+hair-growth-regulated               17      17
+```
+
+## What moved, and the mechanism
+
+| Criterion | Before | After | Delta |
+|---|---|---|---|
+| opening_type | 1.00 | 2.00 | +1.00 |
+| specificity | 1.33 | 2.00 | +0.67 |
+| body_handoff | 1.00 | 1.67 | +0.67 |
+| placeholder_discipline | 1.00 | 1.67 | +0.67 |
+| **awareness_fit** | **1.67** | **1.33** | **-0.34** |
+| **no_chaos** | **2.00** | **1.67** | **-0.33** |
+
+The gain is concentrated in the two thin briefs and is one mechanism, not four. The v0.4.0 agent
+marked missing input in a gate section at the top and then **blocked the packages that depended on
+it**: three of six hook packages blocked on the greens brief, three of six on hair, one held on
+grounding. The v1.0.0 agent marks the same gaps inside the line that needs them, so the option set
+survives. `body_handoff` follows downstream, because a gated specific leaves the opening promising
+something the body is then forbidden to pay.
+
+On the regulated brief the two versions tie at 17 by different routes, which is worth knowing: the
+restructure did not help where the constraint is compliance rather than evidence thinness.
+
+## Two regressions, and what was done about them
+
+The eval found real problems in the newer version on its first run. Both were fixed after this
+measurement was recorded, so **neither fix is verified by these numbers.** Verifying them is the next
+run's job.
+
+**Marked invention.** The v1.0.0 output wrote an unsupported statistic, "everyone quits at week
+five", into a spoken line and tagged it for removal. The v0.4.0 output invented nothing at all. This
+was a loophole created by the placeholder discipline: told to mark unverified specifics, the model
+wrote a guess and marked it. A marker that wraps a guess is worse than no marker, because the
+sentence reads as real and somebody ships it.
+
+Fixed in `SKILL.md` and `PROMPT.md`: a marker names a gap and never wraps a guess. The correct form
+is `[STAT: needs a real figure]`, not an invented figure with a note beside it. If you do not have
+the number, the sentence does not contain a number. `placeholder_discipline` now scores 0 for any
+invented specific, including one inside a marker.
+
+**Awareness drift on cold traffic.** The v1.0.0 output opened two packages on "One scoop" for a UWA
+brief, and led three of six on brand-level evidence for a problem-aware reader. Almost certainly a
+side effect of always-loading the platform data, where offer-first hooks show the highest aggregate
+rate at 9.29 percent. That number was measured on traffic that already knew the product.
+
+`references/21-evidence-and-doctrine.md` already resolved this in principle and was not forceful
+enough. It now states it as a constraint rather than a trade-off, and points at the measured
+alternative in the same table: confession at 8.74 percent and curiosity at 7.77 percent both beat
+baseline and neither needs prior product knowledge. `awareness_fit` now scores 0 for a product-led
+opening on a UWA brief.
+
+## How this run was produced, and its limits
+
+No API key was available in the environment that produced it, so generation and judging both ran
+through subagents rather than `evals/run.py`. The pipeline is the same and the rubric is identical,
+but this specific pair of numbers is not reproducible by re-running the script.
+
+Three further limits, all of which matter more than the headline delta:
+
+- **Three briefs.** Small enough that one brief moving three points shifts the mean by a point.
+- **No conversion data.** The rubric scores craft compliance, not performance. Nothing here says an
+  ad would sell anything.
+- **One judge, one sitting.** An LLM-judged absolute score drifts. The delta between two runs scored
+  the same way is the useful signal, which is why `report.py` leads on the comparison.
+
+Re-record with `ANTHROPIC_API_KEY` set and all eight briefs, and treat that as the real baseline:
+
+```bash
+python3 evals/run.py --out evals/results/baseline.json
+python3 evals/report.py evals/results/baseline-v0.4.0.json evals/results/baseline.json
+```
