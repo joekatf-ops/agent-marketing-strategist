@@ -60,23 +60,62 @@ def summarise(run: dict, path: pathlib.Path) -> None:
 
 def compare(before: dict, after: dict) -> None:
     print("\n=== comparison ===")
+
+    # The rubric grows. When it does, the two runs are scored out of different totals and a
+    # raw delta is nonsense: 18/20 against 32/36 would print "+14.00, better". Per-criterion
+    # means stay comparable for the criteria present on both sides, so those carry the
+    # comparison and the totals are shown as percentages with the mismatch named.
+    before_max, after_max = before.get("max"), after.get("max")
+    rescaled = (
+        isinstance(before_max, (int, float))
+        and isinstance(after_max, (int, float))
+        and before_max != after_max
+    )
+
     before_mean, after_mean = before.get("mean"), after.get("mean")
     if isinstance(before_mean, (int, float)) and isinstance(after_mean, (int, float)):
-        delta = after_mean - before_mean
-        direction = "better" if delta > 0 else "worse" if delta < 0 else "unchanged"
-        print(f"mean {before_mean} -> {after_mean}  ({delta:+.2f}, {direction})\n")
+        if rescaled:
+            before_pct = 100 * before_mean / before_max
+            after_pct = 100 * after_mean / after_max
+            print(
+                f"RUBRIC CHANGED: scored out of {before_max} before and {after_max} after, "
+                "so the totals are not directly comparable."
+            )
+            print(
+                f"mean {before_mean}/{before_max} ({before_pct:.1f}%) -> "
+                f"{after_mean}/{after_max} ({after_pct:.1f}%)"
+            )
+            print(
+                "Read the per-criterion table below instead. A percentage across different "
+                "criteria is not a like-for-like measurement either: the added criteria may "
+                "simply be harder or easier than the ones they joined.\n"
+            )
+        else:
+            delta = after_mean - before_mean
+            direction = "better" if delta > 0 else "worse" if delta < 0 else "unchanged"
+            print(f"mean {before_mean} -> {after_mean}  ({delta:+.2f}, {direction})\n")
 
     left, right = criterion_means(before), criterion_means(after)
     print(f"{'criterion':26} {'before':>7} {'after':>7} {'delta':>7}")
     print("-" * 51)
+    unmatched = []
     for key, _ in rubric.CRITERIA:
         if key not in left or key not in right:
+            if key in right:
+                unmatched.append(key)
             continue
         delta = right[key] - left[key]
         print(f"{key:26} {left[key]:>7} {right[key]:>7} {delta:>+7.2f}")
 
+    if unmatched:
+        print(f"\n{'criterion (new, no before)':26} {'after':>7}")
+        print("-" * 35)
+        for key in unmatched:
+            print(f"{key:26} {right[key]:>7}")
+
     by_brief = {r["brief"]: r.get("total") for r in before["results"]}
-    print(f"\n{'brief':30} {'before':>7} {'after':>7}")
+    suffix = f" (of {before_max} / {after_max})" if rescaled else ""
+    print(f"\n{'brief':30} {'before':>7} {'after':>7}{suffix}")
     print("-" * 46)
     for result in after["results"]:
         was = by_brief.get(result["brief"])

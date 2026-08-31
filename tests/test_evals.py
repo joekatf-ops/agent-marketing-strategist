@@ -4,7 +4,9 @@ The model transport is stubbed. These check the pipeline, the rubric wiring and 
 failure behaviour without a key, not the quality of any model's output.
 """
 
+import contextlib
 import importlib.util
+import io
 import json
 import pathlib
 import sys
@@ -224,6 +226,54 @@ class ReportTests(unittest.TestCase):
                 code = report.main(["report.py", str(before), str(after)])
 
         self.assertEqual(0, code)
+
+    def compare_output(self, before_run, after_run):
+        report = load("report")
+        with tempfile.TemporaryDirectory() as directory:
+            before = pathlib.Path(directory) / "before.json"
+            after = pathlib.Path(directory) / "after.json"
+            before.write_text(json.dumps(before_run))
+            after.write_text(json.dumps(after_run))
+            buffer = io.StringIO()
+            with contextlib.redirect_stdout(buffer):
+                code = report.main(["report.py", str(before), str(after)])
+        self.assertEqual(0, code)
+        return buffer.getvalue().split("=== comparison ===", 1)[1]
+
+    def test_same_scale_runs_still_report_a_plain_delta(self):
+        output = self.compare_output(self.make_run(8.0, 8), self.make_run(14.0, 14))
+
+        self.assertIn("+6.00, better", output)
+        self.assertNotIn("RUBRIC CHANGED", output)
+
+    def test_a_changed_rubric_refuses_to_subtract_across_scales(self):
+        # The failure this prevents: 18/20 against 32/36 printing "+14.00, better", or a
+        # genuinely poor 17/36 printing "-1.00, worse" and reading as a minor wobble.
+        old = self.make_run(18.0, 18)
+        old["max"] = 20
+        old["results"][0]["max"] = 20
+        new = self.make_run(32.0, 32)
+        new["max"] = 36
+        new["results"][0]["max"] = 36
+
+        output = self.compare_output(old, new)
+
+        self.assertIn("RUBRIC CHANGED", output)
+        self.assertIn("out of 20 before and 36 after", output)
+        self.assertIn("90.0%", output)
+        self.assertIn("88.9%", output)
+        self.assertNotIn("+14.00", output)
+
+    def test_criteria_absent_from_the_baseline_are_listed_separately(self):
+        rubric = load("rubric")
+        old = self.make_run(8.0, 8)
+        dropped = rubric.CRITERIA[-1][0]
+        del old["results"][0]["verdict"]["scores"][dropped]
+
+        output = self.compare_output(old, self.make_run(14.0, 14))
+
+        self.assertIn("no before", output)
+        self.assertIn(dropped, output.split("no before", 1)[1])
 
 
 if __name__ == "__main__":
