@@ -365,6 +365,16 @@ git diff --check
 
 Frozen examples live in [`examples/`](examples/).
 
+## Licence
+
+MIT, in [`LICENSE`](LICENSE). Use it, change it, build on it, sell what you build.
+
+One boundary that MIT cannot cross. `corpus/swipe/` records other brands' advertising verbatim, and
+those words are not the repository owner's to license. The MIT grant covers this package: the method,
+the references, the contracts, the tooling and the annotations. It does not grant you rights to any
+quoted ad copy, and reusing a competitor's claim is prohibited by the package itself. Reusing the
+structure is the entire point. See [`corpus/swipe/ATTRIBUTION.md`](corpus/swipe/ATTRIBUTION.md).
+
 ## Changelog
 
 | Version | Date | Change |
