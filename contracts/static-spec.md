@@ -30,7 +30,10 @@ Markdown. One spec block per asset.
 
 ## Layout rules
 
-- **Ratios:** 1:1 and 4:5 master, adapt to 9:16 where the placement needs it
+- **Ratios:** 4:5 master where the production route allows it, 1:1 otherwise, adapt to 9:16 where the
+  placement needs it. 4:5 takes more feed height and the one CTR comparison on record favours it
+  (`references/12-meta-platform.md`), so drop to 1:1 as a tool constraint rather than a default. State
+  which and why in section 1
 - **Safe zones:** keep all copy clear of the platform chrome. Check
   `references/12-meta-platform.md` for the current margins per placement
 - **Hierarchy:** exactly one primary line. Everything else is secondary or tertiary

@@ -38,30 +38,55 @@ claiming access:
 
 ## Model selection for a static ad
 
-Verified aspect ratio support, which decides this more than anything else. The static contract
-requires a 1:1 and 4:5 master with a 9:16 adaptation.
+`models_explore` with `action: "recommend"` returns five models and omits the two strongest for this
+job. Use `action: "list"` with `type: "image"` to see the full catalogue, which is roughly twenty
+models. A recommendation here is not the same as an inventory.
 
-| Model | 4:5 | Notes |
-|---|---|---|
-| `marketing_studio_image` | yes | Purpose-built for product ads. 1k, 2k or 4k. One reference image. **The default.** |
-| `cinematic_studio_2_5` | yes | Cinematic stills to 4K. Use when the brand's visual context calls for it |
-| `gpt_image_2` | **no** | Best text rendering and typography of the set, and cannot produce the contract's master ratio |
-| `soul_2` | no | Realistic UGC, fashion, portraits. Use for creator-style assets, not for the master static |
-| `soul_cinematic` | no | Concept art and dramatic lighting |
+The working set for DTC static ads. `nano_banana_pro` and `gpt_image_2` are the preferred pair here,
+both tagged for text rendering and both capable of 4K:
 
-The `gpt_image_2` trade-off resolves itself once you follow the contract. **Copy is composited, not
-generated**, so you do not need the model to render text, which frees the choice to be made on image
-quality and aspect ratio instead. That is the whole reason the rule exists.
+| Model | Ratios | Text rendering | Reference role |
+|---|---|---|---|
+| `nano_banana_pro` | 1:1, 4:5, 5:4, 3:2, 2:3, 4:3, 3:4, 9:16, 16:9, 21:9 | Yes, and 4K | `image_references` |
+| `gpt_image_2` | 1:1, 4:3, 3:4, 3:2, 2:3, 9:16, 16:9, 21:9. **No 4:5** | Yes, and 4K | `image` |
+| `nano_banana_2` | as `nano_banana_pro`, plus `auto` | Yes | `image_references`, `mask` |
+| `ms_image`, shown as DTC Ads | wide set, no 4:5 | Brand-kit aware | `image`, up to 14 |
+| `marketing_studio_image` | includes 4:5 and `auto` | Not tagged for text | `image` |
 
-Call `models_explore` with `action: "get"` for a model's current parameters before relying on this
-table. Higgsfield's catalogue moves.
+Two gotchas that will cost you a failed call:
+
+**The reference media role differs between families.** `nano_banana_*` and `seedream` take
+`image_references`. `gpt_image_2`, `ms_image` and `marketing_studio_image` take `image`. Passing the
+wrong role fails or is silently coerced.
+
+**`ms_image` requires a style first.** It errors without `style_id`, and the documented workflow is to
+call `show_marketing_studio` with `type: "image_style"` and have the user pick, because style is the
+dominant creative driver and defaulting silently produces something nobody asked for. It also accepts
+`brand_kit_id` and up to four `product_ids`, which makes it the most brand-aware option once a kit
+exists.
+
+**On aspect ratio.** `nano_banana_pro` supports 4:5, so the ratio does not force a choice between
+text quality and feed real estate. `gpt_image_2` is the exception: it has no 4:5, so a `gpt_image_2`
+master is 1:1. If you want 4:5 from a 1:1 generation, `flux_2_pro_outpaint` expands per side in
+pixels, and negative values crop instead.
+
+1:1 is a sound working default and it is what most of this catalogue does best. Worth knowing that it
+is not free: the single CTR comparison this package records puts 4:5 ahead of 1:1 by 12 to 18 percent
+on feed image, single-source and directional
+(`references/12-meta-platform.md`). On `gpt_image_2` that is the cost of the model. On
+`nano_banana_pro` it is a choice, since 4:5 is available at the same resolution and quality tier.
+
+Copy is still composited rather than generated, per the contract. Good text rendering lowers the risk
+of a generated headline but does not remove the need to verify it character by character, and
+compositing removes the risk entirely.
 
 ## Working with a spec
 
 1. Produce the static spec in full, including section 6, the derived prompt.
 2. If a product photograph exists, `media_import_url` it and pass the returned `media_id` in
-   `medias` with role `image`. **Never pass an `https://` URL in `medias[].value`.** It expects a
-   media id or a prior `job_id`.
+   `medias`, with the role that model's family expects: `image_references` for `nano_banana_*` and
+   `seedream`, `image` for `gpt_image_2` and the marketing models. **Never pass an `https://` URL in
+   `medias[].value`.** It expects a media id or a prior `job_id`.
 3. Preflight the cost with `get_cost: true`.
 4. Generate. Use `count` 2 to 4 only for variants of one identical prompt. For different prompts, use
    `generate_image_batch`, which is headless and takes up to 12.
