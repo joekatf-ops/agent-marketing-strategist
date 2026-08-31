@@ -874,7 +874,18 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn("Short version", contract)
         self.assertIn("Medium version", contract)
         self.assertIn("Long version", contract)
-        self.assertIn("exactly 5", contract)
+
+    def test_option_counts_are_guidance_with_a_floor(self):
+        # Forced counts produce filler. Only the CTA is fixed.
+        ad_copy = (ROOT / "contracts" / "ad-copy.md").read_text()
+        hook_batch = (ROOT / "contracts" / "hook-batch.md").read_text()
+
+        self.assertNotIn("Headlines: exactly 5", ad_copy)
+        self.assertNotIn("Lead routes: exactly 2", ad_copy)
+        self.assertIn("CTA: exactly 1", ad_copy)
+        self.assertIn("3 minimum", ad_copy)
+        self.assertNotIn("Create exactly six hook packages", hook_batch)
+        self.assertIn("Three is the floor.", hook_batch)
 
     def test_concept_contract_requires_four_initial_awareness_ads(self):
         contract = (ROOT / "contracts" / "concept-batch.md").read_text()
@@ -1306,6 +1317,7 @@ class PackageIntegrityTests(unittest.TestCase):
         "references/12-meta-platform.md",
         "references/16-hook-formats.md",
         "references/20-hook-quality-standard.md",
+        "references/21-evidence-and-doctrine.md",
     )
 
     def craft_stack_section(self):

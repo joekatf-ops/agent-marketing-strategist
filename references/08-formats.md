@@ -51,8 +51,42 @@ Second-by-second beat structures and retention data for these shapes are in
    folder's production constraints.
 4. Prefer the format that makes the messaging route visible. A visible-proof route wants
    demonstration or comparison, not a talking head.
-5. Across the four executions in an initial NNT or INSPO batch, vary format where it creates a
+5. Check the shortlist against the measured rates below before settling.
+6. Across the four executions in an initial NNT or INSPO batch, vary format where it creates a
    different expression or learning value. Format changes do not create a new coordinate.
+
+### Measured winner rates for the formats in this library
+
+Hit rate is the share of creatives of a type that reached 10x account median spend, from Motion's
+550,000-ad sample. Baseline is about 5%. Full figures, provenance and caveats are in
+`12-meta-platform.md` §4.2 to §4.4.
+
+| Shape | Hit rate | Read |
+|---|---|---|
+| Letter or written note on screen | 10.83% | Highest visual style measured |
+| Unconventional text placement | 9.63% | Strongly above baseline |
+| Offer-only opening | 9.29% | Best hook type, and skewed to warm traffic |
+| Confession opening | 8.74% | The strongest cold opening. Beats plain storytelling by 40% relative |
+| ASMR | 8.58% | Above baseline |
+| Founder on camera | 8.57% | Above baseline |
+| Curiosity or open loop | 7.77% | Above baseline |
+| Held sign or placard | 7.86% | Above baseline |
+| Bold claim | 7.19% | Works, and carries the most policy risk in health and beauty |
+| UGC overlay | 6.73% | Modestly above baseline |
+| Us versus them comparison | 6.52% | Modestly above baseline |
+| Plain storytelling | 6.23% | Below its own confession variant |
+| Feature benefit pointout | 5.61% | At baseline |
+| Question opening | 5.47% | At baseline, and policy-risky in health and beauty |
+| Listicle | 5.45% hook, 5.30% visual | At or below baseline. Over-briefed |
+| Green screen | 4.87% | Lowest visual style measured |
+| Animation | 4.57% | Below baseline |
+
+These are priors, not verdicts. A hit rate is a rate at which winners appear, not a return, and it is
+confounded by production cost: cheap formats get more attempts. Choose a below-baseline format when
+there is a reason specific to this brand, this product or a tested account result, and state the
+reason. A tested result in the brand's own register outranks every number here. See
+`21-evidence-and-doctrine.md` for how to resolve a conflict between these figures and the awareness
+model.
 
 Most Aware remains part of awareness theory, but it is handled by the landing page, product page,
 offer and conversion environment rather than a standard ad format.

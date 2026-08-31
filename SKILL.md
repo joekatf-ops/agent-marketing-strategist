@@ -38,8 +38,9 @@ wrong shape.
 | `references/12-meta-platform.md` | Meta specs, policy, benchmarks, hook data, script beats |
 | `references/16-hook-formats.md` | Hook format taxonomy for video and static |
 | `references/20-hook-quality-standard.md` | The quality gate every opening must clear |
+| `references/21-evidence-and-doctrine.md` | Which source wins when the library disagrees with itself |
 
-That is roughly 25,000 tokens. Load it all.
+That is roughly 27,000 tokens. Load it all.
 
 Loading craft references selectively was a context-budget measure that is no longer worth its cost.
 It produced hooks written without the platform data and copy written without the awareness model,

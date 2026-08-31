@@ -32,13 +32,17 @@ A Markdown block per ad. A batch may use a table only when every required field 
 
 ## Counts and length bands
 
-- Lead routes: exactly 2
+- Lead routes: 2 or more, each entering through a genuinely different argument
 - Short version: 30 to 60 words per route
 - Medium version: 80 to 140 words per route
 - Long version: 180 to 300 words per route
-- Headlines: exactly 5
-- Descriptions: exactly 2
+- Headlines: 5 by default, 3 minimum. Produce as many as are independently useful and cut the rest
+- Descriptions: 2 by default, 1 minimum
 - CTA: exactly 1
+
+Counts other than the CTA are guidance. Five headlines that repeat one idea are worth less than
+three that select different prospects, and padding to reach a number spends the attention that
+should have gone into choosing. Cut rather than pad, and say what you cut in the rationale.
 
 The three lengths within a route carry the same core argument at different depths. They are not
 three unrelated ideas. A justified format constraint may change a length band, but the rationale
@@ -97,10 +101,10 @@ Most Aware is handled by the offer and conversion environment, not as a standard
 
 ## Self-check before presenting
 
-- [ ] Exactly 2 lead routes and 6 primary-text versions
-- [ ] Each route has a Short version, Medium version, and Long version
-- [ ] The two lead types differ strategically and are named
-- [ ] Exactly 5 headlines, 2 descriptions, and 1 CTA
+- [ ] At least 2 lead routes, each with a Short, Medium and Long version
+- [ ] The lead types differ strategically and are named
+- [ ] At least 3 headlines and 1 description, each independently useful, and exactly 1 CTA
+- [ ] Nothing included only to reach a count, and anything cut is named in the rationale
 - [ ] Every first line stands alone before truncation
 - [ ] Every route declares its opening type as promise or open loop
 - [ ] Every first line and headline reads cold with no prior context and no setup

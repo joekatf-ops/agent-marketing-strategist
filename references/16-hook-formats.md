@@ -9,15 +9,20 @@ opening is strong enough to produce. Choosing a format here does not clear that 
 
 ## Pre-production option set for an approved execution
 
-Create six hook packages across at least four formats:
+Produce as many hook packages as clear `20-hook-quality-standard.md` and differ strategically from
+each other. Six across at least four formats is the default when there is no reason to choose
+otherwise. Three is the floor. Cut anything that only differs cosmetically rather than padding to
+reach a number.
+
+At six, the useful spread is:
 
 - Two evidence-led safe packages
 - Two proven-pattern packages
 - One aggressive package inside the claim ceiling
 - One experimental wildcard
 
-The six packages must change the route into the argument. Swapping adjectives does not create a
-new hook. Select one coherent opening for each launch execution. These six options do not create six
+Every package must change the route into the argument. Swapping adjectives does not create a new
+hook. Select one coherent opening for each launch execution. The option set never implies that many
 launch ads, a new coordinate or a new CONTST batch.
 
 ## Video hook formats
@@ -61,16 +66,9 @@ question is the strongest route into the idea.
 
 ## Hook package fields
 
-1. Hook number and format
-2. Awareness state
-3. Belief targeted
-4. Visual opening, frame by frame for the first three seconds
-5. Spoken opening
-6. On-screen anchor
-7. Body handoff
-8. Evidence and proof burden
-9. Production requirements
-10. Policy risk
-11. Why it fits the Who, Primary Problem, awareness job and messaging route
+`contracts/hook-batch.md` governs the field list. It is the single definition, so this file does not
+restate it. Two files describing the same object with different field counts is how the earlier
+11-versus-19 contradiction survived for months.
 
-All three opening elements express one idea. The body must cash the cheque written by the hook.
+Whatever the field list, two craft rules hold: all three opening elements express one idea, and the
+body must cash the cheque written by the hook.
