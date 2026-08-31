@@ -296,6 +296,26 @@ that each value still appears in the prose. It checks values, not sentences, so 
 be rewritten freely as long as the facts survive. Changing a value there is a universal-method change
 and needs human review.
 
+### What validation covers
+
+`validate-package.py` checks facts that can be checked mechanically:
+
+- required and release-critical files exist, and every path routed from `SKILL.md` resolves;
+- `AGENTS.md` matches what `SKILL.md` renders to;
+- `VERSION`, the README banner and the brand-folder template agree;
+- every value in `invariants.yml` still appears in the entrypoints and the launch contract;
+- frozen examples correspond structurally to their JSON intakes, and carry no unfinished placeholder;
+- the diagnosis test-register patch matches its permitted field set;
+- the analysis harness imports only the standard library;
+- template CONTST identifiers stay unique and sequential.
+
+It does not attempt to detect contradictions in prose. An earlier version tried, using regex
+batteries over English sentences, and the approach failed in both directions: innocuous rewording
+broke the build, while a real contradiction went unnoticed for months, with
+`16-hook-formats.md` describing an 11-field hook package and `contracts/hook-batch.md` describing a
+19-field one. Semantic consistency is a review question and, for output quality, an evaluation
+question. It is not a regex question.
+
 ```bash
 node --version
 python3 scripts/build-agents-md.py

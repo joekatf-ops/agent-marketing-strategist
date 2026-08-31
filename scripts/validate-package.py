@@ -33,17 +33,6 @@ VERSION_DECLARATIONS = (
     ),
 )
 PLACEHOLDER = re.compile(r"\{\{[^}]+\}\}|\b(?:TODO|TBD)\b")
-SUPERSEDED_CONCEPT_MODEL = re.compile(r"persona\s+x\s+outcome\s+x\s+angle", re.IGNORECASE)
-STANDARD_AD_CONTRACTS = (
-    "contracts/ad-copy.md",
-    "contracts/hook-batch.md",
-    "contracts/video-script.md",
-    "contracts/static-spec.md",
-)
-MOST_AWARE_ROW = re.compile(
-    r"^[ \t]*\|[ \t]*(?:MWA|MOST[ \t]+AWARE)[ \t]*\|",
-    re.IGNORECASE | re.MULTILINE,
-)
 TEMPLATE_TEST_REGISTER = "templates/brand-folder/strategy/test-register.yml"
 CONTST_TEST_ID = re.compile(
     r"^[ \t-]*test_id:[ \t]*(CONTST(?P<number>[0-9]{3}))[ \t]*$",
@@ -94,58 +83,6 @@ CREATIVE_AUDIT_SECTIONS = (
     "Pre-launch outcome by ad",
     "What cannot be concluded without performance data",
 )
-CREATIVE_AUDIT_PERFORMANCE_PREDICTION = re.compile(
-    r"\b(?:predict(?:s|ed|ing)?|forecast(?:s|ed|ing)?|will|would|should|"
-    r"could|may|might|can|expected\s+to|likely(?:\s+to)?|guarantee(?:s|d)?)\b"
-    r"[^.!?\n]*\b(?:win(?:s|ner|ning)?|convert(?:s|ed|ing)?|conversion|CAC|"
-    r"scal(?:e|es|ed|ing)|outperform(?:s|ed|ing)?)\b",
-    re.IGNORECASE,
-)
-PREDICATE_PREFIX_NEGATION = re.compile(
-    r"\b(?:cannot|can't|never|(?:do|does|did|is|are|was|were|will|would|"
-    r"should|could|may|might|must)\s+not)"
-    r"(?:\s+(?:automatically|directly|explicitly|intentionally|silently))*\s*$",
-    re.IGNORECASE,
-)
-PREDICATE_INTERNAL_NEGATION = re.compile(
-    r"^(?:can|could|will|would|should|may|might|must|is|are|was|were)\s+not\b",
-    re.IGNORECASE,
-)
-NO_PREDICTION_PREFIX = re.compile(
-    r"\b(?:makes?|provides?|issues?|contains?)\s+no\s+"
-    r"(?:performance\s+)?(?:prediction|forecast)\b[^.!?\n]*$",
-    re.IGNORECASE,
-)
-NO_NOMINAL_POLICY_PREFIX = re.compile(
-    r"\bno(?:\s+creative\s+audit)?\s*$",
-    re.IGNORECASE,
-)
-NEGATED_ACTION_OBJECT = re.compile(
-    r"\b(?:assign(?:s|ed|ing)?|recommend(?:s|ed|ing)?|select(?:s|ed|ing)?|"
-    r"use(?:s|d|ing)?|set(?:s|ting)?)\s+no\s+"
-    r"`?(?:keep|ITR|stop|scale)`?\b",
-    re.IGNORECASE,
-)
-COORDINATING_POLICY_BOUNDARY = re.compile(
-    r"\s+\b(?:and|or)\b\s+(?=(?:can(?:not)?|can't|could|will|would|should|"
-    r"may|might|must|do|does|did|is|are|was|were|assign|recommend|select|use|set)\b)",
-    re.IGNORECASE,
-)
-PROHIBITIVE_POLICY_PREFIX = re.compile(
-    r"\b(?:prohibit(?:s|ed|ing)?|forbid(?:s|den|ding)?|"
-    r"disallow(?:s|ed|ing)?)\b[^.!?\n]*$",
-    re.IGNORECASE,
-)
-OPTIONAL_PERFORMANCE_DECISION = re.compile(
-    r"performance\s+data\s+is\s+optional\s+for\s+a\s+"
-    r"keep,\s*ITR,\s*stop\s+or\s+scale\s+decision",
-    re.IGNORECASE,
-)
-AUTOMATIC_CONTST_RESERVATION = re.compile(
-    r"diagnosis\s+automatically\s+(?:reserves\s+the\s+next\s+CONTST|"
-    r"increments\s+next_test_number)",
-    re.IGNORECASE,
-)
 PERFORMANCE_ACTIONS = frozenset({"keep", "itr", "stop", "scale"})
 DIAGNOSIS_PATCH_FIELDS = frozenset(
     {
@@ -193,39 +130,6 @@ DIAGNOSIS_CONTROLLED_RESULT_FIELDS = frozenset(
         "winners",
     }
 )
-WINNER_GRADUATION_ACTION_CONTRADICTION = re.compile(
-    r"\b(?P<action>(?:may|can|will|does)(?P<negation>\s+not)?\s+"
-    r"(?:proceed|occur|persist|graduate)\w*)\b[^.!?\n]*?\bwithout\b[^.!?\n]*?"
-    r"\b(?:Post\s+ID|confirmation)\b",
-    re.IGNORECASE,
-)
-WINNER_GRADUATION_ACTION_BOUNDARY = re.compile(
-    r"\s+\b(?:and|or|but|although|however)\b\s+"
-    r"(?=(?:may|can|will|does)\b)|[,;]\s*(?=(?:may|can|will|does)\b)",
-    re.IGNORECASE,
-)
-DIAGNOSIS_PERSISTENCE_CONTRADICTIONS = (
-    re.compile(
-        r"\b(?:diagnosis|recommended?\s+ITR|ITR\s+recommendation)\b[^.!?\n]*"
-        r"\b(?:may|can|will|automatically|does)\b[^.!?\n]*"
-        r"\b(?:reserve|allocate|increment)\w*\b[^.!?\n]*"
-        r"\b(?:CONTST|next_test_number)\b",
-        re.IGNORECASE,
-    ),
-    re.compile(
-        r"\bproposed\s+test\s+observation\b[^.!?\n]*"
-        r"\b(?:automatically|may|can|will)\b[^.!?\n]*"
-        r"\b(?:become|becomes|promote|promotes|create|creates)\b[^.!?\n]*"
-        r"\bapproved\s+revision\s+learning\b",
-        re.IGNORECASE,
-    ),
-    re.compile(
-        r"\bupload-only\s+output\b[^.!?\n]*"
-        r"\b(?:persists?|writes?|updates?|mutates?|changes?)\b[^.!?\n]*"
-        r"\b(?:controlled\s+records?|test|winner|revision)\b",
-        re.IGNORECASE,
-    ),
-)
 NETWORK_DEPENDENCIES = frozenset(
     {
         "ftplib",
@@ -243,10 +147,6 @@ NETWORK_DEPENDENCIES = frozenset(
         "xmlrpc",
     }
 )
-DIAGNOSIS_ACTION_POLICY = re.compile(
-    r"`Top-level\s+action`\s+contains\s+exactly\s+one\s+literal\s+value:\s*([^\n.]+)",
-    re.IGNORECASE,
-)
 DIAGNOSIS_CLASSIFICATIONS = frozenset(
     {
         "Financial winner",
@@ -261,281 +161,6 @@ ACTION_THRESHOLD_DESCRIPTOR = re.compile(
     r"`metric=(?P<metric>[^;]+); baseline=(?P<baseline>[^;]+); "
     r"comparison_window=(?P<window>[^;]+); threshold=(?P<threshold>[^;]+); "
     r"unit=(?P<unit>[^`]+)`"
-)
-CAMPAIGN_LAUNCH_CONTRACT = "contracts/campaign-launch-plan.md"
-CREATIVE_TESTING_RULES = (
-    (
-        re.compile(r"^[ \t]*-[ \t]*Budget type:[ \t]*ABO\.[ \t]*$", re.MULTILINE),
-        "contracts/campaign-launch-plan.md must require ABO creative testing",
-    ),
-    (
-        re.compile(
-            r"^[ \t]*-[ \t]*Absolute floor:[ \t]*\$50 per ad set per day\.[ \t]*$",
-            re.MULTILINE,
-        ),
-        "contracts/campaign-launch-plan.md must set an absolute $50 per-ad-set daily floor",
-    ),
-    (
-        re.compile(
-            r"^[ \t]*-[ \t]*Preferred starting point:[ \t]*approximately \$100 per ad set per day\.[ \t]*$",
-            re.MULTILINE,
-        ),
-        "contracts/campaign-launch-plan.md must make approximately $100 the preferred per-ad-set daily starting point",
-    ),
-    (
-        re.compile(
-            r"^[ \t]*-[ \t]*Planned observation window:[ \t]*five full days\.[ \t]*$",
-            re.MULTILINE,
-        ),
-        "contracts/campaign-launch-plan.md must set a five-full-day planned observation window",
-    ),
-)
-SCALING_RULES = (
-    (
-        re.compile(r"^[ \t]*-[ \t]*Budget type:[ \t]*CBO\.[ \t]*$", re.MULTILINE),
-        "contracts/campaign-launch-plan.md must require CBO scaling",
-    ),
-    (
-        re.compile(
-            r"^[ \t]*-[ \t]*Graduated ads keep their real Post ID\.[ \t]*$",
-            re.MULTILINE,
-        ),
-        "contracts/campaign-launch-plan.md must preserve graduated ads' real Post ID",
-    ),
-)
-ENTRYPOINT_ROUTE_RULES = (
-    (
-        re.compile(
-            r"manual\s+Meta\s+launch\s+asks.*contracts/campaign-launch-plan\.md.*"
-            r"references/09-testing-and-diagnosis\.md.*destination\s+asks.*"
-            r"contracts/destination-handoff\.md",
-            re.IGNORECASE | re.DOTALL,
-        ),
-        "must route manual launch and destination asks to their governed contracts",
-    ),
-    (
-        re.compile(
-            r"no\s+adequate\s+performance\s+data\s*->\s*Creative\s+Audit",
-            re.IGNORECASE,
-        ),
-        "must route absent or inadequate performance data to Creative Audit",
-    ),
-    (
-        re.compile(
-            r"(?<!no\s)adequate\s+performance\s+data\s*->\s*Ad\s+Diagnosis",
-            re.IGNORECASE,
-        ),
-        "must route adequate performance data to Ad Diagnosis",
-    ),
-    (
-        re.compile(
-            r"competitor\s+ad\s*->\s*competitor\s+research",
-            re.IGNORECASE,
-        ),
-        "must route competitor ads to competitor research",
-    ),
-    (
-        re.compile(
-            r"human\s+edit\s*->\s*Learning\s+Update",
-            re.IGNORECASE,
-        ),
-        "must route human edits to Learning Update",
-    ),
-    (
-        re.compile(
-            r"combined\s+adequate\s+creative\s+and\s+performance\s+produces\s+"
-            r"one\s+Ad\s+Diagnosis",
-            re.IGNORECASE,
-        ),
-        "must produce one Ad Diagnosis for combined adequate creative and performance",
-    ),
-    (
-        re.compile(
-            r"(?:consume|produce|produces|write|writes)[^.!?\n]*input\s+audit"
-            r"[^.!?\n]*before\s+(?:conclusions|performance\s+conclusions)",
-            re.IGNORECASE,
-        ),
-        "must require the input audit before conclusions",
-    ),
-)
-AD_ANALYSIS_ROUTING_CONTRADICTIONS = (
-    re.compile(
-        r"(?<!no\s)adequate\s+performance\s+data\s*(?P<action>->)\s*"
-        r"Creative\s+Audit",
-        re.IGNORECASE,
-    ),
-    re.compile(
-        r"combined\s+adequate\s+creative\s+and\s+performance[^.!?\n]*"
-        r"\b(?P<action>(?:produces?|produced|producing|creates?|created|creating|"
-        r"uses?|used|using))\b[^.!?\n]*(?:both|two)[^.!?\n]*"
-        r"(?:Ad\s+Diagnosis[^.!?\n]*Creative\s+Audit|"
-        r"Creative\s+Audit[^.!?\n]*Ad\s+Diagnosis)",
-        re.IGNORECASE,
-    ),
-    re.compile(
-        r"\badequate\s+performance\s+data\b[^.!?\n]*\b"
-        r"(?P<action>route(?:s|d|ing)?)\b"
-        r"[^.!?\n]*\bCreative\s+Audit\b",
-        re.IGNORECASE,
-    ),
-    re.compile(
-        r"\badequate\s+performance\s+data\b[^.!?\n]*\b"
-        r"(?P<action>use(?:s|d|ing)?)\b"
-        r"[^.!?\n]*\bCreative\s+Audit\b",
-        re.IGNORECASE,
-    ),
-    re.compile(
-        r"\badequate\s+performance\s+data\b[^.!?\n]*\b"
-        r"(?P<action>select(?:s|ed|ing)?)\b"
-        r"[^.!?\n]*\bCreative\s+Audit\b",
-        re.IGNORECASE,
-    ),
-    re.compile(
-        r"\b(?P<action>bypass(?:es|ed|ing)?)\b[^.!?\n]*input\s+audit",
-        re.IGNORECASE,
-    ),
-    re.compile(
-        r"\b(?P<action>skip(?:s|ped|ping)?)\b[^.!?\n]*input\s+audit",
-        re.IGNORECASE,
-    ),
-    re.compile(
-        r"\b(?P<action>omit(?:s|ted|ting)?)\b[^.!?\n]*input\s+audit",
-        re.IGNORECASE,
-    ),
-    re.compile(
-        r"input\s+audit[^.!?\n]*\b"
-        r"(?P<action>optional|unnecessary|not\s+required)\b",
-        re.IGNORECASE,
-    ),
-    re.compile(
-        r"\bincomplete\s+performance\b[^.!?\n]*\b"
-        r"(?P<action>produce(?:s|d|ing)?)\b[^.!?\n]*\bconclusions?\b"
-        r"[^.!?\n]*\bbefore\b[^.!?\n]*\binput\s+audit\b",
-        re.IGNORECASE,
-    ),
-)
-ENTRYPOINT_LAUNCH_RULES = (
-    (
-        re.compile(
-            r"creative\s+testing\s+uses\s+one\s+CT\s+campaign\s+per\s+product\s+and\s+region,\s*"
-            r"ABO,\s*and\s+exactly\s+one\s+CONTST\s+batch\s+per\s+ad\s+set",
-            re.IGNORECASE,
-        ),
-        "must require CT/ABO with one CONTST batch per ad set",
-    ),
-    (
-        re.compile(
-            r"initial\s+NNT\s+or\s+INSPO\s+batch\s+contains\s+exactly\s+four\s+ads:\s*"
-            r"UWA,\s*PRA,\s*SLA\s+and\s+PDA",
-            re.IGNORECASE,
-        ),
-        "must lock the four initial NNT/INSPO ads",
-    ),
-    (
-        re.compile(
-            r"daily\s+ad-set\s+budget\s+has\s+an\s+absolute\s+\$50\s+floor\s+and\s+an\s+"
-            r"approximately\s+\$100\s+preferred\s+starting\s+point",
-            re.IGNORECASE,
-        ),
-        "must preserve the $50 floor and approximately $100 preferred budget",
-    ),
-    (
-        re.compile(
-            r"five\s+full\s+days\s+of\s+observation.*five-day\s+read\s+is\s+still\s+"
-            r"directional\s+or\s+too\s+early\s+unless\s+every\s+active\s+validity\s+threshold\s+is\s+met",
-            re.IGNORECASE | re.DOTALL,
-        ),
-        "must preserve five full days and the validity caveat",
-    ),
-    (
-        re.compile(
-            r"scaling\s+uses\s+a\s+separate\s+SC\s+campaign\s+with\s+CBO,\s*and\s+"
-            r"graduated\s+ads\s+retain\s+their\s+real\s+Post\s+IDs",
-            re.IGNORECASE,
-        ),
-        "must require SC/CBO scaling with real Post IDs",
-    ),
-    (
-        re.compile(
-            re.escape("[BRAND]_[PRODUCT]_[CT|SC]_[ABO|CBO]_[REGION]_[YYYYMMDD]")
-        ),
-        "must preserve the campaign naming shape",
-    ),
-    (
-        re.compile(re.escape("[CONTST###]_[NNT|INSPO|ITR]_[WHO]_[PROBLEM]")),
-        "must preserve the ad-set naming shape",
-    ),
-    (
-        re.compile(
-            re.escape(
-                "[FULL_AD_SET_NAME]_[UWA|PRA|SLA|PDA]_[FORMAT]_[LP|PDP|HP|CP]_[POSTID]"
-            )
-        ),
-        "must preserve the full ad naming shape",
-    ),
-    (
-        re.compile(
-            r"UWA\s+and\s+PRA\s+default\s+to\s+LP;\s*SLA\s+and\s+PDA\s+default\s+to\s+PDP.*"
-            r"exception\s+maps\s+to\s+LP,\s*PDP,\s*HP\s+or\s+CP\s+through\s+a\s+Destination\s+Handoff",
-            re.IGNORECASE | re.DOTALL,
-        ),
-        "must preserve destination defaults and controlled exceptions",
-    ),
-    (
-        re.compile(
-            r"new\s+ad\s+name\s+ends\s+in\s+`?POSTIDXXX`?.*preserve\s+the\s+real\s+Post\s+ID",
-            re.IGNORECASE | re.DOTALL,
-        ),
-        "must end new ad names in POSTIDXXX and preserve published Post IDs",
-    ),
-    (
-        re.compile(
-            r"Launch\s+plans\s+and\s+changes\s+are\s+manual\s+only.*Never\s+publish\s+ads\s+or\s+"
-            r"change\s+budgets\s+automatically",
-            re.IGNORECASE | re.DOTALL,
-        ),
-        "must keep launch and budget changes manual only",
-    ),
-    (
-        re.compile(
-            r"Generic\s+count\s+overrides\s+cannot\s+change\s+the\s+locked\s+four\s+initial\s+"
-            r"NNT\s+or\s+INSPO\s+ads\s+or\s+one\s+selected\s+hook\s+per\s+launch\s+ad.*"
-            r"human-reviewed\s+universal-method\s+change",
-            re.IGNORECASE | re.DOTALL,
-        ),
-        "must protect locked initial-ad and selected-hook counts",
-    ),
-)
-LEGACY_PLATFORM_POLICIES = (
-    (
-        re.compile(r"default\s+duration\s+(?:is\s+)?7\s+days", re.IGNORECASE),
-        "legacy seven-day test default",
-    ),
-    (
-        re.compile(
-            r"current\s+standard\s+shape[^\n]*10\s+concepts\s+x\s+5\s+to\s+10\s+hook\s+variations|"
-            r"hook[^\n]*actual\s+test\s+variable|under\s+roughly\s+\$30k/month\s+use",
-            re.IGNORECASE,
-        ),
-        "legacy volume-first hook test standard",
-    ),
-)
-READ_VALIDITY_RULES = (
-    re.compile(
-        r"1\.\s+\*\*Too early\.\*\*.*fewer than five full days.*regardless of spend or "
-        r"purchases.*five or more full days.*neither.*spend.*nor.*purchase",
-        re.IGNORECASE | re.DOTALL,
-    ),
-    re.compile(
-        r"2\.\s+\*\*Verdict\.\*\*.*five or more full days.*all.*spend.*purchase.*"
-        r"no material integrity failure.*no uneven delivery.*no logged intervention",
-        re.IGNORECASE | re.DOTALL,
-    ),
-    re.compile(
-        r"3\.\s+\*\*Direction\.\*\*.*remaining.*five-or-more-day.*at least one.*"
-        r"spend.*purchase.*not all.*all thresholds.*uneven\s+delivery.*logged\s+intervention",
-        re.IGNORECASE | re.DOTALL,
-    ),
 )
 
 
@@ -729,17 +354,6 @@ def load_agents_renderer(root: pathlib.Path):
     return None
 
 
-def operating_body(text: str) -> str:
-    if text.startswith("---\n"):
-        closing = text.find("\n---\n", 4)
-        if closing != -1:
-            text = text[closing + 5 :]
-    heading = text.find("# Marketing Strategist")
-    if heading != -1:
-        text = text[heading:]
-    return text.strip()
-
-
 def markdown_section(text: str, heading: str) -> str:
     match = re.search(
         rf"^##[ \t]+{re.escape(heading)}[ \t]*$", text, re.IGNORECASE | re.MULTILINE
@@ -772,135 +386,6 @@ def classify_read_validity(
     ):
         return "Verdict"
     return "Direction"
-
-
-def policy_clauses(text: str) -> list[str]:
-    return re.split(
-        r"(?<=[.!?])\s+|\n+|[,;](?=\s)|[—–]|\s+-{1,2}\s+|"
-        r"\s+(?=\(\s*not\b)|\s+\b(?:but|although|however)\b\s+",
-        text,
-        flags=re.IGNORECASE,
-    )
-
-
-def is_negated_policy_clause(clause: str) -> bool:
-    return bool(
-        re.search(
-            r"\b(?:not|never|no|without|exclude(?:d|s)?|prohibit(?:ed|s)?|"
-            r"forbid(?:den|s)?|disallow(?:ed|s)?|cannot|can't|isn't|aren't|do\s+not)\b",
-            clause,
-            re.IGNORECASE,
-        )
-    )
-
-
-def policy_predicates(text: str) -> list[str]:
-    predicates: list[str] = []
-    for clause in policy_clauses(text):
-        parts = COORDINATING_POLICY_BOUNDARY.split(clause)
-        subject = "Creative Audit" if "creative audit" in clause.lower() else ""
-        for index, part in enumerate(parts):
-            part = part.strip()
-            if not part:
-                continue
-            if index and subject and "creative audit" not in part.lower():
-                part = f"{subject} {part}"
-            predicates.append(part)
-    return predicates
-
-
-def is_policy_match_negated(
-    predicate: str,
-    match: re.Match[str],
-    target: re.Match[str] | None = None,
-) -> bool:
-    prefix = predicate[: match.start()]
-    matched_text = match.group(0)
-    if PREDICATE_PREFIX_NEGATION.search(prefix):
-        return True
-    if PREDICATE_INTERNAL_NEGATION.search(matched_text):
-        return True
-    if NO_PREDICTION_PREFIX.search(prefix):
-        return True
-    if NO_NOMINAL_POLICY_PREFIX.search(prefix):
-        return True
-    if target is not None and NEGATED_ACTION_OBJECT.search(
-        predicate[match.start() : target.end()]
-    ):
-        return True
-    return bool(PROHIBITIVE_POLICY_PREFIX.search(prefix))
-
-
-def normalized_ad_analysis_routing(text: str) -> str:
-    section = markdown_section(text, "Ad-analysis routing")
-    normalized = re.sub(r"\s+", " ", section).strip().lower()
-    return normalized.replace("for ad analysis in upload mode", "in upload mode")
-
-
-def contradicts_ad_analysis_routing(text: str) -> bool:
-    for predicate in policy_predicates(text):
-        for pattern in AD_ANALYSIS_ROUTING_CONTRADICTIONS:
-            for match in pattern.finditer(predicate):
-                if PREDICATE_PREFIX_NEGATION.search(
-                    predicate[: match.start("action")]
-                ):
-                    continue
-                return True
-    return False
-
-
-def prescribes_most_aware_standard_ad(text: str) -> bool:
-    for clause in policy_clauses(text):
-        if not re.search(r"\b(?:Most\s+Aware|MWA)\b", clause, re.IGNORECASE):
-            continue
-        if not re.search(r"\bstandard[- ]ad\b", clause, re.IGNORECASE):
-            continue
-        if is_negated_policy_clause(clause):
-            continue
-        if re.search(
-            r"\b(?:is|are|as|becomes?|serves?|counts?|remains?|include|includes|included|"
-            r"require|requires|required|create|creates|created|build|builds|built|add|adds|"
-            r"added|use|uses|used|treat|treats|treated|make|makes|made|must|should)\b",
-            clause,
-            re.IGNORECASE,
-        ):
-            return True
-    return False
-
-
-def contradicts_initial_ad_count(text: str) -> bool:
-    for clause in policy_clauses(text):
-        if is_negated_policy_clause(clause):
-            continue
-        if (
-            re.search(r"\binitial\b", clause, re.IGNORECASE)
-            and re.search(r"\b(?:NNT|INSPO)\b", clause, re.IGNORECASE)
-            and re.search(r"\b(?:5|five)\b", clause, re.IGNORECASE)
-            and re.search(r"\bads?\b", clause, re.IGNORECASE)
-        ):
-            return True
-    return False
-
-
-def contradicts_diagnosis_persistence(text: str) -> bool:
-    for sentence in re.split(r"(?<=[.!?])\s+|\n+", text):
-        winner_subject = re.search(
-            r"\bwinner\s+graduation\b", sentence, re.IGNORECASE
-        )
-        if not winner_subject:
-            continue
-        winner_scope = sentence[winner_subject.end() :]
-        for predicate in WINNER_GRADUATION_ACTION_BOUNDARY.split(winner_scope):
-            for match in WINNER_GRADUATION_ACTION_CONTRADICTION.finditer(predicate):
-                if match.group("negation") is None:
-                    return True
-
-    for clause in policy_clauses(text):
-        for pattern in DIAGNOSIS_PERSISTENCE_CONTRADICTIONS:
-            match = pattern.search(clause)
-            if match and not is_negated_policy_clause(clause):
-                return True
-    return False
 
 
 def controlled_result_fields(value: object) -> set[str]:
@@ -980,119 +465,6 @@ def diagnosis_patch_errors(
     if patch.get("next_action") not in {"keep", "ITR", "stop", "scale"}:
         errors.append("next_action must be keep, ITR, stop or scale")
     return errors
-
-
-def permits_automatic_meta_change(text: str) -> bool:
-    for clause in policy_clauses(text):
-        if is_negated_policy_clause(clause):
-            continue
-        automatic = re.search(
-            r"\b(?:auto(?:matic(?:ally|ed)?)?|automated)\b", clause, re.IGNORECASE
-        ) or re.search(r"\bauto-(?:publish|change|adjust)", clause, re.IGNORECASE)
-        action = re.search(
-            r"\b(?:publish(?:ed|es|ing)?|budget(?:s)?|change(?:d|s|ing)?|"
-            r"adjust(?:ed|s|ing)?)\b",
-            clause,
-            re.IGNORECASE,
-        )
-        if automatic and action:
-            return True
-    return False
-
-
-def permits_pre_five_day_verdict(text: str) -> bool:
-    pre_five = re.compile(
-        r"\b(?:day[- ]?(?:1|2|3|4|one|two|three|four)|"
-        r"(?:1|2|3|4|one|two|three|four)[- ]days?|"
-        r"before\s+(?:day\s+)?(?:5|five)|fewer\s+than\s+(?:5|five)\s+full\s+days|"
-        r"under\s+(?:5|five)\s+full\s+days)\b",
-        re.IGNORECASE,
-    )
-    for clause in policy_clauses(text):
-        if is_negated_policy_clause(clause):
-            continue
-        if (
-            re.search(r"\bVerdict\b", clause, re.IGNORECASE)
-            and pre_five.search(clause)
-            and re.search(
-                r"\b(?:permit(?:s|ted)?|allow(?:s|ed)?|qualif(?:y|ies|ied)|"
-                r"can|may|is|becomes?)\b",
-                clause,
-                re.IGNORECASE,
-            )
-        ):
-            return True
-    return False
-
-
-def sets_seven_day_test_default(text: str) -> bool:
-    for clause in policy_clauses(text):
-        if is_negated_policy_clause(clause):
-            continue
-        if (
-            re.search(r"\b(?:7|seven)[- ]days?\b", clause, re.IGNORECASE)
-            and re.search(r"\btest\s+duration\b", clause, re.IGNORECASE)
-            and re.search(r"\b(?:default|standard|use|set)\b", clause, re.IGNORECASE)
-            and not re.search(
-                r"\b(?:external|benchmark|observation|reported?|source|Flighted|Kruse)\b",
-                clause,
-                re.IGNORECASE,
-            )
-        ):
-            return True
-    return False
-
-
-def active_instruction_paths(root: pathlib.Path) -> list[pathlib.Path]:
-    paths = [
-        root / relative
-        for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md", "OUTPUT-CONTRACT.md")
-    ]
-    for folder in ("references", "contracts"):
-        directory = root / folder
-        if directory.is_dir():
-            paths.extend(sorted(directory.glob("*.md")))
-    return [path for path in paths if path.is_file()]
-
-
-def creative_audit_assigns_performance_action(text: str) -> bool:
-    trigger_pattern = re.compile(
-        r"\b(?:action|outcome|decision|recommendation|assign(?:s|ed|ing)?|"
-        r"recommend(?:s|ed|ing)?|select(?:s|ed|ing)?|use(?:s|d|ing)?|"
-        r"set(?:s|ting)?)\b",
-        re.IGNORECASE,
-    )
-    action_pattern = re.compile(r"\b(?:keep|ITR|stop|scale)\b", re.IGNORECASE)
-    for predicate in policy_predicates(text):
-        lowered = predicate.lower()
-        action = action_pattern.search(predicate)
-        if action is None:
-            continue
-        triggers = [
-            match
-            for match in trigger_pattern.finditer(predicate)
-            if match.start() < action.start()
-        ]
-        trigger = triggers[-1] if triggers else None
-        if trigger is None or (
-            "creative audit" not in lowered
-            and trigger.group(0).lower()
-            not in {"action", "outcome", "decision", "recommendation"}
-        ):
-            continue
-        if not is_policy_match_negated(predicate, trigger, action):
-            return True
-    return False
-
-
-def creative_audit_predicts_performance(text: str) -> bool:
-    for predicate in policy_predicates(text):
-        prediction = CREATIVE_AUDIT_PERFORMANCE_PREDICTION.search(predicate)
-        if prediction is not None and not is_policy_match_negated(
-            predicate, prediction
-        ):
-            return True
-    return False
 
 
 def _numbered_markdown_section(text: str, number: int) -> str:
@@ -1312,20 +684,6 @@ def diagnosis_example_traceability_errors(
     return errors
 
 
-def diagnosis_actions_are_governed(text: str) -> bool:
-    policies = DIAGNOSIS_ACTION_POLICY.findall(text)
-    if not policies:
-        return False
-    for policy in policies:
-        actions = {
-            action.lower()
-            for action in re.findall(r"`([^`]+)`", policy)
-        }
-        if actions != PERFORMANCE_ACTIONS:
-            return False
-    return True
-
-
 def harness_imports_are_safe(
     path: pathlib.Path, allowed_local: frozenset[str] = frozenset()
 ) -> list[str]:
@@ -1373,46 +731,6 @@ def validate(root: pathlib.Path) -> list[str]:
     else:
         skill_text = ""
 
-    analysis_routing_sections: dict[str, str] = {}
-    for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):
-        path = root / relative
-        if not path.is_file():
-            continue
-        text = path.read_text()
-        analysis_routing_sections[relative] = normalized_ad_analysis_routing(text)
-        if SUPERSEDED_CONCEPT_MODEL.search(text):
-            errors.append(f"{relative} contains superseded concept model")
-        for pattern, error in ENTRYPOINT_ROUTE_RULES:
-            if not pattern.search(text):
-                errors.append(f"{relative} {error}")
-        if contradicts_ad_analysis_routing(text):
-            errors.append(f"{relative} contains contradictory ad-analysis routing")
-        launch_invariants = markdown_section(text, "Launch invariants")
-        for pattern, error in ENTRYPOINT_LAUNCH_RULES:
-            if not pattern.search(launch_invariants):
-                errors.append(f"{relative} {error}")
-        if contradicts_initial_ad_count(text):
-            errors.append(f"{relative} contains contradictory initial-ad count")
-        if permits_automatic_meta_change(text):
-            errors.append(
-                f"{relative} permits automatic Meta publishing or budget changes"
-            )
-        if creative_audit_assigns_performance_action(text):
-            errors.append(f"{relative} permits Creative Audit performance actions")
-
-    if len(analysis_routing_sections) == 3:
-        section_counts = collections.Counter(analysis_routing_sections.values())
-        expected_section, expected_count = section_counts.most_common(1)[0]
-        if expected_count >= 2:
-            for relative, section in analysis_routing_sections.items():
-                if section != expected_section:
-                    errors.append(
-                        f"{relative} ad-analysis routing section has drifted"
-                    )
-        elif len(section_counts) > 1:
-            for relative in analysis_routing_sections:
-                errors.append(f"{relative} ad-analysis routing section has drifted")
-
     errors.extend(version_agreement_errors(root))
     errors.extend(invariant_drift_errors(root))
 
@@ -1424,26 +742,10 @@ def validate(root: pathlib.Path) -> list[str]:
         if not (root / relative).is_file():
             errors.append(f"missing v0.4 required file: {relative}")
 
-    creative_audit_path = root / "contracts" / "creative-audit.md"
-    if creative_audit_path.is_file() and creative_audit_predicts_performance(
-        creative_audit_path.read_text()
-    ):
-        errors.append("contracts/creative-audit.md predicts winning performance")
-    if creative_audit_path.is_file() and creative_audit_assigns_performance_action(
-        creative_audit_path.read_text()
-    ):
-        errors.append("contracts/creative-audit.md assigns a performance action")
-
     creative_example_path = root / "examples" / "creative-audit.md"
     creative_intake_path = root / "examples" / "ad-analysis-intake.json"
     if creative_example_path.is_file():
         creative_example = creative_example_path.read_text()
-        if creative_audit_predicts_performance(creative_example):
-            errors.append("examples/creative-audit.md predicts performance")
-        if creative_audit_assigns_performance_action(creative_example) or re.search(
-            r"\b(?:keep|ITR|stop|scale)\b", creative_example, re.IGNORECASE
-        ):
-            errors.append("examples/creative-audit.md assigns a performance action")
         if creative_intake_path.is_file():
             try:
                 creative_intake = json.loads(creative_intake_path.read_text())
@@ -1455,24 +757,6 @@ def validate(root: pathlib.Path) -> list[str]:
                         creative_example, creative_intake
                     )
                 )
-
-    diagnosis_path = root / "contracts" / "ad-diagnosis.md"
-    if diagnosis_path.is_file() and OPTIONAL_PERFORMANCE_DECISION.search(
-        diagnosis_path.read_text()
-    ):
-        errors.append(
-            "contracts/ad-diagnosis.md permits performance decisions without performance data"
-        )
-    if diagnosis_path.is_file() and not diagnosis_actions_are_governed(
-        diagnosis_path.read_text()
-    ):
-        errors.append("contracts/ad-diagnosis.md must allow only keep, ITR, stop or scale")
-    if diagnosis_path.is_file() and contradicts_diagnosis_persistence(
-        diagnosis_path.read_text()
-    ):
-        errors.append(
-            "contracts/ad-diagnosis.md contradicts diagnosis persistence boundaries"
-        )
 
     diagnosis_example_path = root / "examples" / "ad-diagnosis.md"
     diagnosis_intake_path = root / "examples" / "ad-diagnosis-intake.json"
@@ -1487,20 +771,6 @@ def validate(root: pathlib.Path) -> list[str]:
                     diagnosis_example_path.read_text(), diagnosis_intake
                 )
             )
-
-    harness_reference = root / "references" / "19-ad-analysis-harness.md"
-    if harness_reference.is_file() and AUTOMATIC_CONTST_RESERVATION.search(
-        harness_reference.read_text()
-    ):
-        errors.append(
-            "references/19-ad-analysis-harness.md automatically reserves a CONTST"
-        )
-    if harness_reference.is_file() and contradicts_diagnosis_persistence(
-        harness_reference.read_text()
-    ):
-        errors.append(
-            "references/19-ad-analysis-harness.md contradicts diagnosis persistence boundaries"
-        )
 
     diagnosis_patch_path = (
         root / "examples" / "ad-diagnosis-test-register-patch.yml"
@@ -1540,53 +810,6 @@ def validate(root: pathlib.Path) -> list[str]:
                 f"{dependency}"
             )
 
-    for relative in STANDARD_AD_CONTRACTS:
-        path = root / relative
-        if path.is_file() and MOST_AWARE_ROW.search(path.read_text()):
-            errors.append(f"{relative} contains a Most Aware standard-ad row")
-
-    for path in active_instruction_paths(root):
-        if prescribes_most_aware_standard_ad(path.read_text()):
-            relative = path.relative_to(root).as_posix()
-            errors.append(f"{relative} prescribes a Most Aware standard ad")
-
-    platform_reference = root / "references" / "12-meta-platform.md"
-    if platform_reference.is_file():
-        platform_text = platform_reference.read_text()
-        for pattern, error in LEGACY_PLATFORM_POLICIES:
-            if pattern.search(platform_text):
-                errors.append(f"references/12-meta-platform.md contains {error}")
-        if sets_seven_day_test_default(platform_text):
-            errors.append(
-                "references/12-meta-platform.md sets a seven-day default test duration"
-            )
-
-    validity_reference = root / "references" / "09-testing-and-diagnosis.md"
-    if validity_reference.is_file():
-        validity_text = validity_reference.read_text()
-        validity_section = markdown_section(validity_text, "Read validity")
-        matches = [pattern.search(validity_section) for pattern in READ_VALIDITY_RULES]
-        if any(match is None for match in matches) or [
-            match.start() for match in matches if match is not None
-        ] != sorted(match.start() for match in matches if match is not None):
-            errors.append(
-                "references/09-testing-and-diagnosis.md must define ordered non-overlapping read validity"
-            )
-        if permits_pre_five_day_verdict(validity_text):
-            errors.append(
-                "references/09-testing-and-diagnosis.md permits a Verdict before five full days"
-            )
-
-    campaign_launch_path = root / CAMPAIGN_LAUNCH_CONTRACT
-    if campaign_launch_path.is_file():
-        contract = campaign_launch_path.read_text()
-        for pattern, error in CREATIVE_TESTING_RULES:
-            if not pattern.search(markdown_section(contract, "Creative testing")):
-                errors.append(error)
-        for pattern, error in SCALING_RULES:
-            if not pattern.search(markdown_section(contract, "Scaling")):
-                errors.append(error)
-
     test_register_path = root / TEMPLATE_TEST_REGISTER
     if test_register_path.is_file():
         test_ids = list(CONTST_TEST_ID.finditer(test_register_path.read_text()))
@@ -1602,22 +825,18 @@ def validate(root: pathlib.Path) -> list[str]:
                 f"{TEMPLATE_TEST_REGISTER} must use sequential CONTST values"
             )
 
-    if skill_path.is_file() and agents_path.is_file():
-        render_agents = load_agents_renderer(root)
-        if render_agents is None:
-            if operating_body(skill_text) != operating_body(agents_path.read_text()):
-                errors.append("SKILL.md and AGENTS.md operating bodies have drifted")
+    render_agents = load_agents_renderer(root)
+    if skill_path.is_file() and agents_path.is_file() and render_agents is not None:
+        try:
+            expected_agents = render_agents(skill_text)
+        except ValueError as error:
+            errors.append(f"SKILL.md cannot be rendered to AGENTS.md: {error}")
         else:
-            try:
-                expected_agents = render_agents(skill_text)
-            except ValueError as error:
-                errors.append(f"SKILL.md cannot be rendered to AGENTS.md: {error}")
-            else:
-                if agents_path.read_text() != expected_agents:
-                    errors.append(
-                        "AGENTS.md is stale; regenerate it with "
-                        "scripts/build-agents-md.py"
-                    )
+            if agents_path.read_text() != expected_agents:
+                errors.append(
+                    "AGENTS.md is stale; regenerate it with "
+                    "scripts/build-agents-md.py"
+                )
 
     examples = root / "examples"
     if examples.is_dir():
