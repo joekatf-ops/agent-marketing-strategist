@@ -5,6 +5,11 @@ Hooks, primary text, headlines, video scripts, static concepts, angles, rewrites
 It works from a pasted transcript, a product description or a connected brand folder, and it marks
 what it cannot verify rather than inventing it or refusing to work.
 
+**If you are not going to run any of this yourself, read
+[`START-HERE.md`](START-HERE.md) instead.** It covers attaching a brand, asking for copy, getting an
+image ad made and getting research done, in plain sentences you can type. The rest of this file is
+for whoever maintains the package.
+
 ## Try it in two minutes
 
 On a chat surface, paste [`dist/craft-bundle.md`](dist/craft-bundle.md) and

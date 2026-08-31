@@ -23,6 +23,14 @@ permissions:
   contents: read
   pull-requests: write
 
+# Every push to a pull request re-triggers this, because for pull_request events the paths
+# filter is evaluated against the whole PR diff and not against the latest push. Two runs
+# went in parallel on one PR before this was here, each paying for sixteen model calls to
+# measure the same thing. Supersede the older run instead.
+concurrency:
+  group: eval-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   score:
     runs-on: ubuntu-latest

@@ -310,11 +310,24 @@ class RubricWiringTests(unittest.TestCase):
         self.assertIn("approved", described["no_hedging"])
 
     def test_awareness_exceptions_are_stated_in_the_criteria(self):
-        # end_state and front_loaded both have a UWA exception. If the criterion text loses
-        # it, the eval starts penalising correct cold-traffic openings.
+        # end_state and front_loaded both carry an exception for cold traffic. If the criterion
+        # text loses it, the eval starts penalising correct cold-traffic openings.
         described = dict(self.rubric.CRITERIA)
-        self.assertIn("UWA", described["end_state"])
+        self.assertRegex(described["end_state"], r"Unaware|UWA")
         self.assertIn("UWA", described["front_loaded"])
+
+    def test_end_state_asks_whether_it_can_be_named_not_whether_it_is_stated(self):
+        # Standard 1 in references/26-copywriting-standards.md defines the check as "name the end
+        # state in one sentence without using the product's name", which is a test the reader
+        # applies, and adds "position, not presence". The first rubric wording read as requiring an
+        # explicit sentence in the copy, and eight briefs of judge reasons showed the judge scoring
+        # down output it had just described as correct restraint at Problem Aware.
+        described = dict(self.rubric.CRITERIA)["end_state"]
+        standard = (ROOT / "references" / "26-copywriting-standards.md").read_text(encoding="utf-8")
+
+        self.assertIn("Position, not presence", standard)
+        self.assertIn("implied is sufficient", described)
+        self.assertIn("does not have to contain", described)
 
 
 if __name__ == "__main__":

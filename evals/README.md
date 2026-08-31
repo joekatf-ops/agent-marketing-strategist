@@ -89,6 +89,12 @@ commit they came from. Compare, do not admire: the absolute value of an LLM-judg
 drifts with the judge, which is why the head-to-head comparison in `report.py` matters more than the
 raw mean.
 
+**The read floor is about one point on the mean.** Two runs of an identical agent, same model, same
+judge, same eight briefs, came in at 34.75 and 35.00, with individual criteria swinging up to 0.38
+and four of eight briefs moving a whole point. Below roughly a point, a delta needs repeat runs
+before it means anything, and a per-criterion table from a single run will happily support a
+confident story about nothing. `baseline.md` records an instance of exactly that mistake.
+
 Two things this cannot tell you. It cannot tell you an ad will convert, because no conversion data
 is attached to any brief. And it cannot catch a claim that is compliant but commercially wrong for a
 brand you know and it does not. Those remain human judgement.

@@ -6,8 +6,9 @@ and every static primary line passes this standard before it is presented.
 
 Source: Shaun Eng, hook masterclass, Evolve copywriting programme. The source credits Adley
 (Viralish), MrBeast and Harry Dry. Nothing in it is original to this repository; it is a reviewed
-portable snapshot of an external craft standard. The Notion Master Creative Strategy hub is
-canonical for the universal method, so a human must mirror this standard there.
+portable snapshot of an external craft standard, and this file is where that snapshot lives. Per
+`21-evidence-and-doctrine.md`, an external craft source is read as evidence and does not outrank a
+reviewed reference.
 
 ## The reel-in test
 

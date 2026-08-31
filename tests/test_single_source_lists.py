@@ -160,6 +160,48 @@ class RubricProseTests(unittest.TestCase):
         self.assertIn(str(rubric().MAX_SCORE), readme)
 
 
+class PrecedenceTests(unittest.TestCase):
+    """Which source is canonical is itself a fact that was written down in six places.
+
+    1.0.0 moved canonical status from the Notion hub to this repository and left the old claim
+    standing in the README, two connector files and `references/20-hook-quality-standard.md`.
+    The last one is the reason this is a test rather than a one-time edit: it is an always-loaded
+    craft file, and it survived a line-based search because the sentence wrapped across two lines
+    with "hub is" ending one and "canonical" starting the next.
+    """
+
+    # docs/notion-archive/ records the migration and has to describe the retired rule to explain
+    # it. Everywhere else, asserting it is a defect.
+    ALLOWED = ("docs/notion-archive/", "dist/")
+    STALE = re.compile(r"Notion[\s\S]{0,120}?\bis canonical", re.IGNORECASE)
+
+    def sources(self):
+        for path in sorted(ROOT.rglob("*.md")):
+            relative = path.relative_to(ROOT).as_posix()
+            if relative.startswith(self.ALLOWED) or ".git" in path.parts:
+                continue
+            yield relative, path.read_text(encoding="utf-8")
+
+    def test_nothing_still_claims_notion_is_canonical(self):
+        offenders = []
+        for relative, text in self.sources():
+            for match in self.STALE.finditer(text):
+                # The corrected sentences say the repository is canonical and mention Notion in
+                # the same breath, which is the wording that replaced the defect.
+                window = match.group(0)
+                if re.search(r"repository is canonical", window, re.IGNORECASE):
+                    continue
+                offenders.append(f"{relative}: {' '.join(window.split())}")
+
+        self.assertEqual([], offenders)
+
+    def test_the_one_file_that_declares_precedence_says_the_repository(self):
+        text = STANDARD.parent.joinpath("18-master-creative-strategy.md").read_text(encoding="utf-8")
+
+        self.assertIn("This repository is canonical for the universal method", text)
+        self.assertIn("Conversation memory is never canonical", text)
+
+
 class GeneratedFileTests(unittest.TestCase):
     """AGENTS.md is SKILL.md rendered, so its lists must never be edited in place."""
 

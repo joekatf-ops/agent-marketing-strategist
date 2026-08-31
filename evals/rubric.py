@@ -67,9 +67,13 @@ CRITERIA = (
     ),
     (
         "end_state",
-        "Sells the life the product produces rather than the object. Score 2 only if the end state "
-        "can be named in one sentence without using the product's name. It does not have to lead: at "
-        "UWA it should not.",
+        "Sells the life the product produces rather than the object. The test is whether YOU, having "
+        "read it, can state the end state in one sentence without using the product's name. If you "
+        "can, score 2. The copy does not have to contain that sentence: implied is sufficient, and "
+        "position is set by awareness, so at Unaware and Problem Aware the end state must not lead "
+        "and will usually be carried by the body rather than stated outright. Score 1 when you can "
+        "name it for some options and not others, and 0 when the copy sells the object and there is "
+        "no life behind it to name.",
     ),
     (
         "concision",

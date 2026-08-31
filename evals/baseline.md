@@ -142,6 +142,86 @@ delta of +0.50 is inside the noise for that sample, and one brief is an observat
 finding. The claim it does support is narrow and was the question asked: on the cold brief that lost
 the point, loading the standard recovers it.
 
+## The first real reading, and the noise floor that makes it unreadable
+
+CI, eight briefs, `claude-sonnet-4-5` both sides, on the branch that loads all fifteen references.
+
+**34.75 / 36**, against the void 35.25. So: lower.
+
+Then a mistake produced the most useful number recorded here. Because the `paths` filter on a
+`pull_request` event is evaluated against the whole PR diff rather than the latest push, a second
+push re-triggered the eval, and two runs went in parallel against commits whose eval-relevant files
+were byte-identical. **Two runs of the same agent, same model, same judge, same eight briefs.**
+
+| | Run 1 | Run 2 |
+|---|---:|---:|
+| Mean | 34.75 | **35.00** |
+| end_state | 1.25 | **1.62** |
+| concision | 1.88 | **1.62** |
+| no_ai_lexicon | 1.88 | **2.00** |
+| specificity | 1.88 | 1.88 |
+| mechanism_payoff | 1.88 | 1.88 |
+
+Per-brief, four of eight briefs moved, three up and one down, by a full point each.
+
+**`end_state` moved 0.38 between two runs of an identical agent.** The drop from 1.62 to 1.25 that
+this section was originally written to explain is 0.37. The `no_ai_lexicon` drop was 0.12 and that
+criterion swung 0.12 between the identical runs too.
+
+So the honest reading is that **this eval cannot resolve a difference of half a point**, and the
+first version of this section over-explained noise. The per-criterion story it told was wrong, not
+because the reasoning was bad but because there was nothing there to reason about. Recorded as an
+error rather than quietly deleted, because the same mistake is available to anyone reading a single
+run's per-criterion table.
+
+What the two runs do support:
+
+- Loading the three missing references did not visibly move the score in either direction. The A/B
+  finding that the copy changes, with explicit end states appearing in the output, still holds and is
+  visible in the artefacts. It does not show up in the number.
+- The usable comparison is a mean across repeated runs, not a criterion delta from one run. Two runs
+  average 34.875, against 35.25 from the void run, and that gap is smaller than the observed spread.
+- Anything below roughly one point on the mean needs repeat runs before it means anything. That is
+  now the stated read floor.
+
+### One thing the reasons show that the scores cannot
+
+Independent of the score, the `end_state` criterion is worded wrongly, and the judge text says so
+plainly. On `hair-growth-regulated`:
+
+> End state is present (normal growth cycle, sustained density) but not foregrounded at PRA; the
+> focus correctly stays on problem and mechanism, **so this is appropriate restraint rather than
+> failure**, but it's not explicitly named in one sentence per the rubric standard.
+
+The judge describes the behaviour as correct and then scores it 1, because the criterion read as
+requiring an explicit sentence in the copy. Standard 1 in `26-copywriting-standards.md` defines the
+check as "name the end state in one sentence without using the product's name", which is a test the
+*reader* performs, and adds "position, not presence". Those two readings disagree on exactly the case
+the awareness model says is correct.
+
+**Changed:** the wording now asks whether the reader can name the end state, says implied is
+sufficient, and says position is set by awareness. A test pins it to standard 1's own language.
+
+Changing a criterion after seeing a low score deserves suspicion, so the reasoning is on the record.
+The justification is the judge's own text, not the score. The change makes the instrument agree with
+the doctrine it measures, the doctrine is the authority, and it is reversible in one commit. **34.75
+and 35.00 stand as recorded.** Nothing here improves them retroactively, and the corrected wording
+is measured by the next run.
+
+`no_ai_lexicon` also changed instrument this branch: the judge now derives all twenty-three tier-one
+phrases from `config/copy-lexicon.yml` plus four structural tells, instead of eight phrases quoted
+inside the criterion. Strictly more accurate, and its effect on the score is inside the noise.
+
+### What is still open
+
+`concision` and `mechanism_payoff` sat at 1.88 in both runs and were supposed to benefit from loading
+the standards file. The `concision` reasons blame the same thing at full scale that the two-brief A/B
+found, and it is not the ad copy: "Core hooks are tight, but write-ups contain restatement." The eval
+asks for opening type, must-have carriers, three non-negotiables and a body handoff on every option,
+then marks the output down for repeating itself. That conflict lives in `generation_prompt` and is
+not fixed here, because fixing it changes what the eval asks for, which deserves a deliberate
+decision rather than one taken while chasing a number.
+
 ## What moved, and the mechanism
 
 | Criterion | Before | After | Delta |
