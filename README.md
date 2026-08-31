@@ -53,10 +53,13 @@ Six hook packages are a pre-production option set for one approved execution, no
 
 ## What it produces
 
-The package has twelve governed artefacts:
+The package has thirteen governed artefacts. They are output shapes available on request, not gates
+to pass through: a hook does not require a Concept Batch first, and no contract stands between a
+question and an answer.
 
 | Artefact | What it does |
 |---|---|
+| Strategist Read | Gives a direct, ranked read on creative, an offer, a transcript or a plan, and says what to do instead |
 | Brand Readiness | Checks identity, evidence, website freshness, claims, connectors, strategy state and mode limits |
 | Customer Intelligence | Prioritises possible Who definitions, primary Problems and pairing evidence while keeping evidence classes separate |
 | Concept Batch | Defines enduring coordinates separately from sequential NNT, INSPO or ITR test batches |

@@ -1,10 +1,15 @@
 # Output Contracts
 
-The strategist has twelve governed artefacts. Each task loads its contract before work begins.
+The strategist has thirteen governed artefacts. They are output shapes, available when the work
+calls for one or the user asks for one by name. They are not gates: a request for a hook does not
+require a Concept Batch first, and no contract is a precondition for answering a question.
+
+Load a contract in full before producing that artefact.
 
 | Artefact | Contract | When |
 |---|---|---|
-| Brand Readiness | `contracts/brand-readiness.md` | Start of each mode or when the folder changes |
+| Strategist Read | `contracts/strategist-read.md` | Any request for judgement rather than production |
+| Brand Readiness | `contracts/brand-readiness.md` | When asked whether a brand is ready, or before a launch plan |
 | Customer Intelligence Brief | `contracts/customer-intelligence.md` | New brand, stale evidence, or research refresh |
 | Concept Batch | `contracts/concept-batch.md` | Before creative production |
 | Hook Batch | `contracts/hook-batch.md` | After a concept and execution are selected |
@@ -17,18 +22,22 @@ The strategist has twelve governed artefacts. Each task loads its contract befor
 | Ad Diagnosis | `contracts/ad-diagnosis.md` | Manual performance analysis and next decisions |
 | Learning Update | `contracts/learning-update.md` | After an approved human revision |
 
-## Rules that apply to all twelve
+## Rules that apply to all thirteen
 
-1. **Resolve the brand first.** Every artefact names one brand, market, product, evidence version,
-   and approved-learning version.
-2. **Shape is governed.** Section order, fields, and default counts remain stable across models.
-   Explicit user needs and brand constraints may alter a default count when the rationale says so.
+1. **Resolve the brand when there is one.** An artefact produced against a connected brand folder
+   names the brand, market, product, evidence version and approved-learning version. An artefact
+   produced from a pasted brief names what it assumed instead.
+2. **Shape is stable, counts are guidance.** Section order and required fields hold across models.
+   Default counts are a starting point: produce as many options as clear the quality gate and cut
+   the rest. Only the locked four initial NNT or INSPO ads and the one selected hook per launch ad
+   resist an override.
 3. **Evidence stays classed.** Brand facts, assertions, brand-customer evidence, market evidence,
    behaviour, and strategist judgement never collapse into one category.
 4. **The claim gate never bends.** Regulated or high-risk claims require approved wording and
-   substantiation for the active market.
-5. **Thin input remains visible.** Missing evidence changes the confidence and permitted use. It is
-   never padded to satisfy a count.
+   substantiation for the active market before an ad runs. It does not block drafting.
+5. **Thin input is marked, not refused.** Missing evidence changes confidence, marking and permitted
+   use. Mark the placeholder in place, never invent the specific, never pad to satisfy a count, and
+   never withhold the work.
 6. **Freshness is part of validity.** Research and strategy state the last website check, material
    changes, connector results, and important source dates.
 7. **The active brand folder is canonical.** Uploads and chat memory are working copies.
@@ -54,12 +63,22 @@ The strategist has twelve governed artefacts. Each task loads its contract befor
     per ad and makes no performance prediction. Adequate supplied performance routes to Ad
     Diagnosis; controlled persistence still requires human confirmation.
 
-## Portability test
+## Release tests
 
-Before release, run the same evidence pack and request in at least two runtimes:
+Two different questions, and both have to be answered before a release.
 
-- same sections, order, required fields, counts, evidence labels, and claim decisions: pass;
-- different wording within those fields: expected;
-- missing sections, mixed brands, invented connector access, or different evidence status: fail.
+**Is the output good?** Run `evals/` and compare against the recorded baseline. A release that
+leaves structure intact and makes the copy worse is a failed release. Structural conformity was
+never the point; it is the floor.
 
-Record the runtime, bundle version, brand-bundle version, and validation result.
+**Is it portable?** Run the same brief in at least two runtimes:
+
+- same safety behaviour, evidence labels, claim decisions and marked placeholders: pass;
+- different wording, different ordering, a different number of options: expected;
+- an invented specific, a mixed brand, claimed connector access that was never preflighted, or a
+  refusal where the brief was merely thin: fail.
+
+Record the runtime, bundle version, brand-bundle version, eval scores and validation result.
+
+A release is judged on the second test for safety and on the first test for quality. Passing
+portability alone tells you the filing system survived, not that the ads got better.

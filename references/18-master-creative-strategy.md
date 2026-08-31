@@ -1,40 +1,37 @@
-# Master Creative Strategy: reviewed universal-method snapshot
+# Master Creative Strategy: the universal method
 
-- status: locked
-- snapshot: human-reviewed-portable
-- source: Master Creative Strategy Notion hub
-- source page ID: `3c02deb4f6ba80b3be07c725f8b6807b`
-- source last edited: `2026-08-27T00:48:00Z`
-- review date: `2026-08-27`
-- target release: `0.3.0`
+- status: canonical
+- prior source: Master Creative Strategy Notion hub
+- prior source page ID: `3c02deb4f6ba80b3be07c725f8b6807b`
+- adopted as canonical: `2026-08-31`
 
 ## Authority and precedence
 
-Universal method and brand truth have separate canonical sources. Apply this order:
+This repository is canonical for the universal method. Apply this order:
 
-1. The Master Creative Strategy Notion hub and its current subpages are canonical for the
-   universal method.
-2. This repository is the human-reviewed portable snapshot of that universal method.
-3. The connected brand folder is canonical for brand-specific truth, evidence and retained
+1. This repository is canonical for the universal method.
+2. The connected brand folder is canonical for brand-specific truth, evidence and retained
    learning.
-4. A generated brand bundle is a portable snapshot of that connected brand folder.
-5. Conversation memory is never canonical.
+3. A generated brand bundle is a portable snapshot of that connected brand folder.
+4. Conversation memory is never canonical.
 
-A more recent Notion edit does not silently override this reviewed repository release during a
-production run. Report the difference as `review-needed` and continue using the locked repository
-snapshot unless the human directs otherwise.
+Notion previously held this position and the repository was its snapshot. That arrangement created a
+standing synchronisation cost with no gain: the method has one author, and the repository is where
+it is loaded, versioned, tested and shipped. Notion is now a knowledge source that feeds the
+repository through review, in the same way a book or a swipe file does. It does not lead.
+
+A Notion page can therefore be read as research. It carries no authority a reviewed reference does
+not, and a difference between the two is not a defect to reconcile.
 
 ## Mutation boundary
 
-A connector or LLM may perform a read-only freshness and completeness check when authorised. It may
-retrieve the source page and subpages, compare the page ID and last-edited timestamp, and report a
-change. It must never automatically rewrite repository files, promote the detected content into the
-method, publish a new bundle or mutate a brand folder. A human reviews and publishes every universal
-method update as a new repository version.
+Nothing outside human review changes the method. A connector or LLM may read source material and
+propose a change. It must never automatically rewrite repository files, promote retrieved content
+into the method, publish a new bundle or mutate a brand folder. Every universal-method update is a
+human-reviewed repository change.
 
-Connector documentation does not prove a live connection. If Notion is unavailable, state that the
-freshness check was not performed and use this reviewed snapshot. Never request, store or include a
-Notion or Composio token in the repository or a generated brand bundle.
+Connector documentation does not prove a live connection. Never request, store or include a Notion or
+Composio token in the repository or a generated brand bundle.
 
 ## Locked method summary
 

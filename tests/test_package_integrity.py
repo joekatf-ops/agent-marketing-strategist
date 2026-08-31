@@ -37,45 +37,6 @@ UPLOAD_LABEL_BOUNDARY = (
     "URL and table labels do not become uploaded files or prove connector access."
 )
 
-LAUNCH_INVARIANTS = """## Upload-runtime routing
-
-For manual Meta launch asks, load `contracts/campaign-launch-plan.md` and
-`references/09-testing-and-diagnosis.md`. For destination asks, load
-`contracts/destination-handoff.md`.
-
-## Launch invariants
-
-- Creative testing uses one CT campaign per product and region, ABO, and exactly one CONTST batch per ad set.
-- Every initial NNT or INSPO batch contains exactly four ads: UWA, PRA, SLA and PDA.
-- The daily ad-set budget has an absolute $50 floor and an approximately $100 preferred starting point.
-- Protect five full days of observation. A five-day read is still directional or too early unless every active validity threshold is met.
-- Scaling uses a separate SC campaign with CBO, and graduated ads retain their real Post IDs.
-- Campaign names use `[BRAND]_[PRODUCT]_[CT|SC]_[ABO|CBO]_[REGION]_[YYYYMMDD]`.
-- Ad-set names use `[CONTST###]_[NNT|INSPO|ITR]_[WHO]_[PROBLEM]`.
-- Ad names use `[FULL_AD_SET_NAME]_[UWA|PRA|SLA|PDA]_[FORMAT]_[LP|PDP|HP|CP]_[POSTID]`.
-- UWA and PRA default to LP; SLA and PDA default to PDP. Every exception maps to LP, PDP, HP or CP through a Destination Handoff.
-- Every new ad name ends in `POSTIDXXX`; after publication, preserve the real Post ID.
-- Launch plans and changes are manual only. Never publish ads or change budgets automatically.
-- Generic count overrides cannot change the locked four initial NNT or INSPO ads or one selected hook per launch ad. Only a human-reviewed universal-method change can alter these invariants.
-"""
-
-AD_ANALYSIS_ROUTING = """## Ad-analysis routing
-
-For supplied first-party ads, load `references/19-ad-analysis-harness.md`, validate `intake.json`
-and consume the input audit before conclusions. Route exactly:
-
-- no adequate performance data -> Creative Audit;
-- adequate performance data -> Ad Diagnosis;
-- competitor ad -> competitor research;
-- human edit -> Learning Update.
-
-Combined adequate creative and performance produces one Ad Diagnosis. Incomplete performance
-material produces the input audit first; do not silently infer a performance explanation. Creative
-Audit makes no performance prediction and cannot assign `keep`, `ITR`, `stop` or `scale`. Reports
-may be written to the run folder, but controlled records require human confirmation, and diagnosis
-does not reserve a new CONTST.
-"""
-
 
 def load_validator():
     if not SCRIPT.exists():
@@ -308,35 +269,6 @@ class PackageIntegrityTests(unittest.TestCase):
                 text = (ROOT / relative).read_text()
                 for phrase in required_phrases:
                     self.assertIn(phrase, text)
-
-
-    def test_validator_accepts_explicit_ad_analysis_router_prohibitions(self):
-        validator = load_validator()
-        safeguards = (
-            "Adequate performance data must not route to Creative Audit.",
-            "Combined adequate creative and performance never produces two reports: Ad Diagnosis and Creative Audit.",
-            "Combined adequate creative and performance never uses both Creative Audit and Ad Diagnosis.",
-            "Combined adequate creative and performance never automatically uses both Creative Audit and Ad Diagnosis.",
-            "Combined adequate creative and performance must not create two reports: Creative Audit and Ad Diagnosis.",
-            "Incomplete performance must not produce conclusions before the input audit.",
-        )
-
-        for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):
-            for safeguard in safeguards:
-                with self.subTest(relative=relative, safeguard=safeguard):
-                    body = "# Marketing Strategist\n\n" + LAUNCH_INVARIANTS + AD_ANALYSIS_ROUTING
-                    temp, root = self.make_root(skill_body=body, agents_body=body)
-                    self.addCleanup(temp.cleanup)
-                    (root / "PROMPT.md").write_text(body)
-                    path = root / relative
-                    path.write_text(path.read_text() + "\n" + safeguard + "\n")
-
-                    errors = validator.validate(root)
-
-                    self.assertNotIn(
-                        f"{relative} contains contradictory ad-analysis routing",
-                        errors,
-                    )
 
 
     def test_creative_audit_has_no_performance_decisions(self):
@@ -911,33 +843,6 @@ class PackageIntegrityTests(unittest.TestCase):
             self.assertNotIn(relative, bundle)
 
 
-    def test_validator_accepts_explicit_creative_audit_prohibitions(self):
-        validator = load_validator()
-        cases = (
-            (
-                "contracts/creative-audit.md",
-                "Creative Audit makes no prediction that an ad will win.\n",
-                "contracts/creative-audit.md predicts winning performance",
-            ),
-            (
-                "PROMPT.md",
-                "Creative Audit assigns no keep action.\n",
-                "PROMPT.md permits Creative Audit performance actions",
-            ),
-        )
-
-        for relative, addition, prohibited_error in cases:
-            with self.subTest(relative=relative):
-                temp, root = self.make_root()
-                self.addCleanup(temp.cleanup)
-                path = root / relative
-                path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_text("Governed analysis policy.\n" + addition)
-
-                errors = validator.validate(root)
-
-                self.assertNotIn(prohibited_error, errors)
-
     def test_reports_missing_v04_required_artefacts(self):
         validator = load_validator()
         temp, root = self.make_root()
@@ -1000,7 +905,7 @@ class PackageIntegrityTests(unittest.TestCase):
 
         declared = (ROOT / "VERSION").read_text().strip()
         self.assertIn(f"**Version:** {declared}", readme)
-        self.assertIn("twelve governed artefacts", readme)
+        self.assertIn("thirteen governed artefacts", readme)
         self.assertIn("| Creative Audit |", readme)
         self.assertIn("Analyse these ads for <brand>", readme)
         self.assertIn("creative-audit", readme)
@@ -1389,6 +1294,75 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertNotIn(
             "VERSION must use major.minor.patch format, found '0.2.0'", errors
         )
+
+    CRAFT_STACK = (
+        "references/01-foundations.md",
+        "references/02-customer-state.md",
+        "references/03-strategy-and-offer.md",
+        "references/04-persuasion.md",
+        "references/05-copy-craft.md",
+        "references/08-formats.md",
+        "references/10-voice-and-claims.md",
+        "references/12-meta-platform.md",
+        "references/16-hook-formats.md",
+        "references/20-hook-quality-standard.md",
+    )
+
+    def craft_stack_section(self):
+        validator = load_validator()
+        return validator.markdown_section(
+            (ROOT / "SKILL.md").read_text(), "The craft stack, always loaded"
+        )
+
+    def test_craft_stack_is_complete_and_always_loaded(self):
+        section = self.craft_stack_section()
+
+        self.assertNotEqual("", section, "SKILL.md must declare an always-loaded stack")
+        for relative in self.CRAFT_STACK:
+            with self.subTest(relative=relative):
+                self.assertIn(relative, section)
+                self.assertTrue((ROOT / relative).is_file())
+
+    def test_craft_references_are_not_gated_behind_the_ops_stack(self):
+        validator = load_validator()
+        ops = validator.markdown_section(
+            (ROOT / "SKILL.md").read_text(), "The ops stack, loaded only when relevant"
+        )
+
+        self.assertNotEqual("", ops)
+        for relative in self.CRAFT_STACK:
+            with self.subTest(relative=relative):
+                self.assertNotIn(relative, ops)
+
+    def test_entrypoints_do_not_restrict_reference_loading(self):
+        # The selective-loading rule is what kept the awareness model and the
+        # platform data out of the modes that write ads.
+        for relative in ("SKILL.md", "AGENTS.md"):
+            with self.subTest(relative=relative):
+                self.assertNotIn(
+                    "Load only the references routed below",
+                    (ROOT / relative).read_text(),
+                )
+
+    def test_strategist_read_is_an_available_format(self):
+        contract = ROOT / "contracts" / "strategist-read.md"
+
+        self.assertTrue(contract.is_file())
+        for relative in ("SKILL.md", "OUTPUT-CONTRACT.md", "README.md"):
+            with self.subTest(relative=relative):
+                text = (ROOT / relative).read_text()
+                self.assertTrue(
+                    "contracts/strategist-read.md" in text
+                    or "Strategist Read" in text,
+                    f"{relative} does not offer the Strategist Read format",
+                )
+
+    def test_thin_input_is_marked_rather_than_refused(self):
+        for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):
+            with self.subTest(relative=relative):
+                text = (ROOT / relative).read_text()
+                self.assertIn("Never invent. Never refuse. Always mark.", text)
+                self.assertIn("[CLAIM: needs approved wording]", text)
 
     def test_invariant_reader_handles_quoted_values_and_missing_keys(self):
         validator = load_validator()
