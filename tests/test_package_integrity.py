@@ -1391,6 +1391,47 @@ class PackageIntegrityTests(unittest.TestCase):
                 self.assertIn("Never invent. Never refuse. Always mark.", text)
                 self.assertIn("[CLAIM: needs approved wording]", text)
 
+    def test_every_produced_artefact_has_a_frozen_example(self):
+        # The package previously had no example of ad copy, a script or a static
+        # spec: every artefact a customer would read was unexemplified while every
+        # bookkeeping artefact had one.
+        contracts = {path.name for path in (ROOT / "contracts").glob("*.md")}
+        examples = {path.name for path in (ROOT / "examples").glob("*.md")}
+        # Research and planning artefacts, exempt for now and named rather than silent.
+        exempt = {"concept-batch.md", "customer-intelligence.md"}
+
+        self.assertEqual(set(), contracts - examples - exempt)
+
+    def test_the_worked_examples_share_one_execution(self):
+        # Hook batch, video script and ad copy cover the same SLA execution so the
+        # set reads as one case rather than three disconnected samples.
+        for name in ("hook-batch.md", "video-script.md", "ad-copy.md"):
+            with self.subTest(example=name):
+                text = (ROOT / "examples" / name).read_text()
+                self.assertIn("CONTST004", text)
+                self.assertIn(
+                    "Same six cables. Two very different ways to find one", text
+                )
+        static = (ROOT / "examples" / "static-spec.md").read_text()
+        self.assertIn("CONTST004", static)
+        self.assertIn("PRA, diagnosis", static)
+
+    def test_the_static_example_clears_generated_imagery(self):
+        static = (ROOT / "examples" / "static-spec.md").read_text()
+
+        self.assertIn("Image-model prompt", static)
+        self.assertIn("Generated imagery check", static)
+        self.assertIn("Before and after", static)
+        self.assertIn("Copy is composited, not generated", static)
+
+    def test_the_read_example_disagrees_with_its_request(self):
+        read = (ROOT / "examples" / "strategist-read.md").read_text()
+
+        # The contract requires the finding first and permits disagreeing with the ask.
+        self.assertIn("## 1. The read", read)
+        self.assertIn("the offer is the problem", read)
+        self.assertIn("[UNSOURCED, strategist judgement]", read)
+
     def test_craft_bundle_carries_the_stack_and_no_install_guides(self):
         builder = load_module(ROOT / "scripts" / "build-craft-bundle.py", "build_craft")
         bundle = builder.build()
