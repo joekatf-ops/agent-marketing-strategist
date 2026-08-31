@@ -1333,6 +1333,7 @@ class PackageIntegrityTests(unittest.TestCase):
         "references/20-hook-quality-standard.md",
         "references/21-evidence-and-doctrine.md",
         "references/22-swipe-corpus.md",
+        "references/23-commercial-context.md",
     )
 
     def craft_stack_section(self):

@@ -20,6 +20,13 @@ standing synchronisation cost with no gain: the method has one author, and the r
 it is loaded, versioned, tested and shipped. Notion is now a knowledge source that feeds the
 repository through review, in the same way a book or a swipe file does. It does not lead.
 
+The hub and its eleven subpages have been migrated. The full text is archived verbatim in
+`docs/notion-archive/`, and the one substantive gap it revealed is now
+`references/23-commercial-context.md`: unit economics, product-market fit, segmentation, offer
+levers, conversion diagnosis, channels, the four measurement levels and retention, none of which
+existed anywhere in this library. `docs/notion-archive/README.md` records what was integrated, what
+was already present and the one page deliberately left out.
+
 A Notion page can therefore be read as research. It carries no authority a reviewed reference does
 not, and a difference between the two is not a defect to reconcile.
 
