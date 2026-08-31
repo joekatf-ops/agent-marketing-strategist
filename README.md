@@ -40,7 +40,7 @@ approved-revision learning.
 
 ```text
 Universal strategist
-├── reviewed Master Creative Strategy snapshot
+├── canonical Master Creative Strategy method
 ├── output contracts, naming, hook formats and research rules
 ├── optional connectors and read-only method-governance checks
 └── one active brand folder per run
@@ -53,10 +53,13 @@ Universal strategist
     └── append-only revision learning and approved rules
 ```
 
-The Master Creative Strategy in Notion is canonical for the universal method. This repository is
-its reviewed portable snapshot. A connected brand folder is canonical for that brand's truth and
-learning. A freshness check can flag a method change for human review, but no connector or LLM may
-automatically rewrite the repository.
+This repository is canonical for the universal method. A connected brand folder is canonical for
+that brand's truth and learning, a generated brand bundle is a portable snapshot of that folder,
+and conversation memory is never canonical. Notion held the canonical position until 1.0.0 and is
+now a research source that feeds the repository through human review, carrying no more authority
+than a book or a swipe file. No connector or LLM may automatically rewrite the repository. See
+[`references/18-master-creative-strategy.md`](references/18-master-creative-strategy.md) for the
+full precedence order.
 
 The universal strategist never absorbs one brand's preferences automatically. A brand folder
 travels between supported LLMs through direct folder access or a generated brand bundle.
