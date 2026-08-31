@@ -1,0 +1,172 @@
+{
+ "label": "v0.4.0 pristine main",
+ "model": "subagent (claude, via Task)",
+ "judge_model": "subagent (claude, via Task)",
+ "briefs": 3,
+ "mean": 15.67,
+ "max": 20,
+ "results": [
+  {
+   "brief": "greens-powder-cold",
+   "model": "subagent (claude, via Task)",
+   "judge_model": "subagent (claude, via Task)",
+   "output": "see patches note: full outputs were transient, verdict retained",
+   "verdict": {
+    "scores": {
+     "opening_type": {
+      "score": 1,
+      "reason": "Every package declares one type, but the choice is only sometimes reasoned against body strength, and Hooks 1, 2 and 5 declare a promise whose body the batch itself then marks BLOCKED."
+     },
+     "must_have_carriers": {
+      "score": 2,
+      "reason": "Each package names at least two carriers and attributes them to a specific visual or spoken line, and states the absent one outright, for example Hook 1's 'Curiosity gap: ABSENT. Nothing is withheld'."
+     },
+     "no_prior_context": {
+      "score": 2,
+      "reason": "Every opening is legible cold, with a line of containers or an empty bottle in a bin carrying the whole situation in one frame."
+     },
+     "starts_in_action": {
+      "score": 2,
+      "reason": "Every frame one is mid-motion, containers already sliding into shot, a pen already crossing out a line, capsules already tipping into a palm."
+     },
+     "no_chaos": {
+      "score": 2,
+      "reason": "One camera position, one object arrangement and one on-screen line per package, with no opening asking the viewer to hold two ideas."
+     },
+     "body_handoff": {
+      "score": 1,
+      "reason": "Hooks 3, 4 and 6 cash cleanly, but Hook 5 promises on-camera arithmetic the batch then declares unproducible, and Hooks 1 and 2 promise a substitution reading their bodies are forbidden to deliver."
+     },
+     "awareness_fit": {
+      "score": 2,
+      "reason": "All six enter through the reader's own routine rather than the product, which is the correct UWA move, with the pouch entering only as the endpoint of an audit."
+     },
+     "specificity": {
+      "score": 1,
+      "reason": "Counts and objects are concrete but nothing in any opening is anchored to this product's supplied facts, so all six lines would run unchanged for any all-in-one greens brand."
+     },
+     "placeholder_discipline": {
+      "score": 1,
+      "reason": "Nothing is invented and every unverified fact carries a mark, but half the marking takes the form of a gate that blocks a package rather than a placeholder that lets it proceed."
+     },
+     "distinctness": {
+      "score": 1,
+      "reason": "Six formats and six visual patterns, but four of the six make the same argument, that there are too many containers, varied by delivery device, and the batch's own matrix concedes only four distinct beliefs."
+     }
+    },
+    "strongest": "I take four supplements every morning and I genuinely cannot tell you what this one does.",
+    "weakest": "Readiness accounting substitutes for strategy: the batch's own claim gate blocks three of six packages, so a six-option set silently shrinks to three producible options while still presenting as six."
+   },
+   "total": 15,
+   "max": 20
+  },
+  {
+   "brief": "grounding-sheet-thin",
+   "model": "subagent (claude, via Task)",
+   "judge_model": "subagent (claude, via Task)",
+   "output": "see patches note: full outputs were transient, verdict retained",
+   "verdict": {
+    "scores": {
+     "opening_type": {
+      "score": 1,
+      "reason": "All six declare a type, but five are labelled promise with little reasoning about payload strength, and Hook 4's promise is attached to a body the output says cannot answer it."
+     },
+     "must_have_carriers": {
+      "score": 2,
+      "reason": "Two or three carriers named per package with a specific frame or line attached, and absences stated plainly rather than papered over."
+     },
+     "no_prior_context": {
+      "score": 2,
+      "reason": "A pile of sleep purchases, a lit clock in a dark room and a stripped mattress each carry their whole situation with no backstory."
+     },
+     "starts_in_action": {
+      "score": 2,
+      "reason": "Frame one is always underway, a sheet already coming off the mattress, a plug already coming out, a pen already writing."
+     },
+     "no_chaos": {
+      "score": 2,
+      "reason": "Each opening holds one object and one line, and the night package in particular is a single dark frame with one legible clock."
+     },
+     "body_handoff": {
+      "score": 1,
+      "reason": "Hooks 3 and 6 cash, but the batch's own self-check records this criterion as NOT MET for Hook 4, and Hooks 1 and 2 have bodies capped at 'I am testing it', which is less than their openings set up."
+     },
+     "awareness_fit": {
+      "score": 1,
+      "reason": "PRA is chosen and declared provisional, which is the right call on an unspecified brief, but the contingency is wholesale rebuild rather than per-package fit, with four of six declared ineligible if the target is UWA."
+     },
+     "specificity": {
+      "score": 1,
+      "reason": "Concrete objects carry the openings, but 'everything I have bought for my sleep' and 'same time again' are situation-generic and would run unchanged for a mattress, a supplement or a wearable."
+     },
+     "placeholder_discipline": {
+      "score": 1,
+      "reason": "Marking is disciplined and nothing is invented, including a correct refusal to write the creator's waking time for her, but the batch converts thin input into withheld deliverables by holding Hook 4 and filling the aggressive slot short."
+     },
+     "distinctness": {
+      "score": 2,
+      "reason": "Six genuinely different routes into the argument, accumulated purchases, the hour of waking, the untouched bed, scepticism about the object, the advice itself and a dated written record, split across night and day shoots."
+     }
+    },
+    "strongest": "I have changed everything about how I sleep except the thing I actually sleep on.",
+    "weakest": "Thinness of brief is passed straight through to thinness of output: missing mechanism and missing claims become a held package and an under-filled slot, when the brief explicitly asked for useful work with every specific marked."
+   },
+   "total": 15,
+   "max": 20
+  },
+  {
+   "brief": "hair-growth-regulated",
+   "model": "subagent (claude, via Task)",
+   "judge_model": "subagent (claude, via Task)",
+   "output": "see patches note: full outputs were transient, verdict retained",
+   "verdict": {
+    "scores": {
+     "opening_type": {
+      "score": 1,
+      "reason": "Types are declared consistently, but Hook 1 declares a promise of the evidence and Hook 6 an open loop over two lists, and both bodies are then blocked from supplying what was declared."
+     },
+     "must_have_carriers": {
+      "score": 2,
+      "reason": "Every package names carriers against a specific line or frame and states absences, including Hook 1's deliberate 'Emotion: ABSENT' as the thing being tested."
+     },
+     "no_prior_context": {
+      "score": 2,
+      "reason": "'It used to go round twice' and 'Not a style decision' are the extreme case of cold legibility, complete sentences that explain nothing and still land."
+     },
+     "starts_in_action": {
+      "score": 2,
+      "reason": "Frame one in every package is a hand already moving, a page already turning, a tie already winding, a thumb already scrolling."
+     },
+     "no_chaos": {
+      "score": 2,
+      "reason": "One action, one line and one anchor per opening, and the imagery restrictions are met without adding compensating visual clutter."
+     },
+     "body_handoff": {
+      "score": 1,
+      "reason": "Hooks 2, 3 and 4 cash inside the ceiling, but Hooks 1, 5 and 6 are all held at the claim gate, so half the batch opens something the body is not permitted to close."
+     },
+     "awareness_fit": {
+      "score": 2,
+      "reason": "Four of the six enter at her own noticing or her distrust of the category, which is the PRA job, and Gate D keeps every second-person construction out of the first three seconds."
+     },
+     "specificity": {
+      "score": 2,
+      "reason": "The hair tie that now goes round a third time, the year of one hairstyle, and '112 people, 90 days, self-reported' are specifics that cannot be lifted onto another brand's product."
+     },
+     "placeholder_discipline": {
+      "score": 1,
+      "reason": "Nothing is invented, and correctly no survey figure appears anywhere, but three of six packages are marked BLOCKED rather than written to the ceiling with the missing wording marked in place."
+     },
+     "distinctness": {
+      "score": 2,
+      "reason": "Six routes that argue differently, the document, the refusal to promise, the coping behaviour, the object that measured the change, the category's promises, and the claim ceiling written out as the creative."
+     }
+    },
+    "strongest": "It used to go round twice.",
+    "weakest": "The claim ceiling is treated as a blocker to be reported rather than a design input to be solved around, so the regulated constraint removes half the option set instead of shaping it."
+   },
+   "total": 17,
+   "max": 20
+  }
+ ]
+}

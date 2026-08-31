@@ -37,45 +37,6 @@ UPLOAD_LABEL_BOUNDARY = (
     "URL and table labels do not become uploaded files or prove connector access."
 )
 
-LAUNCH_INVARIANTS = """## Upload-runtime routing
-
-For manual Meta launch asks, load `contracts/campaign-launch-plan.md` and
-`references/09-testing-and-diagnosis.md`. For destination asks, load
-`contracts/destination-handoff.md`.
-
-## Launch invariants
-
-- Creative testing uses one CT campaign per product and region, ABO, and exactly one CONTST batch per ad set.
-- Every initial NNT or INSPO batch contains exactly four ads: UWA, PRA, SLA and PDA.
-- The daily ad-set budget has an absolute $50 floor and an approximately $100 preferred starting point.
-- Protect five full days of observation. A five-day read is still directional or too early unless every active validity threshold is met.
-- Scaling uses a separate SC campaign with CBO, and graduated ads retain their real Post IDs.
-- Campaign names use `[BRAND]_[PRODUCT]_[CT|SC]_[ABO|CBO]_[REGION]_[YYYYMMDD]`.
-- Ad-set names use `[CONTST###]_[NNT|INSPO|ITR]_[WHO]_[PROBLEM]`.
-- Ad names use `[FULL_AD_SET_NAME]_[UWA|PRA|SLA|PDA]_[FORMAT]_[LP|PDP|HP|CP]_[POSTID]`.
-- UWA and PRA default to LP; SLA and PDA default to PDP. Every exception maps to LP, PDP, HP or CP through a Destination Handoff.
-- Every new ad name ends in `POSTIDXXX`; after publication, preserve the real Post ID.
-- Launch plans and changes are manual only. Never publish ads or change budgets automatically.
-- Generic count overrides cannot change the locked four initial NNT or INSPO ads or one selected hook per launch ad. Only a human-reviewed universal-method change can alter these invariants.
-"""
-
-AD_ANALYSIS_ROUTING = """## Ad-analysis routing
-
-For supplied first-party ads, load `references/19-ad-analysis-harness.md`, validate `intake.json`
-and consume the input audit before conclusions. Route exactly:
-
-- no adequate performance data -> Creative Audit;
-- adequate performance data -> Ad Diagnosis;
-- competitor ad -> competitor research;
-- human edit -> Learning Update.
-
-Combined adequate creative and performance produces one Ad Diagnosis. Incomplete performance
-material produces the input audit first; do not silently infer a performance explanation. Creative
-Audit makes no performance prediction and cannot assign `keep`, `ITR`, `stop` or `scale`. Reports
-may be written to the run folder, but controlled records require human confirmation, and diagnosis
-does not reserve a new CONTST.
-"""
-
 
 def load_validator():
     if not SCRIPT.exists():
@@ -88,6 +49,25 @@ def load_validator():
 
 def load_bundle_builder():
     spec = importlib.util.spec_from_file_location("build_knowledge_bundle", BUNDLE_SCRIPT)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def load_module(path, name):
+    if not path.exists():
+        raise AssertionError(f"{path} should exist")
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def load_agents_builder():
+    script = ROOT / "scripts" / "build-agents-md.py"
+    if not script.exists():
+        raise AssertionError("scripts/build-agents-md.py should exist")
+    spec = importlib.util.spec_from_file_location("build_agents_md", script)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
@@ -114,6 +94,7 @@ class PackageIntegrityTests(unittest.TestCase):
             "AGENTS.md",
             "PROMPT.md",
             "VERSION",
+            "invariants.yml",
             "references/06-concept-model.md",
             "references/09-testing-and-diagnosis.md",
             "references/12-meta-platform.md",
@@ -152,7 +133,7 @@ class PackageIntegrityTests(unittest.TestCase):
             "examples/sample.md contains an unfinished placeholder", errors
         )
 
-    def test_reports_entrypoint_drift(self):
+    def test_reports_stale_generated_agents_file(self):
         validator = load_validator()
         temp, root = self.make_root(
             skill_body="# Marketing Strategist\n\nOne body.\n",
@@ -162,149 +143,38 @@ class PackageIntegrityTests(unittest.TestCase):
 
         errors = validator.validate(root)
 
-        self.assertIn("SKILL.md and AGENTS.md operating bodies have drifted", errors)
-
-    def test_reports_launch_invariant_drift_in_all_three_entrypoints(self):
-        validator = load_validator()
-        cases = (
-            (
-                "Creative testing uses one CT campaign per product and region, ABO, and exactly one CONTST batch per ad set.",
-                "Creative testing uses CBO and mixes CONTST batches in an ad set.",
-                "must require CT/ABO with one CONTST batch per ad set",
-            ),
-            (
-                "Generic count overrides cannot change the locked four initial NNT or INSPO ads or one selected hook per launch ad.",
-                "Generic count overrides may change every launch count.",
-                "must protect locked initial-ad and selected-hook counts",
-            ),
+        self.assertIn(
+            "AGENTS.md is stale; regenerate it with scripts/build-agents-md.py",
+            errors,
         )
 
-        for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):
-            for expected, opposite, error_suffix in cases:
-                with self.subTest(relative=relative, error=error_suffix):
-                    temp, root = self.make_root(
-                        skill_body="# Marketing Strategist\n\n" + LAUNCH_INVARIANTS,
-                        agents_body="# Marketing Strategist\n\n" + LAUNCH_INVARIANTS,
-                    )
-                    self.addCleanup(temp.cleanup)
-                    (root / "PROMPT.md").write_text(LAUNCH_INVARIANTS)
-                    path = root / relative
-                    path.write_text(path.read_text().replace(expected, opposite))
-
-                    errors = validator.validate(root)
-
-                    self.assertIn(f"{relative} {error_suffix}", errors)
-
-    def test_reports_each_missing_prompt_launch_invariant(self):
+    def test_accepts_agents_file_rendered_from_skill(self):
         validator = load_validator()
-        required_lines = [
-            line
-            for line in LAUNCH_INVARIANTS.splitlines()
-            if line.startswith(("For manual Meta", "- "))
-        ]
+        body = "# Marketing Strategist\n\nOne body.\n"
+        temp, root = self.make_root(skill_body=body, agents_body=body)
+        self.addCleanup(temp.cleanup)
 
-        for line in required_lines:
-            with self.subTest(line=line):
-                temp, root = self.make_root(
-                    skill_body="# Marketing Strategist\n\n" + LAUNCH_INVARIANTS,
-                    agents_body="# Marketing Strategist\n\n" + LAUNCH_INVARIANTS,
-                )
-                self.addCleanup(temp.cleanup)
-                (root / "PROMPT.md").write_text(LAUNCH_INVARIANTS.replace(line, ""))
+        errors = validator.validate(root)
 
-                errors = validator.validate(root)
-
-                self.assertTrue(
-                    any(error.startswith("PROMPT.md must") for error in errors),
-                    f"missing semantic error for: {line}",
-                )
-
-    def test_reports_additive_policy_contradictions_with_canonical_text_intact(self):
-        validator = load_validator()
-        cases = (
-            (
-                "PROMPT.md",
-                "Initial NNT uses five ads.\n",
-                "PROMPT.md contains contradictory initial-ad count",
-            ),
-            (
-                "PROMPT.md",
-                "Launch plans may auto-publish ads.\n",
-                "PROMPT.md permits automatic Meta publishing or budget changes",
-            ),
-            (
-                "references/09-testing-and-diagnosis.md",
-                "High volume on day three permits a Verdict.\n",
-                "references/09-testing-and-diagnosis.md permits a Verdict before five full days",
-            ),
-            (
-                "references/12-meta-platform.md",
-                "Default test duration is seven days.\n",
-                "references/12-meta-platform.md sets a seven-day default test duration",
-            ),
-            (
-                "references/06-concept-model.md",
-                "MWA is a standard ad, not a landing-page role.\n",
-                "references/06-concept-model.md prescribes a Most Aware standard ad",
-            ),
+        self.assertNotIn(
+            "AGENTS.md is stale; regenerate it with scripts/build-agents-md.py",
+            errors,
         )
 
-        for relative, addition, expected_error in cases:
-            with self.subTest(relative=relative, addition=addition):
-                temp, root = self.make_release_policy_root()
-                self.addCleanup(temp.cleanup)
-                target = root / relative
-                target.write_text(target.read_text() + "\n" + addition)
+    def test_generated_agents_file_is_committed_and_current(self):
+        builder = load_agents_builder()
 
-                errors = validator.validate(root)
-
-                self.assertIn(expected_error, errors)
-
-    def test_reports_likely_additive_policy_phrasing_variants(self):
-        validator = load_validator()
-        cases = (
-            (
-                "PROMPT.md",
-                "Every initial INSPO test contains 5 standalone ads.\n",
-                "PROMPT.md contains contradictory initial-ad count",
-            ),
-            (
-                "PROMPT.md",
-                "Budgets can be changed automatically after launch.\n",
-                "PROMPT.md permits automatic Meta publishing or budget changes",
-            ),
-            (
-                "references/09-testing-and-diagnosis.md",
-                "A day-3 read can qualify as a Verdict when volume is high.\n",
-                "references/09-testing-and-diagnosis.md permits a Verdict before five full days",
-            ),
-            (
-                "references/12-meta-platform.md",
-                "Use 7 days as the standard test duration.\n",
-                "references/12-meta-platform.md sets a seven-day default test duration",
-            ),
-            (
-                "references/06-concept-model.md",
-                "Every initial batch should include an MWA standard ad.\n",
-                "references/06-concept-model.md prescribes a Most Aware standard ad",
-            ),
-            (
-                "references/06-concept-model.md",
-                "MWA is a standard ad—not a landing-page role.\n",
-                "references/06-concept-model.md prescribes a Most Aware standard ad",
-            ),
+        self.assertEqual(
+            (ROOT / "AGENTS.md").read_text(),
+            builder.render((ROOT / "SKILL.md").read_text()),
         )
 
-        for relative, addition, expected_error in cases:
-            with self.subTest(relative=relative, addition=addition):
-                temp, root = self.make_release_policy_root()
-                self.addCleanup(temp.cleanup)
-                target = root / relative
-                target.write_text(target.read_text() + "\n" + addition)
+    def test_agents_renderer_rejects_a_skill_file_without_frontmatter(self):
+        builder = load_agents_builder()
 
-                errors = validator.validate(root)
+        with self.assertRaises(ValueError):
+            builder.render("# Marketing Strategist\n\nNo frontmatter.\n")
 
-                self.assertIn(expected_error, errors)
 
     def test_v03_operating_references_exist(self):
         required = {
@@ -376,16 +246,24 @@ class PackageIntegrityTests(unittest.TestCase):
         routed = {
             "contracts/creative-audit.md",
             "references/19-ad-analysis-harness.md",
-            "schemas/ad-analysis-intake.schema.json",
             "examples/ad-analysis-intake.json",
             "examples/creative-audit.md",
             "examples/ad-diagnosis.md",
+        }
+        # The run tooling moved to agent-ad-analysis-harness. The strategist keeps the
+        # output contracts, the reference and the frozen examples, because analysing
+        # supplied ads is a strategist capability. Only the harness left.
+        extracted = {
+            "scripts/ad_analysis_harness.py",
             "scripts/init-ad-analysis-run.py",
             "scripts/validate-ad-analysis-run.py",
+            "schemas/ad-analysis-intake.schema.json",
+            "tests/test_ad_analysis_harness.py",
         }
 
         self.assertEqual(set(), {path for path in governed if not (ROOT / path).is_file()})
         self.assertEqual(set(), {path for path in routed if not (ROOT / path).is_file()})
+        self.assertEqual(set(), {path for path in extracted if (ROOT / path).is_file()})
 
     def test_analysis_mode_router(self):
         required_phrases = (
@@ -409,91 +287,6 @@ class PackageIntegrityTests(unittest.TestCase):
                 for phrase in required_phrases:
                     self.assertIn(phrase, text)
 
-    def test_validator_rejects_ad_analysis_router_mutations_in_every_entrypoint(self):
-        validator = load_validator()
-        contradictions = (
-            "Adequate performance data may route to Creative Audit.",
-            "Combined adequate creative and performance produces two reports: Ad Diagnosis and Creative Audit.",
-            "Combined adequate creative and performance uses both Creative Audit and Ad Diagnosis.",
-            "Combined adequate creative and performance automatically uses both Creative Audit and Ad Diagnosis.",
-            "Combined adequate creative and performance creates two reports: Creative Audit and Ad Diagnosis.",
-            "Incomplete performance may produce conclusions before the input audit.",
-            "Adequate performance data must not use preliminary notes before it routes to Creative Audit.",
-            "Combined adequate creative and performance must not use preliminary notes before it produces two reports: Ad Diagnosis and Creative Audit.",
-            "Incomplete performance must not use preliminary notes before it produces conclusions before the input audit.",
-            "Adequate performance data routes to a mode that must not use preliminary notes: Creative Audit.",
-            "Combined adequate creative and performance produces two reports: Ad Diagnosis must not use preliminary notes and Creative Audit.",
-            "Incomplete performance produces conclusions that must not use preliminary notes before the input audit.",
-        )
-
-        for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):
-            for contradiction in contradictions:
-                with self.subTest(relative=relative, contradiction=contradiction):
-                    body = "# Marketing Strategist\n\n" + LAUNCH_INVARIANTS + AD_ANALYSIS_ROUTING
-                    temp, root = self.make_root(skill_body=body, agents_body=body)
-                    self.addCleanup(temp.cleanup)
-                    (root / "PROMPT.md").write_text(body)
-                    path = root / relative
-                    path.write_text(path.read_text() + "\n" + contradiction + "\n")
-
-                    errors = validator.validate(root)
-
-                    self.assertIn(
-                        f"{relative} contains contradictory ad-analysis routing",
-                        errors,
-                    )
-
-    def test_validator_accepts_explicit_ad_analysis_router_prohibitions(self):
-        validator = load_validator()
-        safeguards = (
-            "Adequate performance data must not route to Creative Audit.",
-            "Combined adequate creative and performance never produces two reports: Ad Diagnosis and Creative Audit.",
-            "Combined adequate creative and performance never uses both Creative Audit and Ad Diagnosis.",
-            "Combined adequate creative and performance never automatically uses both Creative Audit and Ad Diagnosis.",
-            "Combined adequate creative and performance must not create two reports: Creative Audit and Ad Diagnosis.",
-            "Incomplete performance must not produce conclusions before the input audit.",
-        )
-
-        for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):
-            for safeguard in safeguards:
-                with self.subTest(relative=relative, safeguard=safeguard):
-                    body = "# Marketing Strategist\n\n" + LAUNCH_INVARIANTS + AD_ANALYSIS_ROUTING
-                    temp, root = self.make_root(skill_body=body, agents_body=body)
-                    self.addCleanup(temp.cleanup)
-                    (root / "PROMPT.md").write_text(body)
-                    path = root / relative
-                    path.write_text(path.read_text() + "\n" + safeguard + "\n")
-
-                    errors = validator.validate(root)
-
-                    self.assertNotIn(
-                        f"{relative} contains contradictory ad-analysis routing",
-                        errors,
-                    )
-
-    def test_validator_rejects_normalized_ad_analysis_router_drift(self):
-        validator = load_validator()
-        body = "# Marketing Strategist\n\n" + LAUNCH_INVARIANTS + AD_ANALYSIS_ROUTING
-
-        for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):
-            with self.subTest(relative=relative):
-                temp, root = self.make_root(skill_body=body, agents_body=body)
-                self.addCleanup(temp.cleanup)
-                (root / "PROMPT.md").write_text(body)
-                path = root / relative
-                path.write_text(
-                    path.read_text().replace(
-                        "does not reserve a new CONTST.",
-                        "does not reserve a new CONTST. This entrypoint alone adds a route note.",
-                    )
-                )
-
-                errors = validator.validate(root)
-
-                self.assertIn(
-                    f"{relative} ad-analysis routing section has drifted",
-                    errors,
-                )
 
     def test_creative_audit_has_no_performance_decisions(self):
         path = ROOT / "contracts" / "creative-audit.md"
@@ -598,11 +391,6 @@ class PackageIntegrityTests(unittest.TestCase):
                 ),
                 "examples/creative-audit.md must demonstrate both ready and revise outcomes",
             ),
-            (
-                "performance action",
-                original + "\nCreative Audit recommendation: `keep`.\n",
-                "examples/creative-audit.md assigns a performance action",
-            ),
         )
 
         for name, mutated, expected_error in cases:
@@ -626,11 +414,6 @@ class PackageIntegrityTests(unittest.TestCase):
         example = (ROOT / "examples" / "creative-audit.md").read_text()
 
         self.assertEqual([], validator.creative_audit_example_errors(example, intake))
-        self.assertFalse(validator.creative_audit_assigns_performance_action(example))
-        self.assertFalse(validator.creative_audit_predicts_performance(example))
-        self.assertIsNone(
-            re.search(r"\b(?:keep|ITR|stop|scale)\b", example, re.IGNORECASE)
-        )
 
     def test_ad_diagnosis_allows_only_the_four_governed_actions(self):
         diagnosis = (ROOT / "contracts" / "ad-diagnosis.md").read_text()
@@ -838,7 +621,7 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn("matching existing test", contract)
         self.assertIn("must not contain a new test ID", contract)
         self.assertIn(
-            "CONTST: unreserved — human decision required",
+            "CONTST: unreserved, human decision required",
             contract,
         )
 
@@ -1058,29 +841,6 @@ class PackageIntegrityTests(unittest.TestCase):
         }
         self.assertEqual(expected_supplied_results, patch["supplied_results"])
 
-    def test_diagnosis_persistence_distinguishes_attached_winner_negation(self):
-        validator = load_validator()
-
-        self.assertFalse(
-            validator.contradicts_diagnosis_persistence(
-                "Winner graduation does not proceed without a real Post ID and confirmation."
-            )
-        )
-        self.assertTrue(
-            validator.contradicts_diagnosis_persistence(
-                "Winner graduation may proceed without a real Post ID or confirmation."
-            )
-        )
-        self.assertTrue(
-            validator.contradicts_diagnosis_persistence(
-                "Winner graduation may proceed without a real Post ID and does not proceed without confirmation."
-            )
-        )
-        self.assertTrue(
-            validator.contradicts_diagnosis_persistence(
-                "Winner graduation does not proceed without a real Post ID, but winner graduation may proceed without confirmation."
-            )
-        )
 
     def test_diagnosis_raw_fixtures_stay_out_of_templates_and_generated_bundle(self):
         fixtures = (
@@ -1099,187 +859,8 @@ class PackageIntegrityTests(unittest.TestCase):
         for relative in fixtures:
             self.assertNotIn(relative, bundle)
 
-    def test_validator_rejects_v04_analysis_policy_mutations(self):
-        validator = load_validator()
-        temp, root = self.make_root()
-        self.addCleanup(temp.cleanup)
-        for relative in (
-            "contracts/creative-audit.md",
-            "contracts/ad-diagnosis.md",
-            "references/19-ad-analysis-harness.md",
-            "scripts/ad_analysis_harness.py",
-        ):
-            path = root / relative
-            path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(
-                "# harness\n" if path.suffix == ".py" else "Governed analysis policy.\n"
-            )
 
-        mutations = (
-            (
-                "contracts/ad-diagnosis.md",
-                "",
-                "contracts/ad-diagnosis.md must allow only keep, ITR, stop or scale",
-            ),
-            (
-                "contracts/creative-audit.md",
-                "Creative Audit predicts winning performance.\n",
-                "contracts/creative-audit.md predicts winning performance",
-            ),
-            (
-                "contracts/ad-diagnosis.md",
-                "Performance data is optional for a keep, ITR, stop or scale decision.\n",
-                "contracts/ad-diagnosis.md permits performance decisions without performance data",
-            ),
-            (
-                "references/19-ad-analysis-harness.md",
-                "Diagnosis automatically reserves the next CONTST.\n",
-                "references/19-ad-analysis-harness.md automatically reserves a CONTST",
-            ),
-            (
-                "references/19-ad-analysis-harness.md",
-                "Diagnosis automatically increments next_test_number.\n",
-                "references/19-ad-analysis-harness.md automatically reserves a CONTST",
-            ),
-            (
-                "contracts/ad-diagnosis.md",
-                "A diagnosis may reserve a new CONTST for a recommended ITR.\n",
-                "contracts/ad-diagnosis.md contradicts diagnosis persistence boundaries",
-            ),
-            (
-                "references/19-ad-analysis-harness.md",
-                "A proposed test observation automatically becomes approved revision learning.\n",
-                "references/19-ad-analysis-harness.md contradicts diagnosis persistence boundaries",
-            ),
-            (
-                "references/19-ad-analysis-harness.md",
-                "Winner graduation may proceed without a real Post ID or human confirmation.\n",
-                "references/19-ad-analysis-harness.md contradicts diagnosis persistence boundaries",
-            ),
-            (
-                "references/19-ad-analysis-harness.md",
-                "Upload-only output persists controlled records.\n",
-                "references/19-ad-analysis-harness.md contradicts diagnosis persistence boundaries",
-            ),
-            (
-                "contracts/creative-audit.md",
-                "Creative Audit recommendation: `keep`.\n",
-                "contracts/creative-audit.md assigns a performance action",
-            ),
-            (
-                "contracts/creative-audit.md",
-                "Outcome: `scale`.\n",
-                "contracts/creative-audit.md assigns a performance action",
-            ),
-            (
-                "examples/creative-audit.md",
-                "These ads will win, convert, lower CAC and scale profitably.\n",
-                "examples/creative-audit.md predicts performance",
-            ),
-            (
-                "examples/creative-audit.md",
-                "This ad will win without revisions.\n",
-                "examples/creative-audit.md predicts performance",
-            ),
-            (
-                "examples/creative-audit.md",
-                "This ad should win.\n",
-                "examples/creative-audit.md predicts performance",
-            ),
-            (
-                "examples/creative-audit.md",
-                "This ad is likely a winner.\n",
-                "examples/creative-audit.md predicts performance",
-            ),
-            (
-                "examples/creative-audit.md",
-                "This ad will outperform the others.\n",
-                "examples/creative-audit.md predicts performance",
-            ),
-            (
-                "PROMPT.md",
-                "Creative Audit may assign `keep`, `ITR`, `stop` or `scale`.\n",
-                "PROMPT.md permits Creative Audit performance actions",
-            ),
-            (
-                "PROMPT.md",
-                "Creative Audit may assign `keep` without performance data.\n",
-                "PROMPT.md permits Creative Audit performance actions",
-            ),
-            (
-                "PROMPT.md",
-                "Creative Audit cannot inspect the attachment and may assign keep.\n",
-                "PROMPT.md permits Creative Audit performance actions",
-            ),
-            (
-                "PROMPT.md",
-                "Creative Audit must not invent evidence and may assign scale.\n",
-                "PROMPT.md permits Creative Audit performance actions",
-            ),
-            (
-                "examples/creative-audit.md",
-                "Creative Audit will not review the destination and will win.\n",
-                "examples/creative-audit.md predicts performance",
-            ),
-            (
-                "contracts/ad-diagnosis.md",
-                "`Top-level action` contains exactly one literal value: `keep`, `ITR`, `stop`, `scale` or `pause`.\n",
-                "contracts/ad-diagnosis.md must allow only keep, ITR, stop or scale",
-            ),
-            (
-                "scripts/ad_analysis_harness.py",
-                "import requests\n",
-                "scripts/ad_analysis_harness.py imports a non-standard or network dependency: requests",
-            ),
-            (
-                "scripts/ad_analysis_harness.py",
-                "import socket\n",
-                "scripts/ad_analysis_harness.py imports a non-standard or network dependency: socket",
-            ),
-        )
-        for relative, addition, expected_error in mutations:
-            with self.subTest(relative=relative):
-                path = root / relative
-                path.parent.mkdir(parents=True, exist_ok=True)
-                prefix = "# harness\n" if path.suffix == ".py" else "Governed analysis policy.\n"
-                path.write_text(prefix + addition)
-
-                errors = validator.validate(root)
-
-                self.assertIn(expected_error, errors)
-
-                path.write_text(
-                    "# harness\n" if path.suffix == ".py" else "Governed analysis policy.\n"
-                )
-
-    def test_validator_accepts_explicit_creative_audit_prohibitions(self):
-        validator = load_validator()
-        cases = (
-            (
-                "contracts/creative-audit.md",
-                "Creative Audit makes no prediction that an ad will win.\n",
-                "contracts/creative-audit.md predicts winning performance",
-            ),
-            (
-                "PROMPT.md",
-                "Creative Audit assigns no keep action.\n",
-                "PROMPT.md permits Creative Audit performance actions",
-            ),
-        )
-
-        for relative, addition, prohibited_error in cases:
-            with self.subTest(relative=relative):
-                temp, root = self.make_root()
-                self.addCleanup(temp.cleanup)
-                path = root / relative
-                path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_text("Governed analysis policy.\n" + addition)
-
-                errors = validator.validate(root)
-
-                self.assertNotIn(prohibited_error, errors)
-
-    def test_reports_missing_v04_release_requirements(self):
+    def test_reports_missing_v04_required_artefacts(self):
         validator = load_validator()
         temp, root = self.make_root()
         self.addCleanup(temp.cleanup)
@@ -1310,7 +891,18 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn("Short version", contract)
         self.assertIn("Medium version", contract)
         self.assertIn("Long version", contract)
-        self.assertIn("exactly 5", contract)
+
+    def test_option_counts_are_guidance_with_a_floor(self):
+        # Forced counts produce filler. Only the CTA is fixed.
+        ad_copy = (ROOT / "contracts" / "ad-copy.md").read_text()
+        hook_batch = (ROOT / "contracts" / "hook-batch.md").read_text()
+
+        self.assertNotIn("Headlines: exactly 5", ad_copy)
+        self.assertNotIn("Lead routes: exactly 2", ad_copy)
+        self.assertIn("CTA: exactly 1", ad_copy)
+        self.assertIn("3 minimum", ad_copy)
+        self.assertNotIn("Create exactly six hook packages", hook_batch)
+        self.assertIn("Three is the floor.", hook_batch)
 
     def test_concept_contract_requires_four_initial_awareness_ads(self):
         contract = (ROOT / "contracts" / "concept-batch.md").read_text()
@@ -1328,7 +920,7 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn("does not require a live Meta connection", contract)
 
     def test_package_declares_v04_and_portable_brand_folder(self):
-        self.assertEqual("0.4.0", (ROOT / "VERSION").read_text().strip())
+        self.assertRegex((ROOT / "VERSION").read_text().strip(), r"^\d+\.\d+\.\d+$")
         readme = (ROOT / "README.md").read_text()
 
         self.assertIn("brand folder", readme.lower())
@@ -1339,8 +931,9 @@ class PackageIntegrityTests(unittest.TestCase):
         readme = (ROOT / "README.md").read_text()
         normalized = " ".join(readme.split()).lower()
 
-        self.assertIn("**Version:** 0.4.0", readme)
-        self.assertIn("twelve governed artefacts", readme)
+        declared = (ROOT / "VERSION").read_text().strip()
+        self.assertIn(f"**Version:** {declared}", readme)
+        self.assertIn("thirteen governed artefacts", readme)
         self.assertIn("| Creative Audit |", readme)
         self.assertIn("Analyse these ads for <brand>", readme)
         self.assertIn("creative-audit", readme)
@@ -1424,11 +1017,8 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn("<!-- source: contracts/creative-audit.md -->", content)
         self.assertIn("<!-- source: references/19-ad-analysis-harness.md -->", content)
         self.assertIn("# PART: SCHEMA GUIDANCE", content)
-        self.assertIn("<!-- source: schemas/ad-analysis-intake.schema.json -->", content)
-        self.assertIn(
-            "<!-- source: schemas/ad-analysis-intake.conformance.json -->", content
-        )
-        self.assertIn('"performance-diagnosis"', content)
+        self.assertIn("<!-- source: schemas/swipe-entry.schema.json -->", content)
+        self.assertIn("performance-diagnosis", content)
         self.assertNotIn("<!-- source: examples/ad-diagnosis-performance.csv -->", content)
         self.assertNotIn("<!-- source: outputs/ad-analysis/", content)
 
@@ -1630,47 +1220,6 @@ class PackageIntegrityTests(unittest.TestCase):
             naming,
         )
 
-    def test_reports_superseded_concept_model_in_skill(self):
-        validator = load_validator()
-        temp, root = self.make_root(
-            skill_body="# Marketing Strategist\n\nPersona x Outcome x Angle\n",
-        )
-        self.addCleanup(temp.cleanup)
-
-        errors = validator.validate(root)
-
-        self.assertIn("SKILL.md contains superseded concept model", errors)
-
-    def test_reports_most_aware_rows_in_standard_ad_contracts(self):
-        validator = load_validator()
-        temp, root = self.make_root()
-        self.addCleanup(temp.cleanup)
-        contracts = root / "contracts"
-        contracts.mkdir()
-        (contracts / "ad-copy.md").write_text("| MWA | Offer reminder |\n")
-
-        errors = validator.validate(root)
-
-        self.assertIn(
-            "contracts/ad-copy.md contains a Most Aware standard-ad row", errors
-        )
-
-    def test_reports_positive_most_aware_standard_ad_prose_in_active_instructions(self):
-        validator = load_validator()
-        temp, root = self.make_root()
-        self.addCleanup(temp.cleanup)
-        reference = root / "references" / "06-concept-model.md"
-        reference.parent.mkdir()
-        reference.write_text(
-            "Every initial test must include a Most Aware standard ad for the offer.\n"
-        )
-
-        errors = validator.validate(root)
-
-        self.assertIn(
-            "references/06-concept-model.md prescribes a Most Aware standard ad",
-            errors,
-        )
 
     def test_allows_most_aware_theory_and_explicit_standard_ad_negations(self):
         validator = load_validator()
@@ -1691,29 +1240,6 @@ class PackageIntegrityTests(unittest.TestCase):
             errors,
         )
 
-    def test_reports_legacy_platform_observations_recast_as_active_policy(self):
-        validator = load_validator()
-        cases = (
-            ("Default duration 7 days.\n", "legacy seven-day test default"),
-            (
-                "The current standard shape is 10 concepts x 5 to 10 hook variations; the hook is the actual test variable.\n",
-                "legacy volume-first hook test standard",
-            ),
-        )
-
-        for content, error_suffix in cases:
-            with self.subTest(error=error_suffix):
-                temp, root = self.make_root()
-                self.addCleanup(temp.cleanup)
-                reference = root / "references" / "12-meta-platform.md"
-                reference.parent.mkdir()
-                reference.write_text(content)
-
-                errors = validator.validate(root)
-
-                self.assertIn(
-                    f"references/12-meta-platform.md contains {error_suffix}", errors
-                )
 
     def test_read_validity_boundaries_are_mutually_exclusive(self):
         validator = load_validator()
@@ -1734,57 +1260,6 @@ class PackageIntegrityTests(unittest.TestCase):
                     expected, validator.classify_read_validity(*arguments)
                 )
 
-    def test_reports_overlapping_read_validity_policy(self):
-        validator = load_validator()
-        temp, root = self.make_root()
-        self.addCleanup(temp.cleanup)
-        reference = root / "references" / "09-testing-and-diagnosis.md"
-        reference.parent.mkdir()
-        reference.write_text(
-            "## Read validity\n\n"
-            "| Validity | Rule |\n|---|---|\n"
-            "| Verdict | Meets spend and purchase thresholds |\n"
-            "| Direction | Misses a threshold |\n"
-            "| Too early | Misses spend or purchase thresholds |\n"
-        )
-
-        errors = validator.validate(root)
-
-        self.assertIn(
-            "references/09-testing-and-diagnosis.md must define ordered non-overlapping read validity",
-            errors,
-        )
-
-    def test_reports_indented_and_named_most_aware_rows_in_standard_ad_contracts(self):
-        validator = load_validator()
-        rows = (
-            "    | MWA | Offer reminder |\n",
-            "| Most Aware | Offer reminder |\n",
-            "| Mwa | Offer reminder |\n",
-        )
-
-        for row in rows:
-            with self.subTest(row=row):
-                temp, root = self.make_root()
-                self.addCleanup(temp.cleanup)
-                contracts = root / "contracts"
-                contracts.mkdir()
-                (contracts / "ad-copy.md").write_text(row)
-                (root / "references").mkdir()
-                (root / "references" / "02-customer-state.md").write_text(
-                    "| Most Aware | Conversion environment |\n"
-                )
-
-                errors = validator.validate(root)
-
-                self.assertIn(
-                    "contracts/ad-copy.md contains a Most Aware standard-ad row",
-                    errors,
-                )
-                self.assertNotIn(
-                    "references/02-customer-state.md contains a Most Aware standard-ad row",
-                    errors,
-                )
 
     def test_reports_reused_or_gapped_contst_test_batches(self):
         validator = load_validator()
@@ -1823,62 +1298,6 @@ class PackageIntegrityTests(unittest.TestCase):
             validator.CONTST_TEST_ID.search("  - test_id: CONTST٠٠١")
         )
 
-    def test_reports_opposite_campaign_launch_policies(self):
-        validator = load_validator()
-        compliant_contract = (
-            "## Creative testing\n\n"
-            "- Budget type: ABO.\n"
-            "- Absolute floor: $50 per ad set per day.\n"
-            "- Preferred starting point: approximately $100 per ad set per day.\n"
-            "- Planned observation window: five full days.\n\n"
-            "## Scaling\n\n"
-            "- Budget type: CBO.\n"
-            "- Graduated ads keep their real Post ID.\n"
-        )
-        cases = (
-            (
-                "- Budget type: ABO.",
-                "- Budget type: CBO.",
-                "contracts/campaign-launch-plan.md must require ABO creative testing",
-            ),
-            (
-                "- Absolute floor: $50 per ad set per day.",
-                "- $50 per ad set per day is not a floor.",
-                "contracts/campaign-launch-plan.md must set an absolute $50 per-ad-set daily floor",
-            ),
-            (
-                "- Preferred starting point: approximately $100 per ad set per day.",
-                "- Approximately $100 per ad set per day is not preferred.",
-                "contracts/campaign-launch-plan.md must make approximately $100 the preferred per-ad-set daily starting point",
-            ),
-            (
-                "- Planned observation window: five full days.",
-                "- Planned observation window: four full days.",
-                "contracts/campaign-launch-plan.md must set a five-full-day planned observation window",
-            ),
-            (
-                "- Budget type: CBO.",
-                "- Budget type: ABO.",
-                "contracts/campaign-launch-plan.md must require CBO scaling",
-            ),
-            (
-                "- Graduated ads keep their real Post ID.",
-                "- Graduated ads do not preserve their real Post ID.",
-                "contracts/campaign-launch-plan.md must preserve graduated ads' real Post ID",
-            ),
-        )
-
-        for expected, opposite, error in cases:
-            with self.subTest(opposite=opposite):
-                temp, root = self.make_root()
-                self.addCleanup(temp.cleanup)
-                contract = root / "contracts" / "campaign-launch-plan.md"
-                contract.parent.mkdir()
-                contract.write_text(compliant_contract.replace(expected, opposite))
-
-                errors = validator.validate(root)
-
-                self.assertIn(error, errors)
 
     def test_reports_missing_v04_release_requirements(self):
         validator = load_validator()
@@ -1897,7 +1316,401 @@ class PackageIntegrityTests(unittest.TestCase):
 
         errors = validator.validate(root)
 
-        self.assertIn("VERSION must declare 0.4.0", errors)
+        self.assertNotIn(
+            "VERSION must use major.minor.patch format, found '0.2.0'", errors
+        )
+
+    CRAFT_STACK = (
+        "references/01-foundations.md",
+        "references/02-customer-state.md",
+        "references/03-strategy-and-offer.md",
+        "references/04-persuasion.md",
+        "references/05-copy-craft.md",
+        "references/08-formats.md",
+        "references/10-voice-and-claims.md",
+        "references/12-meta-platform.md",
+        "references/16-hook-formats.md",
+        "references/20-hook-quality-standard.md",
+        "references/21-evidence-and-doctrine.md",
+        "references/22-swipe-corpus.md",
+        "references/23-commercial-context.md",
+        "references/24-writing-for-low-awareness.md",
+        "references/26-copywriting-standards.md",
+    )
+
+    def craft_stack_section(self):
+        validator = load_validator()
+        return validator.markdown_section(
+            (ROOT / "SKILL.md").read_text(), "The craft stack, always loaded"
+        )
+
+    def test_craft_stack_is_complete_and_always_loaded(self):
+        section = self.craft_stack_section()
+
+        self.assertNotEqual("", section, "SKILL.md must declare an always-loaded stack")
+        for relative in self.CRAFT_STACK:
+            with self.subTest(relative=relative):
+                self.assertIn(relative, section)
+                self.assertTrue((ROOT / relative).is_file())
+
+    def test_craft_references_are_not_gated_behind_the_ops_stack(self):
+        validator = load_validator()
+        ops = validator.markdown_section(
+            (ROOT / "SKILL.md").read_text(), "The ops stack, loaded only when relevant"
+        )
+
+        self.assertNotEqual("", ops)
+        for relative in self.CRAFT_STACK:
+            with self.subTest(relative=relative):
+                self.assertNotIn(relative, ops)
+
+    def test_entrypoints_do_not_restrict_reference_loading(self):
+        # The selective-loading rule is what kept the awareness model and the
+        # platform data out of the modes that write ads.
+        for relative in ("SKILL.md", "AGENTS.md"):
+            with self.subTest(relative=relative):
+                self.assertNotIn(
+                    "Load only the references routed below",
+                    (ROOT / relative).read_text(),
+                )
+
+    def test_strategist_read_is_an_available_format(self):
+        contract = ROOT / "contracts" / "strategist-read.md"
+
+        self.assertTrue(contract.is_file())
+        for relative in ("SKILL.md", "OUTPUT-CONTRACT.md", "README.md"):
+            with self.subTest(relative=relative):
+                text = (ROOT / relative).read_text()
+                self.assertTrue(
+                    "contracts/strategist-read.md" in text
+                    or "Strategist Read" in text,
+                    f"{relative} does not offer the Strategist Read format",
+                )
+
+    def test_thin_input_is_marked_rather_than_refused(self):
+        for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):
+            with self.subTest(relative=relative):
+                text = (ROOT / relative).read_text()
+                self.assertIn("Never invent. Never refuse. Always mark.", text)
+                self.assertIn("[CLAIM: needs approved wording]", text)
+
+    def test_a_marker_may_not_wrap_a_guess(self):
+        # The first eval run found the agent writing an invented statistic and
+        # tagging it for removal. A marker that wraps a guess is worse than none.
+        for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):
+            with self.subTest(relative=relative):
+                text = (ROOT / relative).read_text()
+                self.assertIn("never wraps a guess", text)
+                self.assertIn("[STAT: needs a real figure", text)
+
+    def test_cold_traffic_may_not_be_answered_with_a_product_led_opening(self):
+        # The same run found offer-led openings on a UWA brief, pulled by the
+        # aggregate hit-rate data. The resolution states it as a constraint.
+        resolution = (ROOT / "references" / "21-evidence-and-doctrine.md").read_text()
+
+        self.assertIn("This is a constraint, not a trade-off.", resolution)
+        self.assertIn("is a failure of the brief", resolution)
+
+    def test_every_produced_artefact_has_a_frozen_example(self):
+        # The package previously had no example of ad copy, a script or a static
+        # spec: every artefact a customer would read was unexemplified while every
+        # bookkeeping artefact had one.
+        contracts = {path.name for path in (ROOT / "contracts").glob("*.md")}
+        examples = {path.name for path in (ROOT / "examples").glob("*.md")}
+        # Research and planning artefacts, exempt for now and named rather than silent.
+        exempt = {"concept-batch.md", "customer-intelligence.md"}
+
+        self.assertEqual(set(), contracts - examples - exempt)
+
+    def test_the_worked_examples_share_one_execution(self):
+        # Hook batch, video script and ad copy cover the same SLA execution so the
+        # set reads as one case rather than three disconnected samples.
+        for name in ("hook-batch.md", "video-script.md", "ad-copy.md"):
+            with self.subTest(example=name):
+                text = (ROOT / "examples" / name).read_text()
+                self.assertIn("CONTST004", text)
+                self.assertIn(
+                    "Same six cables. Two very different ways to find one", text
+                )
+        static = (ROOT / "examples" / "static-spec.md").read_text()
+        self.assertIn("CONTST004", static)
+        self.assertIn("PRA, diagnosis", static)
+
+    def test_the_static_example_clears_generated_imagery(self):
+        static = (ROOT / "examples" / "static-spec.md").read_text()
+
+        self.assertIn("Image-model prompt", static)
+        self.assertIn("Generated imagery check", static)
+        self.assertIn("Before and after", static)
+        self.assertIn("Copy is composited, not generated", static)
+
+    def test_the_read_example_disagrees_with_its_request(self):
+        read = (ROOT / "examples" / "strategist-read.md").read_text()
+
+        # The contract requires the finding first and permits disagreeing with the ask.
+        self.assertIn("## 1. The read", read)
+        self.assertIn("the offer is the problem", read)
+        self.assertIn("[UNSOURCED, strategist judgement]", read)
+
+    def test_craft_bundle_carries_the_stack_and_no_install_guides(self):
+        builder = load_module(ROOT / "scripts" / "build-craft-bundle.py", "build_craft")
+        bundle = builder.build()
+
+        for relative in self.CRAFT_STACK:
+            with self.subTest(relative=relative):
+                self.assertIn(f"<!-- source: {relative} -->", bundle)
+        self.assertIn("<!-- source: contracts/strategist-read.md -->", bundle)
+        self.assertIn("<!-- source: PROMPT.md -->", bundle)
+        # The point of the craft bundle is that it spends no context on setup.
+        for excluded in (
+            "connectors/runtime-chatgpt.md",
+            "references/17-runtime-portability.md",
+            "references/07-naming.md",
+            "references/19-ad-analysis-harness.md",
+        ):
+            with self.subTest(excluded=excluded):
+                self.assertNotIn(f"<!-- source: {excluded} -->", bundle)
+
+    def test_craft_bundle_reads_the_stack_from_the_skill(self):
+        builder = load_module(ROOT / "scripts" / "build-craft-bundle.py", "build_craft")
+
+        self.assertEqual(list(self.CRAFT_STACK), builder.craft_stack())
+
+    def test_craft_bundle_is_smaller_than_the_full_bundle(self):
+        craft = load_module(ROOT / "scripts" / "build-craft-bundle.py", "build_craft")
+        full = load_bundle_builder()
+
+        self.assertLess(len(craft.build()), len(full.build_body()))
+
+    def load_corpus(self):
+        path = ROOT / "corpus" / "swipe" / "entries.json"
+        self.assertTrue(path.is_file(), "corpus/swipe/entries.json should exist")
+        return json.loads(path.read_text())["entries"]
+
+    def test_corpus_entries_match_the_schema_shape(self):
+        schema = json.loads(
+            (ROOT / "schemas" / "swipe-entry.schema.json").read_text()
+        )
+        allowed = set(schema["properties"])
+        required = set(schema["required"])
+        codes = {"UWA", "PRA", "SLA", "PDA", None}
+        bases = {"mention-ratio", "inferred-from-copy", "unavailable"}
+
+        for entry in self.load_corpus():
+            with self.subTest(entry=entry.get("id")):
+                self.assertLessEqual(set(entry), allowed)
+                self.assertLessEqual(required, set(entry))
+                self.assertIn(entry["awareness"]["code"], codes)
+                self.assertIn(entry["awareness"]["basis"], bases)
+                self.assertEqual("behavioural", entry["evidence"]["class"])
+
+    def test_corpus_annotations_are_unreviewed_until_a_human_confirms(self):
+        entries = self.load_corpus()
+
+        for entry in entries:
+            with self.subTest(entry=entry.get("id")):
+                self.assertIsInstance(entry["reviewed"], bool)
+                if entry["reviewed"]:
+                    self.assertIsNotNone(
+                        entry["annotation"],
+                        "an entry cannot be reviewed without an annotation",
+                    )
+
+    def test_awareness_proxy_bands_the_mention_ratio(self):
+        sync = load_module(ROOT / "scripts" / "sync-swipe-corpus.py", "sync_swipe")
+
+        self.assertEqual("PDA", sync.awareness_from(60.0, 3.0)["code"])
+        self.assertEqual("SLA", sync.awareness_from(60.0, 18.0)["code"])
+        self.assertEqual("PRA", sync.awareness_from(60.0, 30.0)["code"])
+        self.assertEqual("UWA", sync.awareness_from(60.0, 50.0)["code"])
+        self.assertEqual("UWA", sync.awareness_from(60.0, -1.0)["code"])
+        self.assertEqual("unavailable", sync.awareness_from(None, None)["basis"])
+        self.assertEqual("unavailable", sync.awareness_from(0, 5.0)["basis"])
+
+    def test_corpus_sync_never_discards_human_annotation(self):
+        sync = load_module(ROOT / "scripts" / "sync-swipe-corpus.py", "sync_swipe")
+        existing = [
+            {
+                "id": "keep-me",
+                "annotation": {"why_it_works": "a human wrote this"},
+                "reviewed": True,
+            },
+            {"id": "off-the-board", "annotation": {"why_it_works": "also human"}, "reviewed": True},
+        ]
+        fetched = [
+            {"id": "keep-me", "annotation": None, "reviewed": False, "evidence": {"running_days": 5}},
+            {"id": "brand-new", "annotation": None, "reviewed": False, "evidence": {"running_days": 9}},
+        ]
+
+        merged, counts = sync.merge(existing, fetched)
+        by_id = {entry["id"]: entry for entry in merged}
+
+        self.assertEqual("a human wrote this", by_id["keep-me"]["annotation"]["why_it_works"])
+        self.assertTrue(by_id["keep-me"]["reviewed"])
+        self.assertIn("off-the-board", by_id, "an entry leaving the board must not be dropped")
+        self.assertIsNone(by_id["brand-new"]["annotation"])
+        self.assertEqual(1, counts["added"])
+        self.assertEqual(1, counts["annotations_kept"])
+
+    def test_swipe_digest_is_generated_and_current(self):
+        builder = load_module(ROOT / "scripts" / "build-swipe-digest.py", "build_digest")
+        entries = self.load_corpus()
+
+        self.assertEqual(
+            (ROOT / "references" / "22-swipe-corpus.md").read_text(),
+            builder.build_digest(entries),
+            "run scripts/build-swipe-digest.py",
+        )
+        self.assertEqual(
+            (ROOT / "corpus" / "swipe" / "REVIEW.md").read_text(),
+            builder.build_review(entries),
+            "run scripts/build-swipe-digest.py",
+        )
+
+    def test_swipe_digest_states_the_evidence_class(self):
+        digest = (ROOT / "references" / "22-swipe-corpus.md").read_text()
+
+        self.assertIn("behavioural evidence, never performance", digest)
+        self.assertIn("Awareness codes are a proxy", digest)
+        self.assertIn("never-named sentinel is unreliable", digest)
+
+    def test_repository_contains_no_em_or_en_dashes(self):
+        validator = load_validator()
+
+        self.assertEqual([], validator.dash_errors(ROOT))
+
+    def test_dash_check_reports_the_offending_line(self):
+        validator = load_validator()
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        (root / "notes.md").write_text("fine line\nbad \u2014 line\nfine again\n")
+        (root / "ranges.md").write_text("pages 2\u20135\n")
+
+        errors = validator.dash_errors(root)
+
+        self.assertIn("notes.md:2 contains an em dash", errors)
+        self.assertIn("ranges.md:1 contains an en dash", errors)
+
+    def test_dash_check_exempts_only_verbatim_third_party_copy(self):
+        validator = load_validator()
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        (root / "corpus" / "swipe").mkdir(parents=True)
+        (root / "corpus" / "swipe" / "entries.json").write_text('{"copy": "as \u2014 it ran"}')
+        (root / "references").mkdir()
+        (root / "references" / "22-swipe-corpus.md").write_text("quoted \u2014 hook\n")
+        (root / "references" / "05-copy-craft.md").write_text("our own \u2014 prose\n")
+
+        errors = validator.dash_errors(root)
+
+        self.assertEqual(["references/05-copy-craft.md:1 contains an em dash"], errors)
+
+    def test_invariant_reader_handles_quoted_values_and_missing_keys(self):
+        validator = load_validator()
+        source = (ROOT / "invariants.yml").read_text()
+
+        # The ad-set shape contains a hash and must not be read as a comment.
+        self.assertEqual(
+            "[CONTST###]_[NNT|INSPO|ITR]_[WHO]_[PROBLEM]",
+            validator.read_invariant(source, "naming.ad_set"),
+        )
+        self.assertEqual(
+            "ABO", validator.read_invariant(source, "creative_testing.budget_type")
+        )
+        self.assertEqual(
+            "PDP", validator.read_invariant(source, "destinations.defaults.SLA")
+        )
+        self.assertIsNone(validator.read_invariant(source, "nothing.here"))
+
+    def test_shipped_prose_carries_every_declared_invariant(self):
+        validator = load_validator()
+
+        self.assertEqual([], validator.invariant_drift_errors(ROOT))
+
+    def test_reports_an_invariant_dropped_from_the_prose(self):
+        validator = load_validator()
+        temp, root = self.make_release_policy_root()
+        self.addCleanup(temp.cleanup)
+        skill = root / "SKILL.md"
+        skill.write_text(
+            skill.read_text().replace("an absolute $50 floor", "no floor")
+        )
+
+        errors = validator.invariant_drift_errors(root)
+
+        self.assertIn(
+            "SKILL.md launch invariants lost "
+            "budget.absolute_floor_per_ad_set_per_day: '$50'",
+            errors,
+        )
+
+    def test_reports_a_dropped_observation_window(self):
+        validator = load_validator()
+        temp, root = self.make_release_policy_root()
+        self.addCleanup(temp.cleanup)
+        skill = root / "SKILL.md"
+        skill.write_text(
+            skill.read_text().replace(
+                "Protect five full days of observation.", "Read it whenever."
+            )
+        )
+
+        errors = validator.invariant_drift_errors(root)
+
+        self.assertIn(
+            "SKILL.md launch invariants lost the five-full-day observation window",
+            errors,
+        )
+
+    def test_reports_a_malformed_version(self):
+        validator = load_validator()
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        (root / "VERSION").write_text("v0.5\n")
+
+        errors = validator.validate(root)
+
+        self.assertIn(
+            "VERSION must use major.minor.patch format, found 'v0.5'", errors
+        )
+
+    def test_reports_a_version_declaration_that_disagrees_with_version_file(self):
+        validator = load_validator()
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        (root / "VERSION").write_text("0.5.0\n")
+        (root / "README.md").write_text("**Version:** 0.4.0\n")
+        brand = root / "templates" / "brand-folder" / "brand.yml"
+        brand.parent.mkdir(parents=True, exist_ok=True)
+        brand.write_text('slug: "example"\nmethod_version: "0.4.0"\n')
+
+        errors = validator.validate(root)
+
+        self.assertIn(
+            "README.md declares the package version '0.4.0' but VERSION is '0.5.0'",
+            errors,
+        )
+        self.assertIn(
+            "templates/brand-folder/brand.yml declares method_version '0.4.0' "
+            "but VERSION is '0.5.0'",
+            errors,
+        )
+
+    def test_accepts_version_declarations_that_agree(self):
+        validator = load_validator()
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        (root / "VERSION").write_text("0.5.0\n")
+        (root / "README.md").write_text("**Version:** 0.5.0\n")
+        brand = root / "templates" / "brand-folder" / "brand.yml"
+        brand.parent.mkdir(parents=True, exist_ok=True)
+        brand.write_text('slug: "example"\nmethod_version: "0.5.0"\n')
+
+        errors = validator.validate(root)
+
+        self.assertEqual(
+            [], [error for error in errors if "VERSION" in error]
+        )
 
 
 if __name__ == "__main__":

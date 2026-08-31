@@ -25,17 +25,24 @@ Every hook package carries all of these fields, even when the values repeat acro
 11. People, assets and location required
 12. Complete final ad name ending in `POSTIDXXX` before publication
 
-## Default batch
+## Batch size
 
-Create exactly six hook packages across at least four hook formats:
+Produce as many hook packages as clear the quality gate and differ strategically. Six across at
+least four hook formats is the default. Three is the floor.
+
+Forced counts produce filler. Four adequate options and one good one is a worse batch than three
+good ones, because the padding costs the attention that should have gone into selection. Cut a
+package rather than ship it to reach six, and say in the production order why it was cut.
+
+At six, the useful spread is:
 
 - 2 evidence-led safe hooks
 - 2 proven-pattern hooks adapted to the brand and concept
 - 1 aggressive hook inside the approved claim ceiling
 - 1 experimental wildcard
 
-The six hooks must change the route into the argument. New adjectives, punctuation, camera angles,
-or opening questions do not create a strategically new hook.
+Every hook must change the route into the argument. New adjectives, punctuation, camera angles, or
+opening questions do not create a strategically new hook.
 
 The batch carries at least one promise opening and at least one open loop, so the option set tests
 the way in and not only the format.
@@ -108,8 +115,8 @@ unless its claim and policy burden are fully resolved.
 
 ## Self-check
 
-- [ ] Exactly 6 hooks across at least 4 hook formats
-- [ ] Required category allocation is complete
+- [ ] At least 3 hooks, across at least 4 hook formats when the batch reaches 6
+- [ ] Nothing included only to reach a count, and any cut package is accounted for
 - [ ] Every hook has all nineteen fields and the complete traceability set
 - [ ] Hook format, media type, execution format and controlled FORMAT token are separate fields
 - [ ] Each route differs strategically
@@ -120,4 +127,7 @@ unless its claim and policy burden are fully resolved.
 - [ ] Every body handoff can cash what its opening promised
 - [ ] Every proof burden has a real source or is marked unavailable
 - [ ] Diversity matrix proves the batch is not cosmetic variation
+- [ ] Every spoken hook uses an interrupting register, not an explanatory one
+- [ ] No tier-one machine-writing phrase from `config/copy-lexicon.yml`
+- [ ] No hedge that weakens a claim, and any register hedge is deliberate voice
 - [ ] Production order balances learning value, readiness, and effort

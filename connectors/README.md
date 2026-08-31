@@ -22,6 +22,16 @@ The brand folder is the durable brain. A connector is never a substitute for wri
 | Grok | Uploaded instructions | Upload | Do not assume arbitrary MCP support | Upload brand bundle |
 | Grok Agents | Agent instructions | Agent knowledge or retrieval store | Host-dependent tools | Inject brand bundle per run |
 
+The rows above are not equivalent. Codex, Claude Code and Gemini CLI read the skill and a brand
+folder directly and can run the scripts, so they are first class. ChatGPT, Claude on the web, the
+Gemini app and Grok are upload-only: they work from a generated bundle that somebody with Python has
+to build and rebuild, so a non-technical user needs a developer maintaining the folder. Grok Agents
+is an architecture spec for an agent you build yourself, not an install path.
+
+On an upload-only surface, prefer `dist/craft-bundle.md` over `dist/knowledge-bundle.md`. The full
+bundle ships every guide in this directory into the model's context, where it cannot act on any of
+them.
+
 ## Minimum connector set
 
 - **Firecrawl:** site discovery, page retrieval, change detection, and crawl refreshes.

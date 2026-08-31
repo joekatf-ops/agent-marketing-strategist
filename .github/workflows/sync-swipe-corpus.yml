@@ -1,0 +1,80 @@
+name: Sync swipe corpus
+
+# Pulls the curated Foreplay board, refreshes corpus entries and opens a pull
+# request. It never pushes to a branch directly: new ads arrive with drafted
+# annotations marked reviewed=false, and a human decides what enters the corpus.
+
+on:
+  schedule:
+    # Mondays, early UTC.
+    - cron: "17 4 * * 1"
+  workflow_dispatch:
+    inputs:
+      board_id:
+        description: Foreplay board id to sync
+        required: false
+        default: 2ENRoYTUU6aWD9Cf8Qzy
+      board_name:
+        description: Board name recorded on each entry
+        required: false
+        default: best_ads
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check the API key is present
+        env:
+          FOREPLAY_API_KEY: ${{ secrets.FOREPLAY_API_KEY }}
+        run: |
+          if [ -z "${FOREPLAY_API_KEY}" ]; then
+            echo "FOREPLAY_API_KEY is not set as a repository secret." >&2
+            echo "Settings > Secrets and variables > Actions > New repository secret" >&2
+            exit 1
+          fi
+
+      - name: Sync the corpus
+        env:
+          FOREPLAY_API_KEY: ${{ secrets.FOREPLAY_API_KEY }}
+        run: |
+          python3 scripts/sync-swipe-corpus.py \
+            --board-id "${{ inputs.board_id || '2ENRoYTUU6aWD9Cf8Qzy' }}" \
+            --board-name "${{ inputs.board_name || 'best_ads' }}"
+
+      - name: Rebuild the digest and review file
+        run: python3 scripts/build-swipe-digest.py
+
+      - name: Validate and test
+        run: |
+          python3 scripts/validate-package.py .
+          python3 -m unittest discover -s tests
+
+      - name: Open a pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: corpus/swipe-sync
+          title: "Sync swipe corpus from Foreplay"
+          commit-message: "Sync swipe corpus from Foreplay"
+          delete-branch: true
+          body: |
+            Automated corpus sync.
+
+            New entries arrive with drafted annotations marked `reviewed: false`.
+            Existing annotations and review flags are preserved: the sync refreshes
+            fetched fields only.
+
+            Before merging, check `corpus/swipe/REVIEW.md` for anything awaiting review.
+
+            Two standing caveats on this data. Ad longevity is behavioural evidence
+            and not a measured return. Awareness codes are computed from how long an
+            ad runs before naming the product, which is a sort rather than a fact.

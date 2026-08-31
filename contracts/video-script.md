@@ -84,6 +84,8 @@ controlled destination token: LP, PDP, HP or CP. If it cannot, the script is blo
 - Written to be read by a person holding a camera, not a strategist
 - Spoken lines are speakable. Read them aloud
 - No em dashes
+- Register shifts by beat: the hook interrupts, the body explains, the CTA instructs
+- Every mechanism beat carries the payoff it produces, not just the machinery
 - Every visual instruction is specific enough to shoot: "hands unboxing on a kitchen bench,
   morning light", not "product shot"
 
@@ -118,4 +120,8 @@ controlled destination token: LP, PDP, HP or CP. If it cannot, the script is blo
 - [ ] Destination follows the awareness default or has a congruent documented Destination Handoff exception
 - [ ] People, assets and location required are explicit
 - [ ] Complete final ad name uses the full ad-set name and ends in POSTIDXXX before publication
+- [ ] No tier-one machine-writing phrase from `config/copy-lexicon.yml` in any spoken or on-screen line
+- [ ] No hedge that weakens a claim, and any register hedge is deliberate voice
+- [ ] Every mechanism beat states its payoff
+- [ ] The end state is nameable without using the product's name
 - [ ] Read aloud without stumbling

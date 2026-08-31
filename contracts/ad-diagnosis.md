@@ -54,7 +54,7 @@ the owner. A diagnosis may produce these optional files:
   confidence, verdict and next action. It must not contain a new test ID and must not mutate
   `strategy/test-register.yml`.
 - `next-brief.md` may describe a recommended ITR, but it must display exactly
-  `CONTST: unreserved — human decision required` until a human chooses to build the batch.
+  `CONTST: unreserved, human decision required` until a human chooses to build the batch.
 - `persistence-summary.md` may repeat the handoff outside `diagnosis.md`; it never claims a proposed
   patch was applied.
 

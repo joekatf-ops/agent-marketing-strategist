@@ -49,7 +49,7 @@ Build an application around one LLM API and one storage system. This could offer
 would undermine the existing cross-runtime design and introduce hosting, authentication and API
 maintenance before the workflow is proven.
 
-### 3. Portable file-based harness — selected
+### 3. Portable file-based harness, selected
 
 Add a strict run manifest, initializer and validator to the repository. The LLM performs the
 qualitative analysis through governed contracts; deterministic scripts handle run creation and
@@ -137,16 +137,16 @@ Each run lives at:
 
 The initializer creates only:
 
-- `intake.json` — canonical run manifest;
-- `README.md` — short instructions and the command used to generate the current validation audit.
+- `intake.json`: canonical run manifest;
+- `README.md`: short instructions and the command used to generate the current validation audit.
 
 The analysis may then add:
 
-- `input-audit.md` — deterministic readiness and source inventory;
-- `creative-audit.md` or `diagnosis.md` — governed result;
-- `test-register-patch.yml` — proposed test observations only;
-- `next-brief.md` — optional recommended next execution or ITR brief;
-- `persistence-summary.md` — records what may be saved and what needs human confirmation.
+- `input-audit.md`: deterministic readiness and source inventory;
+- `creative-audit.md` or `diagnosis.md`: governed result;
+- `test-register-patch.yml`: proposed test observations only;
+- `next-brief.md`: optional recommended next execution or ITR brief;
+- `persistence-summary.md`: records what may be saved and what needs human confirmation.
 
 Raw assets and Meta exports are not copied automatically. The intake records an attachment label,
 URL or user-supplied path plus an optional SHA-256. Run outputs remain excluded from generated brand

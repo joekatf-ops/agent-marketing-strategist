@@ -1,16 +1,40 @@
 # agent-marketing-strategist
 
-An evidence-led direct-response Meta strategist for DTC brands. One universal method serves many
-brands. Each brand keeps its own connected folder, evidence, coordinate history, test history,
-winners and approved learning.
+A direct-response creative and marketing strategist for DTC ecommerce brands advertising on Meta.
+Hooks, primary text, headlines, video scripts, static concepts, angles, rewrites and creative reads.
+It works from a pasted transcript, a product description or a connected brand folder, and it marks
+what it cannot verify rather than inventing it or refusing to work.
 
-**Version:** 0.4.0
+## Try it in two minutes
 
-**Status:** ready for use
+On a chat surface, paste [`dist/craft-bundle.md`](dist/craft-bundle.md) and
+[`PROMPT.md`](PROMPT.md) as knowledge, then ask for what you want. No brand folder, no setup, no
+readiness check.
 
-Version 0.4.0 adds a portable, versioned ad-analysis harness with Creative Audit and Performance
-Diagnosis modes. It preserves the v0.3 Master Creative Strategy coordinate `Who x Primary Problem`,
-brand isolation, evidence, test history, portability, security and approved-revision learning.
+> Write hook options for a greens powder aimed at someone who does not think their supplement
+> routine is a problem.
+
+In Cursor, Codex or Claude Code, point the agent at [`SKILL.md`](SKILL.md) instead and it will read
+the rest itself. [Multiple LLM support](#multiple-llm-support) covers what each surface actually
+supports, because they differ a great deal.
+
+## What it is
+
+One universal method serves many brands. Each brand keeps its own connected folder, evidence,
+coordinate history, test history, winners and approved learning. The method is brand-neutral; brand
+facts never transfer between brands.
+
+**Version:** 1.0.0
+
+**Status:** ready for use by an operator who can run Python and keep a brand folder, or by
+anyone on a chat surface using the craft bundle. See Multiple LLM support for what each runtime
+actually supports, because they differ a great deal.
+
+Version 1.0.0 opens the router so any advertising request is served, always loads the craft stack,
+adds judgement as an output, adds an annotated swipe corpus and an eval that scores the output, and
+moves the ad-analysis tooling to its own repository. It preserves the `Who x Primary Problem`
+coordinate, brand isolation, the evidence classes, the claim gate, test history and
+approved-revision learning.
 
 ## The operating model
 
@@ -53,10 +77,13 @@ Six hook packages are a pre-production option set for one approved execution, no
 
 ## What it produces
 
-The package has twelve governed artefacts:
+The package has thirteen governed artefacts. They are output shapes available on request, not gates
+to pass through: a hook does not require a Concept Batch first, and no contract stands between a
+question and an answer.
 
 | Artefact | What it does |
 |---|---|
+| Strategist Read | Gives a direct, ranked read on creative, an offer, a transcript or a plan, and says what to do instead |
 | Brand Readiness | Checks identity, evidence, website freshness, claims, connectors, strategy state and mode limits |
 | Customer Intelligence | Prioritises possible Who definitions, primary Problems and pairing evidence while keeping evidence classes separate |
 | Concept Batch | Defines enduring coordinates separately from sequential NNT, INSPO or ITR test batches |
@@ -171,15 +198,37 @@ Use the guide for the selected LLM surface:
 - [ChatGPT](connectors/runtime-chatgpt.md)
 - [Gemini](connectors/runtime-gemini.md)
 - [Grok](connectors/runtime-grok.md)
-- [Grok Agents](connectors/runtime-grok-agents.md)
+- [Grok Agents](connectors/runtime-grok-agents.md), which is an architecture spec for a Grok agent
+  you build yourself rather than an install path. Nothing in it is automated.
 
-Writable runtimes open the strategist and exactly one active brand folder. Upload-only runtimes use
-two generated files:
+Writable runtimes open the strategist and exactly one active brand folder.
+
+Upload-only runtimes use a generated bundle. There are two, because a chat window and an agent IDE
+have different constraints:
+
+| Bundle | Size | Use it when |
+|---|---|---|
+| `dist/craft-bundle.md` | about 54,000 tokens | A chat surface. Carries the craft stack and the output contracts, and nothing about installation |
+| `dist/knowledge-bundle.md` | about 96,000 tokens | A runtime that will act on the whole method, including naming, testing, brand folders, connectors and the analysis harness |
+
+Both ship in the repository, so the paste-in path needs no Python: open the file, copy it, paste it.
+They are generated, so CI checks they are not stale against their sources.
 
 ```bash
+python3 scripts/build-craft-bundle.py            # rebuild
+python3 scripts/build-craft-bundle.py --check     # fail if stale
 python3 scripts/build-knowledge-bundle.py
+python3 scripts/build-knowledge-bundle.py --check
 python3 scripts/build-brand-bundle.py /path/to/brands/example-brand /path/to/example-brand-bundle.md
 ```
+
+The brand bundle is not committed, because a brand folder carries the brand's own claims and
+economics. Generate it locally.
+
+The largest single file in the craft bundle is `references/12-meta-platform.md`, at roughly 10,000
+tokens. It earns the space: it is the only sourced and dated platform layer here. Its benchmark
+section was split into `references/25-meta-benchmarks.md`, which loads with the ops stack instead,
+because a benchmark tells you whether a number is good and cannot help you write.
 
 The canonical brand folder remains the source of truth. Rebuild both bundles after an approved
 universal-method release or canonical brand-folder change.
@@ -217,12 +266,12 @@ produces the input audit before any performance conclusion.
 In a writable connected folder, create and validate a run:
 
 ```bash
-python3 scripts/init-ad-analysis-run.py /path/to/brand \
+python3 ../agent-ad-analysis-harness/scripts/init-ad-analysis-run.py /path/to/brand \
   --mode creative-audit \
   --product-id product-code \
   --market AU
 
-python3 scripts/validate-ad-analysis-run.py /path/to/brand \
+python3 ../agent-ad-analysis-harness/scripts/validate-ad-analysis-run.py /path/to/brand \
   /path/to/brand/outputs/ad-analysis/ADR-YYYYMMDD-001 --write-audit
 ```
 
@@ -279,27 +328,66 @@ learned until the canonical folder is updated.
 
 ## Validate and build
 
-The full test suite has one test-only prerequisite: Node.js 16.9.0 or newer. It uses the
-dependency-free `tests/ecmascript-json-schema-runner.mjs` support runner to assert ECMAScript
-schema behavior; no Node package or network dependency is required. The conformance test
-preflights the installed version and reports an actionable error when Node is missing or too old.
-Production analysis, validation, and bundle building remain Python-standard-library-only and do
-not require Node.
+The test suite is Python standard library only. Node.js is no longer needed: the ECMAScript schema
+conformance runner moved to [`agent-ad-analysis-harness`](https://github.com/joekatf-ops/agent-ad-analysis-harness)
+along with the schema it tests.
+
+`AGENTS.md` is generated from `SKILL.md` and must never be hand-edited. Codex reads `SKILL.md` with
+its frontmatter; other hosts read the bare `AGENTS.md`. Edit `SKILL.md`, then regenerate. Validation
+fails when the committed `AGENTS.md` is stale.
+
+[`invariants.yml`](invariants.yml) holds the launch invariants as data: budgets, the observation
+window, campaign structure, naming shapes and destination defaults. Validation reads it and checks
+that each value still appears in the prose. It checks values, not sentences, so the documentation can
+be rewritten freely as long as the facts survive. Changing a value there is a universal-method change
+and needs human review.
+
+### What validation covers
+
+`validate-package.py` checks facts that can be checked mechanically:
+
+- required and release-critical files exist, and every path routed from `SKILL.md` resolves;
+- `AGENTS.md` matches what `SKILL.md` renders to;
+- `VERSION`, the README banner and the brand-folder template agree;
+- every value in `invariants.yml` still appears in the entrypoints and the launch contract;
+- frozen examples correspond structurally to their JSON intakes, and carry no unfinished placeholder;
+- the diagnosis test-register patch matches its permitted field set;
+- the analysis harness imports only the standard library;
+- template CONTST identifiers stay unique and sequential.
+
+It does not attempt to detect contradictions in prose. An earlier version tried, using regex
+batteries over English sentences, and the approach failed in both directions: innocuous rewording
+broke the build, while a real contradiction went unnoticed for months, with
+`16-hook-formats.md` describing an 11-field hook package and `contracts/hook-batch.md` describing a
+19-field one. Semantic consistency is a review question and, for output quality, an evaluation
+question. It is not a regex question.
 
 ```bash
-node --version
+python3 scripts/build-agents-md.py
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v
 python3 scripts/validate-package.py .
 python3 scripts/build-knowledge-bundle.py
+python3 scripts/build-craft-bundle.py
 git diff --check
 ```
 
 Frozen examples live in [`examples/`](examples/).
 
+## Licence
+
+MIT, in [`LICENSE`](LICENSE). Use it, change it, build on it, sell what you build.
+
+One boundary that MIT cannot cross. `corpus/swipe/` records other brands' advertising verbatim, and
+those words are not the repository owner's to license. The MIT grant covers this package: the method,
+the references, the contracts, the tooling and the annotations. It does not grant you rights to any
+quoted ad copy, and reusing a competitor's claim is prohibited by the package itself. Reusing the
+structure is the entire point. See [`corpus/swipe/ATTRIBUTION.md`](corpus/swipe/ATTRIBUTION.md).
+
 ## Changelog
 
 | Version | Date | Change |
 |---|---|---|
+| 1.0.0 | 2026-08-31 | Opened the closed router so any advertising request is served, always loaded the 25k craft stack instead of routing craft references selectively, added the Strategist Read contract so judgement has an output, marked thin input rather than refusing it, resolved the library's contradictions against the measured data, made option counts advisory, added the annotated swipe corpus and its Foreplay sync, added the eval harness and its CI scoring, extended the static contract to generated imagery, split the craft bundle from the full bundle, banned em dashes everywhere with a character check, retired Notion as canonical, fixed a TOCTOU hash guard that accepted a corrupted digest 86 percent of the time, and moved the ad-analysis tooling to agent-ad-analysis-harness. The v0.4 claim of complete seven-runtime workflows was overstated: three runtimes are first class, three are upload-only with a developer maintaining bundles, and Grok Agents is a build spec. |
 | 0.4.0 | 2026-08-27 | Added the portable ad-analysis intake, initializer and validator, Creative Audit, Performance Diagnosis routing, safe persistence patches, schema-aware universal bundle and complete seven-runtime workflows. |
 | 0.3.0 | 2026-08-27 | Adopted `Who x Primary Problem`, four-ad CONTST batches, locked naming, manual ABO launch plans, destination handoffs, CBO scaling with real Post IDs, safe strategy registers and read-only Notion governance. |
 | 0.2.0 | 2026-08-26 | Added multi-brand folders, recurring website refresh, evidence classes, six-hook batches, copy lengths, approved-revision learning, upload bundles and seven runtime guides. |

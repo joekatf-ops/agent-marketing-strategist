@@ -1,5 +1,5 @@
 schema_version: 3
-method_version: "0.4.0"
+method_version: "1.0.0"
 
 brand:
   name: "__BRAND_NAME_YAML__"

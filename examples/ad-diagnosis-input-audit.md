@@ -5,7 +5,7 @@
 - Run ID: "ADR-20260827-015"
 - Brand: "quiet-arc"
 - Mode: "performance-diagnosis"
-- Method version: "0.4.0"
+- Method version: "1.0.0"
 - Market: "AU"
 - Product: "folding-reading-lamp"
 

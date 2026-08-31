@@ -1,0 +1,92 @@
+name: Eval
+
+# Scores the agent's output whenever the instructions change, so a change to the
+# craft stack or a contract produces a number rather than an opinion.
+
+on:
+  pull_request:
+    paths:
+      - "references/**"
+      - "contracts/**"
+      - "SKILL.md"
+      - "AGENTS.md"
+      - "PROMPT.md"
+      - "evals/**"
+  workflow_dispatch:
+    inputs:
+      briefs:
+        description: Space separated brief slugs, or empty for all
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  score:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check the API key is present
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "${ANTHROPIC_API_KEY}" ]; then
+            echo "ANTHROPIC_API_KEY is not set as a repository secret." >&2
+            echo "Settings > Secrets and variables > Actions > New repository secret" >&2
+            exit 1
+          fi
+
+      - name: Score this branch
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          BRIEF_ARGS=""
+          for slug in ${{ inputs.briefs }}; do
+            BRIEF_ARGS="${BRIEF_ARGS} --brief ${slug}"
+          done
+          python3 evals/run.py --out /tmp/after.json ${BRIEF_ARGS}
+
+      - name: Compare against the recorded baseline
+        run: |
+          BASELINE=evals/results/baseline.json
+          if [ -f "${BASELINE}" ]; then
+            python3 evals/report.py "${BASELINE}" /tmp/after.json | tee /tmp/report.txt
+          else
+            python3 evals/report.py /tmp/after.json | tee /tmp/report.txt
+            echo "No recorded baseline yet, so this run is a single reading." >> /tmp/report.txt
+          fi
+
+      - name: Comment the scores on the pull request
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('/tmp/report.txt', 'utf8');
+            const body = [
+              '## Eval',
+              '',
+              'A rubric score is a direction, not a verdict. Compare the delta rather than the',
+              'absolute value: an LLM-judged score drifts with the judge.',
+              '',
+              '```',
+              report.slice(0, 60000),
+              '```',
+            ].join('\n');
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body,
+            });
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: eval-result
+          path: /tmp/after.json

@@ -1,0 +1,172 @@
+{
+ "label": "v1.0.0 restructured",
+ "model": "subagent (claude, via Task)",
+ "judge_model": "subagent (claude, via Task)",
+ "briefs": 3,
+ "mean": 18.0,
+ "max": 20,
+ "results": [
+  {
+   "brief": "greens-powder-cold",
+   "model": "subagent (claude, via Task)",
+   "judge_model": "subagent (claude, via Task)",
+   "output": "see patches note: full outputs were transient, verdict retained",
+   "verdict": {
+    "scores": {
+     "opening_type": {
+      "score": 2,
+      "reason": "Each package declares one type and justifies it against payload strength using an explicit rule, for example Hook 1 taking the loop because reading an ingredient panel is honest but not independently gripping."
+     },
+     "must_have_carriers": {
+      "score": 2,
+      "reason": "Carriers are attributed to quoted words or named frames, and absences are stated and traded openly, as in Hook 2's 'High stakes: absent. Stated plainly rather than claimed'."
+     },
+     "no_prior_context": {
+      "score": 2,
+      "reason": "Every opening is a complete object cold, and the batch applies a delete test to prove it, noting there is nothing before 'Nine' to cut."
+     },
+     "starts_in_action": {
+      "score": 2,
+      "reason": "Lines begin before frame one and hands are already counting, tapping or cracking caps, with no greeting, title card or establishing shot anywhere."
+     },
+     "no_chaos": {
+      "score": 1,
+      "reason": "Four openings are clean, but Hook 5 stacks an overhead grid, rapid taps and a running counter and Hook 6 puts nine cuts inside three seconds, and both are only conditionally cleared by an edit instruction rather than solved in the idea."
+     },
+     "body_handoff": {
+      "score": 2,
+      "reason": "Every body pays for its opening with something filmable, a label read, an enumerated count, a bottle-by-bottle provenance, and none of the six is left with a promise it cannot deliver."
+     },
+     "awareness_fit": {
+      "score": 1,
+      "reason": "Four packages enter through the reader's routine as UWA requires, but Hook 2 opens on '75 things. One scoop.' and Hook 6 on 'Nine caps. One scoop.', which are product-led entries for a reader who has no reason to care about the product yet."
+     },
+     "specificity": {
+      "score": 2,
+      "reason": "Nine bottles, four unexplainable, 6:55am and the 75-item read are concrete enough that the openings are not transferable to a competitor without changing the words."
+     },
+     "placeholder_discipline": {
+      "score": 2,
+      "reason": "Unverified specifics are marked at the point of use rather than in a gate section, including the mechanism check that would make Hook 6 false if the serving is two scoops, and nothing is withheld for thin input."
+     },
+     "distinctness": {
+      "score": 2,
+      "reason": "Six routes that differ in kind, discovery, written object, atmosphere, category proposition, enumerated education and a wordless sensory asset, across three execution formats and six beliefs."
+     }
+    },
+    "strongest": "Nine. I take nine of these every morning and I could not tell you what four of them are for.",
+    "weakest": "Two packages buy stopping power with edit density rather than with the idea, so the no-chaos requirement is discharged by an instruction to the editor instead of being designed out of the opening."
+   },
+   "total": 18,
+   "max": 20
+  },
+  {
+   "brief": "grounding-sheet-thin",
+   "model": "subagent (claude, via Task)",
+   "judge_model": "subagent (claude, via Task)",
+   "output": "see patches note: full outputs were transient, verdict retained",
+   "verdict": {
+    "scores": {
+     "opening_type": {
+      "score": 2,
+      "reason": "Every package declares one type and ties it to payload strength, with Hook 1 taking the loop precisely because no proof and no approved mechanism leave the payload thin."
+     },
+     "must_have_carriers": {
+      "score": 2,
+      "reason": "Carriers are attached to named devices, the crossings-out, the clock jump, the price concession, and absences are declared as trades rather than hidden."
+     },
+     "no_prior_context": {
+      "score": 2,
+      "reason": "A dark ceiling with a changing clock, a handwritten list and 'It is a bed sheet' each stand alone with nothing assumed."
+     },
+     "starts_in_action": {
+      "score": 2,
+      "reason": "Frame one is always underway, the sentence begun before the frame, the note already in place, the sheet already in the air, the bed already being stripped."
+     },
+     "no_chaos": {
+      "score": 2,
+      "reason": "One idea per opening throughout, and the ceiling package is a single unbroken frame with two numbers and no cut."
+     },
+     "body_handoff": {
+      "score": 1,
+      "reason": "Five bodies cash their openings, but Hook 5 withholds a mechanism clause the body cannot currently supply, which the output itself records as a conditional fail against the reject list."
+     },
+     "awareness_fit": {
+      "score": 2,
+      "reason": "PRA is assumed and declared, and the assumption is made survivable per package, with two hooks transferring to UWA unchanged and the rework cost of the others stated hook by hook."
+     },
+     "specificity": {
+      "score": 2,
+      "reason": "Ten past three, the 3:12 to 3:48 jump and a named list of failed alternatives are the most concrete artefacts either version produced from a brief that supplied four facts."
+     },
+     "placeholder_discipline": {
+      "score": 2,
+      "reason": "The missing mechanism is marked inside the spoken line itself rather than used as grounds to stop, and the output states directly that thin input changes confidence and marking but not willingness."
+     },
+     "distinctness": {
+      "score": 2,
+      "reason": "Six distinct routes, quantified admission, written list, silent POV, price concession, mechanism proposition and a sensory asset, with three promises and three loops so the entry point is being tested and not just the format."
+     }
+    },
+    "strongest": "Blackout blind. No coffee after 12. New mattress. Magnesium. Still awake at 3.",
+    "weakest": "The whole batch is anchored to one unsourced coordinate, the middle-of-the-night wake, so a wrong assumption at the top does not weaken one package, it invalidates four of them at once."
+   },
+   "total": 19,
+   "max": 20
+  },
+  {
+   "brief": "hair-growth-regulated",
+   "model": "subagent (claude, via Task)",
+   "judge_model": "subagent (claude, via Task)",
+   "output": "see patches note: full outputs were transient, verdict retained",
+   "verdict": {
+    "scores": {
+     "opening_type": {
+      "score": 2,
+      "reason": "Types are declared and argued against payload, with Hook 1 taking a promise because an advertiser volunteering the limits of its own evidence holds without a withheld answer, and Hook 3 taking the loop because its payload is a small survey."
+     },
+     "must_have_carriers": {
+      "score": 2,
+      "reason": "Carriers are pinned to quoted words and specific objects, the flatness of 'we have not run a clinical trial', the empty bottle held against the full one, with absences named as trades."
+     },
+     "no_prior_context": {
+      "score": 2,
+      "reason": "Every opening is complete in one sentence or one card, and the sample and duration in Hook 1 land without any prior knowledge of the brand."
+     },
+     "starts_in_action": {
+      "score": 2,
+      "reason": "Faces are already talking mid-sentence, the card is already propped, and the bottle level is already falling in frame one of the wildcard."
+     },
+     "no_chaos": {
+      "score": 2,
+      "reason": "One legible idea per opening, and the stillness is used deliberately, with the contrarian package holding nothing moving for the first 1.5 seconds."
+     },
+     "body_handoff": {
+      "score": 2,
+      "reason": "Every body cashes inside the ceiling, and Hook 1 is built so it survives the missing survey figure because its argument is the disclosure rather than the number."
+     },
+     "awareness_fit": {
+      "score": 1,
+      "reason": "Hooks 3 and 4 sit correctly at PRA, but Hook 1 opens on the brand's survey, Hook 5 on the brand's lack of a trial and Hook 6 on bottles emptying, which are brand and product-level entries for a reader whose state is having noticed her hair."
+     },
+     "specificity": {
+      "score": 2,
+      "reason": "The year of changing her parting, the whole three-item list read against the panel, and the day one to day ninety counter are locked to this product and this survey."
+     },
+     "placeholder_discipline": {
+      "score": 1,
+      "reason": "Marking is otherwise exemplary and the survey figure is correctly never invented, but 'everyone quits at week five' is an unsupported statistic written into a spoken line and then flagged, which is invention marked rather than invention avoided."
+     },
+     "distinctness": {
+      "score": 1,
+      "reason": "Hooks 3, 4 and 6 differ properly, but Hooks 1, 5 and part of 6 all run the same evidence-honesty argument entered from adjacent angles, and the output concedes execution format varies across only two values."
+     }
+    },
+    "strongest": "I noticed something about a year before I did anything about it, and what I actually did for that whole year was change my parting and stop looking.",
+    "weakest": "It writes an unsupported specific into deliverable copy and then marks it, which moves the invention from the ad into the reviewer's inbox rather than out of the work."
+   },
+   "total": 17,
+   "max": 20
+  }
+ ]
+}

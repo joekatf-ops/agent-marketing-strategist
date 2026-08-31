@@ -479,7 +479,7 @@ top-level action field.
 
 `test-register-patch.yml` may contain only matching existing test observations, supplied results,
 confidence, verdict and next action. It must not contain a new test ID. `next-brief.md` may describe
-an ITR but must display `CONTST: unreserved — human decision required`.
+an ITR but must display `CONTST: unreserved, human decision required`.
 
 - [ ] **Step 6: Clarify learning separation**
 

@@ -78,15 +78,23 @@ long sentences carry explanation. Vary them. The first line earns the second.
 place, a quantity, a condition. "Three weeks" beats "quickly". "The 4am wake-up" beats
 "poor sleep".
 
-**Banned unless the brand voice explicitly calls for them:**
+**Banned outright, with no brand-voice exception:**
 
-- Em dashes and en dashes
+- Em dashes and en dashes, everywhere and always. Use a comma, a colon, or two sentences.
+
+**Avoid unless the brand voice earns them:**
+
 - Words that signal machine writing: delve, unlock, elevate, harness, seamless, robust,
   game-changer, revolutionary, transform your, in today's world, it's not just X it's Y
 - Rule-of-three lists used as filler
 - Rhetorical questions stacked back to back
 - Sentences that begin "Whether you're..."
 - Hedging that removes the claim: "may potentially help support"
+
+These are tells, not laws. A rule of three that lands is not filler, and the distinction is whether
+the third item earns its place or exists to complete the rhythm. Judge the line, not the pattern.
+Emoji follow the brand's approved voice rather than a blanket rule: the corpus contains long-running
+winners built on emoji headlines, so a general ban would contradict the evidence.
 - Comment bait, engagement bait, fake urgency
 
 **The two tests, run on every draft:**

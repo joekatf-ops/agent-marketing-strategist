@@ -70,3 +70,12 @@ Examples:
 
 Read `connectors/README.md`, the vendor guide and the relevant runtime guide. Runtime mappings may
 change without the strategist method changing.
+
+## Higgsfield
+
+Generates the image and video assets a spec calls for. It executes a spec and decides nothing:
+the prompt is derived from `contracts/static-spec.md` section 6, and the claim gate applies to
+generated pixels as well as words. See `connectors/higgsfield.md`.
+
+Preflight with `balance`, which is free. Unavailable or out of credits does not block creative
+work: produce the spec and the prompt, hand them over, and say generation was not performed.

@@ -49,10 +49,10 @@ When local workspace or arbitrary MCP access is unavailable, upload the universa
 Use this mode only when the current Gemini surface can read the strategist repository and write the
 one selected brand folder. Ask `Analyse these ads for <brand>`, then:
 
-1. Create a run with `scripts/init-ad-analysis-run.py`:
+1. Create a run with [`init-ad-analysis-run.py`](https://github.com/joekatf-ops/agent-ad-analysis-harness):
 
    ```bash
-   python3 scripts/init-ad-analysis-run.py /path/to/brand \
+   python3 ../agent-ad-analysis-harness/scripts/init-ad-analysis-run.py /path/to/brand \
      --mode creative-audit \
      --product-id product-code \
      --market AU
@@ -64,7 +64,7 @@ one selected brand folder. Ask `Analyse these ads for <brand>`, then:
 3. Validate the run and write its deterministic audit:
 
    ```bash
-   python3 scripts/validate-ad-analysis-run.py /path/to/brand \
+   python3 ../agent-ad-analysis-harness/scripts/validate-ad-analysis-run.py /path/to/brand \
      /path/to/brand/outputs/ad-analysis/ADR-YYYYMMDD-001 --write-audit
    ```
 

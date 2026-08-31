@@ -4,6 +4,10 @@ This file governs test structure, observation and decisions. Benchmarks and sour
 thresholds live in `references/12-meta-platform.md`. Meta launch, evidence capture and campaign
 changes are manual. This method neither requires nor implies live Meta access.
 
+Benchmark figures for hook rate, hold rate, cost, conversion and what counts as a winner are in
+`25-meta-benchmarks.md`. Read them as market evidence: a result in the brand's own test register
+outranks any of them.
+
 ## Creative-testing stage
 
 Use one creative-testing campaign for one product and one region.
@@ -140,7 +144,7 @@ without promoting association into causal learning.
 
 An ITR recommendation preserves the coordinate and describes the next hypothesis, but it does not
 reserve a new CONTST. Allocate the new CONTST only after the human decides to build the batch. Until
-then, any next brief states `CONTST: unreserved — human decision required`.
+then, any next brief states `CONTST: unreserved, human decision required`.
 
 ## Scaling stage
 

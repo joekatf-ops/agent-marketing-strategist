@@ -84,11 +84,14 @@ communicate the same idea, and the body fulfils that opening.
 
 Each selected execution also receives:
 
-- two strategically distinct lead routes;
+- two or more strategically distinct lead routes;
 - short, medium and long primary text for each route;
-- exactly five headlines;
-- two descriptions;
-- one CTA.
+- headlines, five by default and three at minimum, each independently useful;
+- one or two descriptions;
+- exactly one CTA.
+
+Counts other than the CTA are guidance. `contracts/ad-copy.md` governs the shape, and padding to
+reach a number is worth less than cutting to the options that earn their place.
 
 These are delivery options linked to the execution. They do not create new coordinates or test IDs
 until they become part of a new launched batch.
