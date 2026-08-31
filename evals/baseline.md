@@ -205,8 +205,34 @@ sufficient, and says position is set by awareness. A test pins it to standard 1'
 Changing a criterion after seeing a low score deserves suspicion, so the reasoning is on the record.
 The justification is the judge's own text, not the score. The change makes the instrument agree with
 the doctrine it measures, the doctrine is the authority, and it is reversible in one commit. **34.75
-and 35.00 stand as recorded.** Nothing here improves them retroactively, and the corrected wording
-is measured by the next run.
+and 35.00 stand as recorded.** Nothing here improves them retroactively.
+
+### Three runs, and the honest summary
+
+The corrected wording was then measured.
+
+| Run | `end_state` wording | Mean | end_state |
+|---|---|---:|---:|
+| 1 | original | 34.75 | 1.25 |
+| 2 | original, identical agent to run 1 | 35.00 | 1.62 |
+| 3 | corrected | **35.50** | **1.75** |
+
+Run 3 is the highest of the three and it does not demonstrate that the correction worked. The two
+original-wording runs spanned 1.25 to 1.62 on `end_state` with nothing changed between them, so 1.75
+sits 0.13 above that range, well inside the spread. One run per condition against a noise floor this
+size cannot separate a real effect from another draw.
+
+**The summary across everything measured tonight.** The void reading was 35.25. The three real
+readings are 34.75, 35.00 and 35.50. The void number sits inside the range of the real ones. So
+loading the three references the agent had been missing produced **no detectable change in the
+score**, in either direction.
+
+That is not the same as no change. The A/B artefacts show the copy changing: explicit end states
+appear in the body handoffs when `26-copywriting-standards.md` is in context and are absent when it
+is not, and only the fifteen-reference outputs cite the numbered standards at all. The eval is not
+sensitive enough to see it. Both of those statements are true at once, and the useful conclusion is
+about the instrument rather than the agent: an eighteen-criterion rubric where sixteen criteria sit
+at 2.00 has very little room left to register anything.
 
 `no_ai_lexicon` also changed instrument this branch: the judge now derives all twenty-three tier-one
 phrases from `config/copy-lexicon.yml` plus four structural tells, instead of eight phrases quoted

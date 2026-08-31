@@ -11,7 +11,11 @@ on:
       - "SKILL.md"
       - "AGENTS.md"
       - "PROMPT.md"
-      - "evals/**"
+      # The harness and the briefs, not the write-ups. evals/baseline.md and evals/README.md
+      # record what runs found, so a change to them is a change to the record and not to the
+      # thing being measured. Triggering a paid run to re-measure a paragraph is waste.
+      - "evals/**/*.py"
+      - "evals/briefs/**"
   workflow_dispatch:
     inputs:
       briefs:
