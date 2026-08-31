@@ -136,7 +136,7 @@ NETWORK_SCRIPTS = frozenset(
     }
 )
 # Sibling modules imported by path rather than installed.
-LOCAL_MODULES = frozenset({"rubric", "content_safety"})
+LOCAL_MODULES = frozenset({"rubric", "content_safety", "copy_lexicon"})
 NETWORK_DEPENDENCIES = frozenset(
     {
         "ftplib",

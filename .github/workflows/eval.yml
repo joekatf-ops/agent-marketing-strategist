@@ -46,9 +46,15 @@ jobs:
       - name: Score this branch
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Through the environment rather than interpolated into the script, so the input
+          # cannot close the quote and run something else.
+          BRIEFS: ${{ inputs.briefs }}
         run: |
           BRIEF_ARGS=""
-          for slug in ${{ inputs.briefs }}; do
+          for slug in ${BRIEFS}; do
+            case "${slug}" in
+              *[!a-z0-9-]*) echo "refusing brief slug: ${slug}" >&2; exit 1 ;;
+            esac
             BRIEF_ARGS="${BRIEF_ARGS} --brief ${slug}"
           done
           python3 evals/run.py --out /tmp/after.json ${BRIEF_ARGS}
@@ -63,7 +69,24 @@ jobs:
             echo "No recorded baseline yet, so this run is a single reading." >> /tmp/report.txt
           fi
 
+      # So a workflow_dispatch run, which has nowhere to comment, still shows its scores
+      # somewhere a person will look rather than only in the step log.
+      - name: Put the scores in the run summary
+        if: always()
+        run: |
+          {
+            echo "## Eval"
+            echo
+            echo '```'
+            cat /tmp/report.txt 2>/dev/null || echo "No report was produced."
+            echo '```'
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+      # Only a pull_request event has an issue number to comment on. Without this guard a
+      # workflow_dispatch run pays for every generation and judgement, then fails on the last
+      # step, so the whole run reads as a failure and the scores are lost.
       - name: Comment the scores on the pull request
+        if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:
           script: |
