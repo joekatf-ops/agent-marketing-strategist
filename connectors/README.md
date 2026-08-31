@@ -39,23 +39,21 @@ them.
 - **Foreplay:** saved ad intelligence, brand discovery, swipe files, and lenses when the account exposes the required tools.
 
 An optional Notion connection, including one exposed through a connected-tool host such as
-Composio, may perform the read-only universal-method freshness check in
-`connectors/notion-composio.md`. The reviewed repository snapshot is sufficient for normal use.
-This governance capability is not part of the minimum research connector set.
+Composio, may read Notion pages as research using `connectors/notion-composio.md`. It reads source
+material and settles nothing, so it is not part of the minimum research connector set.
 
 Only mark a connector `available` after a successful preflight tool call in the current runtime. If it is unavailable, record the limitation and use the fallback in the connector guide.
 
 ## Capability and source precedence
 
 Website, research and ad-intelligence connectors supply external evidence. The optional Notion
-connector checks the universal method and does not supply brand truth. Apply the source precedence
-in `references/18-master-creative-strategy.md`: the current Notion hub is canonical for the
-universal method, this repository is its human-reviewed portable snapshot and the connected brand
-folder is canonical for brand-specific truth.
+connector supplies research and neither brand truth nor method authority. Apply the source
+precedence in `references/18-master-creative-strategy.md`: this repository is canonical for the
+universal method and the connected brand folder is canonical for brand-specific truth.
 
 Configured does not mean live. A successful read-only call in the current session is required
-before reporting Notion freshness. A detected Notion change creates a `review-needed` finding only;
-it never authorizes an automatic skill edit, method promotion or bundle publication.
+before claiming a page was read. Nothing retrieved authorizes an automatic skill edit, method
+promotion or bundle publication.
 
 ## Secret handling
 
