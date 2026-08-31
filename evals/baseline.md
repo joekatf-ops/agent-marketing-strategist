@@ -36,6 +36,27 @@ something the body is then forbidden to pay.
 On the regulated brief the two versions tie at 17 by different routes, which is worth knowing: the
 restructure did not help where the constraint is compliance rather than evidence thinness.
 
+## A third routing bug, found by running the thing
+
+The v0.4.0 run reported that it could not source two required fields. `contracts/hook-batch.md`
+requires field 7, execution format from `references/08-formats.md`, and field 8, the controlled
+ad-name token from `references/07-naming.md`. The `Build hooks` router row loaded neither, and
+`SKILL.md` step 5 said to load only the routed references.
+
+So the hook contract was **structurally unsatisfiable**: it demanded two fields from two files the
+mode was forbidden to open. The same run also could not perform the readiness and connector checks
+that "Start every run here" mandates, because `13-brand-folder.md` and `15-connectors.md` were
+likewise unrouted for that mode.
+
+This is the same class of defect as the awareness and platform-layer gaps found by inspection, and it
+is the most conclusive of the three, because the instruction set contradicted itself rather than
+merely underserving the work. Always-loading the craft stack removes it; the v1.0.0 run reached for
+`07-naming.md` from the ops stack on its own, which is the intended behaviour.
+
+Worth noting that no amount of reading found this one. It surfaced only when an agent tried to comply
+literally and reported what it could not do, which is an argument for keeping a generation step in the
+eval rather than scoring stored outputs.
+
 ## Two regressions, and what was done about them
 
 The eval found real problems in the newer version on its first run. Both were fixed after this
