@@ -6,7 +6,12 @@ output/
 __pycache__/
 *.pyc
 node_modules/
-dist/
+# The two paste-in bundles ship with the repository, because the upload-only install
+# path is "download this file and paste it" and a gitignored bundle makes that
+# impossible without running Python first. CI checks they are not stale.
+dist/*
+!dist/craft-bundle.md
+!dist/knowledge-bundle.md
 .fuse_hidden*
 _to_delete/
 _source/

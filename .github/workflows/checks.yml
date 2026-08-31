@@ -39,7 +39,7 @@ jobs:
       - name: Copy lexicon, over the frozen examples
         run: python3 scripts/check-copy-lexicon.py
 
-      - name: Bundles rebuild without error
+      - name: The shipped bundles are generated, so they must be current
         run: |
-          python3 scripts/build-craft-bundle.py
-          python3 scripts/build-knowledge-bundle.py
+          python3 scripts/build-craft-bundle.py --check
+          python3 scripts/build-knowledge-bundle.py --check

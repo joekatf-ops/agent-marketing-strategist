@@ -211,11 +211,19 @@ have different constraints:
 | `dist/craft-bundle.md` | about 54,000 tokens | A chat surface. Carries the craft stack and the output contracts, and nothing about installation |
 | `dist/knowledge-bundle.md` | about 96,000 tokens | A runtime that will act on the whole method, including naming, testing, brand folders, connectors and the analysis harness |
 
+Both ship in the repository, so the paste-in path needs no Python: open the file, copy it, paste it.
+They are generated, so CI checks they are not stale against their sources.
+
 ```bash
-python3 scripts/build-craft-bundle.py
+python3 scripts/build-craft-bundle.py            # rebuild
+python3 scripts/build-craft-bundle.py --check     # fail if stale
 python3 scripts/build-knowledge-bundle.py
+python3 scripts/build-knowledge-bundle.py --check
 python3 scripts/build-brand-bundle.py /path/to/brands/example-brand /path/to/example-brand-bundle.md
 ```
+
+The brand bundle is not committed, because a brand folder carries the brand's own claims and
+economics. Generate it locally.
 
 The largest single file in the craft bundle is `references/12-meta-platform.md`, at roughly 10,000
 tokens. It earns the space: it is the only sourced and dated platform layer here. Its benchmark

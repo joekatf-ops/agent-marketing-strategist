@@ -209,6 +209,67 @@ class CheckerBehaviourTests(unittest.TestCase):
         self.assertIn(f"{expected} source(s)", result.stdout)
 
 
+class ShippedBundleTests(unittest.TestCase):
+    """The upload-only install path is "download this file and paste it".
+
+    The bundles were gitignored, so README's first instruction linked to a path that did not
+    exist in a fresh clone and the paste-in install was impossible without running Python.
+    They now ship, which means they can go stale, which is what these check.
+    """
+
+    BUNDLES = ("dist/craft-bundle.md", "dist/knowledge-bundle.md")
+    BUILDERS = {
+        "dist/craft-bundle.md": "scripts/build-craft-bundle.py",
+        "dist/knowledge-bundle.md": "scripts/build-knowledge-bundle.py",
+    }
+
+    def test_bundles_are_present(self):
+        for relative in self.BUNDLES:
+            with self.subTest(bundle=relative):
+                self.assertTrue((ROOT / relative).is_file(), f"{relative} should ship")
+
+    def test_bundles_are_current(self):
+        for relative, builder in self.BUILDERS.items():
+            with self.subTest(bundle=relative):
+                result = subprocess.run(
+                    [sys.executable, str(ROOT / builder), "--check"],
+                    capture_output=True,
+                    text=True,
+                    cwd=ROOT,
+                )
+                self.assertEqual(
+                    0,
+                    result.returncode,
+                    f"{relative} is stale, run {builder}: {result.stderr}",
+                )
+
+    def test_bundles_are_not_gitignored(self):
+        for relative in self.BUNDLES:
+            with self.subTest(bundle=relative):
+                result = subprocess.run(
+                    ["git", "check-ignore", "-q", relative],
+                    capture_output=True,
+                    cwd=ROOT,
+                )
+                self.assertEqual(
+                    1, result.returncode, f"{relative} must not be gitignored, it ships"
+                )
+
+    def test_craft_bundle_carries_the_new_standard(self):
+        bundle = (ROOT / "dist" / "craft-bundle.md").read_text(encoding="utf-8")
+        self.assertIn("references/26-copywriting-standards.md", bundle)
+        self.assertIn("Precedence, when two of them collide", bundle)
+
+    def test_readme_links_resolve(self):
+        # The specific failure this guards: a quick-start link to a generated artefact that
+        # is not in the repository.
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        for relative in self.BUNDLES:
+            with self.subTest(bundle=relative):
+                if f"({relative})" in readme:
+                    self.assertTrue((ROOT / relative).is_file())
+
+
 class RubricWiringTests(unittest.TestCase):
     def setUp(self):
         sys.path.insert(0, str(ROOT / "evals"))

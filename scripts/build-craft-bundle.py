@@ -29,6 +29,7 @@ evidence rather than instruction, and the specs half of `12-meta-platform.md`.
 
 from __future__ import annotations
 
+import argparse
 import pathlib
 import re
 import sys
@@ -101,7 +102,28 @@ def build() -> str:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="verify the committed bundle matches its sources without writing",
+    )
+    args = parser.parse_args()
+
     body = build()
+
+    if args.check:
+        current = OUT.read_text() if OUT.is_file() else None
+        if current == body:
+            print(f"{OUT.relative_to(ROOT)} is current")
+            return 0
+        reason = "is stale" if current is not None else "is missing"
+        print(
+            f"ERROR: {OUT.relative_to(ROOT)} {reason}. Run scripts/build-craft-bundle.py",
+            file=sys.stderr,
+        )
+        return 1
+
     OUT.parent.mkdir(exist_ok=True)
     OUT.write_text(body)
     kilobytes = len(body) / 1024
