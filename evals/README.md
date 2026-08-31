@@ -50,6 +50,18 @@ keep a rubric this long legible.
 The last seven came in with the sixteen standards. Runs recorded before that change scored out of 20
 and are not comparable, which `baseline.md` states in place.
 
+## The rule that makes a score mean anything
+
+The generator must be given exactly the craft stack `SKILL.md` declares, no more and no less. A
+criterion may only score what the agent was handed.
+
+`run.py` therefore parses that list out of `SKILL.md` rather than keeping its own copy, the same way
+`scripts/build-craft-bundle.py` does, and a declared reference that is missing from disk stops the
+run instead of being skipped. Both are guarded by tests, because the failure is silent: the run
+completes, the number looks fine, and it is measuring a different agent than the one that ships.
+
+That is not hypothetical. It is what produced the first 36-point reading, recorded in `baseline.md`.
+
 ## Running it
 
 ```bash

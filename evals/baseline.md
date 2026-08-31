@@ -52,9 +52,8 @@ on its own. And `pet-food-topper-unaware` at 18 being the lowest score is consis
 traffic staying the hardest case, which is what `references/24-writing-for-low-awareness.md` exists
 for, but one brief is an observation and not a finding.
 
-The 36-point scale is still unmeasured. The next CI run on a branch carrying
-`references/26-copywriting-standards.md` produces the first reading of it, and `report.py` will print
-a `RUBRIC CHANGED` notice rather than subtracting across the two scales.
+The 36-point scale is still unmeasured, and the first attempt at measuring it does not count. See
+"The 36-point reading, and why it is void" below.
 
 ```
 brief                           before   after
@@ -62,6 +61,48 @@ greens-powder-cold                  15      18
 grounding-sheet-thin                15      19
 hair-growth-regulated               17      17
 ```
+
+## The 36-point reading, and why it is void
+
+CI scored all eight briefs against the eighteen-criterion rubric on pull request 1 and returned
+**35.25 / 36**, model and judge both `claude-sonnet-4-5`. Three criteria came in under 2.00:
+
+| Criterion | Mean | Which standard it enforces |
+|---|---|---|
+| end_state | 1.62 | Standard 1, sell the end state |
+| concision | 1.88 | Standard 3, cut then cut again |
+| mechanism_payoff | 1.88 | Standard 12, benefit not mechanism |
+
+Every one of the three is a standard from `references/26-copywriting-standards.md`, and
+`evals/run.py` was not loading that file. It kept a hardcoded twelve-file craft stack while
+`SKILL.md` had grown to fifteen, so the run also withheld `23-commercial-context.md` and
+`24-writing-for-low-awareness.md`, the second of which exists for exactly the cold-traffic case that
+`pet-food-topper-unaware` tests.
+
+So the number measures an agent operating without three of the references it ships with. It is not a
+reading of this package. Discard it and re-run.
+
+**The `end_state` investigation, since the diagnosis came out of it.** The suspicion was that the
+judge was punishing correct cold-traffic behaviour, because the criterion carries a deliberate
+exception: the end state does not have to lead, and at Unaware it must not. Reading the artefact says
+otherwise. The judge did not mark a single opening down for withholding the end state. On
+`pet-food-topper-unaware` it looked at the body handoffs, which is precisely where the standard puts
+the end state when it cannot lead, and found that all six terminate on the dog eating the bowl.
+Nothing reaches the owner who stops dreading dinner. On `protein-coffee-offer` the handoffs land on
+concentrate format, whey isolate and sediment-free liquid, which is machinery, not a life.
+
+The agent was under-selling the outcome, the judge read the rubric correctly including the exception,
+and neither was the cause. The harness was.
+
+**Fixed** by parsing the craft stack out of `SKILL.md` in `run.py` instead of listing it, which is
+what `scripts/build-craft-bundle.py` already did and why the bundle never drifted. A missing declared
+reference now stops the run rather than being silently skipped, and two tests hold the two halves:
+the eval's list must equal the builder's, and the standards file behind a criterion must be loaded.
+
+What this does not establish is whether loading the file fixes the score. Nobody has re-run it. The
+plausible outcome is that `end_state` improves and something else surfaces, because 35.25 out of 36
+was already a suspiciously flat result from a judge instructed that "most competent-but-unremarkable
+output should land on 1".
 
 ## What moved, and the mechanism
 

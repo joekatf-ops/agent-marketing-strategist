@@ -13,6 +13,7 @@ import argparse
 import json
 import os
 import pathlib
+import re
 import sys
 import time
 import urllib.error
@@ -23,6 +24,8 @@ import rubric  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 BRIEFS = ROOT / "evals" / "briefs"
+SKILL = ROOT / "SKILL.md"
+CRAFT_SECTION = "The craft stack, always loaded"
 API_URL = "https://api.anthropic.com/v1/messages"
 API_VERSION = "2023-06-01"
 DEFAULT_MODEL = os.environ.get("EVAL_MODEL", "claude-sonnet-4-5")
@@ -30,20 +33,32 @@ DEFAULT_JUDGE = os.environ.get("EVAL_JUDGE_MODEL", DEFAULT_MODEL)
 TIMEOUT_SECONDS = 180
 RETRIES = 3
 
-CRAFT_STACK = (
-    "references/01-foundations.md",
-    "references/02-customer-state.md",
-    "references/03-strategy-and-offer.md",
-    "references/04-persuasion.md",
-    "references/05-copy-craft.md",
-    "references/08-formats.md",
-    "references/10-voice-and-claims.md",
-    "references/12-meta-platform.md",
-    "references/16-hook-formats.md",
-    "references/20-hook-quality-standard.md",
-    "references/21-evidence-and-doctrine.md",
-    "references/22-swipe-corpus.md",
-)
+
+def craft_stack() -> tuple[str, ...]:
+    """The references SKILL.md declares, parsed rather than listed.
+
+    A hardcoded copy of this list is how the eval came to score the agent on
+    criteria drawn from a file it was never given. `end_state`, `concision` and
+    `mechanism_payoff` are standards 1, 3 and 12 of
+    `references/26-copywriting-standards.md`, and that file joined the craft stack
+    without joining this constant, so the run measured an agent operating without
+    it. `scripts/build-craft-bundle.py` reads the same section for the same reason.
+    """
+    text = SKILL.read_text()
+    match = re.search(rf"^##[ \t]+{re.escape(CRAFT_SECTION)}[ \t]*$", text, re.MULTILINE)
+    if match is None:
+        raise SystemExit(f"SKILL.md has no '{CRAFT_SECTION}' section")
+    following = re.search(r"^##[ \t]+", text[match.end() :], re.MULTILINE)
+    section = (
+        text[match.end() : match.end() + following.start()] if following else text[match.end() :]
+    )
+    found = tuple(re.findall(r"`(references/[^`]+\.md)`", section))
+    if not found:
+        raise SystemExit("no craft references found in the craft stack section")
+    return found
+
+
+CRAFT_STACK = craft_stack()
 
 
 class MissingKey(SystemExit):
@@ -100,8 +115,13 @@ def craft_context() -> str:
     parts = []
     for relative in CRAFT_STACK:
         path = ROOT / relative
-        if path.is_file():
-            parts.append(f"<!-- {relative} -->\n{path.read_text()}")
+        if not path.is_file():
+            raise SystemExit(
+                f"SKILL.md declares {relative} in the craft stack but the file is missing. "
+                "Scoring the agent without a reference it is supposed to have measures "
+                "something other than the method."
+            )
+        parts.append(f"<!-- {relative} -->\n{path.read_text()}")
     return "\n\n".join(parts)
 
 

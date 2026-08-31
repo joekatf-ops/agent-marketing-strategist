@@ -22,7 +22,18 @@ def load(name):
     path = EVALS / f"{name}.py"
     if not path.exists():
         raise AssertionError(f"{path} should exist")
-    spec = importlib.util.spec_from_file_location(f"evals_{name}", path)
+    return load_path(f"evals_{name}", path)
+
+
+def load_script(name):
+    path = ROOT / "scripts" / f"{name}.py"
+    if not path.exists():
+        raise AssertionError(f"{path} should exist")
+    return load_path(f"scripts_{name.replace('-', '_')}", path)
+
+
+def load_path(module_name, path):
+    spec = importlib.util.spec_from_file_location(module_name, path)
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
@@ -180,6 +191,36 @@ class RunnerTests(unittest.TestCase):
             with self.subTest(relative=relative):
                 self.assertTrue((ROOT / relative).is_file())
         self.assertGreaterEqual(len(validator_stack), 12)
+
+    def test_the_eval_loads_exactly_what_the_skill_declares(self):
+        # The defect this catches: 26-copywriting-standards.md joined the craft stack
+        # and the eval kept its own hardcoded list, so eight rubric criteria drawn from
+        # that file scored an agent that had never been given it. end_state at 1.62 was
+        # the visible symptom. Anything the skill declares must reach the generator.
+        run = load("run")
+        builder = load_script("build-craft-bundle")
+
+        self.assertEqual(tuple(builder.craft_stack()), tuple(run.CRAFT_STACK))
+
+    def test_a_declared_reference_that_is_missing_stops_the_run(self):
+        run = load("run")
+
+        with mock.patch.object(run, "CRAFT_STACK", ("references/not-a-file.md",)):
+            with self.assertRaises(SystemExit) as raised:
+                run.craft_context()
+
+        self.assertIn("not-a-file.md", str(raised.exception))
+
+    def test_every_rubric_criterion_naming_a_standard_has_that_standard_loaded(self):
+        # A criterion may only score what the agent was given. These four are named in
+        # the enforcement table of references/26-copywriting-standards.md.
+        run = load("run")
+        rubric = load("rubric")
+        keys = {key for key, _ in rubric.CRITERIA}
+        standards = ROOT / "references" / "26-copywriting-standards.md"
+
+        self.assertTrue(keys.issuperset({"end_state", "concision", "reader_selection", "no_hedging"}))
+        self.assertIn(f"references/{standards.name}", run.CRAFT_STACK)
 
 
 class ReportTests(unittest.TestCase):
