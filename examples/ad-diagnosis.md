@@ -23,7 +23,7 @@
 - Missing optional metric: first-frame retention: unavailable because the supplied table has no
   first-frame field. This limits opening-frame claims but does not block the business read.
 - Logged interventions: none supplied
-- Spend-bearing source ads mapped: all four complete ad names listed in sections 2–5 and 8
+- Spend-bearing source ads mapped: all four complete ad names listed in sections 2 to 5 and 8
 
 Read validity: **Direction**. Read-validity classification provenance: `strategist judgment`; the frozen intake does not supply a read-validity classification.
 Five full days elapsed and spend exceeded the `$300` minimum, but the batch produced `3`
@@ -167,8 +167,8 @@ because graduation confirmation was not supplied.
 - Destination record: `strategy/test-register.yml`, existing `CONTST042` observation only.
 - Confirmation: required and not supplied; the proposed patch is not persisted.
 - Proposed `next-brief.md`: one narrower UWA ITR description for the same coordinate.
-- CONTST: unreserved — human decision required
-- Winner-library proposal: none. Real Post IDs `991001000000001`–`991004000000004` are supplied.
+- CONTST: unreserved, human decision required
+- Winner-library proposal: none. Real Post IDs `991001000000001` to `991004000000004` are supplied.
 - Graduation confirmation: not supplied; winner persistence is prohibited.
 - Approved-revision learning: none. Any human copy, claim or voice edit routes through
   `contracts/learning-update.md`.

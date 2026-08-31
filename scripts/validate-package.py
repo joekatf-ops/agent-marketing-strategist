@@ -302,6 +302,36 @@ def invariant_drift_errors(root: pathlib.Path) -> list[str]:
     return errors
 
 
+DASH_EXTENSIONS = frozenset(
+    {".md", ".py", ".yml", ".yaml", ".json", ".mjs", ".csv", ".txt"}
+)
+SKIP_DIRECTORIES = frozenset({".git", ".github", "dist", "__pycache__", ".worktrees"})
+
+
+def dash_errors(root: pathlib.Path) -> list[str]:
+    """Em and en dashes are banned everywhere, not only in delivered copy.
+
+    A character scan, so unlike a prose rule it cannot be argued with or drift.
+    """
+    errors: list[str] = []
+    for path in sorted(root.rglob("*")):
+        if not path.is_file() or path.suffix not in DASH_EXTENSIONS:
+            continue
+        if SKIP_DIRECTORIES.intersection(path.parts):
+            continue
+        try:
+            text = path.read_text()
+        except (UnicodeDecodeError, OSError):
+            continue
+        relative = path.relative_to(root).as_posix()
+        for number, line in enumerate(text.splitlines(), 1):
+            for character, name in (("\u2014", "em dash"), ("\u2013", "en dash")):
+                if character in line:
+                    errors.append(f"{relative}:{number} contains an {name}")
+                    break
+    return errors
+
+
 def version_agreement_errors(root: pathlib.Path) -> list[str]:
     """Check that every live declaration agrees with VERSION.
 
@@ -733,6 +763,7 @@ def validate(root: pathlib.Path) -> list[str]:
 
     errors.extend(version_agreement_errors(root))
     errors.extend(invariant_drift_errors(root))
+    errors.extend(dash_errors(root))
 
     for relative in V03_REQUIRED_FILES:
         if not (root / relative).is_file():

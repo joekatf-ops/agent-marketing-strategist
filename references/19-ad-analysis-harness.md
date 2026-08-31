@@ -138,7 +138,7 @@ Controlled records require explicit human confirmation:
 
 Diagnosis does not reserve a new CONTST for a proposed follow-up. Reserve one only when the human
 chooses to build that batch. `next-brief.md` may describe the ITR but must display
-`CONTST: unreserved — human decision required`. Upload-only runtimes return patches and never claim
+`CONTST: unreserved, human decision required`. Upload-only runtimes return patches and never claim
 the selected brand's controlled records changed. No direct controlled-record mutation API exists.
 
 Preserve these boundary statements verbatim:

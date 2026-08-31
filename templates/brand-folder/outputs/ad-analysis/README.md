@@ -21,7 +21,7 @@ Optional handoff files are proposals only:
 - `test-register-patch.yml` contains only observations, supplied results, confidence, verdict and
   next action for a matching existing test; it contains no new test ID.
 - `next-brief.md` may describe an ITR but must show
-  `CONTST: unreserved — human decision required`.
+  `CONTST: unreserved, human decision required`.
 - `persistence-summary.md` states what was written, what remains proposed, the destination record,
   owner and required human confirmation.
 

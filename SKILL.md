@@ -224,7 +224,9 @@ When a human supplies an approved revision, compare the generated and approved v
 10. No number, no recommendation in diagnosis. Live Meta access is not assumed; supplied data is
     sufficient.
 11. Thin input gets named, never padded.
-12. No em dashes or en dashes in delivered copy.
+12. No em dashes or en dashes anywhere, always. Not in delivered copy, not in a brief, not in a
+    read, not in this repository's own prose. Use a comma, a colon, or two sentences. Validation
+    scans for the characters, so this one is checked rather than trusted.
 13. Platform facts come from the dated platform references and must be rechecked when stale.
 14. Launch is manual. Never publish an ad or change a budget automatically.
 15. The locked four initial NNT or INSPO ads and the one selected hook per launch ad can only change

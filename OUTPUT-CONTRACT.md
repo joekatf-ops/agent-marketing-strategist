@@ -42,7 +42,8 @@ Load a contract in full before producing that artefact.
    changes, connector results, and important source dates.
 7. **The active brand folder is canonical.** Uploads and chat memory are working copies.
 8. **Learning needs approval and scope.** An edit is not automatically a brand rule.
-9. **No em dashes or en dashes in delivered advertising copy.**
+9. **No em dashes or en dashes anywhere, always.** Not in delivered copy, not in a brief, not in a
+   read, not in the repository's own prose. Use a comma, a colon, or two sentences.
 10. **Run the self-check.** Fix failed checks before presenting the artefact.
 11. **Coordinate and test are separate.** The coordinate is Who x Primary Problem. Every NNT,
     INSPO or ITR batch receives a new sequential CONTST ID.

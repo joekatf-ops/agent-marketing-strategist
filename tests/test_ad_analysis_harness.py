@@ -1580,7 +1580,7 @@ class AdAnalysisHarnessTests(unittest.TestCase):
             self.assertIn(field, summary)
         self.assertIn("Winner-library proposal: none", summary)
         self.assertIn("Graduation confirmation: not supplied", summary)
-        self.assertIn("CONTST: unreserved — human decision required", summary)
+        self.assertIn("CONTST: unreserved, human decision required", summary)
         self.assertIn("Upload-only status: patch only; persistence not claimed", summary)
 
     def test_performance_mapping_can_omit_an_unserved_intake_ad(self):

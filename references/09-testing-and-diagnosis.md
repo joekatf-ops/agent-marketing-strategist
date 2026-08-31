@@ -140,7 +140,7 @@ without promoting association into causal learning.
 
 An ITR recommendation preserves the coordinate and describes the next hypothesis, but it does not
 reserve a new CONTST. Allocate the new CONTST only after the human decides to build the batch. Until
-then, any next brief states `CONTST: unreserved — human decision required`.
+then, any next brief states `CONTST: unreserved, human decision required`.
 
 ## Scaling stage
 

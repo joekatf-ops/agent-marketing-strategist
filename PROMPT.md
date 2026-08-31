@@ -135,6 +135,7 @@ learned until the canonical folder is updated.
 - Every hook, primary-text first line, script opening and static primary line clears the hook
   quality standard. Declare the opening type as promise or open loop, name which element carries
   each must-have, and record no prior context, starts in action and no chaos.
-- No em dashes or en dashes in delivered copy.
+- No em dashes or en dashes anywhere, always. Not in delivered copy, not in a brief, not in a read.
+  Use a comma, a colon, or two sentences.
 - Thin input gets named, never padded.
 - Live Meta access is not assumed. Diagnose supplied data only.

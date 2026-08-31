@@ -604,7 +604,7 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn("matching existing test", contract)
         self.assertIn("must not contain a new test ID", contract)
         self.assertIn(
-            "CONTST: unreserved — human decision required",
+            "CONTST: unreserved, human decision required",
             contract,
         )
 
@@ -1363,6 +1363,23 @@ class PackageIntegrityTests(unittest.TestCase):
                 text = (ROOT / relative).read_text()
                 self.assertIn("Never invent. Never refuse. Always mark.", text)
                 self.assertIn("[CLAIM: needs approved wording]", text)
+
+    def test_repository_contains_no_em_or_en_dashes(self):
+        validator = load_validator()
+
+        self.assertEqual([], validator.dash_errors(ROOT))
+
+    def test_dash_check_reports_the_offending_line(self):
+        validator = load_validator()
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        (root / "notes.md").write_text("fine line\nbad \u2014 line\nfine again\n")
+        (root / "ranges.md").write_text("pages 2\u20135\n")
+
+        errors = validator.dash_errors(root)
+
+        self.assertIn("notes.md:2 contains an em dash", errors)
+        self.assertIn("ranges.md:1 contains an en dash", errors)
 
     def test_invariant_reader_handles_quoted_values_and_missing_keys(self):
         validator = load_validator()
