@@ -539,6 +539,104 @@ READ_VALIDITY_RULES = (
 )
 
 
+NUMBER_WORDS = {
+    1: "one",
+    2: "two",
+    3: "three",
+    4: "four",
+    5: "five",
+    6: "six",
+    7: "seven",
+    8: "eight",
+    9: "nine",
+}
+
+
+def read_invariant(text: str, path: str) -> str | None:
+    """Read one dotted key out of invariants.yml.
+
+    A focused reader rather than a YAML parser: this package is deliberately
+    standard-library only, and the file's shape is fixed and shallow.
+    """
+    keys = path.split(".")
+    indent = 0
+    for depth, key in enumerate(keys):
+        # Quoted values are taken whole: a naming shape such as `[CONTST###]`
+        # contains a hash and must not be mistaken for a trailing comment.
+        pattern = re.compile(
+            rf"^[ ]{{{indent}}}{re.escape(key)}:[ \t]*"
+            rf"(?P<value>\"[^\"]*\"|'[^']*'|[^\n#]*?)[ \t]*(?:#.*)?$",
+            re.MULTILINE,
+        )
+        match = pattern.search(text)
+        if match is None:
+            return None
+        value = match.group("value").strip().strip('"')
+        if depth == len(keys) - 1:
+            return value
+        text = text[match.end() :]
+        next_block = re.search(rf"^[ ]{{0,{indent}}}\S", text, re.MULTILINE)
+        if next_block is not None:
+            text = text[: next_block.start()]
+        indent += 2
+    return None
+
+
+def invariant_drift_errors(root: pathlib.Path) -> list[str]:
+    """Check the prose still carries the values declared in invariants.yml.
+
+    Values, not phrasing. The documentation can be rewritten freely so long as
+    the facts survive, which is the opposite of matching whole sentences.
+    """
+    path = root / "invariants.yml"
+    if not path.is_file():
+        return []
+    source = path.read_text()
+
+    required: list[tuple[str, str]] = []
+    for key in ("campaign", "ad_set", "ad", "unpublished_post_id_token"):
+        value = read_invariant(source, f"naming.{key}")
+        if value:
+            required.append((value, f"naming.{key}"))
+    for key in (
+        "absolute_floor_per_ad_set_per_day",
+        "preferred_start_per_ad_set_per_day",
+    ):
+        value = read_invariant(source, f"budget.{key}")
+        if value:
+            required.append((f"${value}", f"budget.{key}"))
+    for key, label in (
+        ("creative_testing.budget_type", "creative_testing.budget_type"),
+        ("scaling.budget_type", "scaling.budget_type"),
+    ):
+        value = read_invariant(source, key)
+        if value:
+            required.append((value, label))
+
+    errors: list[str] = []
+    for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):
+        document = root / relative
+        if not document.is_file():
+            continue
+        section = markdown_section(document.read_text(), "Launch invariants")
+        for value, label in required:
+            if value not in section:
+                errors.append(
+                    f"{relative} launch invariants lost {label}: {value!r}"
+                )
+        window = read_invariant(source, "observation.planned_window_full_days")
+        if window and window.isdigit():
+            word = NUMBER_WORDS.get(int(window), window)
+            if not re.search(
+                rf"\b(?:{window}|{word})\b[^.\n]*full days", section, re.IGNORECASE
+            ):
+                errors.append(
+                    f"{relative} launch invariants lost the "
+                    f"{word}-full-day observation window"
+                )
+    return errors
+
+
 def version_agreement_errors(root: pathlib.Path) -> list[str]:
     """Check that every live declaration agrees with VERSION.
 
@@ -1276,6 +1374,7 @@ def validate(root: pathlib.Path) -> list[str]:
                 errors.append(f"{relative} ad-analysis routing section has drifted")
 
     errors.extend(version_agreement_errors(root))
+    errors.extend(invariant_drift_errors(root))
 
     for relative in V03_REQUIRED_FILES:
         if not (root / relative).is_file():

@@ -124,6 +124,7 @@ class PackageIntegrityTests(unittest.TestCase):
             "AGENTS.md",
             "PROMPT.md",
             "VERSION",
+            "invariants.yml",
             "references/06-concept-model.md",
             "references/09-testing-and-diagnosis.md",
             "references/12-meta-platform.md",
@@ -1940,6 +1941,63 @@ class PackageIntegrityTests(unittest.TestCase):
 
         self.assertNotIn(
             "VERSION must use major.minor.patch format, found '0.2.0'", errors
+        )
+
+    def test_invariant_reader_handles_quoted_values_and_missing_keys(self):
+        validator = load_validator()
+        source = (ROOT / "invariants.yml").read_text()
+
+        # The ad-set shape contains a hash and must not be read as a comment.
+        self.assertEqual(
+            "[CONTST###]_[NNT|INSPO|ITR]_[WHO]_[PROBLEM]",
+            validator.read_invariant(source, "naming.ad_set"),
+        )
+        self.assertEqual(
+            "ABO", validator.read_invariant(source, "creative_testing.budget_type")
+        )
+        self.assertEqual(
+            "PDP", validator.read_invariant(source, "destinations.defaults.SLA")
+        )
+        self.assertIsNone(validator.read_invariant(source, "nothing.here"))
+
+    def test_shipped_prose_carries_every_declared_invariant(self):
+        validator = load_validator()
+
+        self.assertEqual([], validator.invariant_drift_errors(ROOT))
+
+    def test_reports_an_invariant_dropped_from_the_prose(self):
+        validator = load_validator()
+        temp, root = self.make_release_policy_root()
+        self.addCleanup(temp.cleanup)
+        skill = root / "SKILL.md"
+        skill.write_text(
+            skill.read_text().replace("an absolute $50 floor", "no floor")
+        )
+
+        errors = validator.invariant_drift_errors(root)
+
+        self.assertIn(
+            "SKILL.md launch invariants lost "
+            "budget.absolute_floor_per_ad_set_per_day: '$50'",
+            errors,
+        )
+
+    def test_reports_a_dropped_observation_window(self):
+        validator = load_validator()
+        temp, root = self.make_release_policy_root()
+        self.addCleanup(temp.cleanup)
+        skill = root / "SKILL.md"
+        skill.write_text(
+            skill.read_text().replace(
+                "Protect five full days of observation.", "Read it whenever."
+            )
+        )
+
+        errors = validator.invariant_drift_errors(root)
+
+        self.assertIn(
+            "SKILL.md launch invariants lost the five-full-day observation window",
+            errors,
         )
 
     def test_reports_a_malformed_version(self):

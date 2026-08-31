@@ -1,0 +1,62 @@
+# Launch invariants: the single source of truth.
+#
+# These are the values that must not drift between SKILL.md, AGENTS.md, PROMPT.md,
+# contracts/campaign-launch-plan.md and references/09-testing-and-diagnosis.md.
+# validate-package.py reads this file and checks that each value still appears in
+# the prose. It checks values, not phrasing, so the documentation can be rewritten
+# freely as long as the facts survive.
+#
+# Changing a value here is a universal-method change and needs human review.
+
+version: 1
+
+creative_testing:
+  campaign_type: CT
+  budget_type: ABO
+  campaigns_per: product and region
+  batches_per_ad_set: 1
+  ads_per_initial_batch: 4
+  initial_ad_awareness_codes: [UWA, PRA, SLA, PDA]
+  batch_sources: [NNT, INSPO, ITR]
+
+budget:
+  currency_note: recorded in the active brand currency
+  absolute_floor_per_ad_set_per_day: 50
+  preferred_start_per_ad_set_per_day: 100
+
+observation:
+  planned_window_full_days: 5
+  # A five-day read is still directional or too early unless every active
+  # validity threshold is met. Five days is a review point, not permission.
+  five_days_guarantees_verdict: false
+
+scaling:
+  campaign_type: SC
+  budget_type: CBO
+  graduated_ads_keep_real_post_id: true
+
+naming:
+  test_prefix: CONTST
+  campaign: "[BRAND]_[PRODUCT]_[CT|SC]_[ABO|CBO]_[REGION]_[YYYYMMDD]"
+  ad_set: "[CONTST###]_[NNT|INSPO|ITR]_[WHO]_[PROBLEM]"
+  ad: "[FULL_AD_SET_NAME]_[UWA|PRA|SLA|PDA]_[FORMAT]_[LP|PDP|HP|CP]_[POSTID]"
+  unpublished_post_id_token: POSTIDXXX
+
+destinations:
+  tokens: [LP, PDP, HP, CP]
+  defaults:
+    UWA: LP
+    PRA: LP
+    SLA: PDP
+    PDA: PDP
+  exceptions_require: Destination Handoff
+
+manual_only:
+  publish_ads: false
+  change_budgets: false
+
+locked_counts:
+  # Generic count overrides cannot change these. Only a human-reviewed
+  # universal-method change can.
+  initial_batch_ads: 4
+  selected_hooks_per_launch_ad: 1

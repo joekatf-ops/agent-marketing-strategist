@@ -290,6 +290,12 @@ not require Node.
 its frontmatter; other hosts read the bare `AGENTS.md`. Edit `SKILL.md`, then regenerate. Validation
 fails when the committed `AGENTS.md` is stale.
 
+[`invariants.yml`](invariants.yml) holds the launch invariants as data: budgets, the observation
+window, campaign structure, naming shapes and destination defaults. Validation reads it and checks
+that each value still appears in the prose. It checks values, not sentences, so the documentation can
+be rewritten freely as long as the facts survive. Changing a value there is a universal-method change
+and needs human review.
+
 ```bash
 node --version
 python3 scripts/build-agents-md.py
