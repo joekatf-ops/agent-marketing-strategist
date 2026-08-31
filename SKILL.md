@@ -41,8 +41,9 @@ wrong shape.
 | `references/21-evidence-and-doctrine.md` | Which source wins when the library disagrees with itself |
 | `references/22-swipe-corpus.md` | Real ads that ran, with the transferable move named |
 | `references/23-commercial-context.md` | Economics, fit, offer levers, conversion, channels, retention |
+| `references/24-writing-for-low-awareness.md` | How to actually write a cold or problem-aware opening |
 
-That is roughly 35,000 tokens. Load it all.
+That is roughly 37,000 tokens. Load it all.
 
 `22-swipe-corpus.md` is the worked evidence. Read the moves rather than the words: copying a line from
 a corpus ad produces a worse ad than the original and may copy a claim this brand cannot support.

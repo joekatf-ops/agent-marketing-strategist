@@ -146,8 +146,38 @@ def build_digest(entries: list[dict]) -> str:
     return "\n".join(out).rstrip() + "\n"
 
 
+def review_leverage(entry: dict) -> tuple[int, int]:
+    """Rank an entry by how much a correction to it is worth.
+
+    A wrong reading on a 700 day cold opening propagates into every cold ad the
+    agent writes. A wrong reading on a headline-only offer card does not. Sorting
+    by leverage means the reviewer can stop partway down and still have corrected
+    the annotations that matter.
+    """
+    annotation = entry.get("annotation") or {}
+    score = 0
+    if entry["content"].get("transcription"):
+        score += 40  # a full reading, not a headline guess
+    if entry["awareness"].get("code") in {"UWA", "PRA"}:
+        score += 30  # cold openings are the thinnest part of the corpus
+    carriers = annotation.get("must_have_carriers") or {}
+    if any(carriers.values()):
+        score += 15
+    days = (entry.get("evidence") or {}).get("running_days") or 0
+    if days >= 365:
+        score += 20
+    elif days >= 90:
+        score += 10
+    if entry["evidence"].get("live"):
+        score += 5
+    return (-score, -days)
+
+
 def build_review(entries: list[dict]) -> str:
-    annotated = [e for e in entries if e.get("annotation") and not e.get("reviewed")]
+    annotated = sorted(
+        (e for e in entries if e.get("annotation") and not e.get("reviewed")),
+        key=review_leverage,
+    )
     missing = [e for e in entries if e.get("annotatable") and not e.get("annotation")]
     blocked = [e for e in entries if not e.get("annotatable")]
 
@@ -162,6 +192,11 @@ def build_review(entries: list[dict]) -> str:
         "`python3 scripts/build-swipe-digest.py`.",
         "",
         f"## Awaiting review ({len(annotated)})",
+        "",
+        "Ordered by leverage, not by chance. A wrong reading on a long-running cold opening",
+        "propagates into every cold ad the agent writes; a wrong reading on a headline-only offer",
+        "card does not. **Correcting the first ten is worth most of the value here.** The tail is",
+        "headline-only readings you can leave unreviewed indefinitely.",
         "",
     ]
     for entry in annotated:
