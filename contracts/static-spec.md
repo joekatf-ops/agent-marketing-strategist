@@ -56,6 +56,9 @@ weights, more than one primary idea or a crowded frame fail the gate whatever th
 When the asset will be generated rather than photographed, section 6 carries the prompt. It is
 derived from the spec so there is one source of truth and no hand translation.
 
+For Higgsfield specifically, `connectors/higgsfield.md` has the verified model choice, the aspect
+ratio constraint that decides it, and the reference-image handling.
+
 The prompt states subject, composition, camera or rendering style, lighting, palette, type treatment,
 aspect ratio and what must be left empty for the safe zones. Palette, type and photography direction
 come from `context/visual.md` and are never invented, exactly as for a photographed asset.
