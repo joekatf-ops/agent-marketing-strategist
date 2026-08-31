@@ -37,7 +37,11 @@ scaling:
 
 naming:
   test_prefix: CONTST
+  # The entrypoints carry the template form. The launch contract carries the two
+  # resolved forms, because an operator building a campaign needs the actual name.
   campaign: "[BRAND]_[PRODUCT]_[CT|SC]_[ABO|CBO]_[REGION]_[YYYYMMDD]"
+  campaign_creative_testing: "[BRAND]_[PRODUCT]_CT_ABO_[REGION]_[YYYYMMDD]"
+  campaign_scaling: "[BRAND]_[PRODUCT]_SC_CBO_[REGION]_[YYYYMMDD]"
   ad_set: "[CONTST###]_[NNT|INSPO|ITR]_[WHO]_[PROBLEM]"
   ad: "[FULL_AD_SET_NAME]_[UWA|PRA|SLA|PDA]_[FORMAT]_[LP|PDP|HP|CP]_[POSTID]"
   unpublished_post_id_token: POSTIDXXX

@@ -593,47 +593,87 @@ def invariant_drift_errors(root: pathlib.Path) -> list[str]:
         return []
     source = path.read_text()
 
-    required: list[tuple[str, str]] = []
-    for key in ("campaign", "ad_set", "ad", "unpublished_post_id_token"):
-        value = read_invariant(source, f"naming.{key}")
-        if value:
-            required.append((value, f"naming.{key}"))
-    for key in (
-        "absolute_floor_per_ad_set_per_day",
-        "preferred_start_per_ad_set_per_day",
-    ):
-        value = read_invariant(source, f"budget.{key}")
-        if value:
-            required.append((f"${value}", f"budget.{key}"))
-    for key, label in (
-        ("creative_testing.budget_type", "creative_testing.budget_type"),
-        ("scaling.budget_type", "scaling.budget_type"),
-    ):
-        value = read_invariant(source, key)
-        if value:
-            required.append((value, label))
+    def collect(naming_keys: tuple[str, ...]) -> list[tuple[str, str]]:
+        found: list[tuple[str, str]] = []
+        for key in naming_keys:
+            value = read_invariant(source, f"naming.{key}")
+            if value:
+                found.append((value, f"naming.{key}"))
+        for key in (
+            "absolute_floor_per_ad_set_per_day",
+            "preferred_start_per_ad_set_per_day",
+        ):
+            value = read_invariant(source, f"budget.{key}")
+            if value:
+                found.append((f"${value}", f"budget.{key}"))
+        for key in ("creative_testing.budget_type", "scaling.budget_type"):
+            value = read_invariant(source, key)
+            if value:
+                found.append((value, key))
+        return found
+
+    entrypoint_required = collect(
+        ("campaign", "ad_set", "ad", "unpublished_post_id_token")
+    )
+    contract_required = collect(
+        (
+            "campaign_creative_testing",
+            "campaign_scaling",
+            "ad_set",
+            "ad",
+            "unpublished_post_id_token",
+        )
+    )
+
+    window = read_invariant(source, "observation.planned_window_full_days")
+    window_word = (
+        NUMBER_WORDS.get(int(window), window) if window and window.isdigit() else None
+    )
+
+    def scope_errors(
+        relative: str,
+        scope: str,
+        label: str,
+        required: list[tuple[str, str]],
+    ) -> list[str]:
+        found: list[str] = []
+        for value, key in required:
+            if value not in scope:
+                found.append(f"{relative} {label} lost {key}: {value!r}")
+        if window_word and not re.search(
+            rf"\b(?:{window}|{window_word})\b[^.\n]*full days", scope, re.IGNORECASE
+        ):
+            found.append(
+                f"{relative} {label} lost the "
+                f"{window_word}-full-day observation window"
+            )
+        return found
 
     errors: list[str] = []
     for relative in ("SKILL.md", "AGENTS.md", "PROMPT.md"):
         document = root / relative
         if not document.is_file():
             continue
-        section = markdown_section(document.read_text(), "Launch invariants")
-        for value, label in required:
-            if value not in section:
-                errors.append(
-                    f"{relative} launch invariants lost {label}: {value!r}"
-                )
-        window = read_invariant(source, "observation.planned_window_full_days")
-        if window and window.isdigit():
-            word = NUMBER_WORDS.get(int(window), window)
-            if not re.search(
-                rf"\b(?:{window}|{word})\b[^.\n]*full days", section, re.IGNORECASE
-            ):
-                errors.append(
-                    f"{relative} launch invariants lost the "
-                    f"{word}-full-day observation window"
-                )
+        errors.extend(
+            scope_errors(
+                relative,
+                markdown_section(document.read_text(), "Launch invariants"),
+                "launch invariants",
+                entrypoint_required,
+            )
+        )
+
+    # The launch contract is the operator-facing copy of the same facts.
+    contract = root / "contracts" / "campaign-launch-plan.md"
+    if contract.is_file():
+        errors.extend(
+            scope_errors(
+                "contracts/campaign-launch-plan.md",
+                contract.read_text(),
+                "contract",
+                contract_required,
+            )
+        )
     return errors
 
 
