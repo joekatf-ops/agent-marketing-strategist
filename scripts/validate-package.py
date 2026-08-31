@@ -306,10 +306,15 @@ DASH_EXTENSIONS = frozenset(
     {".md", ".py", ".yml", ".yaml", ".json", ".mjs", ".csv", ".txt"}
 )
 SKIP_DIRECTORIES = frozenset({".git", ".github", "dist", "__pycache__", ".worktrees"})
+# The ban governs copy this package writes. These two hold verbatim copy from other
+# brands' live ads, recorded as it ran. Editing someone else's ad to satisfy our
+# house style would falsify the evidence, which is a worse outcome than the
+# exemption. Nothing else is exempt.
+VERBATIM_SOURCES = ("corpus", "references/22-swipe-corpus.md")
 
 
 def dash_errors(root: pathlib.Path) -> list[str]:
-    """Em and en dashes are banned everywhere, not only in delivered copy.
+    """Em and en dashes are banned everywhere in authored prose.
 
     A character scan, so unlike a prose rule it cannot be argued with or drift.
     """
@@ -318,6 +323,12 @@ def dash_errors(root: pathlib.Path) -> list[str]:
         if not path.is_file() or path.suffix not in DASH_EXTENSIONS:
             continue
         if SKIP_DIRECTORIES.intersection(path.parts):
+            continue
+        relative_posix = path.relative_to(root).as_posix()
+        if any(
+            relative_posix == source or relative_posix.startswith(f"{source}/")
+            for source in VERBATIM_SOURCES
+        ):
             continue
         try:
             text = path.read_text()

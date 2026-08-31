@@ -28,8 +28,12 @@ wrong shape.
 | `references/16-hook-formats.md` | Hook format taxonomy for video and static |
 | `references/20-hook-quality-standard.md` | The quality gate every opening must clear |
 | `references/21-evidence-and-doctrine.md` | Which source wins when the library disagrees with itself |
+| `references/22-swipe-corpus.md` | Real ads that ran, with the transferable move named |
 
-That is roughly 27,000 tokens. Load it all.
+That is roughly 33,000 tokens. Load it all.
+
+`22-swipe-corpus.md` is the worked evidence. Read the moves rather than the words: copying a line from
+a corpus ad produces a worse ad than the original and may copy a claim this brand cannot support.
 
 Loading craft references selectively was a context-budget measure that is no longer worth its cost.
 It produced hooks written without the platform data and copy written without the awareness model,
@@ -216,7 +220,8 @@ When a human supplies an approved revision, compare the generated and approved v
 11. Thin input gets named, never padded.
 12. No em dashes or en dashes anywhere, always. Not in delivered copy, not in a brief, not in a
     read, not in this repository's own prose. Use a comma, a colon, or two sentences. Validation
-    scans for the characters, so this one is checked rather than trusted.
+    scans for the characters, so this one is checked rather than trusted. The single exception is a
+    verbatim quotation of a third party's ad in the swipe corpus, which is recorded as it ran.
 13. Platform facts come from the dated platform references and must be rechecked when stale.
 14. Launch is manual. Never publish an ad or change a budget automatically.
 15. The locked four initial NNT or INSPO ads and the one selected hook per launch ad can only change

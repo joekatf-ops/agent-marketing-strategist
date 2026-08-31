@@ -54,6 +54,15 @@ def load_bundle_builder():
     return module
 
 
+def load_module(path, name):
+    if not path.exists():
+        raise AssertionError(f"{path} should exist")
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def load_agents_builder():
     script = ROOT / "scripts" / "build-agents-md.py"
     if not script.exists():
@@ -1318,6 +1327,7 @@ class PackageIntegrityTests(unittest.TestCase):
         "references/16-hook-formats.md",
         "references/20-hook-quality-standard.md",
         "references/21-evidence-and-doctrine.md",
+        "references/22-swipe-corpus.md",
     )
 
     def craft_stack_section(self):
@@ -1376,6 +1386,98 @@ class PackageIntegrityTests(unittest.TestCase):
                 self.assertIn("Never invent. Never refuse. Always mark.", text)
                 self.assertIn("[CLAIM: needs approved wording]", text)
 
+    def load_corpus(self):
+        path = ROOT / "corpus" / "swipe" / "entries.json"
+        self.assertTrue(path.is_file(), "corpus/swipe/entries.json should exist")
+        return json.loads(path.read_text())["entries"]
+
+    def test_corpus_entries_match_the_schema_shape(self):
+        schema = json.loads(
+            (ROOT / "schemas" / "swipe-entry.schema.json").read_text()
+        )
+        allowed = set(schema["properties"])
+        required = set(schema["required"])
+        codes = {"UWA", "PRA", "SLA", "PDA", None}
+        bases = {"mention-ratio", "inferred-from-copy", "unavailable"}
+
+        for entry in self.load_corpus():
+            with self.subTest(entry=entry.get("id")):
+                self.assertLessEqual(set(entry), allowed)
+                self.assertLessEqual(required, set(entry))
+                self.assertIn(entry["awareness"]["code"], codes)
+                self.assertIn(entry["awareness"]["basis"], bases)
+                self.assertEqual("behavioural", entry["evidence"]["class"])
+
+    def test_corpus_annotations_are_unreviewed_until_a_human_confirms(self):
+        entries = self.load_corpus()
+
+        for entry in entries:
+            with self.subTest(entry=entry.get("id")):
+                self.assertIsInstance(entry["reviewed"], bool)
+                if entry["reviewed"]:
+                    self.assertIsNotNone(
+                        entry["annotation"],
+                        "an entry cannot be reviewed without an annotation",
+                    )
+
+    def test_awareness_proxy_bands_the_mention_ratio(self):
+        sync = load_module(ROOT / "scripts" / "sync-swipe-corpus.py", "sync_swipe")
+
+        self.assertEqual("PDA", sync.awareness_from(60.0, 3.0)["code"])
+        self.assertEqual("SLA", sync.awareness_from(60.0, 18.0)["code"])
+        self.assertEqual("PRA", sync.awareness_from(60.0, 30.0)["code"])
+        self.assertEqual("UWA", sync.awareness_from(60.0, 50.0)["code"])
+        self.assertEqual("UWA", sync.awareness_from(60.0, -1.0)["code"])
+        self.assertEqual("unavailable", sync.awareness_from(None, None)["basis"])
+        self.assertEqual("unavailable", sync.awareness_from(0, 5.0)["basis"])
+
+    def test_corpus_sync_never_discards_human_annotation(self):
+        sync = load_module(ROOT / "scripts" / "sync-swipe-corpus.py", "sync_swipe")
+        existing = [
+            {
+                "id": "keep-me",
+                "annotation": {"why_it_works": "a human wrote this"},
+                "reviewed": True,
+            },
+            {"id": "off-the-board", "annotation": {"why_it_works": "also human"}, "reviewed": True},
+        ]
+        fetched = [
+            {"id": "keep-me", "annotation": None, "reviewed": False, "evidence": {"running_days": 5}},
+            {"id": "brand-new", "annotation": None, "reviewed": False, "evidence": {"running_days": 9}},
+        ]
+
+        merged, counts = sync.merge(existing, fetched)
+        by_id = {entry["id"]: entry for entry in merged}
+
+        self.assertEqual("a human wrote this", by_id["keep-me"]["annotation"]["why_it_works"])
+        self.assertTrue(by_id["keep-me"]["reviewed"])
+        self.assertIn("off-the-board", by_id, "an entry leaving the board must not be dropped")
+        self.assertIsNone(by_id["brand-new"]["annotation"])
+        self.assertEqual(1, counts["added"])
+        self.assertEqual(1, counts["annotations_kept"])
+
+    def test_swipe_digest_is_generated_and_current(self):
+        builder = load_module(ROOT / "scripts" / "build-swipe-digest.py", "build_digest")
+        entries = self.load_corpus()
+
+        self.assertEqual(
+            (ROOT / "references" / "22-swipe-corpus.md").read_text(),
+            builder.build_digest(entries),
+            "run scripts/build-swipe-digest.py",
+        )
+        self.assertEqual(
+            (ROOT / "corpus" / "swipe" / "REVIEW.md").read_text(),
+            builder.build_review(entries),
+            "run scripts/build-swipe-digest.py",
+        )
+
+    def test_swipe_digest_states_the_evidence_class(self):
+        digest = (ROOT / "references" / "22-swipe-corpus.md").read_text()
+
+        self.assertIn("behavioural evidence, never performance", digest)
+        self.assertIn("Awareness codes are a proxy", digest)
+        self.assertIn("never-named sentinel is unreliable", digest)
+
     def test_repository_contains_no_em_or_en_dashes(self):
         validator = load_validator()
 
@@ -1392,6 +1494,20 @@ class PackageIntegrityTests(unittest.TestCase):
 
         self.assertIn("notes.md:2 contains an em dash", errors)
         self.assertIn("ranges.md:1 contains an en dash", errors)
+
+    def test_dash_check_exempts_only_verbatim_third_party_copy(self):
+        validator = load_validator()
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        (root / "corpus" / "swipe").mkdir(parents=True)
+        (root / "corpus" / "swipe" / "entries.json").write_text('{"copy": "as \u2014 it ran"}')
+        (root / "references").mkdir()
+        (root / "references" / "22-swipe-corpus.md").write_text("quoted \u2014 hook\n")
+        (root / "references" / "05-copy-craft.md").write_text("our own \u2014 prose\n")
+
+        errors = validator.dash_errors(root)
+
+        self.assertEqual(["references/05-copy-craft.md:1 contains an em dash"], errors)
 
     def test_invariant_reader_handles_quoted_values_and_missing_keys(self):
         validator = load_validator()
