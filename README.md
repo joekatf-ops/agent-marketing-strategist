@@ -232,12 +232,12 @@ produces the input audit before any performance conclusion.
 In a writable connected folder, create and validate a run:
 
 ```bash
-python3 scripts/init-ad-analysis-run.py /path/to/brand \
+python3 ../agent-ad-analysis-harness/scripts/init-ad-analysis-run.py /path/to/brand \
   --mode creative-audit \
   --product-id product-code \
   --market AU
 
-python3 scripts/validate-ad-analysis-run.py /path/to/brand \
+python3 ../agent-ad-analysis-harness/scripts/validate-ad-analysis-run.py /path/to/brand \
   /path/to/brand/outputs/ad-analysis/ADR-YYYYMMDD-001 --write-audit
 ```
 
@@ -294,12 +294,9 @@ learned until the canonical folder is updated.
 
 ## Validate and build
 
-The full test suite has one test-only prerequisite: Node.js 16.9.0 or newer. It uses the
-dependency-free `tests/ecmascript-json-schema-runner.mjs` support runner to assert ECMAScript
-schema behavior; no Node package or network dependency is required. The conformance test
-preflights the installed version and reports an actionable error when Node is missing or too old.
-Production analysis, validation, and bundle building remain Python-standard-library-only and do
-not require Node.
+The test suite is Python standard library only. Node.js is no longer needed: the ECMAScript schema
+conformance runner moved to [`agent-ad-analysis-harness`](https://github.com/joekatf-ops/agent-ad-analysis-harness)
+along with the schema it tests.
 
 `AGENTS.md` is generated from `SKILL.md` and must never be hand-edited. Codex reads `SKILL.md` with
 its frontmatter; other hosts read the bare `AGENTS.md`. Edit `SKILL.md`, then regenerate. Validation
@@ -332,11 +329,11 @@ broke the build, while a real contradiction went unnoticed for months, with
 question. It is not a regex question.
 
 ```bash
-node --version
 python3 scripts/build-agents-md.py
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v
 python3 scripts/validate-package.py .
 python3 scripts/build-knowledge-bundle.py
+python3 scripts/build-craft-bundle.py
 git diff --check
 ```
 

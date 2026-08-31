@@ -246,16 +246,24 @@ class PackageIntegrityTests(unittest.TestCase):
         routed = {
             "contracts/creative-audit.md",
             "references/19-ad-analysis-harness.md",
-            "schemas/ad-analysis-intake.schema.json",
             "examples/ad-analysis-intake.json",
             "examples/creative-audit.md",
             "examples/ad-diagnosis.md",
+        }
+        # The run tooling moved to agent-ad-analysis-harness. The strategist keeps the
+        # output contracts, the reference and the frozen examples, because analysing
+        # supplied ads is a strategist capability. Only the harness left.
+        extracted = {
+            "scripts/ad_analysis_harness.py",
             "scripts/init-ad-analysis-run.py",
             "scripts/validate-ad-analysis-run.py",
+            "schemas/ad-analysis-intake.schema.json",
+            "tests/test_ad_analysis_harness.py",
         }
 
         self.assertEqual(set(), {path for path in governed if not (ROOT / path).is_file()})
         self.assertEqual(set(), {path for path in routed if not (ROOT / path).is_file()})
+        self.assertEqual(set(), {path for path in extracted if (ROOT / path).is_file()})
 
     def test_analysis_mode_router(self):
         required_phrases = (
@@ -1009,11 +1017,8 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn("<!-- source: contracts/creative-audit.md -->", content)
         self.assertIn("<!-- source: references/19-ad-analysis-harness.md -->", content)
         self.assertIn("# PART: SCHEMA GUIDANCE", content)
-        self.assertIn("<!-- source: schemas/ad-analysis-intake.schema.json -->", content)
-        self.assertIn(
-            "<!-- source: schemas/ad-analysis-intake.conformance.json -->", content
-        )
-        self.assertIn('"performance-diagnosis"', content)
+        self.assertIn("<!-- source: schemas/swipe-entry.schema.json -->", content)
+        self.assertIn("performance-diagnosis", content)
         self.assertNotIn("<!-- source: examples/ad-diagnosis-performance.csv -->", content)
         self.assertNotIn("<!-- source: outputs/ad-analysis/", content)
 

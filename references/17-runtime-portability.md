@@ -14,7 +14,7 @@ follow their approval and confirmation rules.
 For ad analysis, create a stable run and then fill the generated intake:
 
 ```bash
-python3 scripts/init-ad-analysis-run.py /path/to/brand \
+python3 ../agent-ad-analysis-harness/scripts/init-ad-analysis-run.py /path/to/brand \
   --mode creative-audit \
   --product-id product-code \
   --market AU
@@ -24,7 +24,7 @@ Use `--mode performance-diagnosis` only when the supplied performance pack is ad
 the completed intake and write its audit:
 
 ```bash
-python3 scripts/validate-ad-analysis-run.py /path/to/brand \
+python3 ../agent-ad-analysis-harness/scripts/validate-ad-analysis-run.py /path/to/brand \
   /path/to/brand/outputs/ad-analysis/ADR-YYYYMMDD-001 --write-audit
 ```
 

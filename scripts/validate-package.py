@@ -60,8 +60,6 @@ V04_REQUIRED_FILES = (
     "contracts/ad-diagnosis.md",
     "contracts/creative-audit.md",
     "references/19-ad-analysis-harness.md",
-    "scripts/content_safety.py",
-    "schemas/ad-analysis-intake.schema.json",
     "examples/ad-analysis-intake.json",
     "examples/creative-audit.md",
     "examples/ad-diagnosis.md",
@@ -130,6 +128,15 @@ DIAGNOSIS_CONTROLLED_RESULT_FIELDS = frozenset(
         "winners",
     }
 )
+# Scripts permitted to reach the network, because calling an API is their purpose.
+NETWORK_SCRIPTS = frozenset(
+    {
+        "scripts/sync-swipe-corpus.py",
+        "evals/run.py",
+    }
+)
+# Sibling modules imported by path rather than installed.
+LOCAL_MODULES = frozenset({"rubric", "content_safety"})
 NETWORK_DEPENDENCIES = frozenset(
     {
         "ftplib",
@@ -725,9 +732,17 @@ def diagnosis_example_traceability_errors(
     return errors
 
 
-def harness_imports_are_safe(
-    path: pathlib.Path, allowed_local: frozenset[str] = frozenset()
+def unsafe_imports(
+    path: pathlib.Path,
+    allowed_local: frozenset[str] = frozenset(),
+    network_allowed: bool = False,
 ) -> list[str]:
+    """Report imports that are not standard library, and network use where banned.
+
+    Every script here must run on a bare Python install, because a user should never
+    have to pip install anything to use the package. Network access is permitted only
+    in the scripts whose job is to call an API, named explicitly in NETWORK_SCRIPTS.
+    """
     tree = ast.parse(path.read_text(), filename=str(path))
     imports: set[str] = set()
     for node in ast.walk(tree):
@@ -739,7 +754,7 @@ def harness_imports_are_safe(
     standard_library = pathlib.Path(sysconfig.get_paths()["stdlib"]).resolve()
     unsafe: list[str] = []
     for name in sorted(imports - {"__future__"} - allowed_local):
-        if name in NETWORK_DEPENDENCIES:
+        if name in NETWORK_DEPENDENCIES and not network_allowed:
             unsafe.append(name)
             continue
         spec = importlib.util.find_spec(name)
@@ -753,6 +768,28 @@ def harness_imports_are_safe(
             if "site-packages" in origin.parts:
                 unsafe.append(name)
     return unsafe
+
+
+def dependency_errors(root: pathlib.Path) -> list[str]:
+    errors: list[str] = []
+    for directory in ("scripts", "evals"):
+        folder = root / directory
+        if not folder.is_dir():
+            continue
+        for path in sorted(folder.glob("*.py")):
+            relative = path.relative_to(root).as_posix()
+            for name in unsafe_imports(
+                path,
+                allowed_local=LOCAL_MODULES,
+                network_allowed=relative in NETWORK_SCRIPTS,
+            ):
+                reason = (
+                    "makes network calls, which only the scripts in NETWORK_SCRIPTS may do"
+                    if name in NETWORK_DEPENDENCIES
+                    else "is not in the standard library"
+                )
+                errors.append(f"{relative} imports {name}, which {reason}")
+    return errors
 
 
 def validate(root: pathlib.Path) -> list[str]:
@@ -835,22 +872,7 @@ def validate(root: pathlib.Path) -> list[str]:
                 "examples/ad-diagnosis-test-register-patch.yml " + patch_error
             )
 
-    harness_path = root / "scripts" / "ad_analysis_harness.py"
-    if harness_path.is_file():
-        for dependency in harness_imports_are_safe(
-            harness_path, frozenset({"content_safety"})
-        ):
-            errors.append(
-                "scripts/ad_analysis_harness.py imports a non-standard or network dependency: "
-                f"{dependency}"
-            )
-    content_safety_path = root / "scripts" / "content_safety.py"
-    if content_safety_path.is_file():
-        for dependency in harness_imports_are_safe(content_safety_path):
-            errors.append(
-                "scripts/content_safety.py imports a non-standard or network dependency: "
-                f"{dependency}"
-            )
+    errors.extend(dependency_errors(root))
 
     test_register_path = root / TEMPLATE_TEST_REGISTER
     if test_register_path.is_file():

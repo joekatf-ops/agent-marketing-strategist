@@ -1,5 +1,15 @@
 # Ad analysis harness
 
+The run tooling lives in
+[`agent-ad-analysis-harness`](https://github.com/joekatf-ops/agent-ad-analysis-harness). It was
+5,657 lines of filesystem hardening and schema enforcement that could not run on the surfaces this
+package targets. The intake schema there is authoritative, and `examples/ad-analysis-intake.json`
+here is a frozen example of the shape.
+
+The output contracts and the reasoning stay in this package, because analysing supplied ads is a
+strategist capability and only the plumbing moved. In an upload-only runtime none of the tooling is
+available and the contracts are what you use.
+
 Use this reference for one brand-scoped request to analyse supplied first-party ads. It governs
 routing and portable run handling; the active output contract governs the report itself. The
 portable intake contract is the structural JSON Schema together with its governed conformance
@@ -26,17 +36,17 @@ Ad Diagnosis requires the governed performance-readiness inputs and retains its 
 1. Resolve exactly one selected brand, market and product. State the brand, method version, evidence
    version, approved-learning version and limitations before analysis.
 2. Use an existing run or initialise one under the selected brand with
-   `scripts/init-ad-analysis-run.py`. Never overwrite a run. The initializer writes and verifies
+   [`init-ad-analysis-run.py`](https://github.com/joekatf-ops/agent-ad-analysis-harness). Never overwrite a run. The initializer writes and verifies
    both owned files in a private sibling staging directory, syncs them, then atomically publishes
    the complete directory under its sequential canonical run ID with the platform no-replace
    primitive. Unsupported no-replace primitives fail closed; they never fall back to ordinary
    overwrite-capable rename.
 3. Complete `intake.json` and inventory every supplied ad and source. Follow
-   `schemas/ad-analysis-intake.schema.json` for fields and enums, then apply every rule in
+   [the intake schema](https://github.com/joekatf-ops/agent-ad-analysis-harness/blob/main/schemas/ad-analysis-intake.schema.json) for fields and enums, then apply every rule in
    `schemas/ad-analysis-intake.conformance.json`. Keep every nullable ad taxonomy and provenance
    field explicit; use `null` when the intake does not establish it, never an invented value. An ad
    cannot repeat one asset source ID.
-4. Validate with `scripts/validate-ad-analysis-run.py` and write `input-audit.md` when the folder is
+4. Validate with [`validate-ad-analysis-run.py`](https://github.com/joekatf-ops/agent-ad-analysis-harness) and write `input-audit.md` when the folder is
    writable. The validator does not interpret creative or performance.
 5. Consume the validator result and input audit before conclusions. Input readiness is exactly
    `ready`, `limited` or `blocked`; it is distinct from the Creative Audit per-ad outcome
