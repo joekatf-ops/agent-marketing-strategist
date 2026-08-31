@@ -2329,9 +2329,9 @@ into one generic failure.
 Live Meta reporting is deferred. A manual export satisfies diagnosis when it contains the required
 fields.
 
-Reading Notion is research and is never required. When the current host exposes a
-user-authenticated Notion connection, follow `connectors/notion-composio.md`. Configured does not
-mean live: only a successful current-session preflight establishes availability.
+Reading Notion is research and is never required. When the current host exposes a user-authenticated
+Notion connection, follow `connectors/notion-composio.md`. Configured does not mean live: only a
+successful current-session preflight establishes availability.
 
 ## Source precedence
 

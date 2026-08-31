@@ -42,7 +42,7 @@ approved-revision learning.
 Universal strategist
 ├── canonical Master Creative Strategy method
 ├── output contracts, naming, hook formats and research rules
-├── optional connectors and read-only method-governance checks
+├── optional connectors for research and read-only retrieval
 └── one active brand folder per run
     ├── brand, product, offer, economics and approved claims
     ├── website snapshots and classified evidence
