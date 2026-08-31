@@ -167,12 +167,12 @@ def build_review(entries: list[dict]) -> str:
     for entry in annotated:
         brand = entry["brand"].get("name") or entry["brand"]["id"]
         annotation = entry["annotation"]
-        out.append(f"- [ ] **{hook_line(entry)}**  ")
+        opening = annotation.get("opening_type") or "not assessed"
         out.append(
-            f"      {brand}, {entry['format']}, {evidence_line(entry)}. "
-            f"Read as {annotation.get('opening_type') or 'not assessed'}.  "
+            f"- [ ] **{hook_line(entry)}** "
+            f"({brand}, {entry['format']}, {evidence_line(entry)}, "
+            f"read as {opening}, `{entry['id']}`)"
         )
-        out.append(f"      `{entry['id']}`")
     out.append("")
 
     if missing:

@@ -9,99 +9,37 @@ To approve an entry, fix anything wrong in `entries.json` and set `"reviewed": t
 
 ## Awaiting review (31)
 
-- [ ] **Energy, Focus, Immunity. 4000+ Reviews ⭐⭐⭐⭐⭐**  
-      RYZE Superfoods, dco, 737 days running. Read as promise.  
-      `OG4et9YYGetdhPDoyoYB`
-- [ ] **Energy, Focus, Immunity. 4000+ Reviews ⭐⭐⭐⭐⭐**  
-      RYZE Superfoods, image, 736 days running. Read as promise.  
-      `7ZgAmHxCCmCyiRpudZgj`
-- [ ] **Your New Morning Ritual**  
-      RYZE Superfoods, dco, 723 days running. Read as promise.  
-      `TIg9MFIJ2xwAhGrn5dQP`
-- [ ] **☕️ Pour Yourself a Better Cup of Coffee**  
-      RYZE Superfoods, video, 706 days running, product reported as never named. Read as promise.  
-      `569HtJLaOvlUF2aI0F2b`
-- [ ] **The only routine you need in 2024!**  
-      pcOilWPKMILBqVy6kwM0, dco, 543 days running. Read as promise.  
-      `T305s8YpEYm5qAyeoBC8`
-- [ ] **Meet Your New Healthy Habit**  
-      pcOilWPKMILBqVy6kwM0, dco, 528 days running, product named 33% through. Read as open loop.  
-      `Q9nJAGEqpl5DtB1IOeBR`
-- [ ] **Meet Your New Healthy Habit**  
-      pcOilWPKMILBqVy6kwM0, dco, 504 days running, product named 17% through. Read as open loop.  
-      `Eo4FwopXtGDRWMQEMFeM`
-- [ ] **The only routine you need in 2024!**  
-      pcOilWPKMILBqVy6kwM0, dco, 497 days running. Read as promise.  
-      `VrI7znTIwPbSkaO1RpIG`
-- [ ] **AG1: Your daily routine in 60 seconds**  
-      pcOilWPKMILBqVy6kwM0, dco, 435 days running. Read as promise.  
-      `0q23mUn0UVRtNOW6FQV0`
-- [ ] **100% Money-Back Guarantee 🍄**  
-      Spacegoods, dco, 433 days running. Read as promise.  
-      `qupQb6mJyH4WPOzFyiU9`
-- [ ] **45-Day Money-Back Guarantee + FREE GIFTS 🎁**  
-      mj29xh2x3Qc9cZpdPM0L, video, 412 days running, still live, product named 56% through. Read as open loop.  
-      `szJhy8q7V738ZrIOdxlN`
-- [ ] **FREE Gifts + FREE Shipping**  
-      Spacegoods, dco, 384 days running. Read as promise.  
-      `lZ28sVyBZr5yaMBRSRZg`
-- [ ] **100% Money-Back Guarantee 🍄**  
-      Spacegoods, dco, 384 days running. Read as promise.  
-      `PGdl2jt6KPxyq0f96266`
-- [ ] **2,000 5 Star Reviews ⭐⭐⭐⭐⭐**  
-      Spacegoods, image, 377 days running. Read as promise.  
-      `LaVyRH4y2XPZnWkFEK5I`
-- [ ] **2,000 5 Star Reviews ⭐⭐⭐⭐⭐**  
-      Spacegoods, dco, 377 days running, product reported as never named. Read as open loop.  
-      `GSale3zqip3agX82ZJf9`
-- [ ] **2,000 5 Star Reviews ⭐⭐⭐⭐⭐**  
-      Spacegoods, dco, 377 days running, product reported as never named. Read as open loop.  
-      `ywg8kObz7vtLppFSj8zz`
-- [ ] **AG1: Your daily Routine in 60 seconds**  
-      pcOilWPKMILBqVy6kwM0, dco, 371 days running, product reported as never named. Read as promise.  
-      `7VMSLje61GpdSFD048Ji`
-- [ ] **Make Water Worth Drinking 🍓**  
-      Javy Coffee, image, 32 days running, still live. Read as promise.  
-      `MG1AVDYoyqBzJl6QaGkq`
-- [ ] **🇺🇸 Memorial Day Sale - 58% OFF**  
-      Javy Coffee, video, 23 days running, product named 11% through. Read as open loop.  
-      `31h65aO0oqMF0ppbUsyL`
-- [ ] **I get this coffee in my car on a whim, and now my pants don't fit....**  
-      Javy Coffee, video, 20 days running, product named 15% through. Read as open loop.  
-      `2sYWoA5UYtq91dZsyn92`
-- [ ] **Hey, Our Prices Are Changing… 👀**  
-      Grüns, image, 2 days running, still live. Read as open loop.  
-      `TbhTQ5IpsNUjIi4uv5db`
-- [ ] **Skincare before it became an industry**  
-      0wvli6JQ6WOvrXSKaOHo, video, 1 days running, product named 96% through. Read as open loop.  
-      `dpTixOawv7O1UEeG955p`
-- [ ] **Painless way to remove hair 💜**  
-      RJTM7WrMCuQwERX2LVoV, video, 1 days running, product named 39% through. Read as open loop.  
-      `q6u37VvRUlI2JJMHLkRy`
-- [ ] **Tooth armour. For teeth tough as nails**  
-      Ayex2IgJPGXIxNSxmyMM, video, 1 days running, still live. Read as promise.  
-      `q1581H4iTgRohshofypG`
-- [ ] **Every woman should know about this!**  
-      BHCokodNyCNqBMfDM8dB, video, 1 days running, still live. Read as open loop.  
-      `uwymBDtwp3bCFW0BGcKJ`
-- [ ] **The best thing I've done for my health is switching to the Six Superfood Mushroom Coffee....**  
-      RYZE Superfoods, video, product named 4% through. Read as promise.  
-      `WHStmhFWEOj0HKrLokuV`
-- [ ] **Here's why mushrooms are a superfood that you need to have. I start every morning off...**  
-      RYZE Superfoods, video, product named 18% through. Read as promise.  
-      `nzL9SY5NKNAPLnSWul7O`
-- [ ] **Here's why mushrooms are a superfood you need to have. I start my morning off with...**  
-      RYZE Superfoods, video, product named 93% through. Read as promise.  
-      `aoNrkXepwayfnnD6vHHd`
-- [ ] **My mom gave me my first cup of coffee when I was 14 because my teachers...**  
-      RYZE Superfoods, video, product named 78% through. Read as open loop.  
-      `0rk9UOUfO2NLaO7uHOC1`
-- [ ] **As seen on NBC, CBS and USA Today. Learn More 👉**  
-      qymdUTOOxLw0U9tAgmoe, image, 0 days running. Read as promise.  
-      `4XQEKx2lUtcQirNQ6L01`
-- [ ] **the FUTURE of cleaning 🧼**  
-      5Mnu3XqJKGvBeGND1cru, video, 0 days running, still live. Read as open loop.  
-      `ZRSeVy5lEyF4spIvN25h`
+- [ ] **Energy, Focus, Immunity. 4000+ Reviews ⭐⭐⭐⭐⭐** (RYZE Superfoods, dco, 737 days running, read as promise, `OG4et9YYGetdhPDoyoYB`)
+- [ ] **Energy, Focus, Immunity. 4000+ Reviews ⭐⭐⭐⭐⭐** (RYZE Superfoods, image, 736 days running, read as promise, `7ZgAmHxCCmCyiRpudZgj`)
+- [ ] **Your New Morning Ritual** (RYZE Superfoods, dco, 723 days running, read as promise, `TIg9MFIJ2xwAhGrn5dQP`)
+- [ ] **☕️ Pour Yourself a Better Cup of Coffee** (RYZE Superfoods, video, 706 days running, product reported as never named, read as promise, `569HtJLaOvlUF2aI0F2b`)
+- [ ] **The only routine you need in 2024!** (pcOilWPKMILBqVy6kwM0, dco, 543 days running, read as promise, `T305s8YpEYm5qAyeoBC8`)
+- [ ] **Meet Your New Healthy Habit** (pcOilWPKMILBqVy6kwM0, dco, 528 days running, product named 33% through, read as open loop, `Q9nJAGEqpl5DtB1IOeBR`)
+- [ ] **Meet Your New Healthy Habit** (pcOilWPKMILBqVy6kwM0, dco, 504 days running, product named 17% through, read as open loop, `Eo4FwopXtGDRWMQEMFeM`)
+- [ ] **The only routine you need in 2024!** (pcOilWPKMILBqVy6kwM0, dco, 497 days running, read as promise, `VrI7znTIwPbSkaO1RpIG`)
+- [ ] **AG1: Your daily routine in 60 seconds** (pcOilWPKMILBqVy6kwM0, dco, 435 days running, read as promise, `0q23mUn0UVRtNOW6FQV0`)
+- [ ] **100% Money-Back Guarantee 🍄** (Spacegoods, dco, 433 days running, read as promise, `qupQb6mJyH4WPOzFyiU9`)
+- [ ] **45-Day Money-Back Guarantee + FREE GIFTS 🎁** (mj29xh2x3Qc9cZpdPM0L, video, 412 days running, still live, product named 56% through, read as open loop, `szJhy8q7V738ZrIOdxlN`)
+- [ ] **FREE Gifts + FREE Shipping** (Spacegoods, dco, 384 days running, read as promise, `lZ28sVyBZr5yaMBRSRZg`)
+- [ ] **100% Money-Back Guarantee 🍄** (Spacegoods, dco, 384 days running, read as promise, `PGdl2jt6KPxyq0f96266`)
+- [ ] **2,000 5 Star Reviews ⭐⭐⭐⭐⭐** (Spacegoods, image, 377 days running, read as promise, `LaVyRH4y2XPZnWkFEK5I`)
+- [ ] **2,000 5 Star Reviews ⭐⭐⭐⭐⭐** (Spacegoods, dco, 377 days running, product reported as never named, read as open loop, `GSale3zqip3agX82ZJf9`)
+- [ ] **2,000 5 Star Reviews ⭐⭐⭐⭐⭐** (Spacegoods, dco, 377 days running, product reported as never named, read as open loop, `ywg8kObz7vtLppFSj8zz`)
+- [ ] **AG1: Your daily Routine in 60 seconds** (pcOilWPKMILBqVy6kwM0, dco, 371 days running, product reported as never named, read as promise, `7VMSLje61GpdSFD048Ji`)
+- [ ] **Make Water Worth Drinking 🍓** (Javy Coffee, image, 32 days running, still live, read as promise, `MG1AVDYoyqBzJl6QaGkq`)
+- [ ] **🇺🇸 Memorial Day Sale - 58% OFF** (Javy Coffee, video, 23 days running, product named 11% through, read as open loop, `31h65aO0oqMF0ppbUsyL`)
+- [ ] **I get this coffee in my car on a whim, and now my pants don't fit....** (Javy Coffee, video, 20 days running, product named 15% through, read as open loop, `2sYWoA5UYtq91dZsyn92`)
+- [ ] **Hey, Our Prices Are Changing… 👀** (Grüns, image, 2 days running, still live, read as open loop, `TbhTQ5IpsNUjIi4uv5db`)
+- [ ] **Skincare before it became an industry** (0wvli6JQ6WOvrXSKaOHo, video, 1 days running, product named 96% through, read as open loop, `dpTixOawv7O1UEeG955p`)
+- [ ] **Painless way to remove hair 💜** (RJTM7WrMCuQwERX2LVoV, video, 1 days running, product named 39% through, read as open loop, `q6u37VvRUlI2JJMHLkRy`)
+- [ ] **Tooth armour. For teeth tough as nails** (Ayex2IgJPGXIxNSxmyMM, video, 1 days running, still live, read as promise, `q1581H4iTgRohshofypG`)
+- [ ] **Every woman should know about this!** (BHCokodNyCNqBMfDM8dB, video, 1 days running, still live, read as open loop, `uwymBDtwp3bCFW0BGcKJ`)
+- [ ] **The best thing I've done for my health is switching to the Six Superfood Mushroom Coffee....** (RYZE Superfoods, video, product named 4% through, read as promise, `WHStmhFWEOj0HKrLokuV`)
+- [ ] **Here's why mushrooms are a superfood that you need to have. I start every morning off...** (RYZE Superfoods, video, product named 18% through, read as promise, `nzL9SY5NKNAPLnSWul7O`)
+- [ ] **Here's why mushrooms are a superfood you need to have. I start my morning off with...** (RYZE Superfoods, video, product named 93% through, read as promise, `aoNrkXepwayfnnD6vHHd`)
+- [ ] **My mom gave me my first cup of coffee when I was 14 because my teachers...** (RYZE Superfoods, video, product named 78% through, read as open loop, `0rk9UOUfO2NLaO7uHOC1`)
+- [ ] **As seen on NBC, CBS and USA Today. Learn More 👉** (qymdUTOOxLw0U9tAgmoe, image, 0 days running, read as promise, `4XQEKx2lUtcQirNQ6L01`)
+- [ ] **the FUTURE of cleaning 🧼** (5Mnu3XqJKGvBeGND1cru, video, 0 days running, still live, read as open loop, `ZRSeVy5lEyF4spIvN25h`)
 
 ## Annotatable but not yet drafted (15)
 
