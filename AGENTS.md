@@ -32,7 +32,7 @@ wrong shape.
 | `references/23-commercial-context.md` | Economics, fit, offer levers, conversion, channels, retention |
 | `references/24-writing-for-low-awareness.md` | How to actually write a cold or problem-aware opening |
 
-That is roughly 37,000 tokens. Load it all.
+That is roughly 34,000 tokens. Load it all.
 
 `22-swipe-corpus.md` is the worked evidence. Read the moves rather than the words: copying a line from
 a corpus ad produces a worse ad than the original and may copy a claim this brand cannot support.
@@ -107,7 +107,7 @@ draft space if always present.
 | Ask | Load |
 |---|---|
 | Naming a campaign, ad set or ad | `references/07-naming.md` |
-| Planning or reading a test | `references/09-testing-and-diagnosis.md` |
+| Planning or reading a test | `references/09-testing-and-diagnosis.md`, `references/25-meta-benchmarks.md` |
 | Running research with connectors | `references/11-research-tools.md`, `references/15-connectors.md` |
 | Working in a connected brand folder | `references/13-brand-folder.md` |
 | Recording an approved revision | `references/14-learning-system.md` |
