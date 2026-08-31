@@ -1,0 +1,26 @@
+schema_version: 1
+products:
+  - id: "ridgeline-merino-crew"
+    name: "Ridgeline Merino Crew"
+    status: "active"
+    markets: ["AU"]
+    url: "https://example.com/products/ridgeline-merino-crew"
+    price: "39.00"
+    currency: "AUD"
+    variants: ["W 3-5", "W 6-8", "M 7-9", "M 10-12", "M 13-15"]
+    ingredients_or_specs: "68 percent Australian merino wool, 29 percent nylon, 3 percent elastane. Cushioned sole, flat toe seam, ribbed arch band."
+    use_cases: ["day hiking", "multi-day walking", "work boots", "cold-weather commuting"]
+    differentiators: ["flat toe seam", "single-size arch band rather than graded compression"]
+    source: "fixture data, invented for this repository"
+  - id: "ridgeline-liner"
+    name: "Ridgeline Liner"
+    status: "active"
+    markets: ["AU"]
+    price: "19.00"
+    currency: "AUD"
+    variants: ["S", "M", "L"]
+    ingredients_or_specs: "Merino and nylon blend, unpadded, worn under the Crew."
+    use_cases: ["multi-day walking", "blister-prone feet"]
+    source: "fixture data, invented for this repository"
+
+# FIXTURE DATA. Acme Trailworks does not exist. See README.md in this folder.

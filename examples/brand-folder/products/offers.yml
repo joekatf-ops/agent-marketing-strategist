@@ -1,0 +1,26 @@
+schema_version: 1
+offers:
+  - id: "offer-001"
+    name: "Three-pair bundle"
+    status: "active"
+    markets: ["AU"]
+    product_ids: ["ridgeline-merino-crew"]
+    terms: "Three pairs for 99 AUD, against 117 AUD bought singly"
+    exact_wording: "Three pairs for 99 dollars"
+    risk_reversal: "30 days, refund if they are not right"
+    end_date: ""
+    source: "fixture data"
+  - id: "offer-002"
+    name: "Standing free shipping"
+    status: "active"
+    markets: ["AU"]
+    product_ids: ["ridgeline-merino-crew", "ridgeline-liner"]
+    terms: "Free shipping over 50 AUD, always on"
+    exact_wording: "Free shipping over 50 dollars"
+    risk_reversal: ""
+    end_date: ""
+    source: "fixture data"
+
+# FIXTURE DATA. Acme Trailworks does not exist. See README.md in this folder.
+# end_date is empty on both because neither is a deadline offer. A scarcity line needs a real
+# date, and an empty field here must never be written up as "ends soon".

@@ -1,0 +1,37 @@
+schema_version: 1
+proof:
+  - id: "proof-001"
+    type: "review-volume"
+    detail: "412 reviews, 4.6 average"
+    product_ids: ["ridgeline-merino-crew"]
+    strength: "first-party"
+    usable_in_ad: true
+    exact_wording: "412 reviews, 4.6 average"
+    source: "fixture data"
+  - id: "proof-002"
+    type: "demonstration"
+    detail: "The toe seam is visible in a close shot. The claim can be shown rather than asserted."
+    product_ids: ["ridgeline-merino-crew"]
+    strength: "product-fact"
+    usable_in_ad: true
+    exact_wording: ""
+    source: "fixture data"
+  - id: "proof-003"
+    type: "customer-quote"
+    detail: "Four days on the Overland and I did not think about my feet once."
+    product_ids: ["ridgeline-merino-crew"]
+    strength: "first-party"
+    usable_in_ad: true
+    exact_wording: "Four days on the Overland and I did not think about my feet once."
+    source: "fixture data, attributed to a fictional reviewer"
+  - id: "proof-004"
+    type: "guarantee"
+    detail: "30 nights, refund if they do not work for you"
+    product_ids: ["ridgeline-merino-crew", "ridgeline-liner"]
+    strength: "offer-term"
+    usable_in_ad: true
+    exact_wording: "30 days, refund if they are not right"
+    source: "fixture data"
+
+# FIXTURE DATA. Acme Trailworks does not exist, and none of these reviews or quotes are real.
+# See README.md in this folder. Never carry a number from here into a real brand's ad.

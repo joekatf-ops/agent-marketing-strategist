@@ -1,0 +1,5 @@
+schema_version: 1
+brand_slug: "acme-trailworks"
+patterns: []
+
+# Keep the reason, scope and evidence so the agent does not repeat avoidable mistakes.

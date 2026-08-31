@@ -1,0 +1,11 @@
+schema_version: 2
+brand_slug: "acme-trailworks"
+coordinates: []
+
+# Each enduring coordinate records:
+# coordinate_key, who, primary_problem, evidence_refs, status, linked_test_ids,
+# created_at, updated_at and status_reason.
+#
+# Changing who or primary_problem creates a new coordinate_key. Changing awareness, messaging
+# route, hook, proof, format, creator, offer presentation, visual execution or destination does not.
+# Keep rejected and archived coordinates and their linked CONTST history; never reuse their keys.

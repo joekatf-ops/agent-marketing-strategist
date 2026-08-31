@@ -1,0 +1,57 @@
+schema_version: 3
+method_version: "1.0.0"
+
+brand:
+  name: "Acme Trailworks"
+  slug: "acme-trailworks"
+  canonical_url: "https://example.com"
+  stage: "selling"
+  markets: ["AU"]
+  default_market: "AU"
+  currency: "AUD"
+  owner: "fixture owner"
+  created: "2026-08-31"
+  updated: "2026-08-31"
+
+customer_evidence:
+  status: "established"
+  # pre-customer | limited | established
+  own_review_count: 412
+  last_research_refresh: "2026-08-31"
+
+website_monitoring:
+  enabled: true
+  preferred_connector: "firecrawl"
+  change_check: "on_open"
+  incremental_changed_pages: true
+  full_refresh_days: 7
+  force_before: ["major_research", "concept_batch", "launch"]
+  state_file: "sources/website/crawl-state.json"
+
+naming:
+  # CONTST is locked by the method. Increment after reserving every NNT, INSPO or ITR batch;
+  # never reuse a number, including for a rejected, stopped or archived batch.
+  test_prefix: "CONTST"
+  next_test_number: 1
+  brand_code: ""
+  product_codes: {}
+  region_codes: {}
+
+testing_defaults:
+  budget_type: "ABO"
+  daily_ad_set_floor: 50
+  preferred_daily_ad_set_budget: 100
+  planned_observation_full_days: 5
+  initial_awareness_codes: ["UWA", "PRA", "SLA", "PDA"]
+  scaling_budget_type: "CBO"
+
+run:
+  language: "en-AU"
+  writable: true
+  output_dir: "outputs"
+
+approvals:
+  rule_approvers: ["fixture approver"]
+  claim_approvers: ["fixture approver"]
+
+# FIXTURE DATA. Acme Trailworks does not exist. See README.md in this folder.
