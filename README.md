@@ -1,8 +1,28 @@
 # agent-marketing-strategist
 
-An evidence-led direct-response Meta strategist for DTC brands. One universal method serves many
-brands. Each brand keeps its own connected folder, evidence, coordinate history, test history,
-winners and approved learning.
+A direct-response creative and marketing strategist for DTC ecommerce brands advertising on Meta.
+Hooks, primary text, headlines, video scripts, static concepts, angles, rewrites and creative reads.
+It works from a pasted transcript, a product description or a connected brand folder, and it marks
+what it cannot verify rather than inventing it or refusing to work.
+
+## Try it in two minutes
+
+On a chat surface, paste [`dist/craft-bundle.md`](dist/craft-bundle.md) and
+[`PROMPT.md`](PROMPT.md) as knowledge, then ask for what you want. No brand folder, no setup, no
+readiness check.
+
+> Write hook options for a greens powder aimed at someone who does not think their supplement
+> routine is a problem.
+
+In Cursor, Codex or Claude Code, point the agent at [`SKILL.md`](SKILL.md) instead and it will read
+the rest itself. [Multiple LLM support](#multiple-llm-support) covers what each surface actually
+supports, because they differ a great deal.
+
+## What it is
+
+One universal method serves many brands. Each brand keeps its own connected folder, evidence,
+coordinate history, test history, winners and approved learning. The method is brand-neutral; brand
+facts never transfer between brands.
 
 **Version:** 1.0.0
 

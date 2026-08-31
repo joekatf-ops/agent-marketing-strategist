@@ -7,6 +7,7 @@ Annotated real ads, used as the worked evidence layer of the craft stack.
 | `entries.json` | Source of truth. One object per ad, validated against `../../schemas/swipe-entry.schema.json` |
 | `REVIEW.md` | Generated. Drafted annotations awaiting human correction |
 | `../../references/22-swipe-corpus.md` | Generated. The digest the agent actually loads |
+| `ATTRIBUTION.md` | What is recorded, why, and how a brand can have entries removed |
 
 ## Workflow
 
