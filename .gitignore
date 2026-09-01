@@ -16,3 +16,6 @@ dist/*
 _to_delete/
 _source/
 .worktrees/
+
+# Firecrawl CLI local scrape cache, written wherever the CLI is run.
+.firecrawl/
