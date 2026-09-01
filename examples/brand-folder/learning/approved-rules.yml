@@ -1,0 +1,5 @@
+schema_version: 1
+brand_slug: "acme-trailworks"
+rules: []
+
+# A rule keeps its source event, scope, approver, approval date and supersession history.

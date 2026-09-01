@@ -43,7 +43,7 @@ Ad Diagnosis requires the governed performance-readiness inputs and retains its 
    overwrite-capable rename.
 3. Complete `intake.json` and inventory every supplied ad and source. Follow
    [the intake schema](https://github.com/joekatf-ops/agent-ad-analysis-harness/blob/main/schemas/ad-analysis-intake.schema.json) for fields and enums, then apply every rule in
-   `schemas/ad-analysis-intake.conformance.json`. Keep every nullable ad taxonomy and provenance
+   [the conformance rules](https://github.com/joekatf-ops/agent-ad-analysis-harness/blob/main/schemas/ad-analysis-intake.conformance.json). Keep every nullable ad taxonomy and provenance
    field explicit; use `null` when the intake does not establish it, never an invented value. An ad
    cannot repeat one asset source ID.
 4. Validate with [`validate-ad-analysis-run.py`](https://github.com/joekatf-ops/agent-ad-analysis-harness) and write `input-audit.md` when the folder is

@@ -5,6 +5,11 @@ Hooks, primary text, headlines, video scripts, static concepts, angles, rewrites
 It works from a pasted transcript, a product description or a connected brand folder, and it marks
 what it cannot verify rather than inventing it or refusing to work.
 
+**If you are not going to run any of this yourself, read
+[`START-HERE.md`](START-HERE.md) instead.** It covers attaching a brand, asking for copy, getting an
+image ad made and getting research done, in plain sentences you can type. The rest of this file is
+for whoever maintains the package.
+
 ## Try it in two minutes
 
 On a chat surface, paste [`dist/craft-bundle.md`](dist/craft-bundle.md) and
@@ -40,9 +45,9 @@ approved-revision learning.
 
 ```text
 Universal strategist
-├── reviewed Master Creative Strategy snapshot
+├── canonical Master Creative Strategy method
 ├── output contracts, naming, hook formats and research rules
-├── optional connectors and read-only method-governance checks
+├── optional connectors for research and read-only retrieval
 └── one active brand folder per run
     ├── brand, product, offer, economics and approved claims
     ├── website snapshots and classified evidence
@@ -53,10 +58,13 @@ Universal strategist
     └── append-only revision learning and approved rules
 ```
 
-The Master Creative Strategy in Notion is canonical for the universal method. This repository is
-its reviewed portable snapshot. A connected brand folder is canonical for that brand's truth and
-learning. A freshness check can flag a method change for human review, but no connector or LLM may
-automatically rewrite the repository.
+This repository is canonical for the universal method. A connected brand folder is canonical for
+that brand's truth and learning, a generated brand bundle is a portable snapshot of that folder,
+and conversation memory is never canonical. Notion held the canonical position until 1.0.0 and is
+now a research source that feeds the repository through human review, carrying no more authority
+than a book or a swipe file. No connector or LLM may automatically rewrite the repository. See
+[`references/18-master-creative-strategy.md`](references/18-master-creative-strategy.md) for the
+full precedence order.
 
 The universal strategist never absorbs one brand's preferences automatically. A brand folder
 travels between supported LLMs through direct folder access or a generated brand bundle.

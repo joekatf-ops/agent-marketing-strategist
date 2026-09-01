@@ -1,0 +1,17 @@
+schema_version: 1
+brand_slug: "acme-trailworks"
+tests: []
+
+# Each sequential batch records:
+# test_id, source, coordinate_key, prior_test_ids, campaign_name, ad_set_name,
+# budget_type, daily_ad_set_budget, planned_observation_full_days, launch_status,
+# ads, results, observations, proposed_explanation, explanation_confidence,
+# causal_limits, verdict, next_action, launched_at, reviewed_at and archived_at.
+#
+# Each ad records its full ad name, awareness_code, messaging_route, primary_hook, format,
+# proof, destination, CTA, post_id and result. Initial NNT and INSPO batches contain UWA, PRA,
+# SLA and PDA.
+# ITR batches may be narrower when the retained evidence justifies the scope.
+# Reserve the next CONTST number for every NNT, INSPO or ITR batch and never reuse it.
+# Keep stopped, rejected and archived test records. Broad-batch observations are associations;
+# proposed explanations must state confidence and causal limits rather than claim an isolated cause.

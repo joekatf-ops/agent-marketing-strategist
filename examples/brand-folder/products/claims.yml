@@ -1,0 +1,60 @@
+schema_version: 1
+universal_evidence_gate: true
+regulated_category: false
+claims:
+  - id: "claim-001"
+    exact_claim: "Stays dry on a full day out"
+    product_ids: ["ridgeline-merino-crew"]
+    markets: ["AU"]
+    evidence: "fixture: internal wear testing, 24 pairs over 6 weeks"
+    evidence_strength: "internal-test"
+    approved_wording: "Stays dry on a full day out"
+    qualifier: "Describes moisture handling in the fabric. Not a promise about any individual foot."
+    prohibited_extrapolation: "Never state or imply that the sock prevents blisters, treats a foot condition, or produces a medical or podiatric outcome. That is a therapeutic claim and no evidence here supports it."
+    status: "approved"
+    approver: "fixture approver"
+    approved_at: "2026-08-01"
+    review_at: "2027-08-01"
+  - id: "claim-002"
+    exact_claim: "Flat toe seam, so there is no ridge across your toes"
+    product_ids: ["ridgeline-merino-crew"]
+    markets: ["AU"]
+    evidence: "fixture: construction specification, verifiable from the product itself"
+    evidence_strength: "product-fact"
+    approved_wording: "A flat toe seam, so there is no ridge sitting across your toes"
+    qualifier: ""
+    prohibited_extrapolation: "Never extend the seam fact into a comfort outcome that has not been tested, and never into a blister claim."
+    status: "approved"
+    approver: "fixture approver"
+    approved_at: "2026-08-01"
+    review_at: "2027-08-01"
+  - id: "claim-003"
+    exact_claim: "Australian merino"
+    product_ids: ["ridgeline-merino-crew", "ridgeline-liner"]
+    markets: ["AU"]
+    evidence: "fixture: supplier declaration on file"
+    evidence_strength: "supplier-declaration"
+    approved_wording: "Australian merino"
+    qualifier: "Refers to the wool origin only. The sock is knitted offshore, so never imply it is made in Australia."
+    prohibited_extrapolation: "Never say Australian made, made locally, or anything a reader would hear as manufacture rather than fibre origin."
+    status: "approved"
+    approver: "fixture approver"
+    approved_at: "2026-08-01"
+    review_at: "2027-08-01"
+  - id: "claim-004"
+    exact_claim: "Prevents blisters"
+    product_ids: ["ridgeline-merino-crew"]
+    markets: ["AU"]
+    evidence: "none"
+    evidence_strength: "none"
+    approved_wording: ""
+    qualifier: ""
+    prohibited_extrapolation: "Recorded so the answer is on file rather than re-litigated. This is the claim the category reaches for and it is refused here."
+    status: "rejected"
+    approver: "fixture approver"
+    approved_at: "2026-08-01"
+    review_at: "2027-08-01"
+
+# FIXTURE DATA. Acme Trailworks does not exist. See README.md in this folder.
+# claim-004 is present and rejected on purpose: a folder that only records approved claims
+# cannot show the gate refusing anything, and the refused claim is the useful record.

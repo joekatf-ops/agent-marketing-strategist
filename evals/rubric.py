@@ -2,6 +2,20 @@
 
 from __future__ import annotations
 
+import pathlib
+import sys
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent / "scripts"))
+import copy_lexicon  # noqa: E402
+
+# Read from config/copy-lexicon.yml rather than restated here. The eight phrases this
+# criterion used to quote were a second copy of the tier-one list, so extending the lexicon
+# updated the mechanical check in scripts/check-copy-lexicon.py and left the judge scoring
+# the old set. Same defect as the eval's hardcoded craft stack, same fix.
+_LEXICON = copy_lexicon.read_lexicon()
+_BANNED = copy_lexicon.quoted(_LEXICON["banned_phrases"])
+_STRUCTURAL = "; ".join(_LEXICON["structural_tells"])
+
 CRITERIA = (
     (
         "opening_type",
@@ -53,9 +67,13 @@ CRITERIA = (
     ),
     (
         "end_state",
-        "Sells the life the product produces rather than the object. Score 2 only if the end state "
-        "can be named in one sentence without using the product's name. It does not have to lead: at "
-        "UWA it should not.",
+        "Sells the life the product produces rather than the object. The test is whether YOU, having "
+        "read it, can state the end state in one sentence without using the product's name. If you "
+        "can, score 2. The copy does not have to contain that sentence: implied is sufficient, and "
+        "position is set by awareness, so at Unaware and Problem Aware the end state must not lead "
+        "and will usually be carried by the body rather than stated outright. Score 1 when you can "
+        "name it for some options and not others, and 0 when the copy sells the object and there is "
+        "no life behind it to name.",
     ),
     (
         "concision",
@@ -94,10 +112,9 @@ CRITERIA = (
     ),
     (
         "no_ai_lexicon",
-        "No machine-writing tells. Score 0 for any of: \"in today's world\", \"it's not just X it's "
-        "Y\", \"unlock the power\", \"elevate your\", \"delve into\", \"when it comes to\", \"to the "
-        "next level\", \"whether you're\". Also penalise filler rule-of-three, stacked rhetorical "
-        "questions, and paragraphs of uniform sentence length.",
+        "No machine-writing tells. Score 0 for any tier-one phrase from the banned list, where X "
+        f"stands for any words on the same line: {_BANNED}. Also penalise these structural tells, "
+        f"which need a read rather than a match: {_STRUCTURAL}.",
     ),
 )
 

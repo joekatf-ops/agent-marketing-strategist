@@ -41,16 +41,21 @@ SKILL = ROOT / "SKILL.md"
 # Parsed from SKILL.md rather than hardcoded, so the bundle cannot drift from the
 # stack the skill declares.
 CRAFT_SECTION = "The craft stack, always loaded"
+FORMATS_SECTION = "Formats available on request"
 
-CONTRACTS = (
-    "contracts/strategist-read.md",
-    "contracts/hook-batch.md",
-    "contracts/ad-copy.md",
-    "contracts/video-script.md",
-    "contracts/static-spec.md",
-    "contracts/concept-batch.md",
-    "contracts/customer-intelligence.md",
-)
+# Contracts SKILL.md offers that a chat surface cannot act on, each with the reason. The
+# contract list is parsed from SKILL.md and every entry must be either bundled or excluded
+# here, so adding a contract to the skill forces a decision instead of silently missing the
+# bundle. That silent-miss is the defect this replaces: CONTRACTS was a hardcoded seven while
+# the skill offered thirteen.
+CHAT_SURFACE_EXCLUSIONS = {
+    "contracts/brand-readiness.md": "reports on a connected folder a chat surface cannot read",
+    "contracts/campaign-launch-plan.md": "needs naming, testing and invariants from the ops stack",
+    "contracts/destination-handoff.md": "needs the naming register from the ops stack",
+    "contracts/creative-audit.md": "ad analysis runs from the harness repository",
+    "contracts/ad-diagnosis.md": "ad analysis runs from the harness repository",
+    "contracts/learning-update.md": "writes to a brand folder's learning records",
+}
 
 HEADER = """# Marketing Strategist: craft bundle
 
@@ -65,19 +70,36 @@ that can act on it.
 """
 
 
-def craft_stack() -> list[str]:
+def section_after(heading: str, level: str = "##") -> str:
     text = SKILL.read_text()
-    match = re.search(
-        rf"^##[ \t]+{re.escape(CRAFT_SECTION)}[ \t]*$", text, re.MULTILINE
-    )
+    match = re.search(rf"^{level}[ \t]+{re.escape(heading)}[ \t]*$", text, re.MULTILINE)
     if match is None:
-        sys.exit(f"SKILL.md has no '{CRAFT_SECTION}' section")
-    following = re.search(r"^##[ \t]+", text[match.end() :], re.MULTILINE)
-    section = text[match.end() : match.end() + following.start()] if following else text[match.end() :]
-    found = re.findall(r"`(references/[^`]+\.md)`", section)
+        sys.exit(f"SKILL.md has no '{heading}' section")
+    following = re.search(rf"^{level}[ \t]+", text[match.end() :], re.MULTILINE)
+    if following is None:
+        return text[match.end() :]
+    return text[match.end() : match.end() + following.start()]
+
+
+def craft_stack() -> list[str]:
+    found = re.findall(r"`(references/[^`]+\.md)`", section_after(CRAFT_SECTION))
     if not found:
         sys.exit("no craft references found in the craft stack section")
-    return found
+    return list(dict.fromkeys(found))
+
+
+def contracts() -> list[str]:
+    """Every contract SKILL.md offers, minus the ones a chat surface cannot act on."""
+    offered = list(dict.fromkeys(re.findall(r"`(contracts/[^`]+\.md)`", section_after(FORMATS_SECTION, "###"))))
+    if not offered:
+        sys.exit(f"no contracts found in the '{FORMATS_SECTION}' section")
+    unknown = sorted(set(CHAT_SURFACE_EXCLUSIONS) - set(offered))
+    if unknown:
+        sys.exit(
+            "CHAT_SURFACE_EXCLUSIONS names contracts SKILL.md no longer offers: "
+            + ", ".join(unknown)
+        )
+    return [relative for relative in offered if relative not in CHAT_SURFACE_EXCLUSIONS]
 
 
 def part(title: str) -> str:
@@ -97,7 +119,7 @@ def build() -> str:
     body = [HEADER, part("OPERATING PROMPT"), include("PROMPT.md"), part("CRAFT STACK")]
     body.extend(include(relative) for relative in craft_stack())
     body.append(part("OUTPUT CONTRACTS"))
-    body.extend(include(relative) for relative in CONTRACTS)
+    body.extend(include(relative) for relative in contracts())
     return "".join(body) + "\n"
 
 

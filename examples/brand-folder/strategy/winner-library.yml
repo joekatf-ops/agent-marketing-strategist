@@ -1,0 +1,12 @@
+schema_version: 1
+brand_slug: "acme-trailworks"
+winners: []
+
+# Each graduated ad records:
+# winner_id, ad_name, source_test_id, coordinate_key, awareness_code, real_post_id,
+# testing_result, graduated_at, scaling_history, current_status, linked_itr_test_ids and archived_at.
+#
+# real_post_id is the published Meta Post ID, never POSTIDXXX. Record testing and scaling results
+# separately: a strong test result does not guarantee acceptable economics at higher spend.
+# Keep paused, retired, rejected and archived winner records so graduation and scale history
+# survives.

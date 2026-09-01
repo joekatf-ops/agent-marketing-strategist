@@ -50,6 +50,18 @@ keep a rubric this long legible.
 The last seven came in with the sixteen standards. Runs recorded before that change scored out of 20
 and are not comparable, which `baseline.md` states in place.
 
+## The rule that makes a score mean anything
+
+The generator must be given exactly the craft stack `SKILL.md` declares, no more and no less. A
+criterion may only score what the agent was handed.
+
+`run.py` therefore parses that list out of `SKILL.md` rather than keeping its own copy, the same way
+`scripts/build-craft-bundle.py` does, and a declared reference that is missing from disk stops the
+run instead of being skipped. Both are guarded by tests, because the failure is silent: the run
+completes, the number looks fine, and it is measuring a different agent than the one that ships.
+
+That is not hypothetical. It is what produced the first 36-point reading, recorded in `baseline.md`.
+
 ## Running it
 
 ```bash
@@ -76,6 +88,12 @@ A score is only meaningful against a baseline. `baseline.md` records the referen
 commit they came from. Compare, do not admire: the absolute value of an LLM-judged rubric score
 drifts with the judge, which is why the head-to-head comparison in `report.py` matters more than the
 raw mean.
+
+**The read floor is about one point on the mean.** Two runs of an identical agent, same model, same
+judge, same eight briefs, came in at 34.75 and 35.00, with individual criteria swinging up to 0.38
+and four of eight briefs moving a whole point. Below roughly a point, a delta needs repeat runs
+before it means anything, and a per-criterion table from a single run will happily support a
+confident story about nothing. `baseline.md` records an instance of exactly that mistake.
 
 Two things this cannot tell you. It cannot tell you an ad will convert, because no conversion data
 is attached to any brief. And it cannot catch a claim that is compliant but commercially wrong for a

@@ -21,23 +21,22 @@ into one generic failure.
 | Community research | public search | supplied community export |
 | Search and demand language | search and trends tools | browser |
 | Manual performance analysis | supplied export | supplied report |
-| Universal-method freshness | authenticated Notion connected tool when available | reviewed repository snapshot |
+| Notion source material | authenticated Notion connected tool when available | `docs/notion-archive/`, supplied export |
 
 Live Meta reporting is deferred. A manual export satisfies diagnosis when it contains the required
 fields.
 
-Universal-method freshness is optional for normal strategist work. When the current host exposes a
-user-authenticated Notion connection, follow `connectors/notion-composio.md`. Configured does not
-mean live: only a successful current-session preflight establishes availability.
+Reading Notion is research and is never required. When the current host exposes a user-authenticated
+Notion connection, follow `connectors/notion-composio.md`. Configured does not mean live: only a
+successful current-session preflight establishes availability.
 
 ## Source precedence
 
-The Notion hub is canonical for the universal method, the repository is its human-reviewed portable
-snapshot and the selected brand folder is canonical for brand-specific truth and learning. The
-repository snapshot remains the operating method during normal use and whenever Notion is
-unavailable, unauthorised or incompletely retrieved. A detected Notion change is a `review-needed`
-finding; it must never automatically edit or promote the skill, its references or a generated
-bundle.
+This repository is canonical for the universal method and the selected brand folder is canonical for
+brand-specific truth and learning. Notion is a research source with no authority over either, so a
+retrieved page that disagrees with a reference is a difference a human may want to read, not a
+defect to reconcile. Nothing retrieved may automatically edit or promote the skill, its references
+or a generated bundle.
 
 ## Website crawl workflow
 
@@ -63,8 +62,7 @@ Examples:
 - No review source: persona, objection and language findings are thin.
 - TrendTrack missing, Foreplay available: competitor research may proceed.
 - Both ad tools missing: use Meta Ad Library or report the competitor-ad gap.
-- Notion unavailable: report that method freshness was not checked and use the reviewed repository
-  snapshot.
+- Notion unavailable: say the page was not read. No reference depends on it.
 
 ## Setup routing
 

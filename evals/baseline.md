@@ -52,9 +52,8 @@ on its own. And `pet-food-topper-unaware` at 18 being the lowest score is consis
 traffic staying the hardest case, which is what `references/24-writing-for-low-awareness.md` exists
 for, but one brief is an observation and not a finding.
 
-The 36-point scale is still unmeasured. The next CI run on a branch carrying
-`references/26-copywriting-standards.md` produces the first reading of it, and `report.py` will print
-a `RUBRIC CHANGED` notice rather than subtracting across the two scales.
+The 36-point scale is still unmeasured, and the first attempt at measuring it does not count. See
+"The 36-point reading, and why it is void" below.
 
 ```
 brief                           before   after
@@ -62,6 +61,196 @@ greens-powder-cold                  15      18
 grounding-sheet-thin                15      19
 hair-growth-regulated               17      17
 ```
+
+## The 36-point reading, and why it is void
+
+CI scored all eight briefs against the eighteen-criterion rubric on pull request 1 and returned
+**35.25 / 36**, model and judge both `claude-sonnet-4-5`. Three criteria came in under 2.00:
+
+| Criterion | Mean | Which standard it enforces |
+|---|---|---|
+| end_state | 1.62 | Standard 1, sell the end state |
+| concision | 1.88 | Standard 3, cut then cut again |
+| mechanism_payoff | 1.88 | Standard 12, benefit not mechanism |
+
+Every one of the three is a standard from `references/26-copywriting-standards.md`, and
+`evals/run.py` was not loading that file. It kept a hardcoded twelve-file craft stack while
+`SKILL.md` had grown to fifteen, so the run also withheld `23-commercial-context.md` and
+`24-writing-for-low-awareness.md`, the second of which exists for exactly the cold-traffic case that
+`pet-food-topper-unaware` tests.
+
+So the number measures an agent operating without three of the references it ships with. It is not a
+reading of this package. Discard it and re-run.
+
+**The `end_state` investigation, since the diagnosis came out of it.** The suspicion was that the
+judge was punishing correct cold-traffic behaviour, because the criterion carries a deliberate
+exception: the end state does not have to lead, and at Unaware it must not. Reading the artefact says
+otherwise. The judge did not mark a single opening down for withholding the end state. On
+`pet-food-topper-unaware` it looked at the body handoffs, which is precisely where the standard puts
+the end state when it cannot lead, and found that all six terminate on the dog eating the bowl.
+Nothing reaches the owner who stops dreading dinner. On `protein-coffee-offer` the handoffs land on
+concentrate format, whey isolate and sediment-free liquid, which is machinery, not a life.
+
+The agent was under-selling the outcome, the judge read the rubric correctly including the exception,
+and neither was the cause. The harness was.
+
+**Fixed** by parsing the craft stack out of `SKILL.md` in `run.py` instead of listing it, which is
+what `scripts/build-craft-bundle.py` already did and why the bundle never drifted. A missing declared
+reference now stops the run rather than being silently skipped, and two tests hold the two halves:
+the eval's list must equal the builder's, and the standards file behind a criterion must be loaded.
+
+## Does loading the file actually fix it
+
+A two-brief A/B, run through subagents because no API key was available. Same model on both sides,
+same judge, same brief, identical prompts from `run.generation_prompt`. The only difference is the
+craft stack: twelve references against fifteen. The absolute totals are not comparable to the CI run,
+which used `claude-sonnet-4-5`, but the within-pair delta is a controlled reading.
+
+| Brief | Awareness | Twelve refs | Fifteen refs |
+|---|---|---|---|
+| pet-food-topper-unaware | UWA | 33 / 36 | 33 / 36 |
+| protein-coffee-offer | PDA | 31 / 36 | 32 / 36 |
+
+`end_state` went 1.00 to 1.50, and the average hides the shape of it. **On the cold brief it moved 1
+to 2**, which is the brief the whole investigation came from. Without the file the judge said the
+end state was "never named in a sentence the reader could carry away". With it, the output writes an
+explicit end state into all six body handoffs, none of which needs the product's name: "the sentence
+on the fridge stops being true", "the bowl becomes something he has an opinion about". That is
+standard 1's own check appearing as an artefact in the output. Only the fifteen-reference outputs
+cite the numbered standards at all, which is the cleanest evidence that the file was the difference.
+
+**On the offer brief it did not move.** Five of six packages still sell attributes, price and
+reassurance. Loading the standard fixed the case where the end state has to carry the argument and
+left the case where an offer is competing with it.
+
+Two things this found that the CI run did not.
+
+**`concision` is measuring the harness, not the copy.** It scored 1.00 in all four cells here, and
+every judge blamed the same thing: the summary tables, gate records and per-package rationale that
+`generation_prompt` explicitly demands. "The delivered lines are tight, but the surrounding
+apparatus restates itself." The prompt asks for opening type, must-have carriers, three
+non-negotiables and a body handoff on every option, then the rubric marks the output down for
+repeating itself. Some of that verbosity is this model rather than the harness, so the size of the
+effect is not established. The conflict in the instructions is.
+
+**`mechanism_payoff` improved in kind without improving in score.** The cold brief's handoffs now
+attach a payoff to the ingredients and to the bag staying, and still lose the point on "portioned to
+his weight", which appears in five of six as bare machinery. Standard 12 is landing partially.
+
+Treat all of this as directional. Two briefs move every criterion mean in steps of 0.5, a total
+delta of +0.50 is inside the noise for that sample, and one brief is an observation rather than a
+finding. The claim it does support is narrow and was the question asked: on the cold brief that lost
+the point, loading the standard recovers it.
+
+## The first real reading, and the noise floor that makes it unreadable
+
+CI, eight briefs, `claude-sonnet-4-5` both sides, on the branch that loads all fifteen references.
+
+**34.75 / 36**, against the void 35.25. So: lower.
+
+Then a mistake produced the most useful number recorded here. Because the `paths` filter on a
+`pull_request` event is evaluated against the whole PR diff rather than the latest push, a second
+push re-triggered the eval, and two runs went in parallel against commits whose eval-relevant files
+were byte-identical. **Two runs of the same agent, same model, same judge, same eight briefs.**
+
+| | Run 1 | Run 2 |
+|---|---:|---:|
+| Mean | 34.75 | **35.00** |
+| end_state | 1.25 | **1.62** |
+| concision | 1.88 | **1.62** |
+| no_ai_lexicon | 1.88 | **2.00** |
+| specificity | 1.88 | 1.88 |
+| mechanism_payoff | 1.88 | 1.88 |
+
+Per-brief, four of eight briefs moved, three up and one down, by a full point each.
+
+**`end_state` moved 0.38 between two runs of an identical agent.** The drop from 1.62 to 1.25 that
+this section was originally written to explain is 0.37. The `no_ai_lexicon` drop was 0.12 and that
+criterion swung 0.12 between the identical runs too.
+
+So the honest reading is that **this eval cannot resolve a difference of half a point**, and the
+first version of this section over-explained noise. The per-criterion story it told was wrong, not
+because the reasoning was bad but because there was nothing there to reason about. Recorded as an
+error rather than quietly deleted, because the same mistake is available to anyone reading a single
+run's per-criterion table.
+
+What the two runs do support:
+
+- Loading the three missing references did not visibly move the score in either direction. The A/B
+  finding that the copy changes, with explicit end states appearing in the output, still holds and is
+  visible in the artefacts. It does not show up in the number.
+- The usable comparison is a mean across repeated runs, not a criterion delta from one run. Two runs
+  average 34.875, against 35.25 from the void run, and that gap is smaller than the observed spread.
+- Anything below roughly one point on the mean needs repeat runs before it means anything. That is
+  now the stated read floor.
+
+### One thing the reasons show that the scores cannot
+
+Independent of the score, the `end_state` criterion is worded wrongly, and the judge text says so
+plainly. On `hair-growth-regulated`:
+
+> End state is present (normal growth cycle, sustained density) but not foregrounded at PRA; the
+> focus correctly stays on problem and mechanism, **so this is appropriate restraint rather than
+> failure**, but it's not explicitly named in one sentence per the rubric standard.
+
+The judge describes the behaviour as correct and then scores it 1, because the criterion read as
+requiring an explicit sentence in the copy. Standard 1 in `26-copywriting-standards.md` defines the
+check as "name the end state in one sentence without using the product's name", which is a test the
+*reader* performs, and adds "position, not presence". Those two readings disagree on exactly the case
+the awareness model says is correct.
+
+**Changed:** the wording now asks whether the reader can name the end state, says implied is
+sufficient, and says position is set by awareness. A test pins it to standard 1's own language.
+
+Changing a criterion after seeing a low score deserves suspicion, so the reasoning is on the record.
+The justification is the judge's own text, not the score. The change makes the instrument agree with
+the doctrine it measures, the doctrine is the authority, and it is reversible in one commit. **34.75
+and 35.00 stand as recorded.** Nothing here improves them retroactively.
+
+### Three runs, and the honest summary
+
+The corrected wording was then measured.
+
+| Run | `end_state` wording | Mean | end_state |
+|---|---|---:|---:|
+| 1 | original | 34.75 | 1.25 |
+| 2 | original, identical agent to run 1 | 35.00 | 1.62 |
+| 3 | corrected | 35.50 | 1.75 |
+| 4 | corrected, identical agent to run 3 | **34.75** | **1.62** |
+
+Run 3 was the highest of the four and run 4 gave the number straight back. Two runs per condition:
+34.75 and 35.00 with the original wording, 35.50 and 34.75 with the corrected one. The ranges
+overlap almost completely, and `end_state` reads 1.25, 1.62, 1.75, 1.62 across the four.
+
+**The corrected wording shows no measurable effect.** Run 4 also wobbled `concision` down to 1.50
+and `reader_selection` to 1.88, neither of which had moved before, which is more of the same noise
+rather than anything new.
+
+**The summary across everything measured.** The void reading was 35.25. The four real readings are
+34.75, 35.00, 35.50 and 34.75. The void number sits inside that range. So loading the three
+references the agent had been missing produced **no detectable change in the score**, in either
+direction, and neither did correcting the criterion.
+
+That is not the same as no change. The A/B artefacts show the copy changing: explicit end states
+appear in the body handoffs when `26-copywriting-standards.md` is in context and are absent when it
+is not, and only the fifteen-reference outputs cite the numbered standards at all. The eval is not
+sensitive enough to see it. Both of those statements are true at once, and the useful conclusion is
+about the instrument rather than the agent: an eighteen-criterion rubric where sixteen criteria sit
+at 2.00 has very little room left to register anything.
+
+`no_ai_lexicon` also changed instrument this branch: the judge now derives all twenty-three tier-one
+phrases from `config/copy-lexicon.yml` plus four structural tells, instead of eight phrases quoted
+inside the criterion. Strictly more accurate, and its effect on the score is inside the noise.
+
+### What is still open
+
+`concision` and `mechanism_payoff` sat at 1.88 in both runs and were supposed to benefit from loading
+the standards file. The `concision` reasons blame the same thing at full scale that the two-brief A/B
+found, and it is not the ad copy: "Core hooks are tight, but write-ups contain restatement." The eval
+asks for opening type, must-have carriers, three non-negotiables and a body handoff on every option,
+then marks the output down for repeating itself. That conflict lives in `generation_prompt` and is
+not fixed here, because fixing it changes what the eval asks for, which deserves a deliberate
+decision rather than one taken while chasing a number.
 
 ## What moved, and the mechanism
 
