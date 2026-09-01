@@ -4,6 +4,10 @@ Source hub: Master Creative Strategy (Notion page id 3c02deb4f6ba80b3be07c725f8b
 
 Exported 12 pages. Fetched 27 August 2026 snapshot, written 31 August 2026.
 
+Eleven files are present. Page 10 was removed on 1 September 2026 because it was built around a real
+client brand, and this repository is brand-agnostic. Its row is kept so the page stays traceable to
+its Notion source. See `README.md` for what was redacted and why.
+
 | File | Notion page id | Title | Word count |
 |---|---|---|---|
 | hub.md | 3c02deb4f6ba80b3be07c725f8b6807b | Master Creative Strategy | 538 |
@@ -17,7 +21,7 @@ Exported 12 pages. Fetched 27 August 2026 snapshot, written 31 August 2026.
 | 07-testing-measurement-and-decisions.md | 3c92deb4f6ba8143a580dd2eba726ee5 | 07. Testing, Measurement and Decisions | 468 |
 | 08-advertising-and-messaging-frameworks.md | 3c92deb4f6ba81d2ac1def4a32a6608a | 08. Advertising and Messaging Frameworks | 433 |
 | 09-formats-and-production-guidance.md | 3c92deb4f6ba812691a3f146c9b4ff5c | 09. Formats and Production Guidance | 348 |
-| 10-cadian-worked-example.md | 3c92deb4f6ba81ec81d6cbe81aa607fc | 10. Cadian Worked Example | 258 |
+| removed, see README.md | 3c92deb4f6ba81ec81d6cbe81aa607fc | 10. Worked Example (brand-specific) | 258 |
 
 Total word count across exported pages: 7039
 

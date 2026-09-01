@@ -70,5 +70,5 @@ Research should produce:
 - Do not turn research into an overbuilt avatar.
 - Include only details that change the message or creative direction.
 - Keep the core documentation brand-neutral.
-- Use named brands, including Cadian, only inside clearly labelled examples.
+- Use named brands, including [brand name redacted], only inside clearly labelled examples.
 - Allow real execution data to replace assumptions.

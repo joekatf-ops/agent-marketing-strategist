@@ -35,7 +35,7 @@ The aim is not only to find an ad that works. The aim is to understand what the 
 - Testing intentionally begins with large differences across awareness, format and destination. Later testing narrows variables as evidence improves.
 - The testing budget is never below $50 per ad set per day. Approximately $100 is preferred, with higher budgets set from product economics and account context.
 - The initial observation window is five full days.
-- Core documentation remains brand-neutral. Cadian appears only in clearly labelled examples.
+- Core documentation remains brand-neutral. [brand name redacted] appears only in clearly labelled examples.
 
 # Core document pages
 
@@ -57,4 +57,4 @@ Status: Locked. Source of truth established 27 August 2026. Update the relevant 
 - 07. Testing, Measurement and Decisions
 - 08. Advertising and Messaging Frameworks
 - 09. Formats and Production Guidance
-- 10. Cadian Worked Example
+- 10. Worked Example (removed, see README.md)

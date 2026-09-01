@@ -522,7 +522,7 @@ After understanding these fundamentals, continue through:
 7. Testing, Measurement and Decisions
 8. Advertising and Messaging Frameworks
 9. Formats and Production Guidance
-10. Cadian Worked Example
+10. Worked Example (removed, see README.md)
 
 # Supporting foundations
 
