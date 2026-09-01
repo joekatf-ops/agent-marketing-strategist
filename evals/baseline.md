@@ -215,17 +215,21 @@ The corrected wording was then measured.
 |---|---|---:|---:|
 | 1 | original | 34.75 | 1.25 |
 | 2 | original, identical agent to run 1 | 35.00 | 1.62 |
-| 3 | corrected | **35.50** | **1.75** |
+| 3 | corrected | 35.50 | 1.75 |
+| 4 | corrected, identical agent to run 3 | **34.75** | **1.62** |
 
-Run 3 is the highest of the three and it does not demonstrate that the correction worked. The two
-original-wording runs spanned 1.25 to 1.62 on `end_state` with nothing changed between them, so 1.75
-sits 0.13 above that range, well inside the spread. One run per condition against a noise floor this
-size cannot separate a real effect from another draw.
+Run 3 was the highest of the four and run 4 gave the number straight back. Two runs per condition:
+34.75 and 35.00 with the original wording, 35.50 and 34.75 with the corrected one. The ranges
+overlap almost completely, and `end_state` reads 1.25, 1.62, 1.75, 1.62 across the four.
 
-**The summary across everything measured tonight.** The void reading was 35.25. The three real
-readings are 34.75, 35.00 and 35.50. The void number sits inside the range of the real ones. So
-loading the three references the agent had been missing produced **no detectable change in the
-score**, in either direction.
+**The corrected wording shows no measurable effect.** Run 4 also wobbled `concision` down to 1.50
+and `reader_selection` to 1.88, neither of which had moved before, which is more of the same noise
+rather than anything new.
+
+**The summary across everything measured.** The void reading was 35.25. The four real readings are
+34.75, 35.00, 35.50 and 34.75. The void number sits inside that range. So loading the three
+references the agent had been missing produced **no detectable change in the score**, in either
+direction, and neither did correcting the criterion.
 
 That is not the same as no change. The A/B artefacts show the copy changing: explicit end states
 appear in the body handoffs when `26-copywriting-standards.md` is in context and are absent when it

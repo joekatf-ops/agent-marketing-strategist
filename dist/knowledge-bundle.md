@@ -6170,9 +6170,40 @@ Do not claim that a site, market, competitor, or ad library was checked unless a
 
 # Firecrawl Connector
 
-Last verified: 2026-08-26
+Last verified: 2026-08-31, CLI path verified against a live unauthenticated call.
 
 Official setup reference: https://docs.firecrawl.dev/mcp-server
+
+## Two ways in, and the one that catches people out
+
+Firecrawl arrives either as the remote MCP server documented below, or as the `firecrawl` CLI. They
+authenticate differently and that difference produces a confusing symptom: **Firecrawl can be
+authenticated on your machine and still be entirely absent from a cloud agent session.**
+
+`firecrawl login` writes a credential locally. A cloud agent runs on a fresh VM, so it inherits
+neither that credential nor the CLI itself. The symptom is "I authenticated it, why is it not
+working", and the cause is not authentication at all.
+
+In a cloud agent, in order:
+
+1. `which firecrawl`. If it is missing, nothing is configured yet, whatever the desktop says.
+2. Install to a user-writable prefix. A global install fails with `EACCES` on `/usr/lib/node_modules`
+   and there is no usable `sudo`:
+
+       npm config set prefix ~/.npm-global
+       npm install -g firecrawl-cli
+       export PATH="$HOME/.npm-global/bin:$PATH"
+
+3. `firecrawl --status` reports authentication, credits and concurrency. Expect `Not authenticated`.
+4. **Unauthenticated still works for `scrape` and `search`.** Both were verified returning real
+   content in that state. Do not report Firecrawl as unavailable without testing, and do not skip
+   research you could have done.
+5. For the authenticated capabilities, set `FIRECRAWL_API_KEY` in the environment. On a Cursor cloud
+   agent that means adding it under Cloud Agents then Secrets, which is the only route that reaches a
+   new VM. A desktop login will not travel.
+
+Add the install to `.cursor/environment.json` if the CLI is wanted on every boot, rather than
+installing it by hand each session.
 
 Firecrawl is the preferred connector for crawling brand and competitor websites. It provides fresh evidence; the strategist stores normalized findings and change history in the active brand folder.
 
