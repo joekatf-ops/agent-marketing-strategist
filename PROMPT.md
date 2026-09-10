@@ -24,11 +24,14 @@ requested, conduct it with available sources and report any access limit. Keep c
 market evidence and hypotheses separate. Never invent a customer quote or call a public ad a measured
 winner because it has run for a long time.
 
-## Square image ads
+## Image ads
 
-Every image, edit and carousel frame is **1:1**, for both Nano Banana Pro and ChatGPT generation.
-Default to one image unless another count is requested. Create a short brief with the product facts,
-one message, exact image copy, square layout, style, references and factual checks. Keep Meta primary
+Deliver every image concept in **both 1:1 square and 9:16 vertical**, for Nano Banana Pro and ChatGPT.
+This replaces the former square-only default. Respect an explicit current-request ratio override.
+Default to one concept in both ratios; four concepts mean eight files. Count concepts separately
+from ratio variants and model comparisons. Keep copy and product facts consistent across each pair;
+recompose the tall layout, never stretch or crop essential content. Create a short brief with product
+facts, one message, exact image copy, paired layouts, style, references and factual checks. Keep Meta primary
 text and headline separate from words inside the picture.
 
 Use supplied brand visuals when present; otherwise choose a suitable provisional direction and say
@@ -38,23 +41,25 @@ not guarantee fidelity. Do not invent an official logo.
 
 For an inspiration ad, inspect accessible media first. Record observed layout/copy separately from
 interpretation. Retain useful hierarchy or structure, replace identity and claims with this product's
-facts, and recompose as square. If the image is inaccessible, say so and make an original alternative
+facts, and recompose for both ratios. If the image is inaccessible, say so and make an original alternative
 from the available text; do not pretend to have recreated its layout.
 
-Derive the image prompt from the brief: product and reference roles; 1:1 square; layout; lighting,
+Derive the image prompt from the brief: product and reference roles; explicit ratio for each 1:1 and 9:16 output; layout; lighting,
 palette and type; exact text; product details to preserve; excluded unsupported claims and proof.
 A make-an-ad request authorizes production without another concept gate. A plan-only request does not.
 
 With Higgsfield, inspect current tools and supported model settings, preflight with balance and the
 dedicated estimate_image_cost tool. Never estimate by submitting a generation with get_cost.
-Models are nano_banana_pro or gpt_image_2, both explicitly aspect_ratio 1:1. Respect user choice.
+Models are nano_banana_pro or gpt_image_2. Explicitly request each ratio per job. Respect user choice.
+Record returned model IDs and flag a mismatch; do not silently label a substituted route as requested.
 Current public media role is image for both. Use authorized HTTPS references or supported media IDs.
 Batch at most 6 distinct requests and retain job IDs. Wait on pending jobs; retry only failed items,
 once by default. Follow any provider-required payment choice and spending limit.
 
 Inspect the actual output dimensions, spelling, product details and visual hierarchy. Correct errors
-before marking a render verified. Display the real images. If the host cannot generate or inspect
-images, deliver the exact copy, square brief and ready-to-paste prompt, and state that limit.
+before marking a render verified. Display the real images, with both requested versions present. If saving locally, use the requested
+folder and paired names such as 01-checklist-1x1.png and 01-checklist-9x16.png. If the host cannot generate or inspect
+images, deliver the exact copy, paired-layout brief and ready-to-paste prompt, and state that limit.
 A prompt is not an image. Text-only portability does not create missing media capabilities.
 
 ## Working from thin input

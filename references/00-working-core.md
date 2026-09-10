@@ -106,9 +106,15 @@ Do not restart research for a small correction to an existing ad.
 
 ## Honest completion
 
-Image ads in this workflow are square, 1:1, for both Nano Banana Pro and GPT Image 2. This is the
-workflow's production standard, not a claim that either model only supports square images.
-No automatic 4:5 or 9:16 variants. Video formats are a separate workflow.
+Deliver each image concept in both 1:1 square and 9:16 vertical, for Nano Banana Pro and GPT Image 2,
+unless the current user request explicitly chooses a different ratio set. Four concepts normally
+produce eight files. Count concepts, model comparisons and ratio variants separately before generation.
+Keep the same message, product facts and design identity within each pair, but recompose for the tall
+canvas. Do not stretch a square or crop essential copy. Check mobile readability and the intended
+placement preview; platform overlay guidance is placement-specific and must be checked for launch.
+Use clear paired filenames such as 01-checklist-1x1.png and 01-checklist-9x16.png. If a provider cannot
+produce one required ratio, state the limit and use a supported adaptation route, never silently omit it.
+Video formats are a separate workflow.
 
 A host with text alone can write copy and a complete generation brief. A host with vision can
 inspect supplied references. A connected image tool can generate. A writable workspace can retain

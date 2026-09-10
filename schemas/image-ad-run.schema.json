@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Square image-ad production record",
+  "title": "Image-ad production record",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -53,7 +53,7 @@
           },
           "aspect_ratio": {
             "type": "string",
-            "const": "1:1"
+            "enum": ["1:1", "9:16"]
           },
           "model": {
             "type": "string",

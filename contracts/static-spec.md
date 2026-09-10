@@ -1,6 +1,6 @@
 # Output Contract: Static and Carousel Spec
 locked: 2026-09-10
-version: 2.0.0
+version: 2.1.0
 
 Product information and the request are sufficient. Brand folders, customer research, beliefs,
 awareness maps, campaign IDs and approval rounds are optional. Follow
@@ -8,26 +8,28 @@ awareness maps, campaign IDs and approval rounds are optional. Follow
 
 ## Artefact
 
-Markdown brief plus actual images when requested and available. Every image and carousel frame
-is **1:1**. A prompt is not a rendered image.
+Markdown brief plus actual images when requested and available. Every image concept and carousel
+frame is delivered in both **1:1 and 9:16**, unless the current request explicitly overrides the
+ratio set. Count concepts separately from files: four concepts normally produce eight images.
+A prompt is not a rendered image.
 
 ## Sections, in order
 
-1. **Header**: product, supplied facts, request, image count, format, ratio `1:1`. Add brand,
+1. **Header**: product, supplied facts, request, concept count, output count, format, ratios `1:1` and `9:16`. Add brand,
    market, destination and preferred model when known. Full ad names and campaign IDs apply only
    when operating the named house campaign profile.
 2. **The job**: the single product message, useful feature or practical benefit to communicate.
    Belief change and awareness are optional lenses, not required inputs.
-3. **Layout**: subject and zones, one primary line, square composition with breathing room.
+3. **Layout**: subject and zones, one primary line, separate square and vertical compositions with breathing room.
    Recompose an upright reference rather than cropping away the message.
 4. **Copy on the asset**: exact words and hierarchy. Keep Meta primary text, headline and CTA
    separate from image text. Omit unknown price, review or offer details rather than filling gaps.
 5. **Visual direction and production needs**: references and product details to preserve. Use
    supplied brand visuals or select a provisional palette, type and style, labelled in the brief.
    Do not invent an official logo or packaging.
-6. **Image-model prompt**: derived from sections 1 to 5, with `1:1 square`, exact copy,
+6. **Image-model prompt**: derived from sections 1 to 5, with each explicit output ratio, exact copy,
    reference roles, composition and exclusions. For Higgsfield use `connectors/higgsfield.md`.
-7. **Carousel frames**: only when requested; every frame square, independently legible, one job.
+7. **Carousel frames**: only when requested; each frame has both ratio versions, is independently legible and has one message.
 8. **Proof and claim check**: factual support and essential missing material in the brief only.
    Evidence IDs are optional unless a ledger exists. Check imagery as well as words.
 9. **Rationale and result**: short format rationale; actual render status and inspection results.
@@ -35,12 +37,14 @@ is **1:1**. A prompt is not a rendered image.
 
 ## Layout and opening
 
-- Always square, for either model. Do not generate extra ratios.
+- Deliver both requested ratio versions for either model. Preserve message and product identity.
+  Reflow the tall composition; do not stretch the square or crop essential copy.
+- Save clearly named pairs and check completeness. Do not treat four concepts as four total files.
 - One dominant idea and one readable primary line. Supporting detail must earn its space.
 - Default to 25 or fewer words in a static; a requested comparison or list may need more.
   Counts are craft guidance, not a reason to shrink important text.
 - Check at mobile viewing size and keep essential material away from edges. Check the placement
-  preview before launch; a square source does not guarantee identical display in every placement.
+  preview before launch; the source ratio does not guarantee identical display in every placement.
 - Frame one works without later frames or an earlier ad.
 - Apply `references/26-copywriting-standards.md`. For a developed hook pass, use
   `references/20-hook-quality-standard.md`. A feature ad need not manufacture customer beliefs
@@ -66,7 +70,7 @@ Do not label an unverified draft policy-approved.
 
 - [ ] Useful ad from available facts; no unnecessary research or brand-folder gate
 - [ ] One product message; exact copy, prompt and layout agree
-- [ ] Every rendered image 1:1, measured when accessible
+- [ ] Both requested ratio versions present for each concept; actual dimensions measured when accessible
 - [ ] No fabricated proof, unknown product details or missing-fact markers in finished pixels
 - [ ] Provisional creative direction or illustration identified in the brief
 - [ ] Rendered text checked against copy; product and composition visually inspected

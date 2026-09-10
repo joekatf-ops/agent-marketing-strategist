@@ -133,8 +133,9 @@ def validate(record, base):
                 path = pathlib.Path(base) / path
             try:
                 width, height = dimensions(path)
-                if width != height:
-                    errors.append(f"{label}: actual image is {width}x{height}, not square")
+                ratio_width, ratio_height = map(int, item["aspect_ratio"].split(":"))
+                if width * ratio_height != height * ratio_width:
+                    errors.append(f"{label}: actual image is {width}x{height}, not {item['aspect_ratio']}")
                 if (item.get("width", width), item.get("height", height)) != (width, height):
                     errors.append(f"{label}: recorded dimensions disagree with actual file")
             except (OSError, ValueError, struct.error) as exc:

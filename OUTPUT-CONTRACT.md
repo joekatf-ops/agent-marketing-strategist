@@ -15,7 +15,7 @@ Load a contract in full before producing that artefact.
 | Hook Batch | `contracts/hook-batch.md` | Hook requests, directly from the available brief |
 | Ad Copy | `contracts/ad-copy.md` | Primary text, headlines, descriptions, and CTA |
 | Video Script | `contracts/video-script.md` | Any selected video execution |
-| Reference Analysis | `contracts/reference-analysis.md` | Supplied inspiration and square adaptation |
+| Reference Analysis | `contracts/reference-analysis.md` | Supplied inspiration and paired-ratio adaptation |
 | Static and Carousel Spec | `contracts/static-spec.md` | Any selected static or carousel execution |
 | Campaign Launch Plan | `contracts/campaign-launch-plan.md` | Before a human builds or changes Meta campaigns |
 | Destination Handoff | `contracts/destination-handoff.md` | Before launch, for ad-to-page message continuity |
@@ -28,7 +28,7 @@ Load a contract in full before producing that artefact.
 Product information and a prompt are enough for ordinary creative work. Customer research, beliefs,
 brand visuals and campaign identifiers are optional. Rules 11 to 15 describe the named house
 campaign profile only. The current user request controls ordinary creative count and direction;
-flag factual conflicts without silently overwriting stored records. Every image output is 1:1.
+flag factual conflicts without silently overwriting stored records. Every image concept gets both 1:1 and 9:16 versions unless explicitly overridden.
 
 1. **Resolve the brand when there is one.** An artefact produced against a connected brand folder
    names the brand, market, product, evidence version and approved-learning version. An artefact

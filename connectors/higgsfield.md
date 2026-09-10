@@ -2,7 +2,7 @@
 
 Verified 2026-09-10 against connected tool schemas, model records and read-only estimates.
 This verification did not submit a generation. Inspect current tools before use; host prefixes
-vary. The product-first brief is in `contracts/static-spec.md`. Every image is **1:1**, for both
+vary. The product-first brief is in `contracts/static-spec.md`. Every concept gets **1:1 and 9:16** versions, for both
 preferred models. This is a workflow standard, not a Nano Banana capability limitation.
 
 ## Setup and read-only preflight
@@ -28,9 +28,9 @@ Do not use obsolete `models_explore` or `media_import_url`. Never use `generate_
 
 Respect the requested model: Nano Banana Pro is `nano_banana_pro`; ChatGPT generation is
 `gpt_image_2`. Without a preference, choose an available preferred model; the current ordinary-image
-tool defaults to GPT Image 2. Explicitly request `aspect_ratio: "1:1"` for both. Default to supported
+tool defaults to GPT Image 2. Explicitly request `aspect_ratio: "1:1"` and `aspect_ratio: "9:16"` in separate jobs. Default to supported
 `resolution: "2k"`, check current quality options and estimate the selected settings. Never advertise
-a fixed credit price. Both models support other ratios; this workflow always produces square images.
+a fixed credit price. Both models support other ratios; this workflow delivers both square and vertical versions by default.
 
 The public tools accept `medias: [{"role":"image","value":"..."}]` for BOTH models. Nano Banana's
 catalogue may show backend `image_references`; that is not the public tool's media role. Follow
@@ -51,28 +51,30 @@ and attachment mapping, or choose a design that avoids an exact product depictio
    do not add a concept approval round. A plan-only request stops before generation.
 2. Verify access, model, references and dedicated cost estimate. Respect spending limits. If the
    provider requires a credits/allowance choice, obtain that choice; do not guess it.
-3. Submit one job per distinct prompt, explicit `aspect_ratio: "1:1"`, default `count: 1`.
+3. Submit one job per concept and ratio, explicit `aspect_ratio: "1:1"` or `"9:16"`, default `count: 1`.
+   Four concepts require eight outputs, unless the current user request overrides the ratio set.
    One call supports 1 to 4 samples of the same prompt, only when requested.
 4. Batch distinct prompts in at most **6** ordered requests. Shape:
    `{"requests":[{"index":0,"params":{"model":"nano_banana_pro","prompt":"...",
    "aspect_ratio":"1:1","resolution":"2k","count":1}}]}`.
    Split larger requested batches while retaining stable indices.
-5. Retain job IDs, actual parameters and returned adjustments. `jobs_wait` accepts
+5. Retain job IDs, actual parameters, returned model identifiers and adjustments. Flag model mismatches
+   rather than reporting the requested model as confirmed. `jobs_wait` accepts
    `jobs: [{"index":0,"job_id":"..."}]`, at most 8, and `timeout_seconds` up to 15.
    Follow polling guidance. Pending is not failed. Retry failed items only, once by default.
    Never duplicate successful or pending jobs.
 6. Display completed results. `show_generation_by_ids` currently supports up to 24 jobs.
    Record real result URLs or accessible local files.
 7. Inspect actual width and height, spelling, product fidelity, hierarchy and implied claims.
-   Correct a non-square result before marking it verified. A successful job or square prompt does
-   not prove square pixels. Use `scripts/validate-image-ad.py` when local outputs are available.
+   Correct a ratio mismatch before marking it verified. A successful job or requested ratio does
+   not prove the actual pixels. Check that each concept has both required files. Use `scripts/validate-image-ad.py` when local outputs are available.
 
 Generate the complete ad or composite exact copy with available tools. Both routes need visual and
 text checks. Never render missing-fact markers, fake proof objects or invented product features.
 
 ## Fallback and limits
 
-If Higgsfield is unavailable, deliver the square brief, exact copy and ready-to-paste prompt.
+If Higgsfield is unavailable, deliver the paired-layout brief, exact copy and ready-to-paste prompt.
 Another available image tool can execute the same brief, respecting the requested provider.
 State honestly whether pixels were rendered or inspected. A text-only LLM can plan but cannot
 generate images. `use_unlim` is a provider payment option, not a universal free switch; follow

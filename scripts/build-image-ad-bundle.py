@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the self-contained square image-ad bundle. No API or third-party dependency."""
+"""Build the self-contained image-ad bundle. No API or third-party dependency."""
 import argparse
 import pathlib
 
@@ -14,10 +14,10 @@ SOURCES = (
 
 def build():
     version = (ROOT / "VERSION").read_text().strip()
-    parts = [f"# Marketing Strategist: square image ads\n\nVersion: {version}\n\n"
+    parts = [f"# Marketing Strategist: image ads\n\nVersion: {version}\n\n"
              "Self-contained instructions for product-first Meta image ads. Upload this one file, "
-             "then describe the product and request. Customer research is optional. Every image is "
-             "1:1. Tools remain host-dependent; without generation, deliver copy and a prompt.\n\n"
+             "then describe the product and request. Customer research is optional. Every image concept gets "
+             "1:1 and 9:16 versions unless explicitly overridden. Tools remain host-dependent; without generation, deliver copy and a prompt.\n\n"
              "Optional deeper-library references are not prerequisites. The included core and image "
              "workflow govern this task; house campaign rules apply only to that named profile.\n"]
     for source in SOURCES:

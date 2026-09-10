@@ -15,7 +15,7 @@ this contract. Customer beliefs and awareness are optional analysis fields, not 
 4. **Interpretation:** the likely message or persuasive move and why it is relevant. This is a
    hypothesis unless supported by an appropriate experiment. Classify awareness only if useful.
 5. **Adaptation:** what to retain, replace, remove and add for the active product. Use its own
-   supported facts and identity. State how a non-square layout becomes 1:1.
+   supported facts and identity. State how the reference is recomposed for both 1:1 and 9:16.
 6. **Production handoff:** the selected direction and any unresolved input that actually affects it.
 
 Keep observations separate from interpretations. Do not claim image inspection from a URL label,

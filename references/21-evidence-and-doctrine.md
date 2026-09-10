@@ -59,7 +59,7 @@ Read only reviewed swipe annotations as the package's teaching layer. Unreviewed
 draft interpretations. For a supplied reference, inspect its actual media and separate visual
 observations from interpretation. A reference can be useful without being called a winner.
 
-Every image in the square workflow remains 1:1. Historical comparisons of other aspect ratios
+Every image concept gets both 1:1 and 9:16 versions unless explicitly overridden. Historical comparisons of other aspect ratios
 do not override this production standard or prove a universal performance advantage.
 
 ## Copywriting tensions

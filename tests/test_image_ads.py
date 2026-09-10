@@ -50,7 +50,22 @@ class ImageRunTests(unittest.TestCase):
 
     def test_requested_square_does_not_hide_non_square_pixels(self):
         self.render(40, 32)
-        self.assertTrue(any("40x32, not square" in e for e in self.errors()))
+        self.assertTrue(any("40x32, not 1:1" in e for e in self.errors()))
+
+    def test_portrait_pixels_match_requested_ratio(self):
+        self.record["outputs"][0]["aspect_ratio"] = "9:16"
+        self.render(18, 32)
+        self.assertEqual([], self.errors())
+
+    def test_requested_portrait_does_not_hide_square_pixels(self):
+        self.record["outputs"][0]["aspect_ratio"] = "9:16"
+        self.render(32, 32)
+        self.assertTrue(any("32x32, not 9:16" in e for e in self.errors()))
+
+    def test_swapped_portrait_orientation_rejected(self):
+        self.record["outputs"][0]["aspect_ratio"] = "9:16"
+        self.render(32, 18)
+        self.assertTrue(any("not 9:16" in e for e in self.errors()))
 
     def test_recorded_dimensions_do_not_override_actual_file(self):
         self.render()
@@ -87,7 +102,7 @@ class ImageRunTests(unittest.TestCase):
             with self.subTest(record=record):
                 self.assertTrue(self.validator.validate(record, self.base))
 
-    def test_non_square_requested_ratio_rejected(self):
+    def test_unsupported_requested_ratio_rejected(self):
         self.record["outputs"][0]["aspect_ratio"] = "4:5"
         self.assertTrue(self.errors())
 

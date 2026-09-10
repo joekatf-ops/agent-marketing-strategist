@@ -13,19 +13,20 @@ On a chat surface, upload `dist/image-ad-bundle.md` and type:
 For an agent that can read files, install this skill folder or point it at `SKILL.md`.
 For a text-only chat with no uploads, paste `PROMPT.md` and your request.
 
-Every image comes out **1:1 square**, with either Nano Banana Pro or ChatGPT generation. The skill
-chooses one useful message, writes the copy and designs the square ad. You do not need to provide
+Every image concept comes in **1:1 square and 9:16 vertical**, with either Nano Banana Pro or ChatGPT
+generation. Four concepts produce eight files. An explicit ratio request overrides this default.
+The skill chooses one useful message, writes the copy and designs each layout. You do not need to provide
 an awareness stage, belief map, campaign number or an approved visual system.
 
 ## What you get
 
 With a connected image generator, you get actual images, checked for spelling, product accuracy,
-readability and square dimensions wherever the host can inspect them. Higgsfield is the first
+readability and actual dimensions for both ratios wherever the host can inspect them. Higgsfield is the first
 adapter. Say which model you want, or let the workflow choose an available preferred model.
 
 > Use Higgsfield and Nano Banana Pro. Make three square image ads for this product: [description].
 
-With no image tool, you get the exact copy, square layout and ready-to-paste generation prompt.
+With no image tool, you get the exact copy, paired layouts and ready-to-paste generation prompt.
 The skill will say that no image was rendered. A language model cannot gain image-generation or
 browsing capability merely by reading a skill.
 
@@ -66,7 +67,7 @@ Customer beliefs are useful when they explain a real buying obstacle; they are n
 
 Supply the image or an accessible link, and your product details. The skill studies the actual
 layout, hierarchy and copy, then replaces the identity, claims and proof with yours. It recomposes
-portrait references for a square canvas. If the image is inaccessible, it says so and can create an
+references for square and vertical canvases. If the image is inaccessible, it says so and can create an
 original alternative from the available text.
 
 Public ad libraries show creative activity, not verified profitability. A long-running ad is a

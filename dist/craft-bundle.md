@@ -45,11 +45,14 @@ requested, conduct it with available sources and report any access limit. Keep c
 market evidence and hypotheses separate. Never invent a customer quote or call a public ad a measured
 winner because it has run for a long time.
 
-## Square image ads
+## Image ads
 
-Every image, edit and carousel frame is **1:1**, for both Nano Banana Pro and ChatGPT generation.
-Default to one image unless another count is requested. Create a short brief with the product facts,
-one message, exact image copy, square layout, style, references and factual checks. Keep Meta primary
+Deliver every image concept in **both 1:1 square and 9:16 vertical**, for Nano Banana Pro and ChatGPT.
+This replaces the former square-only default. Respect an explicit current-request ratio override.
+Default to one concept in both ratios; four concepts mean eight files. Count concepts separately
+from ratio variants and model comparisons. Keep copy and product facts consistent across each pair;
+recompose the tall layout, never stretch or crop essential content. Create a short brief with product
+facts, one message, exact image copy, paired layouts, style, references and factual checks. Keep Meta primary
 text and headline separate from words inside the picture.
 
 Use supplied brand visuals when present; otherwise choose a suitable provisional direction and say
@@ -59,23 +62,25 @@ not guarantee fidelity. Do not invent an official logo.
 
 For an inspiration ad, inspect accessible media first. Record observed layout/copy separately from
 interpretation. Retain useful hierarchy or structure, replace identity and claims with this product's
-facts, and recompose as square. If the image is inaccessible, say so and make an original alternative
+facts, and recompose for both ratios. If the image is inaccessible, say so and make an original alternative
 from the available text; do not pretend to have recreated its layout.
 
-Derive the image prompt from the brief: product and reference roles; 1:1 square; layout; lighting,
+Derive the image prompt from the brief: product and reference roles; explicit ratio for each 1:1 and 9:16 output; layout; lighting,
 palette and type; exact text; product details to preserve; excluded unsupported claims and proof.
 A make-an-ad request authorizes production without another concept gate. A plan-only request does not.
 
 With Higgsfield, inspect current tools and supported model settings, preflight with balance and the
 dedicated estimate_image_cost tool. Never estimate by submitting a generation with get_cost.
-Models are nano_banana_pro or gpt_image_2, both explicitly aspect_ratio 1:1. Respect user choice.
+Models are nano_banana_pro or gpt_image_2. Explicitly request each ratio per job. Respect user choice.
+Record returned model IDs and flag a mismatch; do not silently label a substituted route as requested.
 Current public media role is image for both. Use authorized HTTPS references or supported media IDs.
 Batch at most 6 distinct requests and retain job IDs. Wait on pending jobs; retry only failed items,
 once by default. Follow any provider-required payment choice and spending limit.
 
 Inspect the actual output dimensions, spelling, product details and visual hierarchy. Correct errors
-before marking a render verified. Display the real images. If the host cannot generate or inspect
-images, deliver the exact copy, square brief and ready-to-paste prompt, and state that limit.
+before marking a render verified. Display the real images, with both requested versions present. If saving locally, use the requested
+folder and paired names such as 01-checklist-1x1.png and 01-checklist-9x16.png. If the host cannot generate or inspect
+images, deliver the exact copy, paired-layout brief and ready-to-paste prompt, and state that limit.
 A prompt is not an image. Text-only portability does not create missing media capabilities.
 
 ## Working from thin input
@@ -258,9 +263,15 @@ Do not restart research for a small correction to an existing ad.
 
 ## Honest completion
 
-Image ads in this workflow are square, 1:1, for both Nano Banana Pro and GPT Image 2. This is the
-workflow's production standard, not a claim that either model only supports square images.
-No automatic 4:5 or 9:16 variants. Video formats are a separate workflow.
+Deliver each image concept in both 1:1 square and 9:16 vertical, for Nano Banana Pro and GPT Image 2,
+unless the current user request explicitly chooses a different ratio set. Four concepts normally
+produce eight files. Count concepts, model comparisons and ratio variants separately before generation.
+Keep the same message, product facts and design identity within each pair, but recompose for the tall
+canvas. Do not stretch a square or crop essential copy. Check mobile readability and the intended
+placement preview; platform overlay guidance is placement-specific and must be checked for launch.
+Use clear paired filenames such as 01-checklist-1x1.png and 01-checklist-9x16.png. If a provider cannot
+produce one required ratio, state the limit and use a supported adaptation route, never silently omit it.
+Video formats are a separate workflow.
 
 A host with text alone can write copy and a complete generation brief. A host with vision can
 inspect supplied references. A connected image tool can generate. A writable workspace can retain
@@ -1696,7 +1707,7 @@ controlled destination token: LP, PDP, HP or CP. If it cannot, the script is blo
 
 # Output Contract: Static and Carousel Spec
 locked: 2026-09-10
-version: 2.0.0
+version: 2.1.0
 
 Product information and the request are sufficient. Brand folders, customer research, beliefs,
 awareness maps, campaign IDs and approval rounds are optional. Follow
@@ -1704,26 +1715,28 @@ awareness maps, campaign IDs and approval rounds are optional. Follow
 
 ## Artefact
 
-Markdown brief plus actual images when requested and available. Every image and carousel frame
-is **1:1**. A prompt is not a rendered image.
+Markdown brief plus actual images when requested and available. Every image concept and carousel
+frame is delivered in both **1:1 and 9:16**, unless the current request explicitly overrides the
+ratio set. Count concepts separately from files: four concepts normally produce eight images.
+A prompt is not a rendered image.
 
 ## Sections, in order
 
-1. **Header**: product, supplied facts, request, image count, format, ratio `1:1`. Add brand,
+1. **Header**: product, supplied facts, request, concept count, output count, format, ratios `1:1` and `9:16`. Add brand,
    market, destination and preferred model when known. Full ad names and campaign IDs apply only
    when operating the named house campaign profile.
 2. **The job**: the single product message, useful feature or practical benefit to communicate.
    Belief change and awareness are optional lenses, not required inputs.
-3. **Layout**: subject and zones, one primary line, square composition with breathing room.
+3. **Layout**: subject and zones, one primary line, separate square and vertical compositions with breathing room.
    Recompose an upright reference rather than cropping away the message.
 4. **Copy on the asset**: exact words and hierarchy. Keep Meta primary text, headline and CTA
    separate from image text. Omit unknown price, review or offer details rather than filling gaps.
 5. **Visual direction and production needs**: references and product details to preserve. Use
    supplied brand visuals or select a provisional palette, type and style, labelled in the brief.
    Do not invent an official logo or packaging.
-6. **Image-model prompt**: derived from sections 1 to 5, with `1:1 square`, exact copy,
+6. **Image-model prompt**: derived from sections 1 to 5, with each explicit output ratio, exact copy,
    reference roles, composition and exclusions. For Higgsfield use `connectors/higgsfield.md`.
-7. **Carousel frames**: only when requested; every frame square, independently legible, one job.
+7. **Carousel frames**: only when requested; each frame has both ratio versions, is independently legible and has one message.
 8. **Proof and claim check**: factual support and essential missing material in the brief only.
    Evidence IDs are optional unless a ledger exists. Check imagery as well as words.
 9. **Rationale and result**: short format rationale; actual render status and inspection results.
@@ -1731,12 +1744,14 @@ is **1:1**. A prompt is not a rendered image.
 
 ## Layout and opening
 
-- Always square, for either model. Do not generate extra ratios.
+- Deliver both requested ratio versions for either model. Preserve message and product identity.
+  Reflow the tall composition; do not stretch the square or crop essential copy.
+- Save clearly named pairs and check completeness. Do not treat four concepts as four total files.
 - One dominant idea and one readable primary line. Supporting detail must earn its space.
 - Default to 25 or fewer words in a static; a requested comparison or list may need more.
   Counts are craft guidance, not a reason to shrink important text.
 - Check at mobile viewing size and keep essential material away from edges. Check the placement
-  preview before launch; a square source does not guarantee identical display in every placement.
+  preview before launch; the source ratio does not guarantee identical display in every placement.
 - Frame one works without later frames or an earlier ad.
 - Apply `references/26-copywriting-standards.md`. For a developed hook pass, use
   `references/20-hook-quality-standard.md`. A feature ad need not manufacture customer beliefs
@@ -1762,7 +1777,7 @@ Do not label an unverified draft policy-approved.
 
 - [ ] Useful ad from available facts; no unnecessary research or brand-folder gate
 - [ ] One product message; exact copy, prompt and layout agree
-- [ ] Every rendered image 1:1, measured when accessible
+- [ ] Both requested ratio versions present for each concept; actual dimensions measured when accessible
 - [ ] No fabricated proof, unknown product details or missing-fact markers in finished pixels
 - [ ] Provisional creative direction or illustration identified in the brief
 - [ ] Rendered text checked against copy; product and composition visually inspected
@@ -1792,7 +1807,7 @@ this contract. Customer beliefs and awareness are optional analysis fields, not 
 4. **Interpretation:** the likely message or persuasive move and why it is relevant. This is a
    hypothesis unless supported by an appropriate experiment. Classify awareness only if useful.
 5. **Adaptation:** what to retain, replace, remove and add for the active product. Use its own
-   supported facts and identity. State how a non-square layout becomes 1:1.
+   supported facts and identity. State how the reference is recomposed for both 1:1 and 9:16.
 6. **Production handoff:** the selected direction and any unresolved input that actually affects it.
 
 Keep observations separate from interpretations. Do not claim image inspection from a URL label,

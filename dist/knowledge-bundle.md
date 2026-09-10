@@ -124,9 +124,15 @@ Do not restart research for a small correction to an existing ad.
 
 ## Honest completion
 
-Image ads in this workflow are square, 1:1, for both Nano Banana Pro and GPT Image 2. This is the
-workflow's production standard, not a claim that either model only supports square images.
-No automatic 4:5 or 9:16 variants. Video formats are a separate workflow.
+Deliver each image concept in both 1:1 square and 9:16 vertical, for Nano Banana Pro and GPT Image 2,
+unless the current user request explicitly chooses a different ratio set. Four concepts normally
+produce eight files. Count concepts, model comparisons and ratio variants separately before generation.
+Keep the same message, product facts and design identity within each pair, but recompose for the tall
+canvas. Do not stretch a square or crop essential copy. Check mobile readability and the intended
+placement preview; platform overlay guidance is placement-specific and must be checked for launch.
+Use clear paired filenames such as 01-checklist-1x1.png and 01-checklist-9x16.png. If a provider cannot
+produce one required ratio, state the limit and use a supported adaptation route, never silently omit it.
+Video formats are a separate workflow.
 
 A host with text alone can write copy and a complete generation brief. A host with vision can
 inspect supplied references. A connected image tool can generate. A writable workspace can retain
@@ -992,7 +998,7 @@ messaging job, not the one that is easiest to shoot.
 
 ## Image formats
 
-All image formats: 1:1 square masters and square carousel frames. Video formats keep their own placement specifications.
+All image formats: paired 1:1 square and 9:16 vertical versions, including carousel frames. Video formats keep their own placement specifications.
 Assets needed: product image, brand assets, proof and copy inputs.
 
 | Format | Structure | Best for | Awareness |
@@ -1572,7 +1578,7 @@ unversioned rather than inventing one.
 
 Dated platform reference, not a current policy certification or universal format ranking. Recheck
 changeable specifications and rules for the actual launch. The image workflow in reference 27
-always uses 1:1; historical ratio comparisons below do not change that production standard.
+delivers 1:1 and 9:16; historical ratio comparisons below do not change that production standard.
 
 
 Researched 26 August 2026. This file is the platform-and-numbers layer only. The theory
@@ -1954,7 +1960,7 @@ From [RocketShip HQ, 8 June 2026](https://www.rocketshiphq.com/text-overlays-vid
 4. **Explainer and how-to openers.** 5.24% and 5.47%, at or below baseline.
 5. **Text not readable inside 0.5 seconds**, or text inside the top 14% or bottom 35% where platform chrome covers it.
 6. **Auto-cropped assets.** One agency reports a **23% ROAS drop** on auto-cropped verticals versus natively shot 9:16 ([Mintec](https://mintec.co/blog/meta-vertical-creative-safe-zone/)). `[Single client anecdote.]`
-7. **Placement fit.** Historical single-source comparisons reported ratio differences. They do not establish a universal winner; this image workflow produces 1:1 and checks the actual placement preview. Video follows its separate brief.
+7. **Placement fit.** Historical single-source comparisons reported ratio differences. They do not establish a universal winner; this image workflow produces 1:1 and 9:16 and checks the actual placement preview. Video follows its separate brief.
 
 ### 4.9 Hook variation as a production unit
 
@@ -3154,7 +3160,7 @@ Read only reviewed swipe annotations as the package's teaching layer. Unreviewed
 draft interpretations. For a supplied reference, inspect its actual media and separate visual
 observations from interpretation. A reference can be useful without being called a winner.
 
-Every image in the square workflow remains 1:1. Historical comparisons of other aspect ratios
+Every image concept gets both 1:1 and 9:16 versions unless explicitly overridden. Historical comparisons of other aspect ratios
 do not override this production standard or prove a universal performance advantage.
 
 ## Copywriting tensions
@@ -4022,9 +4028,9 @@ Pass two is where the work is. Pass three is where the risk is.
 <!-- source: references/27-image-ad-workflow.md -->
 ------------------------------------------------------------------------------
 
-# Square image-ad workflow
+# Image-ad workflow
 
-Create a useful 1:1 image ad from product information and a prompt. Research is an enhancement.
+Create useful 1:1 and 9:16 versions of each image concept from product information and a prompt. Research is an enhancement.
 The brief is about the product and the requested creative task, not a compulsory customer belief.
 
 ## Three entry points
@@ -4036,7 +4042,7 @@ The brief is about the product and the requested creative task, not a compulsory
 
 Use whatever brand context and research are already available. Do not require setup, a research
 report, customer persona, awareness label, CONTST ID or concept approval to start. Ordinary requests
-default to one finished image unless a different count is requested. Options are not launch ads.
+default to one concept with two finished ratio versions unless a different count or ratio is requested. Options are not launch ads.
 
 ## 1. Resolve the product and request
 
@@ -4096,17 +4102,17 @@ Separate embedded copy from platform fields and chrome. Record the layout and th
 as observations and interpretations respectively. Preserve the source URL or identifier and date.
 
 State what is retained, replaced, removed and added. Transfer a composition or explanation structure,
-not a competitor's claim, testimonial, review count or identity. Recompose a non-square reference
-onto a square canvas. Do not stretch it, crop away essential information or inherit its ratio.
+not a competitor's claim, testimonial, review count or identity. Recompose the reference
+for both the square and vertical canvases. Do not stretch it, crop essential information or inherit its ratio.
 
 A source link without an accessible image permits a limited text reading, not invented visual
-analysis. Proceed with an original square concept if adaptation is not possible, clearly stating
+analysis. Proceed with an original concept in the requested ratios if adaptation is not possible, clearly stating
 the limitation; ask for the source image only if faithful adaptation is essential to the request.
 
 ## 4. Write the production brief
 
 Use `contracts/static-spec.md`. The brief carries product facts used, main message, exact image copy,
-visual hierarchy, identity constraints, reference roles, square dimensions, generation route,
+visual hierarchy, identity constraints, reference roles, paired output dimensions, generation route,
 platform copy and CTA if relevant, and checks. Test identifiers and belief maps are unnecessary
 outside a requested governed campaign batch.
 
@@ -4117,8 +4123,11 @@ Keep unresolved factual placeholders out of generation prompts and final artwork
 ## 5. Generate
 
 Use `connectors/higgsfield.md` for the current tool contract. Honor the user's selected model.
-Otherwise use the connector's ordinary image default; both preferred models receive `aspect_ratio:
-"1:1"`. Start at the supported 2k resolution for final static ads unless the request requires another
+Otherwise use the connector's ordinary image default. For each concept, submit separate
+`aspect_ratio: "1:1"` and `aspect_ratio: "9:16"` jobs unless the current request overrides the ratio set.
+Inspect a first render before using it as a reference for the companion layout. Keep copy and product
+facts consistent; reflow typography and reposition the scene for the vertical canvas.
+Start at the supported 2k resolution for final static ads unless the request requires another
 resolution or cost choice. Quality parameters vary by model and must be checked before use.
 
 Choose complete-image generation when integrated typography and image design fit the task. Use
@@ -4136,9 +4145,11 @@ within authorized cost and scope. Never resubmit pending jobs or rerun successfu
 
 ## 6. Verify the finished image
 
-Check actual width equals height, nonempty output, correct product and brand, exact intended words,
+Check actual width-to-height ratio matches the requested output, nonempty output, correct product and brand, exact intended words,
 legible hierarchy at phone size, supported proof and no unexpected additions. Check returned
-parameter adjustments before calling an output complete. A 1:1 prompt does not prove a square file.
+parameter adjustments and returned model IDs before calling an output complete. A ratio in the prompt
+does not prove the file dimensions. Record any provider model mismatch rather than claiming the
+requested model was used. Verify that both members of every requested pair are present.
 
 The local helper `scripts/validate-image-ad.py` can validate a production record and measure PNG,
 JPEG or WebP dimensions with Python's standard library. Vision is still required for product fidelity,
@@ -4151,7 +4162,9 @@ verified status. It does not require withholding other successful outputs.
 
 ## 7. Deliver and improve
 
-Show the actual final images in requested order. Include useful platform copy and a concise
+Show the actual final images in requested order, grouping each square with its vertical companion.
+When asked to save locally, use the requested folder and identifiable ratio suffixes. Retain originals
+separately from any corrected deliverables so the delivery folder contains the chosen final set. Include useful platform copy and a concise
 description of assumptions or material limitations. Prompts and internal checklists should not
 dominate the user's result unless requested. Without a generation capability, deliver the exact
 brief and prompt and state that the image was not generated.
@@ -5316,7 +5329,7 @@ this contract. Customer beliefs and awareness are optional analysis fields, not 
 4. **Interpretation:** the likely message or persuasive move and why it is relevant. This is a
    hypothesis unless supported by an appropriate experiment. Classify awareness only if useful.
 5. **Adaptation:** what to retain, replace, remove and add for the active product. Use its own
-   supported facts and identity. State how a non-square layout becomes 1:1.
+   supported facts and identity. State how the reference is recomposed for both 1:1 and 9:16.
 6. **Production handoff:** the selected direction and any unresolved input that actually affects it.
 
 Keep observations separate from interpretations. Do not claim image inspection from a URL label,
@@ -5330,7 +5343,7 @@ from automatic collection and from evidence of ad performance.
 
 # Output Contract: Static and Carousel Spec
 locked: 2026-09-10
-version: 2.0.0
+version: 2.1.0
 
 Product information and the request are sufficient. Brand folders, customer research, beliefs,
 awareness maps, campaign IDs and approval rounds are optional. Follow
@@ -5338,26 +5351,28 @@ awareness maps, campaign IDs and approval rounds are optional. Follow
 
 ## Artefact
 
-Markdown brief plus actual images when requested and available. Every image and carousel frame
-is **1:1**. A prompt is not a rendered image.
+Markdown brief plus actual images when requested and available. Every image concept and carousel
+frame is delivered in both **1:1 and 9:16**, unless the current request explicitly overrides the
+ratio set. Count concepts separately from files: four concepts normally produce eight images.
+A prompt is not a rendered image.
 
 ## Sections, in order
 
-1. **Header**: product, supplied facts, request, image count, format, ratio `1:1`. Add brand,
+1. **Header**: product, supplied facts, request, concept count, output count, format, ratios `1:1` and `9:16`. Add brand,
    market, destination and preferred model when known. Full ad names and campaign IDs apply only
    when operating the named house campaign profile.
 2. **The job**: the single product message, useful feature or practical benefit to communicate.
    Belief change and awareness are optional lenses, not required inputs.
-3. **Layout**: subject and zones, one primary line, square composition with breathing room.
+3. **Layout**: subject and zones, one primary line, separate square and vertical compositions with breathing room.
    Recompose an upright reference rather than cropping away the message.
 4. **Copy on the asset**: exact words and hierarchy. Keep Meta primary text, headline and CTA
    separate from image text. Omit unknown price, review or offer details rather than filling gaps.
 5. **Visual direction and production needs**: references and product details to preserve. Use
    supplied brand visuals or select a provisional palette, type and style, labelled in the brief.
    Do not invent an official logo or packaging.
-6. **Image-model prompt**: derived from sections 1 to 5, with `1:1 square`, exact copy,
+6. **Image-model prompt**: derived from sections 1 to 5, with each explicit output ratio, exact copy,
    reference roles, composition and exclusions. For Higgsfield use `connectors/higgsfield.md`.
-7. **Carousel frames**: only when requested; every frame square, independently legible, one job.
+7. **Carousel frames**: only when requested; each frame has both ratio versions, is independently legible and has one message.
 8. **Proof and claim check**: factual support and essential missing material in the brief only.
    Evidence IDs are optional unless a ledger exists. Check imagery as well as words.
 9. **Rationale and result**: short format rationale; actual render status and inspection results.
@@ -5365,12 +5380,14 @@ is **1:1**. A prompt is not a rendered image.
 
 ## Layout and opening
 
-- Always square, for either model. Do not generate extra ratios.
+- Deliver both requested ratio versions for either model. Preserve message and product identity.
+  Reflow the tall composition; do not stretch the square or crop essential copy.
+- Save clearly named pairs and check completeness. Do not treat four concepts as four total files.
 - One dominant idea and one readable primary line. Supporting detail must earn its space.
 - Default to 25 or fewer words in a static; a requested comparison or list may need more.
   Counts are craft guidance, not a reason to shrink important text.
 - Check at mobile viewing size and keep essential material away from edges. Check the placement
-  preview before launch; a square source does not guarantee identical display in every placement.
+  preview before launch; the source ratio does not guarantee identical display in every placement.
 - Frame one works without later frames or an earlier ad.
 - Apply `references/26-copywriting-standards.md`. For a developed hook pass, use
   `references/20-hook-quality-standard.md`. A feature ad need not manufacture customer beliefs
@@ -5396,7 +5413,7 @@ Do not label an unverified draft policy-approved.
 
 - [ ] Useful ad from available facts; no unnecessary research or brand-folder gate
 - [ ] One product message; exact copy, prompt and layout agree
-- [ ] Every rendered image 1:1, measured when accessible
+- [ ] Both requested ratio versions present for each concept; actual dimensions measured when accessible
 - [ ] No fabricated proof, unknown product details or missing-fact markers in finished pixels
 - [ ] Provisional creative direction or illustration identified in the brief
 - [ ] Rendered text checked against copy; product and composition visually inspected
@@ -5642,7 +5659,7 @@ controlled destination token: LP, PDP, HP or CP. If it cannot, the script is blo
 
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Square image-ad production record",
+  "title": "Image-ad production record",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -5695,7 +5712,7 @@ controlled destination token: LP, PDP, HP or CP. If it cannot, the script is blo
           },
           "aspect_ratio": {
             "type": "string",
-            "const": "1:1"
+            "enum": ["1:1", "9:16"]
           },
           "model": {
             "type": "string",
@@ -6481,7 +6498,7 @@ If Foreplay is unavailable, use TrendTrack, public ad libraries, direct site res
 
 Verified 2026-09-10 against connected tool schemas, model records and read-only estimates.
 This verification did not submit a generation. Inspect current tools before use; host prefixes
-vary. The product-first brief is in `contracts/static-spec.md`. Every image is **1:1**, for both
+vary. The product-first brief is in `contracts/static-spec.md`. Every concept gets **1:1 and 9:16** versions, for both
 preferred models. This is a workflow standard, not a Nano Banana capability limitation.
 
 ## Setup and read-only preflight
@@ -6507,9 +6524,9 @@ Do not use obsolete `models_explore` or `media_import_url`. Never use `generate_
 
 Respect the requested model: Nano Banana Pro is `nano_banana_pro`; ChatGPT generation is
 `gpt_image_2`. Without a preference, choose an available preferred model; the current ordinary-image
-tool defaults to GPT Image 2. Explicitly request `aspect_ratio: "1:1"` for both. Default to supported
+tool defaults to GPT Image 2. Explicitly request `aspect_ratio: "1:1"` and `aspect_ratio: "9:16"` in separate jobs. Default to supported
 `resolution: "2k"`, check current quality options and estimate the selected settings. Never advertise
-a fixed credit price. Both models support other ratios; this workflow always produces square images.
+a fixed credit price. Both models support other ratios; this workflow delivers both square and vertical versions by default.
 
 The public tools accept `medias: [{"role":"image","value":"..."}]` for BOTH models. Nano Banana's
 catalogue may show backend `image_references`; that is not the public tool's media role. Follow
@@ -6530,28 +6547,30 @@ and attachment mapping, or choose a design that avoids an exact product depictio
    do not add a concept approval round. A plan-only request stops before generation.
 2. Verify access, model, references and dedicated cost estimate. Respect spending limits. If the
    provider requires a credits/allowance choice, obtain that choice; do not guess it.
-3. Submit one job per distinct prompt, explicit `aspect_ratio: "1:1"`, default `count: 1`.
+3. Submit one job per concept and ratio, explicit `aspect_ratio: "1:1"` or `"9:16"`, default `count: 1`.
+   Four concepts require eight outputs, unless the current user request overrides the ratio set.
    One call supports 1 to 4 samples of the same prompt, only when requested.
 4. Batch distinct prompts in at most **6** ordered requests. Shape:
    `{"requests":[{"index":0,"params":{"model":"nano_banana_pro","prompt":"...",
    "aspect_ratio":"1:1","resolution":"2k","count":1}}]}`.
    Split larger requested batches while retaining stable indices.
-5. Retain job IDs, actual parameters and returned adjustments. `jobs_wait` accepts
+5. Retain job IDs, actual parameters, returned model identifiers and adjustments. Flag model mismatches
+   rather than reporting the requested model as confirmed. `jobs_wait` accepts
    `jobs: [{"index":0,"job_id":"..."}]`, at most 8, and `timeout_seconds` up to 15.
    Follow polling guidance. Pending is not failed. Retry failed items only, once by default.
    Never duplicate successful or pending jobs.
 6. Display completed results. `show_generation_by_ids` currently supports up to 24 jobs.
    Record real result URLs or accessible local files.
 7. Inspect actual width and height, spelling, product fidelity, hierarchy and implied claims.
-   Correct a non-square result before marking it verified. A successful job or square prompt does
-   not prove square pixels. Use `scripts/validate-image-ad.py` when local outputs are available.
+   Correct a ratio mismatch before marking it verified. A successful job or requested ratio does
+   not prove the actual pixels. Check that each concept has both required files. Use `scripts/validate-image-ad.py` when local outputs are available.
 
 Generate the complete ad or composite exact copy with available tools. Both routes need visual and
 text checks. Never render missing-fact markers, fake proof objects or invented product features.
 
 ## Fallback and limits
 
-If Higgsfield is unavailable, deliver the square brief, exact copy and ready-to-paste prompt.
+If Higgsfield is unavailable, deliver the paired-layout brief, exact copy and ready-to-paste prompt.
 Another available image tool can execute the same brief, respecting the requested provider.
 State honestly whether pixels were rendered or inspected. A text-only LLM can plan but cannot
 generate images. `use_unlim` is a provider payment option, not a universal free switch; follow
@@ -6676,7 +6695,7 @@ isolated from universal-method review.
 # ChatGPT Setup
 
 For ordinary image ads, use `dist/image-ad-bundle.md` or the image route in `SKILL.md`. Product
-information is enough; customer research and brand bundles are optional. Every image is 1:1.
+information is enough; customer research and brand bundles are optional. Every image concept gets both 1:1 and 9:16 versions unless explicitly overridden.
 Generation, browsing and persistence depend on this host's actual available tools. The governed
 ad-analysis setup below is not an image-creation prerequisite.
 
@@ -6774,7 +6793,7 @@ wrote the run folder or controlled records: upload-only output is a patch, not p
 # Claude Code Setup
 
 For ordinary image ads, use `dist/image-ad-bundle.md` or the image route in `SKILL.md`. Product
-information is enough; customer research and brand bundles are optional. Every image is 1:1.
+information is enough; customer research and brand bundles are optional. Every image concept gets both 1:1 and 9:16 versions unless explicitly overridden.
 Generation, browsing and persistence depend on this host's actual available tools. The governed
 ad-analysis setup below is not an image-creation prerequisite.
 
@@ -6880,7 +6899,7 @@ wrote the run folder or controlled records: upload-only output is a patch, not p
 # Claude Setup
 
 For ordinary image ads, use `dist/image-ad-bundle.md` or the image route in `SKILL.md`. Product
-information is enough; customer research and brand bundles are optional. Every image is 1:1.
+information is enough; customer research and brand bundles are optional. Every image concept gets both 1:1 and 9:16 versions unless explicitly overridden.
 Generation, browsing and persistence depend on this host's actual available tools. The governed
 ad-analysis setup below is not an image-creation prerequisite.
 
@@ -6978,7 +6997,7 @@ wrote the run folder or controlled records: upload-only output is a patch, not p
 # Codex Setup
 
 For ordinary image ads, use `dist/image-ad-bundle.md` or the image route in `SKILL.md`. Product
-information is enough; customer research and brand bundles are optional. Every image is 1:1.
+information is enough; customer research and brand bundles are optional. Every image concept gets both 1:1 and 9:16 versions unless explicitly overridden.
 Generation, browsing and persistence depend on this host's actual available tools. The governed
 ad-analysis setup below is not an image-creation prerequisite.
 
@@ -7079,7 +7098,7 @@ wrote the run folder or controlled records: upload-only output is a patch, not p
 # Gemini Setup
 
 For ordinary image ads, use `dist/image-ad-bundle.md` or the image route in `SKILL.md`. Product
-information is enough; customer research and brand bundles are optional. Every image is 1:1.
+information is enough; customer research and brand bundles are optional. Every image concept gets both 1:1 and 9:16 versions unless explicitly overridden.
 Generation, browsing and persistence depend on this host's actual available tools. The governed
 ad-analysis setup below is not an image-creation prerequisite.
 
@@ -7185,7 +7204,7 @@ wrote the run folder or controlled records: upload-only output is a patch, not p
 # Grok Agents Setup
 
 For ordinary image ads, use `dist/image-ad-bundle.md` or the image route in `SKILL.md`. Product
-information is enough; customer research and brand bundles are optional. Every image is 1:1.
+information is enough; customer research and brand bundles are optional. Every image concept gets both 1:1 and 9:16 versions unless explicitly overridden.
 Generation, browsing and persistence depend on this host's actual available tools. The governed
 ad-analysis setup below is not an image-creation prerequisite.
 
@@ -7293,7 +7312,7 @@ wrote the run folder or controlled records: upload-only output is a patch, not p
 # Grok Setup
 
 For ordinary image ads, use `dist/image-ad-bundle.md` or the image route in `SKILL.md`. Product
-information is enough; customer research and brand bundles are optional. Every image is 1:1.
+information is enough; customer research and brand bundles are optional. Every image concept gets both 1:1 and 9:16 versions unless explicitly overridden.
 Generation, browsing and persistence depend on this host's actual available tools. The governed
 ad-analysis setup below is not an image-creation prerequisite.
 

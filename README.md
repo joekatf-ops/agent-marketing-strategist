@@ -18,8 +18,9 @@ No customer research, belief map, brand folder or setup is required to create a 
 > Make one square image ad for my desk cable organiser. It holds six cables. Keep it simple.
 
 With Higgsfield connected, the skill can generate through Nano Banana Pro or ChatGPT image generation.
-Every image is 1:1, including edits and carousel frames. With no image tool, it delivers exact copy,
-a square brief and a prompt, honestly labelled as unrendered. For a text-only surface with no uploads,
+Every image concept gets both 1:1 and 9:16 versions, including edits and carousel frames, unless
+explicitly overridden. Four concepts normally produce eight files. With no image tool, it delivers
+exact copy, both layout briefs and prompts, honestly labelled as unrendered. For a text-only surface with no uploads,
 paste [`PROMPT.md`](PROMPT.md) alone. For richer writing, use the craft bundle.
 
 In Codex, Cursor or Claude Code, install the folder as a skill or point the agent at `SKILL.md`.
@@ -32,9 +33,9 @@ One universal method serves many brands. Each brand keeps its own connected fold
 coordinate history, test history, winners and approved learning. The method is brand-neutral; brand
 facts never transfer between brands.
 
-**Version:** 1.1.1
+**Version:** 1.2.0
 
-**Status:** v1.1 implementation with automated package checks and a bounded independent text-only
+**Status:** v1.2 implementation with automated package checks and a bounded independent text-only
 behavioral check. It is not a claim that every LLM or live image provider has been benchmarked.
 
 Version 1.1.0 makes product information the starting point and research an optional enhancement.
@@ -102,7 +103,7 @@ question and an answer.
 | Hook Batch | Creates six strategically different pre-production openings across at least four hook formats |
 | Ad Copy | Creates two lead routes, each in short, medium and long form, plus five headlines, two descriptions and one CTA |
 | Video Script | Produces a shootable beat-by-beat script, coherent opening, shot list and claim check |
-| Reference Analysis | Separates inspected design observations, interpretation and performance evidence before square adaptation |
+| Reference Analysis | Separates inspected design observations, interpretation and performance evidence before paired-ratio adaptation |
 | Static and Carousel Spec | Produces an executable layout, exact copy, visual direction and claim check |
 | Campaign Launch Plan | Gives a human operator an exact manual Meta build, budget, naming, observation and scaling handoff |
 | Destination Handoff | Preserves ad-to-page promise, proof, offer and CTA continuity for every execution |
@@ -189,7 +190,7 @@ Start with [`connectors/README.md`](connectors/README.md), then use the relevant
 - [`connectors/firecrawl.md`](connectors/firecrawl.md) for website retrieval
 - [`connectors/trendtrack.md`](connectors/trendtrack.md) for trend discovery
 - [`connectors/foreplay.md`](connectors/foreplay.md) for ad discovery
-- [`connectors/higgsfield.md`](connectors/higgsfield.md) for square image generation
+- [`connectors/higgsfield.md`](connectors/higgsfield.md) for square and vertical image generation
 - [`connectors/notion-composio.md`](connectors/notion-composio.md) for a read-only universal-method freshness check
 
 A connector is available only after a successful read-only call in the current runtime. Missing
@@ -222,7 +223,7 @@ model-tokenizer measurements:
 
 | Bundle | Size | Use it when |
 |---|---|---|
-| `dist/image-ad-bundle.md` | about 13,000 tokens | Product-first square image creation, adaptation and revision |
+| `dist/image-ad-bundle.md` | about 13,000 tokens | Product-first image creation in both ratios, adaptation and revision |
 | `dist/craft-bundle.md` | about 27,000 tokens | A chat surface. Carries the craft stack and the output contracts, and nothing about installation |
 | `dist/knowledge-bundle.md` | about 96,000 tokens | A runtime that will act on the whole method, including naming, testing, brand folders, connectors and the analysis harness |
 
@@ -230,7 +231,7 @@ All three ship in the repository, so the paste-in path needs no Python: open the
 They are generated, so CI checks they are not stale against their sources.
 
 ```bash
-python3 scripts/build-image-ad-bundle.py         # rebuild square image bundle
+python3 scripts/build-image-ad-bundle.py         # rebuild image bundle
 python3 scripts/build-craft-bundle.py            # rebuild
 python3 scripts/build-craft-bundle.py --check     # fail if stale
 python3 scripts/build-knowledge-bundle.py
@@ -401,6 +402,7 @@ structure is the entire point. See [`corpus/swipe/ATTRIBUTION.md`](corpus/swipe/
 
 | Version | Date | Change |
 |---|---|---|
+| 1.2.0 | 2026-09-10 | Every concept gets 1:1 and 9:16 versions by default, with separate layouts, paired filenames, ratio-aware pixel validation and provider model-mismatch reporting. |
 | 1.1.1 | 2026-09-10 | Websites, landing pages and PDPs are explicit brief inputs, with product extraction, message continuity, source dates and conflict handling. |
 | 1.1.0 | 2026-09-10 | Product-first square image workflow, optional customer research, current Higgsfield adapter, focused bundles, reviewed-only swipe teaching, reference records and raster-dimension validation. |
 | 1.0.0 | 2026-08-31 | Opened the closed router so any advertising request is served, always loaded the 25k craft stack instead of routing craft references selectively, added the Strategist Read contract so judgement has an output, marked thin input rather than refusing it, resolved the library's contradictions against the measured data, made option counts advisory, added the annotated swipe corpus and its Foreplay sync, added the eval harness and its CI scoring, extended the static contract to generated imagery, split the craft bundle from the full bundle, banned em dashes everywhere with a character check, retired Notion as canonical, fixed a TOCTOU hash guard that accepted a corrupted digest 86 percent of the time, and moved the ad-analysis tooling to agent-ad-analysis-harness. The v0.4 claim of complete seven-runtime workflows was overstated: three runtimes are first class, three are upload-only with a developer maintaining bundles, and Grok Agents is a build spec. |

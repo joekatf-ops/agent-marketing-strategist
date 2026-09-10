@@ -1,6 +1,6 @@
-# Square image-ad workflow
+# Image-ad workflow
 
-Create a useful 1:1 image ad from product information and a prompt. Research is an enhancement.
+Create useful 1:1 and 9:16 versions of each image concept from product information and a prompt. Research is an enhancement.
 The brief is about the product and the requested creative task, not a compulsory customer belief.
 
 ## Three entry points
@@ -12,7 +12,7 @@ The brief is about the product and the requested creative task, not a compulsory
 
 Use whatever brand context and research are already available. Do not require setup, a research
 report, customer persona, awareness label, CONTST ID or concept approval to start. Ordinary requests
-default to one finished image unless a different count is requested. Options are not launch ads.
+default to one concept with two finished ratio versions unless a different count or ratio is requested. Options are not launch ads.
 
 ## 1. Resolve the product and request
 
@@ -72,17 +72,17 @@ Separate embedded copy from platform fields and chrome. Record the layout and th
 as observations and interpretations respectively. Preserve the source URL or identifier and date.
 
 State what is retained, replaced, removed and added. Transfer a composition or explanation structure,
-not a competitor's claim, testimonial, review count or identity. Recompose a non-square reference
-onto a square canvas. Do not stretch it, crop away essential information or inherit its ratio.
+not a competitor's claim, testimonial, review count or identity. Recompose the reference
+for both the square and vertical canvases. Do not stretch it, crop essential information or inherit its ratio.
 
 A source link without an accessible image permits a limited text reading, not invented visual
-analysis. Proceed with an original square concept if adaptation is not possible, clearly stating
+analysis. Proceed with an original concept in the requested ratios if adaptation is not possible, clearly stating
 the limitation; ask for the source image only if faithful adaptation is essential to the request.
 
 ## 4. Write the production brief
 
 Use `contracts/static-spec.md`. The brief carries product facts used, main message, exact image copy,
-visual hierarchy, identity constraints, reference roles, square dimensions, generation route,
+visual hierarchy, identity constraints, reference roles, paired output dimensions, generation route,
 platform copy and CTA if relevant, and checks. Test identifiers and belief maps are unnecessary
 outside a requested governed campaign batch.
 
@@ -93,8 +93,11 @@ Keep unresolved factual placeholders out of generation prompts and final artwork
 ## 5. Generate
 
 Use `connectors/higgsfield.md` for the current tool contract. Honor the user's selected model.
-Otherwise use the connector's ordinary image default; both preferred models receive `aspect_ratio:
-"1:1"`. Start at the supported 2k resolution for final static ads unless the request requires another
+Otherwise use the connector's ordinary image default. For each concept, submit separate
+`aspect_ratio: "1:1"` and `aspect_ratio: "9:16"` jobs unless the current request overrides the ratio set.
+Inspect a first render before using it as a reference for the companion layout. Keep copy and product
+facts consistent; reflow typography and reposition the scene for the vertical canvas.
+Start at the supported 2k resolution for final static ads unless the request requires another
 resolution or cost choice. Quality parameters vary by model and must be checked before use.
 
 Choose complete-image generation when integrated typography and image design fit the task. Use
@@ -112,9 +115,11 @@ within authorized cost and scope. Never resubmit pending jobs or rerun successfu
 
 ## 6. Verify the finished image
 
-Check actual width equals height, nonempty output, correct product and brand, exact intended words,
+Check actual width-to-height ratio matches the requested output, nonempty output, correct product and brand, exact intended words,
 legible hierarchy at phone size, supported proof and no unexpected additions. Check returned
-parameter adjustments before calling an output complete. A 1:1 prompt does not prove a square file.
+parameter adjustments and returned model IDs before calling an output complete. A ratio in the prompt
+does not prove the file dimensions. Record any provider model mismatch rather than claiming the
+requested model was used. Verify that both members of every requested pair are present.
 
 The local helper `scripts/validate-image-ad.py` can validate a production record and measure PNG,
 JPEG or WebP dimensions with Python's standard library. Vision is still required for product fidelity,
@@ -127,7 +132,9 @@ verified status. It does not require withholding other successful outputs.
 
 ## 7. Deliver and improve
 
-Show the actual final images in requested order. Include useful platform copy and a concise
+Show the actual final images in requested order, grouping each square with its vertical companion.
+When asked to save locally, use the requested folder and identifiable ratio suffixes. Retain originals
+separately from any corrected deliverables so the delivery folder contains the chosen final set. Include useful platform copy and a concise
 description of assumptions or material limitations. Prompts and internal checklists should not
 dominate the user's result unless requested. Without a generation capability, deliver the exact
 brief and prompt and state that the image was not generated.
