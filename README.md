@@ -33,7 +33,7 @@ One universal method serves many brands. Each brand keeps its own connected fold
 coordinate history, test history, winners and approved learning. The method is brand-neutral; brand
 facts never transfer between brands.
 
-**Version:** 1.2.0
+**Version:** 1.3.0
 
 **Status:** v1.2 implementation with automated package checks and a bounded independent text-only
 behavioral check. It is not a claim that every LLM or live image provider has been benchmarked.

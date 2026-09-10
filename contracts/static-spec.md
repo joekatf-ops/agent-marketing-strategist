@@ -22,6 +22,7 @@ A prompt is not a rendered image.
    Belief change and awareness are optional lenses, not required inputs.
 3. **Layout**: subject and zones, one primary line, separate square and vertical compositions with breathing room.
    Recompose an upright reference rather than cropping away the message.
+   Record the chosen reference ID, inspected media and layout features to retain, or mark an original layout.
 4. **Copy on the asset**: exact words and hierarchy. Keep Meta primary text, headline and CTA
    separate from image text. Omit unknown price, review or offer details rather than filling gaps.
 5. **Visual direction and production needs**: references and product details to preserve. Use
@@ -76,5 +77,6 @@ Do not label an unverified draft policy-approved.
 - [ ] Rendered text checked against copy; product and composition visually inspected
 - [ ] No tier-one machine-writing phrase from `config/copy-lexicon.yml` in rendered copy
 - [ ] Reference observations separated from interpretations; no unsupported winner claim
+- [ ] Selected layout matched deliberately; hierarchy and typography remain coherent across both ratios
 - [ ] Actual outputs displayed, or absence of rendering capability stated
 - [ ] Job IDs retained; no duplicate successful or pending jobs

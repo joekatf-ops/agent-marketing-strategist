@@ -1471,6 +1471,10 @@ checked. A fallback crawl is not complete unless its source URLs and dates were 
 
 ## Foreplay
 
+For image layouts, prefer the user's saved boards before broad discovery and follow
+`references/28-saved-ad-layouts.md`. API/MCP setup and capability-specific authentication are in
+`connectors/foreplay.md`. Customer research improves messaging separately from visual references.
+
 Use discovered live tool descriptions as authoritative. Current integrations can expose:
 
 | Job | Common capability |
@@ -2466,6 +2470,7 @@ into one generic failure.
 |---|---|---|
 | Website crawling | Firecrawl | browser, supplied export |
 | Competitor ad intelligence | TrendTrack | Foreplay, Meta Ad Library, browser |
+| Saved image-ad references and boards | Foreplay | supplied ads, reviewed local swipe records |
 | Customer review mining | Firecrawl | review export, browser |
 | Community research | public search | supplied community export |
 | Search and demand language | search and trends tools | browser |
@@ -2474,6 +2479,11 @@ into one generic failure.
 
 Live Meta reporting is deferred. A manual export satisfies diagnosis when it contains the required
 fields.
+
+For saved-layout work, Foreplay is the preferred route. Follow `connectors/foreplay.md` and
+`references/28-saved-ad-layouts.md`. Foreplay Lens is a separate capability: discovery access does
+not prove access to first-party performance. Use authenticated Lens reads only when available and
+relevant; manual reporting remains a valid fallback and launch stays manual.
 
 Reading Notion is research and is never required. When the current host exposes a user-authenticated
 Notion connection, follow `connectors/notion-composio.md`. Configured does not mean live: only a
@@ -4095,7 +4105,13 @@ Useful format families:
 
 These are options, not a performance ranking. Do not automatically create every combination.
 
-## 3. Adapt a reference when supplied
+## 3. Select and adapt a visual reference
+
+For new layouts, use `references/28-saved-ad-layouts.md` when saved ads or Foreplay are available.
+Retrieve a small relevant shortlist, inspect its actual images, and select a primary composition
+for each concept before writing the generation prompt. A reference can come from another category
+when its structure suits the message. Do not force an irrelevant saved ad onto the product.
+For a narrow revision, preserve the existing direction rather than starting a new search.
 
 Use `contracts/reference-analysis.md` only for reference-based work. Inspect the actual image.
 Separate embedded copy from platform fields and chrome. Record the layout and the persuasive move
@@ -4120,6 +4136,10 @@ The image-model prompt is derived from this brief. Give each reference a distinc
 identity, composition, style or logo. Product identity and exact copy outrank a decorative reference.
 Keep unresolved factual placeholders out of generation prompts and final artwork.
 
+Record the selected reference ID and the layout details being matched: reading order, headline
+zone, subject scale, text density, spacing and treatment of supporting copy. Include the square and
+vertical plans. If no suitable reference was inspected, identify the layout as original.
+
 ## 5. Generate
 
 Use `connectors/higgsfield.md` for the current tool contract. Honor the user's selected model.
@@ -4133,6 +4153,11 @@ resolution or cost choice. Quality parameters vary by model and must be checked 
 Choose complete-image generation when integrated typography and image design fit the task. Use
 generated imagery with separate exact composition when logos, small text or brand typography need
 more control and the host supports that route. Both routes require final verification.
+
+For a requested model comparison, freeze the product facts, message, exact copy, layout reference,
+brand assets and output ratios across models. Record model-required parameter differences and
+corrections. Different formats or unequal manual finishing demonstrate options but cannot isolate
+model quality. Report a provider model mismatch as an unverified comparison.
 
 A request to make images authorizes the necessary generation within its count and stated budget.
 Do not add approval pauses for routine creative choices. A plan-only request does not authorize
@@ -4150,6 +4175,13 @@ legible hierarchy at phone size, supported proof and no unexpected additions. Ch
 parameter adjustments and returned model IDs before calling an output complete. A ratio in the prompt
 does not prove the file dimensions. Record any provider model mismatch rather than claiming the
 requested model was used. Verify that both members of every requested pair are present.
+
+Compare each final image against the selected reference and its companion ratio. Check intended
+reading order, subject scale, relative type size, contrast, spacing and amount of copy. Preserve
+the brand's typography and visual treatment across ratios even when positions change. Inspect at
+a realistic phone width, not only zoomed in or on a large contact sheet. Passing spelling and
+dimension checks alone does not establish design quality. If generation repeatedly changes
+hardware, preserve inspected product pixels and compose around them when tools allow.
 
 The local helper `scripts/validate-image-ad.py` can validate a production record and measure PNG,
 JPEG or WebP dimensions with Python's standard library. Vision is still required for product fidelity,
@@ -4177,6 +4209,92 @@ Customer research, human edits and supplied ad outcomes can improve the next exe
 which changed: product fact, voice preference, design choice, operational observation or performance
 finding. No clicks or spend means no performance claim; no isolated variable means no causal lesson.
 Preserve brand isolation. Use the existing learning system only when authorized to update memory.
+
+------------------------------------------------------------------------------
+<!-- source: references/28-saved-ad-layouts.md -->
+------------------------------------------------------------------------------
+
+# Saved-ad layouts
+
+Use this with saved ads or a request to match a layout. References constrain visual choices;
+they do not establish sales performance or become prerequisites for original creative.
+
+## Find the right reference
+
+Start from the message and facts already resolved in the image workflow. Keep angle, awareness,
+format and layout separate: one angle can use several formats, and a layout can serve different
+awareness levels after the argument changes. Do not let an attractive reference change an angle
+the user has chosen.
+
+Use this order, adjusted to the request:
+1. The exact ad or board the user selected.
+2. Relevant own-brand creative with supplied performance evidence, when available.
+3. The user's saved brand and general inspiration boards through Foreplay.
+4. Foreplay Discovery or another available ad library to fill a specific gap.
+5. An original layout based on the product facts.
+
+Use `connectors/foreplay.md` for current access. Start with a small bounded sample, such as 6 to 12
+static candidates for a four-concept batch. This is a working limit, not a required count. Fetch
+more only if the set lacks a suitable layout. Follow returned pagination; a short filtered page
+does not prove a board is exhausted. Do not fetch the same ads again through both API and MCP.
+
+Search by communication job and format as well as category: a notes list, product annotation,
+single objection, comparison grid or three-step demonstration may transfer across industries.
+Exclude duplicates and irrelevant matches. Do not choose a reference solely because it ran a long
+time, was saved often, looks polished or sits on a board named "best ads".
+
+## Inspect, then choose
+
+Retrieve and visually inspect the actual creative. Titles, transcripts, automated tags and
+thumbnails with unreadable text cannot establish a detailed layout. Use the provider's returned
+media and source URLs. When inspection is impossible, record that limit and use an original
+layout unless exact adaptation is essential.
+
+Choose one primary composition per concept. Add references only for distinct roles such as
+lighting, product identity or logo. Avoid an undifferentiated pile of ads.
+
+Use `contracts/reference-analysis.md` to record:
+- Source ID, board when relevant, source link, inspected media, observation date and access limits.
+- Format, reading order, headline location, product or subject scale, contrast, whitespace,
+  alignment, type hierarchy, text density and proof objects actually visible.
+- Why this structure suits the selected message and available product assets.
+- What to retain, replace, remove and add. Use the active brand's identity and supported facts.
+- The corresponding square and vertical compositions, including elements that must remain visible.
+
+Prefer a reference whose copy length, product depiction and available evidence fit the brief.
+A testimonial or statistics layout is unsuitable without the necessary proof. A news-style visual
+does not give permission to imply independent reporting, medical authority or an actual news event.
+
+## Generate and compare
+
+Where supported, pass the inspected reference image to the model as composition guidance and
+the real product photos as identity guidance. If the model cannot receive the layout image, use
+an explicit description of the inspected layout and record this weaker transfer route.
+
+Match visual relationships, not foreign brand assets: headline prominence, balance between image
+and copy, sequence, spacing and product scale. Reflow those relationships for 9:16 while keeping
+the same message and brand type treatment as 1:1. Preserve accurate product pixels when exact
+hardware or construction matters and compositing tools are available.
+
+Review the reference and output side by side at comparable display size, then review the two
+output ratios at phone width. A spelling pass cannot catch an undersized subject, empty lower
+canvas, dense supporting text or a change of typography. Correct the specific deviation and
+record material departures from the reference.
+
+## Keep the library useful
+
+Retain source ID/URL, format, message job, inspection date, selected layout features, output
+filenames and review outcome. Cache media when allowed; retain provenance. Never store credentials.
+
+Separate four states: saved for inspiration, visually reviewed, approved for adaptation, and
+supported by measured performance. Customer research informs the message; saved ads inform
+execution. Neither substitutes for the other's evidence. Performance needs the actual metric,
+source, date window, spend or exposure and limitations. Do not turn competitor longevity or
+model-generated scores into ROAS, profitability or causal evidence.
+
+Keep cross-brand layout patterns in the general library and brand facts, claims and performance
+in their own brand records. Writing or reorganising external boards is a separate action from
+reading them; preserve existing board contents unless the user asks for library management.
 
 ==============================================================================
 # PART: OUTPUT CONTRACTS
@@ -5313,9 +5431,9 @@ until the canonical folder and active memory were updated.
 ------------------------------------------------------------------------------
 
 # Output Contract: Image Reference Analysis
-version: 1.0.0
+version: 1.1.0
 
-For adapting a supplied image ad. Product information is sufficient for original creative without
+For adapting a supplied or retrieved image ad. Product information is sufficient for original creative without
 this contract. Customer beliefs and awareness are optional analysis fields, not prerequisites.
 
 1. **Source and access:** original ad URL or identifier, image path or authorized media URL,
@@ -5331,6 +5449,9 @@ this contract. Customer beliefs and awareness are optional analysis fields, not 
 5. **Adaptation:** what to retain, replace, remove and add for the active product. Use its own
    supported facts and identity. State how the reference is recomposed for both 1:1 and 9:16.
 6. **Production handoff:** the selected direction and any unresolved input that actually affects it.
+   Record reference role, headline and subject zones, relative subject and type scale, text density,
+   spacing and the corresponding plan for each output ratio. Include a reason for choosing this
+   reference over the other inspected candidates. Compare the final output against that plan.
 
 Keep observations separate from interpretations. Do not claim image inspection from a URL label,
 invent performance, or carry competitor proof into a brand's ad. Capture structured visual details
@@ -5365,6 +5486,7 @@ A prompt is not a rendered image.
    Belief change and awareness are optional lenses, not required inputs.
 3. **Layout**: subject and zones, one primary line, separate square and vertical compositions with breathing room.
    Recompose an upright reference rather than cropping away the message.
+   Record the chosen reference ID, inspected media and layout features to retain, or mark an original layout.
 4. **Copy on the asset**: exact words and hierarchy. Keep Meta primary text, headline and CTA
    separate from image text. Omit unknown price, review or offer details rather than filling gaps.
 5. **Visual direction and production needs**: references and product details to preserve. Use
@@ -5419,6 +5541,7 @@ Do not label an unverified draft policy-approved.
 - [ ] Rendered text checked against copy; product and composition visually inspected
 - [ ] No tier-one machine-writing phrase from `config/copy-lexicon.yml` in rendered copy
 - [ ] Reference observations separated from interpretations; no unsupported winner claim
+- [ ] Selected layout matched deliberately; hierarchy and typography remain coherent across both ratios
 - [ ] Actual outputs displayed, or absence of rendering capability stated
 - [ ] Job IDs retained; no duplicate successful or pending jobs
 
@@ -6456,39 +6579,76 @@ Verify the server is connected, retrieve one harmless public page, and confirm t
 
 # Foreplay Connector
 
-Last verified: 2026-08-26
+Last verified: 2026-09-10 through live MCP discovery, board reads, Discovery search and REST reads.
 
-Foreplay is an optional creative-intelligence connector. Connection details can depend on the workspace, provider distribution, and runtime. Use the current official instructions supplied to the account. Do not guess an endpoint, package name, or authentication scheme.
+Foreplay is the preferred connected saved-ad source. Use `references/28-saved-ad-layouts.md`
+for layout selection; absent access does not block original creative.
 
-**Credential name:** this skill does not assume a canonical Foreplay environment-variable name.
-Use the exact secret name specified by the provider or workspace administrator and keep it outside
-the repository and brand folder.
+Official sources:
+- [MCP overview](https://feedback.foreplay.co/en/help/articles/0009441-what-is-the-foreplay-mcp)
+- [API documentation](https://public.api.foreplay.co/docs)
+- [Current API schema](https://public.api.foreplay.co/openapi.json)
 
-## Connection procedure
+## Access and authentication
 
-1. Obtain the approved Foreplay connection instructions and credential.
-2. Add the connector using the relevant runtime guide.
-3. Keep all credentials in secret storage.
-4. List the discovered tools and confirm the allowed workspace.
-5. Run one read-only brand, ad, or swipe-file query.
-6. Mark it `available` only when the query succeeds.
+MCP endpoint: `https://public.api.foreplay.co/mcp`. Prefer connected tools and current schemas.
+If the host does not expose them, use an authorised MCP client or REST fallback. Do not claim
+the native tool list refreshed merely because a fallback worked.
 
-Capabilities seen in current integrations can include brand discovery, domain or page-ID lookup, ad retrieval, swipe-file access, and lens research. Always use the tool descriptions returned by the live connector.
+The current REST base is `https://public.api.foreplay.co`, using an `Authorization: Bearer <token>`
+header. Keep credentials in existing secret storage or host configuration, never in a prompt,
+repository, brand folder, command output or run record. Do not assume an environment-variable
+name. A bare API key in the Authorization header returned 401 in the verified run; the documented
+Bearer form succeeded. Diagnose header format before asking for another key. Do not alter an
+otherwise valid OAuth configuration.
 
-## Research use
+MCP discovery and saved-ad reads accepted the API key in Bearer form in this run. Lens performance
+tools separately required an OAuth bearer token and returned 403 for the API-key connection.
+Mark creative retrieval and performance retrieval independently. Do not retry a known API-key
+Lens restriction with the same key; use the provider's OAuth connection or a supplied export.
 
-Use Foreplay to:
+Preflight with live tool discovery and one read-only board, swipe or brand query. Confirm the
+intended account/workspace from the returned data, without publishing private account details.
+Configured is not available until that query succeeds. Check usage when a larger search is needed.
 
-- build a relevant competitor and inspiration set;
-- inspect repeated hook, visual, offer, and format patterns;
-- retrieve saved ads and team swipe-file evidence;
-- compare patterns across brands without copying execution.
+## Read routes verified in this session
 
-Record the source brand, ad identifier or URL, observed date, pattern, and what was inferred. Foreplay material remains **market evidence** until independently validated for the active brand.
+Discover live tool schemas or the current API schema before calling these observed routes.
 
-## Safe fallback
+| Task | MCP capability | REST equivalent |
+|---|---|---|
+| Find saved boards | `get_boards` | `GET /api/boards` |
+| Read a selected board | `get_board_ads` | `GET /api/board/ads` |
+| Read the swipe file | `get_swipefile_ads` | `GET /api/swipefile/ads` |
+| Fill a reference gap | `search_discovery_ads` | Discover current route in the API schema |
+| Check credits | `get_user_usage` | `GET /api/usage` |
+| Discover own-account performance | `get_lenses`, then metric and insight tools | OAuth capability; do not infer from REST access |
 
-If Foreplay is unavailable, use TrendTrack, public ad libraries, direct site research, and the existing brand-folder swipe evidence. State the source limitations. Never claim access to private swipe files that were not retrieved.
+Resolve board IDs with a board list. Fetch a bounded sample using `board_id`, `display_format`
+(`image` for statics) and `limit`. Board retrieval uses returned cursors; swipe-file retrieval uses
+offsets. A short filtered page does not establish library size. Report sampling limits.
+
+For Discovery, combine the message/format query with category or brand context. A broad word such
+as "grounding" can return unrelated products. Inspect relevance rather than trusting the query.
+MCP field presets can reduce output, but explicitly include `foreplay_url`, `id`, `name`, `image`
+and any evidence fields needed for the task. A media preset can omit the source link. Preserve a
+returned source URL or ID; do not manufacture a Foreplay URL from a presumed pattern.
+
+## Evidence and delivery
+
+Inspect media and retain source, date and board. Saved status, automated scores, running duration
+and a board name such as "best ads" do not establish measured success.
+
+Use Lens only when relevant and authorised, and verify account, metric definitions, window and
+exposure before using performance data. Connector access does not authorise publishing or changing
+budgets. Keep competitor material separate from first-party product or performance evidence.
+
+Use native Foreplay previews when the host exposes them. If the fallback transport cannot render
+widgets, use accessible source media for inspection and return source links with the analysis.
+Do not claim a visual review from an ad's title or transcript.
+
+Fallbacks: supplied ads, reviewed local swipes, another ad library or an original composition.
+State the specific capability gap. Reading boards does not authorise reorganising them.
 
 ------------------------------------------------------------------------------
 <!-- source: connectors/higgsfield.md -->

@@ -1,7 +1,7 @@
 # Output Contract: Image Reference Analysis
-version: 1.0.0
+version: 1.1.0
 
-For adapting a supplied image ad. Product information is sufficient for original creative without
+For adapting a supplied or retrieved image ad. Product information is sufficient for original creative without
 this contract. Customer beliefs and awareness are optional analysis fields, not prerequisites.
 
 1. **Source and access:** original ad URL or identifier, image path or authorized media URL,
@@ -17,6 +17,9 @@ this contract. Customer beliefs and awareness are optional analysis fields, not 
 5. **Adaptation:** what to retain, replace, remove and add for the active product. Use its own
    supported facts and identity. State how the reference is recomposed for both 1:1 and 9:16.
 6. **Production handoff:** the selected direction and any unresolved input that actually affects it.
+   Record reference role, headline and subject zones, relative subject and type scale, text density,
+   spacing and the corresponding plan for each output ratio. Include a reason for choosing this
+   reference over the other inspected candidates. Compare the final output against that plan.
 
 Keep observations separate from interpretations. Do not claim image inspection from a URL label,
 invent performance, or carry competitor proof into a brand's ad. Capture structured visual details

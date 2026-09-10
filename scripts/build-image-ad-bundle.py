@@ -7,8 +7,8 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = ROOT / "dist/image-ad-bundle.md"
 SOURCES = (
     "PROMPT.md", "references/00-working-core.md", "references/26-copywriting-standards.md",
-    "references/27-image-ad-workflow.md", "contracts/static-spec.md",
-    "contracts/reference-analysis.md", "connectors/higgsfield.md", "config/copy-lexicon.yml",
+    "references/27-image-ad-workflow.md", "references/28-saved-ad-layouts.md", "contracts/static-spec.md",
+    "contracts/reference-analysis.md", "connectors/higgsfield.md", "connectors/foreplay.md", "config/copy-lexicon.yml",
 )
 
 

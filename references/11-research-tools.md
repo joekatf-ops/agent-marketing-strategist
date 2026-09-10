@@ -54,6 +54,10 @@ checked. A fallback crawl is not complete unless its source URLs and dates were 
 
 ## Foreplay
 
+For image layouts, prefer the user's saved boards before broad discovery and follow
+`references/28-saved-ad-layouts.md`. API/MCP setup and capability-specific authentication are in
+`connectors/foreplay.md`. Customer research improves messaging separately from visual references.
+
 Use discovered live tool descriptions as authoritative. Current integrations can expose:
 
 | Job | Common capability |

@@ -65,7 +65,13 @@ Useful format families:
 
 These are options, not a performance ranking. Do not automatically create every combination.
 
-## 3. Adapt a reference when supplied
+## 3. Select and adapt a visual reference
+
+For new layouts, use `references/28-saved-ad-layouts.md` when saved ads or Foreplay are available.
+Retrieve a small relevant shortlist, inspect its actual images, and select a primary composition
+for each concept before writing the generation prompt. A reference can come from another category
+when its structure suits the message. Do not force an irrelevant saved ad onto the product.
+For a narrow revision, preserve the existing direction rather than starting a new search.
 
 Use `contracts/reference-analysis.md` only for reference-based work. Inspect the actual image.
 Separate embedded copy from platform fields and chrome. Record the layout and the persuasive move
@@ -90,6 +96,10 @@ The image-model prompt is derived from this brief. Give each reference a distinc
 identity, composition, style or logo. Product identity and exact copy outrank a decorative reference.
 Keep unresolved factual placeholders out of generation prompts and final artwork.
 
+Record the selected reference ID and the layout details being matched: reading order, headline
+zone, subject scale, text density, spacing and treatment of supporting copy. Include the square and
+vertical plans. If no suitable reference was inspected, identify the layout as original.
+
 ## 5. Generate
 
 Use `connectors/higgsfield.md` for the current tool contract. Honor the user's selected model.
@@ -103,6 +113,11 @@ resolution or cost choice. Quality parameters vary by model and must be checked 
 Choose complete-image generation when integrated typography and image design fit the task. Use
 generated imagery with separate exact composition when logos, small text or brand typography need
 more control and the host supports that route. Both routes require final verification.
+
+For a requested model comparison, freeze the product facts, message, exact copy, layout reference,
+brand assets and output ratios across models. Record model-required parameter differences and
+corrections. Different formats or unequal manual finishing demonstrate options but cannot isolate
+model quality. Report a provider model mismatch as an unverified comparison.
 
 A request to make images authorizes the necessary generation within its count and stated budget.
 Do not add approval pauses for routine creative choices. A plan-only request does not authorize
@@ -120,6 +135,13 @@ legible hierarchy at phone size, supported proof and no unexpected additions. Ch
 parameter adjustments and returned model IDs before calling an output complete. A ratio in the prompt
 does not prove the file dimensions. Record any provider model mismatch rather than claiming the
 requested model was used. Verify that both members of every requested pair are present.
+
+Compare each final image against the selected reference and its companion ratio. Check intended
+reading order, subject scale, relative type size, contrast, spacing and amount of copy. Preserve
+the brand's typography and visual treatment across ratios even when positions change. Inspect at
+a realistic phone width, not only zoomed in or on a large contact sheet. Passing spelling and
+dimension checks alone does not establish design quality. If generation repeatedly changes
+hardware, preserve inspected product pixels and compose around them when tools allow.
 
 The local helper `scripts/validate-image-ad.py` can validate a production record and measure PNG,
 JPEG or WebP dimensions with Python's standard library. Vision is still required for product fidelity,

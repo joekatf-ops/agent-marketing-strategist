@@ -48,6 +48,9 @@ For image creation, adaptation or revision, read `references/27-image-ad-workflo
   contextual ad is useful; identify any provisional product illustration.
 - For supplied inspiration, use `contracts/reference-analysis.md`. Inspect accessible images before
   describing their layout. Separate observed features, interpretation and performance evidence.
+- When Foreplay or saved ads are available, use `references/28-saved-ad-layouts.md` before locking
+  a new layout. Prefer the user's chosen reference, then relevant saved boards. This is a bounded
+  reference pass, not a research prerequisite. Without access or a suitable match, create an original.
 - Adapt the design logic and message structure to this product. Do not import a competitor's
   product claims, proof, brand identity or unsupported winner status.
 - A make-an-ad request permits the needed generation without a second concept approval. Respect
