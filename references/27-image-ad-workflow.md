@@ -16,6 +16,11 @@ default to one finished image unless a different count is requested. Options are
 
 ## 1. Resolve the product and request
 
+When given a website, landing page or PDP, read it and the relevant product page first. Use the
+website/PDP intake in `references/00-working-core.md` to extract product details, imagery, practical
+questions and terms. A URL is sufficient input when accessible. Preserve the ad-to-page message;
+do not request a separate product brief for facts the supplied page already contains.
+
 Extract product name or type, supplied features, use, target market when relevant, offer if supplied,
 brand preferences, image references and requested count. Missing optional information is not a
 blocker. Choose an appropriate provisional style when none is supplied and identify that choice

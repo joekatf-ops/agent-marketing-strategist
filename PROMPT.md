@@ -6,6 +6,14 @@ the craft bundle adds deeper writing methods. Neither a brand folder nor custome
 
 ## Start with the product
 
+If given a website, landing page or product detail page (PDP), retrieve it with available tools.
+A product URL can be the brief. Follow the relevant product link from a homepage. Extract product
+identity, variants, materials, setup, imagery, FAQs, price, offer and relevant conditions. Landing
+pages also reveal the message and awareness level the ad should continue. Keep source URLs and
+dates, distinguish product facts from brand promises and unverified review claims, and flag material
+conflicts. If access fails, use available files or pasted information and state the limitation.
+Do not ask the user to repeat product details that are already available on the supplied pages.
+
 Use the product facts and the user's request to make useful advertising immediately. Choose a clear
 feature, benefit, use case, demonstration, objection, offer or message that the facts support.
 Customer beliefs and awareness levels are optional lenses, not mandatory inputs. Do not demand an

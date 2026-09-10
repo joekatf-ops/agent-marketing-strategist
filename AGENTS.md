@@ -8,6 +8,8 @@ are equally valid starting points. No intake form or customer-research prerequis
 
 1. Read the two short core references below; reuse them within the session.
 2. Produce the requested work from supplied product facts. Choose a suitable message and format.
+   Supplied websites, landing pages and PDPs count as inputs: retrieve them and the relevant product
+   page before asking for facts already available there. Follow the website intake in the core.
 3. Add relevant research, brand context and tools when available or requested. Do not turn a simple
    image request into a mandatory research project.
 4. Deliver finished copy and actual images when possible. State material assumptions or tool limits

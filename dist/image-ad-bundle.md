@@ -1,6 +1,6 @@
 # Marketing Strategist: square image ads
 
-Version: 1.1.0
+Version: 1.1.1
 
 Self-contained instructions for product-first Meta image ads. Upload this one file, then describe the product and request. Customer research is optional. Every image is 1:1. Tools remain host-dependent; without generation, deliver copy and a prompt.
 
@@ -17,6 +17,14 @@ when no files or tools are available. The optional image-ad bundle adds the full
 the craft bundle adds deeper writing methods. Neither a brand folder nor customer research is required.
 
 ## Start with the product
+
+If given a website, landing page or product detail page (PDP), retrieve it with available tools.
+A product URL can be the brief. Follow the relevant product link from a homepage. Extract product
+identity, variants, materials, setup, imagery, FAQs, price, offer and relevant conditions. Landing
+pages also reveal the message and awareness level the ad should continue. Keep source URLs and
+dates, distinguish product facts from brand promises and unverified review claims, and flag material
+conflicts. If access fails, use available files or pasted information and state the limitation.
+Do not ask the user to repeat product details that are already available on the supplied pages.
 
 Use the product facts and the user's request to make useful advertising immediately. Choose a clear
 feature, benefit, use case, demonstration, objection, offer or message that the facts support.
@@ -151,6 +159,34 @@ Distinguish these inputs:
 Research can improve the angle, specificity and language. It does not replace product accuracy.
 Without research, use supplied facts and clear creative judgement. Do not claim that a chosen
 audience or message has been validated by customers.
+
+## Websites and product pages are useful starting inputs
+
+When the user supplies a website, landing page or product detail page (PDP), read it with available
+retrieval tools before asking for facts already on the page. A product URL can be the entire brief.
+If the user names a product but links a homepage, follow the relevant product link. Keep retrieval
+bounded to the supplied pages, relevant PDP and any policy needed for a proposed offer; a full
+site crawl or customer-research project is not required for ordinary creative work.
+
+Extract what helps the ad:
+- Homepage: positioning, category, brand language and visual direction.
+- PDP: exact product, variant, construction, features, use, setup, materials, sizes, imagery,
+  practical questions, current price, offer and purchase terms.
+- Landing page or advertorial: entry problem, awareness assumptions, explanation, objections,
+  message sequence and the promise the ad should continue.
+- Relevant policy: material conditions for any trial, guarantee, shipping or return claim used.
+
+Keep source URLs, access date and material conflicts in the brief. Product descriptions and photos
+supply useful brand information. A health promise is still a brand assertion, and a review shown
+on a page is not automatically independently verified customer evidence. Do not promote every
+line on the website into an approved claim or copy a review count that conflicts with other supplied
+records. Choose an angle supported by the available facts while resolving only the gaps it needs.
+
+Retrieve displayed text and inspect actual images when using their visual details. Do not claim
+visual inspection from alt text. Read a page's full relevant terms rather than only the headline.
+Where retrieved content conflicts with a current owner correction or a newer claims record, state
+the discrepancy; do not silently rewrite either source. If access fails, use the supplied files
+or pasted content, say what was inaccessible and continue the useful work.
 
 ## Make a complete, useful ad from limited facts
 
@@ -534,6 +570,11 @@ report, customer persona, awareness label, CONTST ID or concept approval to star
 default to one finished image unless a different count is requested. Options are not launch ads.
 
 ## 1. Resolve the product and request
+
+When given a website, landing page or PDP, read it and the relevant product page first. Use the
+website/PDP intake in `references/00-working-core.md` to extract product details, imagery, practical
+questions and terms. A URL is sufficient input when accessible. Preserve the ad-to-page message;
+do not request a separate product brief for facts the supplied page already contains.
 
 Extract product name or type, supplied features, use, target market when relevant, offer if supplied,
 brand preferences, image references and requested count. Missing optional information is not a

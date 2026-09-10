@@ -27,6 +27,14 @@ the craft bundle adds deeper writing methods. Neither a brand folder nor custome
 
 ## Start with the product
 
+If given a website, landing page or product detail page (PDP), retrieve it with available tools.
+A product URL can be the brief. Follow the relevant product link from a homepage. Extract product
+identity, variants, materials, setup, imagery, FAQs, price, offer and relevant conditions. Landing
+pages also reveal the message and awareness level the ad should continue. Keep source URLs and
+dates, distinguish product facts from brand promises and unverified review claims, and flag material
+conflicts. If access fails, use available files or pasted information and state the limitation.
+Do not ask the user to repeat product details that are already available on the supplied pages.
+
 Use the product facts and the user's request to make useful advertising immediately. Choose a clear
 feature, benefit, use case, demonstration, objection, offer or message that the facts support.
 Customer beliefs and awareness levels are optional lenses, not mandatory inputs. Do not demand an
@@ -165,6 +173,34 @@ Distinguish these inputs:
 Research can improve the angle, specificity and language. It does not replace product accuracy.
 Without research, use supplied facts and clear creative judgement. Do not claim that a chosen
 audience or message has been validated by customers.
+
+## Websites and product pages are useful starting inputs
+
+When the user supplies a website, landing page or product detail page (PDP), read it with available
+retrieval tools before asking for facts already on the page. A product URL can be the entire brief.
+If the user names a product but links a homepage, follow the relevant product link. Keep retrieval
+bounded to the supplied pages, relevant PDP and any policy needed for a proposed offer; a full
+site crawl or customer-research project is not required for ordinary creative work.
+
+Extract what helps the ad:
+- Homepage: positioning, category, brand language and visual direction.
+- PDP: exact product, variant, construction, features, use, setup, materials, sizes, imagery,
+  practical questions, current price, offer and purchase terms.
+- Landing page or advertorial: entry problem, awareness assumptions, explanation, objections,
+  message sequence and the promise the ad should continue.
+- Relevant policy: material conditions for any trial, guarantee, shipping or return claim used.
+
+Keep source URLs, access date and material conflicts in the brief. Product descriptions and photos
+supply useful brand information. A health promise is still a brand assertion, and a review shown
+on a page is not automatically independently verified customer evidence. Do not promote every
+line on the website into an approved claim or copy a review count that conflicts with other supplied
+records. Choose an angle supported by the available facts while resolving only the gaps it needs.
+
+Retrieve displayed text and inspect actual images when using their visual details. Do not claim
+visual inspection from alt text. Read a page's full relevant terms rather than only the headline.
+Where retrieved content conflicts with a current owner correction or a newer claims record, state
+the discrepancy; do not silently rewrite either source. If access fails, use the supplied files
+or pasted content, say what was inaccessible and continue the useful work.
 
 ## Make a complete, useful ad from limited facts
 

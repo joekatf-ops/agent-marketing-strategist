@@ -32,7 +32,7 @@ One universal method serves many brands. Each brand keeps its own connected fold
 coordinate history, test history, winners and approved learning. The method is brand-neutral; brand
 facts never transfer between brands.
 
-**Version:** 1.1.0
+**Version:** 1.1.1
 
 **Status:** v1.1 implementation with automated package checks and a bounded independent text-only
 behavioral check. It is not a claim that every LLM or live image provider has been benchmarked.
@@ -401,6 +401,7 @@ structure is the entire point. See [`corpus/swipe/ATTRIBUTION.md`](corpus/swipe/
 
 | Version | Date | Change |
 |---|---|---|
+| 1.1.1 | 2026-09-10 | Websites, landing pages and PDPs are explicit brief inputs, with product extraction, message continuity, source dates and conflict handling. |
 | 1.1.0 | 2026-09-10 | Product-first square image workflow, optional customer research, current Higgsfield adapter, focused bundles, reviewed-only swipe teaching, reference records and raster-dimension validation. |
 | 1.0.0 | 2026-08-31 | Opened the closed router so any advertising request is served, always loaded the 25k craft stack instead of routing craft references selectively, added the Strategist Read contract so judgement has an output, marked thin input rather than refusing it, resolved the library's contradictions against the measured data, made option counts advisory, added the annotated swipe corpus and its Foreplay sync, added the eval harness and its CI scoring, extended the static contract to generated imagery, split the craft bundle from the full bundle, banned em dashes everywhere with a character check, retired Notion as canonical, fixed a TOCTOU hash guard that accepted a corrupted digest 86 percent of the time, and moved the ad-analysis tooling to agent-ad-analysis-harness. The v0.4 claim of complete seven-runtime workflows was overstated: three runtimes are first class, three are upload-only with a developer maintaining bundles, and Grok Agents is a build spec. |
 | 0.4.0 | 2026-08-27 | Added the portable ad-analysis intake, initializer and validator, Creative Audit, Performance Diagnosis routing, safe persistence patches, schema-aware universal bundle and complete seven-runtime workflows. |
