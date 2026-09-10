@@ -183,14 +183,14 @@ class RunnerTests(unittest.TestCase):
         self.assertIn("Never refuse for thin input", prompt)
         self.assertIn("minimum three", prompt)
 
-    def test_generation_context_uses_the_whole_craft_stack(self):
+    def test_generation_context_uses_the_focused_writing_route(self):
         run = load("run")
         validator_stack = run.CRAFT_STACK
 
         for relative in validator_stack:
             with self.subTest(relative=relative):
                 self.assertTrue((ROOT / relative).is_file())
-        self.assertGreaterEqual(len(validator_stack), 12)
+        self.assertEqual(len(validator_stack), 7)
 
     def test_the_eval_loads_exactly_what_the_skill_declares(self):
         # The defect this catches: 26-copywriting-standards.md joined the craft stack

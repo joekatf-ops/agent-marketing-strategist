@@ -16,7 +16,8 @@ Work down this list. The first rule that applies wins, and the loser gets named 
    overstates does not.
 3. **Approved wording survives editing.** Concision never removes a qualifier that a regulated claim
    depends on.
-4. **Awareness governs position.** What goes first is set by the customer's state of knowledge, per
+4. **Awareness governs position when the brief specifies it.** A simple product brief does not need
+   a formal awareness diagnosis. When the stage is known, ordering follows it, per
    `02-customer-state.md`. Rules about ordering yield to it.
 5. **Everything else is craft**, and craft judgement is arguable. Say which way you went.
 
@@ -24,8 +25,8 @@ Work down this list. The first rule that applies wins, and the loser gets named 
 
 ### 1. Sell the end state
 
-Sell the life the product produces, not the product. The reader is buying the version of their
-situation that exists after purchase.
+Connect a product detail to a defensible practical use or payoff. A feature-led ad is valid; do not
+force an emotional transformation or invent a customer belief to make the product sound consequential.
 
 **Prevents:** feature inventories, spec sheets, and copy that describes the object rather than the
 change.
@@ -150,7 +151,8 @@ competitor fact. Ever, for any reason, including that the copy is better with on
 
 **Prevents:** the failure that survives every other quality gate and cannot be fixed after publication.
 
-**The check:** every specific traces to the claim library or carries a marker. **A marker names a gap
+**The check:** every specific traces to supplied product facts or relevant evidence. Mark essential
+gaps in a brief only, never in finished image copy. **A marker names a gap
 and never wraps a guess.** `[STAT: needs a real figure]` is correct. An invented figure tagged for
 removal is still an invented figure: it reached the page, it reads as real, and somebody will ship it.
 
@@ -187,8 +189,8 @@ is an argument.
 
 ### 13. Numbers beat adjectives
 
-A quantity, a duration, a price, a count or a temperature outperforms any adjective describing the
-same thing. "Three weeks" beats "quickly". "The 4am wake-up" beats "poor sleep".
+A supported quantity, duration, price, count or temperature can make a description more concrete.
+This is a writing preference, not a universal performance claim. "Three weeks" beats "quickly". "The 4am wake-up" beats "poor sleep".
 
 **Prevents:** inflated adjectives, which readers discount automatically because every competitor uses
 them.
@@ -196,7 +198,7 @@ them.
 **The check:** circle every adjective doing persuasive work and try to replace it with a figure.
 
 **When no figure exists, do not reach for the adjective.** The order of preference is: a real figure,
-then a marked placeholder naming the figure needed, then a concrete situation with no number in it. The
+then a concrete situation with no number in it. Mark an essential missing figure in the brief only. The
 vague adjective is last and usually worse than all three. Rule 10 outranks this rule absolutely: the
 absence of a number is never a reason to produce one.
 
@@ -216,7 +218,8 @@ the reader's interest, not by the brand's.
 
 ### 15. Sound unmistakably brand
 
-The copy should be identifiable as this brand with the logo removed.
+When a brand voice is supplied, make the copy identifiable without the logo. Without one, choose
+a suitable provisional voice; do not block creation or invent an established brand rule.
 
 **Prevents:** competent copy that any competitor could have run, which builds nothing across
 impressions.

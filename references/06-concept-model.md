@@ -1,5 +1,8 @@
 # Concept coordinates, test batches and executions
 
+Scope: governed house campaign profile. These conventions are not universal Meta requirements and do not gate ordinary product-first image creation.
+
+
 ## Canonical coordinate
 
 One concept coordinate is exactly:

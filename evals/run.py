@@ -25,7 +25,7 @@ import rubric  # noqa: E402
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 BRIEFS = ROOT / "evals" / "briefs"
 SKILL = ROOT / "SKILL.md"
-CRAFT_SECTION = "The craft stack, always loaded"
+CRAFT_SECTION = "Core craft"
 API_URL = "https://api.anthropic.com/v1/messages"
 API_VERSION = "2023-06-01"
 DEFAULT_MODEL = os.environ.get("EVAL_MODEL", "claude-sonnet-4-5")
@@ -45,17 +45,17 @@ def craft_stack() -> tuple[str, ...]:
     it. `scripts/build-craft-bundle.py` reads the same section for the same reason.
     """
     text = SKILL.read_text()
-    match = re.search(rf"^##[ \t]+{re.escape(CRAFT_SECTION)}[ \t]*$", text, re.MULTILINE)
-    if match is None:
-        raise SystemExit(f"SKILL.md has no '{CRAFT_SECTION}' section")
-    following = re.search(r"^##[ \t]+", text[match.end() :], re.MULTILINE)
-    section = (
-        text[match.end() : match.end() + following.start()] if following else text[match.end() :]
-    )
-    found = tuple(re.findall(r"`(references/[^`]+\.md)`", section))
+    found = []
+    for heading in (CRAFT_SECTION, "Writing craft"):
+        match = re.search(rf"^##[ \t]+{re.escape(heading)}[ \t]*$", text, re.MULTILINE)
+        if match is None:
+            raise SystemExit(f"SKILL.md has no '{heading}' section")
+        following = re.search(r"^##[ \t]+", text[match.end():], re.MULTILINE)
+        section = text[match.end():match.end() + following.start()] if following else text[match.end():]
+        found.extend(re.findall(r"`(references/[^`]+\.md)`", section))
     if not found:
         raise SystemExit("no craft references found in the craft stack section")
-    return found
+    return tuple(dict.fromkeys(found))
 
 
 CRAFT_STACK = craft_stack()

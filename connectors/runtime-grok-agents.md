@@ -1,5 +1,11 @@
 # Grok Agents Setup
 
+For ordinary image ads, use `dist/image-ad-bundle.md` or the image route in `SKILL.md`. Product
+information is enough; customer research and brand bundles are optional. Every image is 1:1.
+Generation, browsing and persistence depend on this host's actual available tools. The governed
+ad-analysis setup below is not an image-creation prerequisite.
+
+
 Last verified: 2026-08-27
 
 Use this pattern for a Grok-powered agent built through an xAI API or another agent host. The exact tool and knowledge configuration depends on that host, so verify its current documentation before implementation.

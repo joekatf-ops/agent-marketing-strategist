@@ -1,5 +1,8 @@
 # Testing, measurement and diagnosis
 
+Scope: governed house campaign profile. These conventions are not universal Meta requirements and do not gate ordinary product-first image creation.
+
+
 This file governs test structure, observation and decisions. Benchmarks and sourced platform
 thresholds live in `references/12-meta-platform.md`. Meta launch, evidence capture and campaign
 changes are manual. This method neither requires nor implies live Meta access.

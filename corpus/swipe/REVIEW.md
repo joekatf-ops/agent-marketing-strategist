@@ -7,7 +7,7 @@ asset here.
 To approve an entry, fix anything wrong in `entries.json` and set `"reviewed": true`. Then run
 `python3 scripts/build-swipe-digest.py`.
 
-## Awaiting review (31)
+## Awaiting review (30)
 
 Ordered by leverage, not by chance. A wrong reading on a long-running cold opening
 propagates into every cold ad the agent writes; a wrong reading on a headline-only offer
@@ -41,13 +41,13 @@ headline-only readings you can leave unreviewed indefinitely.
 - [ ] **100% Money-Back Guarantee 🍄** (Spacegoods, dco, 433 days running, read as promise, `qupQb6mJyH4WPOzFyiU9`)
 - [ ] **FREE Gifts + FREE Shipping** (Spacegoods, dco, 384 days running, read as promise, `lZ28sVyBZr5yaMBRSRZg`)
 - [ ] **100% Money-Back Guarantee 🍄** (Spacegoods, dco, 384 days running, read as promise, `PGdl2jt6KPxyq0f96266`)
-- [ ] **2,000 5 Star Reviews ⭐⭐⭐⭐⭐** (Spacegoods, image, 377 days running, read as promise, `LaVyRH4y2XPZnWkFEK5I`)
 - [ ] **Make Water Worth Drinking 🍓** (Javy Coffee, image, 32 days running, still live, read as promise, `MG1AVDYoyqBzJl6QaGkq`)
 - [ ] **Hey, Our Prices Are Changing… 👀** (Grüns, image, 2 days running, still live, read as open loop, `TbhTQ5IpsNUjIi4uv5db`)
 - [ ] **As seen on NBC, CBS and USA Today. Learn More 👉** (qymdUTOOxLw0U9tAgmoe, image, 0 days running, read as promise, `4XQEKx2lUtcQirNQ6L01`)
 
-## Annotatable but not yet drafted (15)
+## Annotatable but not yet drafted (16)
 
+- [ ] 2,000 5 Star Reviews ⭐⭐⭐⭐⭐  (Spacegoods, image, `LaVyRH4y2XPZnWkFEK5I`)
 - [ ] (no headline or transcript)  (KuIvjvXeiIBnIryEuqFO, unknown, `MF7Xgh49cAX6ATkKkYZD`)
 - [ ] NEW! Blackberry Lemonade Refreshers 💙🍋  (Javy Coffee, image, `CBTnsvyDPmEJ3RZVEDnl`)
 - [ ] ☕️ 20g Protein + Coffee = Proffee!  (Javy Coffee, image, `4HSGRFMfUzgTUAHrPZjy`)

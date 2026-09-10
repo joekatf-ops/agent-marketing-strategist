@@ -1,8 +1,9 @@
 # Customer state: awareness, sophistication, belief
 
 Awareness is what the customer knows. Sophistication is how tired the market is of the
-category's promises. Belief is what must be true before they buy. Diagnose all three before
-writing anything.
+category's promises. Belief is one lens on a buying decision. Use these lenses when the strategy
+or audience brief calls for them. Product information alone is enough for an ordinary ad; do not
+require a belief map before writing.
 
 ## Awareness
 

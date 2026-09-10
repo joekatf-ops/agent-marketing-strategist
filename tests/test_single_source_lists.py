@@ -53,7 +53,7 @@ class CraftStackTests(unittest.TestCase):
         declared = tuple(builder().craft_stack())
 
         self.assertEqual(declared, tuple(run.CRAFT_STACK))
-        self.assertGreaterEqual(len(declared), 15)
+        self.assertEqual(len(declared), 7)
 
     def test_every_declared_reference_exists(self):
         for relative in builder().craft_stack():
@@ -256,7 +256,7 @@ class GeneratedFileTests(unittest.TestCase):
         text = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
         skill = SKILL.read_text(encoding="utf-8")
 
-        for heading in ("The craft stack, always loaded", "Launch invariants", "Hard rules"):
+        for heading in ("Core craft", "Launch invariants", "Hard rules"):
             with self.subTest(heading=heading):
                 self.assertIn(heading, text)
                 self.assertIn(heading, skill)

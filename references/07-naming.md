@@ -1,5 +1,8 @@
 # Naming conventions
 
+Scope: governed house campaign profile. These conventions are not universal Meta requirements and do not gate ordinary product-first image creation.
+
+
 Names make the coordinate, test batch and execution traceable without turning execution variables
 into concept axes. Resolve every controlled token from the active brand folder. Never invent or
 silently abbreviate a missing code. Stop and ask when a required token is unavailable.

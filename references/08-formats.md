@@ -6,7 +6,7 @@ messaging job, not the one that is easiest to shoot.
 
 ## Image formats
 
-All image formats: 1:1 and 4:5 master, adapt to 9:16 where needed. Production difficulty low.
+All image formats: 1:1 square masters and square carousel frames. Video formats keep their own placement specifications.
 Assets needed: product image, brand assets, proof and copy inputs.
 
 | Format | Structure | Best for | Awareness |

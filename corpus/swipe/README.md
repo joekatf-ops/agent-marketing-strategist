@@ -1,6 +1,8 @@
 # Swipe corpus
 
-Annotated real ads, used as the worked evidence layer of the craft stack.
+Real ads with a reviewed teaching layer and an unreviewed draft queue. Only human-reviewed
+annotations enter the generated digest. At v1.1, zero entries are reviewed; the empty teaching
+digest is intentional and does not block creating original product-first ads.
 
 | File | What it is |
 |---|---|
@@ -37,3 +39,11 @@ Awareness codes are computed from how long an ad runs before naming the product.
 a fact: an ad can name the product in the first second and still address an unaware buyer. The
 never-named sentinel is also unreliable, and at least one entry reports a product as never named
 while its own transcript names it.
+
+## Image references
+
+Use the optional media and visual_analysis fields in the entry schema. An inspected record names
+the actual source and inspection date, separates observations from interpretations, and may record
+an optional awareness reading and adaptation plan. An uninspected record has no visual observations.
+Use contracts/reference-analysis.md for the working analysis. The sync preserves these local fields,
+including when no text annotation exists. Do not turn a video-style guess into an image teaching note.

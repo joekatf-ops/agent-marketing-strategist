@@ -1,5 +1,10 @@
 # Meta platform layer: specs, policy, benchmarks, hooks, structures
 
+Dated platform reference, not a current policy certification or universal format ranking. Recheck
+changeable specifications and rules for the actual launch. The image workflow in reference 27
+always uses 1:1; historical ratio comparisons below do not change that production standard.
+
+
 Researched 26 August 2026. This file is the platform-and-numbers layer only. The theory
 (awareness, sophistication, persuasion, offer, copy structures) lives in files 01 to 11 and is
 not repeated here.
@@ -271,7 +276,7 @@ Adjacent requirement: online pharmacy advertisers require LegitScript certificat
 
 Moved to `25-meta-benchmarks.md`, which loads with the ops stack when planning or diagnosing a test.
 Benchmarks tell you whether a number is good; they do not help you write, so they are not carried in
-the always-loaded craft stack.
+the optional deeper platform reference.
 
 The hit-rate data in section 4 below is different and stays here, because it informs which opening to
 choose rather than how to read a result.
@@ -379,7 +384,7 @@ From [RocketShip HQ, 8 June 2026](https://www.rocketshiphq.com/text-overlays-vid
 4. **Explainer and how-to openers.** 5.24% and 5.47%, at or below baseline.
 5. **Text not readable inside 0.5 seconds**, or text inside the top 14% or bottom 35% where platform chrome covers it.
 6. **Auto-cropped assets.** One agency reports a **23% ROAS drop** on auto-cropped verticals versus natively shot 9:16 ([Mintec](https://mintec.co/blog/meta-vertical-creative-safe-zone/)). `[Single client anecdote.]`
-7. **Wrong ratio.** 4:5 versus 1:1 gave 12 to 18% CTR improvement; 9:16 ~7% higher CTR on video. `[Single-source. Directionally consistent: taller wins.]`
+7. **Placement fit.** Historical single-source comparisons reported ratio differences. They do not establish a universal winner; this image workflow produces 1:1 and checks the actual placement preview. Video follows its separate brief.
 
 ### 4.9 Hook variation as a production unit
 

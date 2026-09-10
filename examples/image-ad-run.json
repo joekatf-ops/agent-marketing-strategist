@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "product": "Fictional six-cable desk organiser",
+  "notes": "Draft fixture, no image generated.",
+  "outputs": [
+    {
+      "index": 0,
+      "status": "draft",
+      "aspect_ratio": "1:1",
+      "model": "nano_banana_pro",
+      "copy_on_image": "Six cables. One place.",
+      "prompt": "Create a 1:1 square text-led ad. Charcoal type on warm white, exact text: Six cables. One place. Add six abstract cable lines. No product housing, reviews, badge, offer or extra copy."
+    }
+  ]
+}

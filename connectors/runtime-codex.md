@@ -1,5 +1,11 @@
 # Codex Setup
 
+For ordinary image ads, use `dist/image-ad-bundle.md` or the image route in `SKILL.md`. Product
+information is enough; customer research and brand bundles are optional. Every image is 1:1.
+Generation, browsing and persistence depend on this host's actual available tools. The governed
+ad-analysis setup below is not an image-creation prerequisite.
+
+
 Last verified: 2026-08-27
 
 Official MCP reference: https://developers.openai.com/codex/mcp
@@ -35,7 +41,7 @@ Use `codex mcp list` and the `/mcp` command to confirm connection and discovered
 ## Brand session
 
 1. Open the strategist repository and exactly one active brand folder.
-2. Ask the skill to run the brand readiness and connector preflight.
+2. For connected tools, run a read-only preflight. Readiness is optional for ordinary creative work.
 3. Confirm the brand identity before research or writing.
 4. Save outputs and learning events back to the active brand folder.
 

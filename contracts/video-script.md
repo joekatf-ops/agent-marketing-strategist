@@ -13,7 +13,7 @@ Markdown. Table-driven, shootable without a follow-up conversation.
    Primary Problem, awareness code and job, messaging route, primary hook, media type, execution
    format from the format library, target length, destination, CTA, complete final ad name ending in
    `POSTIDXXX` before publication, and production difficulty
-2. **The job** - one line: the belief this execution has to move
+2. **The job** - one line: the product message or practical benefit to communicate; a belief shift is optional
 3. **The three-part opening** - visual hook, spoken or written hook, on-screen anchor. All
    three express one idea
 4. **Script table** - the body, beat by beat

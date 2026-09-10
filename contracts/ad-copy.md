@@ -13,7 +13,7 @@ A Markdown block per ad. A batch may use a table only when every required field 
 1. **Ad reference** - brand, market, product, coordinate key, CONTST test ID, source classification,
    Who, Primary Problem, awareness code and job, messaging route, primary hook, media type, execution
    format, destination, CTA and complete final ad name ending in `POSTIDXXX` before publication
-2. **The job** - the single belief or feeling this copy must create
+2. **The job** - the product message, practical benefit or response this copy communicates; a belief shift is optional
 3. **Proof, claims and production needs** - proof and claims required, approval status, and the
    people, assets and location required
 4. **Lead route A** - named lead type, hook source, and body structure
