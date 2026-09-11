@@ -12,6 +12,12 @@ reviewed reference.
 
 ## The reel-in test
 
+Develop the opening with `29-moment-to-meaning.md` before applying the gate: identify a recognisable
+moment, why it matters and the supported product bridge. Emotion can be quiet or positive, and may
+be carried by behaviour or the visual rather than an explicit feeling word. A generic complaint
+with an intense adjective is not emotional depth. Never invent stakes to satisfy a carrier count;
+the simple feature/offer allowance in the core and static contract still applies.
+
 The hook is bait. Its job is to hold attention long enough to land the argument.
 
 A hook that attracts the stop and loses the sale is a flawed hook, not a strong one. Hook rate is a
@@ -106,6 +112,8 @@ non-negotiable clearance in the output so a human reviewer can check the reasoni
 
 ## Reject list
 
+- A generic pain label with no recognisable moment or relevant practical payoff
+- Invented shame, customer testimony or promised emotional relief unsupported by the product
 - Setup before the claim, or any opening that assumes a previous view
 - A promise and an open loop mixed into one opening
 - A withheld answer the body never supplies

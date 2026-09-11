@@ -2,6 +2,11 @@
 
 ## The framework hierarchy
 
+Begin with the core thinking method in `29-moment-to-meaning.md`. Find the recognisable moment,
+consequence and personal meaning, then connect the product through supported facts. Use that insight
+to select a lead and structure below. Do not bolt an emotional line onto an unrelated argument.
+The method applies to simple features and offers too; practical relevance may be its best expression.
+
 Keep the levels separate. AIDA, PAS, FOMO and hook types do not do the same job.
 
 | Level | Question | Examples |
@@ -21,6 +26,7 @@ job, then choose the framework that solves it.
 
 | If the question is | Start with |
 |---|---|
+| Why does this problem or product matter in daily life? | Moment-to-meaning: situation, consequence, personal meaning and supported product role |
 | Who is most likely to care? | Mass desire, LF8, JTBD, starving crowd |
 | What do they already know? | Awareness levels |
 | What have they already heard? | Market sophistication |
@@ -113,6 +119,10 @@ sets the quality gate every opening must clear, including the promise or open lo
 
 ## Headline checks
 
+**Moment and meaning.** Does the headline express one recognisable moment, meaningful tension or
+practical payoff? It need not contain every layer or name the feeling. Check the headline with its
+image and body: the product must support the expectation they create together.
+
 **4U test.** Useful (does it promise something the right prospect values?), Urgent (a credible
 reason to care now?), Unique (distinct route, mechanism or framing?), Ultra-specific (concrete
 enough to be understood and believed?).
@@ -129,6 +139,11 @@ On Meta the opening combines three parts that must express ONE idea, not compete
 3. **On-screen anchor.** The words that make the meaning unmistakable without sound.
 
 ## Story frameworks
+
+Make the chosen moment visible and the personal meaning legible through behaviour, voice or context.
+Use a real account for testimonial or founder experience; otherwise use a brand narrator or a
+clearly hypothetical scene. Every beat advances the idea. Repeating pain at greater intensity is
+not progression, and a demonstration only proves what is actually demonstrated.
 
 **StoryBrand SB7.** A character wants something. They meet an external, internal or
 philosophical problem. A guide shows empathy and authority. The guide gives a plan. The

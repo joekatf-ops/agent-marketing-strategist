@@ -190,7 +190,7 @@ class RunnerTests(unittest.TestCase):
         for relative in validator_stack:
             with self.subTest(relative=relative):
                 self.assertTrue((ROOT / relative).is_file())
-        self.assertEqual(len(validator_stack), 7)
+        self.assertEqual(len(validator_stack), 8)
 
     def test_the_eval_loads_exactly_what_the_skill_declares(self):
         # The defect this catches: 26-copywriting-standards.md joined the craft stack

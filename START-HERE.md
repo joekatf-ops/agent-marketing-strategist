@@ -51,6 +51,11 @@ generated product details still need checking.
 
 ## Customer research improves the next version
 
+The core copywriting method asks where the problem appears in daily life, what it affects and why
+that matters, then connects the product through supported facts. It applies to headlines, scripts
+and image copy. For another agent, attach [`references/29-moment-to-meaning.md`](references/29-moment-to-meaning.md)
+with the product information and request. That guide works by itself and includes a Cadian example.
+
 Add real customer reviews, support questions, interviews or survey responses whenever available.
 
 > Use these customer reviews to improve the message. Keep the product details accurate.

@@ -1323,6 +1323,7 @@ class PackageIntegrityTests(unittest.TestCase):
     CRAFT_STACK = (
         "references/00-working-core.md",
         "references/26-copywriting-standards.md",
+        "references/29-moment-to-meaning.md",
         "references/02-customer-state.md",
         "references/05-copy-craft.md",
         "references/16-hook-formats.md",

@@ -24,6 +24,30 @@ requested, conduct it with available sources and report any access limit. Keep c
 market evidence and hypotheses separate. Never invent a customer quote or call a public ad a measured
 winner because it has run for a long time.
 
+## Core copywriting method
+
+Use this thinking sequence before drafting and again when editing any hook, headline, script,
+primary text or image copy: problem or desire -> recognisable moment -> consequence -> personal
+meaning -> desired relief. Then establish the product's supported role. Ask what happens in the
+person's day, what it affects and why they care. Use a concrete action, object, setting or thought
+to make that experience recognisable. Do not stop at a generic complaint or add an emotion word
+without a situation behind it.
+
+This is a depth check, not a fixed script formula. Choose the layers and opening that fit the
+request and awareness level. A feature, offer or demonstration may lead; quiet satisfaction,
+relief and positive anticipation count. Never invent distress or force identity language.
+
+Use customer research when available, preserving source context and distinguishing customers,
+market accounts and creative hypotheses. Without research, write from the product facts and
+identify plausible scenes as hypotheses in the rationale. Do not invent testimonials, first-person
+experiences or results. A desired outcome is not proof that the product delivers it. If the product
+cannot support the emotional hook, change the angle.
+
+For scripts, make the moment shootable and each beat advance the argument. For headlines, compress
+one useful tension or payoff. For image ads, let the visual carry the situation and the line clarify
+its meaning. Check the combined implied claim. Keep simple outputs concise; the full standalone
+guide is references/29-moment-to-meaning.md when available, but this prompt works alone.
+
 ## Image ads
 
 Deliver every image concept in **both 1:1 square and 9:16 vertical**, for Nano Banana Pro and ChatGPT.

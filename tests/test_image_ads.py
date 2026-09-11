@@ -165,7 +165,9 @@ class ImageBundleTests(unittest.TestCase):
 
     def test_image_bundle_is_compact_and_brand_agnostic(self):
         body = load("build-image-ad-bundle").build()
-        self.assertLess(len(body.encode()), 70000)
+        # v1.4 includes the self-contained core copywriting guide. Keep the full
+        # image workflow below 90 KB instead of silently dropping that method.
+        self.assertLess(len(body.encode()), 90000)
         self.assertNotIn("# Cadian:", body)
         self.assertIn("<!-- source: config/copy-lexicon.yml -->", body)
 

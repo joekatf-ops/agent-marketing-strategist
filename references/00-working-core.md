@@ -52,6 +52,12 @@ or pasted content, say what was inaccessible and continue the useful work.
 
 ## Make a complete, useful ad from limited facts
 
+Use the core thinking sequence in `29-moment-to-meaning.md` before drafting: problem or desire,
+recognisable moment, consequence, personal meaning, desired relief, then the product's supported
+role. This check governs hooks, headlines, scripts and image copy. Choose the layers that serve the
+request; do not require overt emotion, identity language or a full story in every execution.
+With thin input, keep proposed situations as creative hypotheses and product assertions factual.
+
 Choose one product fact, use case, practical benefit, offer or distinctive detail as the main idea.
 Show why that idea matters in ordinary language. Prefer a concrete demonstration or a useful
 product introduction over a generic superlative. Connect a feature to a direct, defensible payoff;
@@ -69,6 +75,8 @@ finished image. A marker names a gap and never wraps a guess.
 
 ## The creative check
 
+- The message connects to a recognisable moment or practical payoff that matters to the reader.
+  Emotional meaning is proportionate, with no invented experience or unsupported product bridge.
 - One main idea and a clear reading order. The image and headline work together.
 - A person can understand the ad without prior context or reading a second ad first.
 - Specificity comes from the supplied product, scene or legitimate evidence.

@@ -50,6 +50,11 @@ must state the reason and the actual word count.
 
 ## Structural rules
 
+**Develop the moment before the routes.** Apply `references/29-moment-to-meaning.md` to primary text,
+headlines and descriptions. Name the chosen moment, why it matters, evidence status and supported
+product bridge in the rationale. For a simple copy-only request, perform the check internally.
+Each slot has its own job; do not squeeze the full sequence or overt emotion into every line.
+
 **Line one is a complete hook.** It must survive mobile truncation without the reader expanding the
 copy. It may name the situation, make a supportable promise, open a curiosity gap, present proof, or
 answer an objection. It never starts with the brand name or "Introducing".

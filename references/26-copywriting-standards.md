@@ -9,6 +9,12 @@ where enforcement actually lives.
 
 ## Precedence, when two of them collide
 
+The core development method is `29-moment-to-meaning.md`: move from a problem or desire into a
+recognisable moment, its consequence, personal meaning and desired relief, then establish the
+product's supported role. Apply it before writing and during editing across every copy format.
+These sixteen standards check the resulting execution. A depth check is mandatory; an emotional
+story is not. Facts and the current task remain the constraints on both.
+
 Work down this list. The first rule that applies wins, and the loser gets named in the rationale.
 
 1. **Never invent a claim.** Absolute. No other rule on this page licenses a fabricated specific.
@@ -33,6 +39,10 @@ change.
 
 **The check:** name the end state in one sentence without using the product's name. If you cannot, the
 copy is selling an object.
+
+Separate what the person wants from what the product is known to do. Use the moment-to-meaning
+sequence to find relevance, never to promote a desired emotional or health outcome into a proven
+benefit. A practical end state can carry quiet satisfaction without explicit emotion language.
 
 **Position, not presence.** The end state must be present in every ad. It is not required to be the
 first line, and at Unaware it must not be, per `24-writing-for-low-awareness.md`. See
@@ -278,10 +288,14 @@ line rather than the pattern, per `21-evidence-and-doctrine.md`.
 
 Do not run sixteen checks in sequence on every line. Three passes:
 
-1. **Write.** Awareness sets the order, one idea, end state present, reader selected.
-2. **Cut.** Rules 3, 7, 13 and 16 together. This is the pass that makes copy sound human, and it is
-   the one most often skipped.
-3. **Verify.** Rules 10, 11 and 5. Every specific traces or is marked, every claim is defensible, the
-   characters are clean.
+1. **Develop and write.** Use the moment-to-meaning sequence to find the relevant experience and
+   supported product bridge. Awareness sets the order when specified; choose one idea, a defensible
+   end state and a recognisable reader situation or practical payoff.
+2. **Deepen and cut.** Replace generic pain labels with useful concrete detail. Check why the moment
+   matters; do not merely add an emotion word. Apply rules 3, 7, 13 and 16, removing repeated agitation,
+   padding and any scene that does not advance the argument.
+3. **Verify.** Rules 10, 11 and 5. Every asserted fact traces, essential missing claims stay in the
+   brief, hypotheses are labelled in the rationale, the product bridge is defensible and the
+   characters are clean. No invented customer testimony or emotional result.
 
 Pass two is where the work is. Pass three is where the risk is.

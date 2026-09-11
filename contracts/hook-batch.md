@@ -115,6 +115,8 @@ unless its claim and policy burden are fully resolved.
 
 ## Self-check
 
+- [ ] Core depth check from `references/29-moment-to-meaning.md`: a recognisable moment or payoff,
+      why it matters, evidence status and a supported product bridge; no manufactured intensity
 - [ ] At least 3 hooks, across at least 4 hook formats when the batch reaches 6
 - [ ] Nothing included only to reach a count, and any cut package is accounted for
 - [ ] Every hook has all nineteen fields and the complete traceability set

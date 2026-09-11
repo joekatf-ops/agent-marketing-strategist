@@ -38,6 +38,9 @@ A prompt is not a rendered image.
 
 ## Layout and opening
 
+- Apply `references/29-moment-to-meaning.md` before choosing the primary line. The picture can carry
+  the moment while the headline expresses its meaning; the combined claim must fit the product.
+  Preserve that idea across both ratios. A useful feature or offer can remain direct.
 - Deliver both requested ratio versions for either model. Preserve message and product identity.
   Reflow the tall composition; do not stretch the square or crop essential copy.
 - Save clearly named pairs and check completeness. Do not treat four concepts as four total files.

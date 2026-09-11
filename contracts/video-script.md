@@ -43,6 +43,12 @@ CTA. Every row has a beat. A row that cannot be named is a row that gets cut.
 
 ## Opening gate
 
+Use `references/29-moment-to-meaning.md` to develop the situation before drafting. In the rationale,
+name the moment, consequence or personal meaning, evidence status and supported product role.
+Make the moment shootable; emotion can be visible behaviour rather than a spoken label. Develop
+the argument across beats instead of repeating agitation. Never invent first-person experience
+for a testimonial, even when the speaker is an actor or generated person.
+
 The three-part opening clears `references/20-hook-quality-standard.md` before the script is
 presented. Record the result under section 3:
 
@@ -103,6 +109,8 @@ controlled destination token: LP, PDP, HP or CP. If it cannot, the script is blo
 
 ## Self-check before presenting
 
+- [ ] Moment-to-meaning check completed; the relevant experience and product bridge are coherent
+- [ ] Emotional intensity fits the evidence; desired relief is not treated as proven efficacy
 - [ ] Three-part opening present, all three expressing one idea
 - [ ] Opening type declared as promise or open loop
 - [ ] At least two must-have carriers named, and any absent element stated

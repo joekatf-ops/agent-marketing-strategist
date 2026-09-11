@@ -6,6 +6,12 @@ made copy quality untested by construction. This directory is the replacement.
 
 ## What it measures
 
+Version 1.4.0 adds the moment-to-meaning core reference to the generator's required stack and
+clarifies `specificity` to assess recognisable experience, meaningful practical payoff and a
+supported product role. It does not reward emotional intensity for its own sake. The rubric still
+has eighteen criteria; older saved scores used different wording and are not a controlled comparison
+with this release. Rerun both versions under the same evaluation conditions before claiming a lift.
+
 A brief goes in, hooks come out, and a judge scores them against the rubric the package already
 declares in `references/20-hook-quality-standard.md`, plus strategy and the line-level standards in
 `references/26-copywriting-standards.md`. Scores are recorded so a change to the instructions produces

@@ -52,7 +52,11 @@ CRITERIA = (
     (
         "specificity",
         "Concrete. Fails if every specific could be swapped to a competitor's product without "
-        "changing a word.",
+        "changing a word. Apply the moment-to-meaning check: the execution makes a recognisable "
+        "situation or practical payoff matter to the reader and gives this product a supported role. "
+        "A generic pain label with an intense emotion word is insufficient. A clear feature, offer "
+        "or demonstration can earn full credit without overt emotion. Do not reward invented "
+        "customer experience, exaggerated distress or an unsupported emotional outcome.",
     ),
     (
         "placeholder_discipline",
