@@ -123,6 +123,11 @@ sets the quality gate every opening must clear, including the promise or open lo
 practical payoff? It need not contain every layer or name the feeling. Check the headline with its
 image and body: the product must support the expectation they create together.
 
+**Natural structure.** The framework governs meaning, not sentence count. Do not default to two
+short sentences that split situation from consequence. A single sentence or phrase may carry both;
+use two only when the rhythm earns its place. Check batches for repetitive setup-and-payoff cadence,
+without forcing artificial variety. Write an image headline, not a miniature script opening.
+
 **4U test.** Useful (does it promise something the right prospect values?), Urgent (a credible
 reason to care now?), Unique (distinct route, mechanism or framing?), Ultra-specific (concrete
 enough to be understood and believed?).

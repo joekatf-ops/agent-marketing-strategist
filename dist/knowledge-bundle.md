@@ -690,6 +690,11 @@ sets the quality gate every opening must clear, including the promise or open lo
 practical payoff? It need not contain every layer or name the feeling. Check the headline with its
 image and body: the product must support the expectation they create together.
 
+**Natural structure.** The framework governs meaning, not sentence count. Do not default to two
+short sentences that split situation from consequence. A single sentence or phrase may carry both;
+use two only when the rhythm earns its place. Check batches for repetitive setup-and-payoff cadence,
+without forcing artificial variety. Write an image headline, not a miniature script opening.
+
 **4U test.** Useful (does it promise something the right prospect values?), Urgent (a credible
 reason to care now?), Unique (distinct route, mechanism or framing?), Ultra-specific (concrete
 enough to be understood and believed?).
@@ -4347,7 +4352,7 @@ reading them; preserve existing board contents unless the user asks for library 
 
 # Copywriting: from the problem to the moment that matters
 
-Version: 1.0.0 | Approved method: 2026-09-11
+Version: 1.0.1 | Approved method: 2026-09-11 | Headline clarification: 2026-09-12
 
 ## Instructions for the receiving agent
 
@@ -4442,6 +4447,26 @@ the requested headline. Do not burden every small task with a worksheet.
 
 ## Apply it to the slot
 
+### Headline structure and rhythm
+
+The framework shapes meaning, not sentence structure. Do not automatically divide a headline into
+one short sentence for the situation and another for its emotional consequence. The thinking layers
+can combine naturally in one sentence or phrase, remain implied, or be shared with the visual.
+
+For image headlines, start with one clear, recognisable thought. Use two sentences only when that
+rhythm improves this particular headline. Do not replace the old habit with a rigid one-sentence
+rule. Choose the syntax that serves the idea, and distinguish an image headline from a longer
+spoken script opening.
+
+Review a batch for repeated cadence as well as repeated arguments. Avoid five options with the
+same setup-and-payoff pattern. Do not manufacture punctuation variety or weaken a strong line merely
+to make it look different; the options must first differ in their route into the message.
+
+Illustration of compression, not a required template or customer quotation:
+**Dreading tomorrow before tonight is even over.**
+
+### Format application
+
 | Output | Application |
 |---|---|
 | Hook | Open on one understandable tension, action or practical payoff. Earn the next beat without withholding essential context. |
@@ -4525,6 +4550,8 @@ Before presenting, ask:
 - Does the body deliver on the hook, with a supported role for this particular product?
 - Are desire, testimony and proven product results clearly distinguished?
 - Does each word or beat earn its place in the requested format?
+- Does the headline read as a natural thought, with sentence count chosen deliberately rather than
+  copied from the framework? Does the batch avoid a repetitive setup-and-payoff cadence?
 
 Revise if the output only names a generic pain, escalates into invented shame or trauma, claims a
 result the product cannot support, or tells an emotional story unrelated to the offer. Do not reject
@@ -4624,6 +4651,11 @@ awareness state and length. Proof appears before the ask.
 
 **Headlines are independently useful.** Each selects the right prospect or completes a supportable
 idea. Do not repeat the primary text's first line five times.
+
+Choose headline syntax deliberately. The emotional framework does not prescribe a two-sentence
+setup and payoff. A single natural phrase or sentence can carry the moment and meaning. Use two
+sentences when they improve the line, and check the set for repetitive cadence without forcing
+cosmetic variation. This is a craft judgement, not a sentence-count rule.
 
 ## Awareness rules
 

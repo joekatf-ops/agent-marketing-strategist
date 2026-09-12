@@ -48,6 +48,12 @@ one useful tension or payoff. For image ads, let the visual carry the situation 
 its meaning. Check the combined implied claim. Keep simple outputs concise; the full standalone
 guide is references/29-moment-to-meaning.md when available, but this prompt works alone.
 
+The framework shapes meaning, not sentence structure. Do not default to a short situation sentence
+followed by a short consequence sentence. For headlines, choose one natural thought; use one phrase,
+one sentence or two sentences according to what reads best. Two sentences must earn their rhythm.
+Check a batch for repetitive setup-and-payoff cadence as well as repeated arguments. Do not force
+punctuation variety or turn an image headline into a miniature script opening.
+
 ## Image ads
 
 Deliver every image concept in **both 1:1 square and 9:16 vertical**, for Nano Banana Pro and ChatGPT.

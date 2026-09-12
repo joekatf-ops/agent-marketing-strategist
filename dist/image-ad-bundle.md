@@ -1,6 +1,6 @@
 # Marketing Strategist: image ads
 
-Version: 1.4.0
+Version: 1.4.1
 
 Self-contained instructions for product-first Meta image ads. Upload this one file, then describe the product and request. Customer research is optional. Every image concept gets 1:1 and 9:16 versions unless explicitly overridden. Tools remain host-dependent; without generation, deliver copy and a prompt.
 
@@ -59,6 +59,12 @@ For scripts, make the moment shootable and each beat advance the argument. For h
 one useful tension or payoff. For image ads, let the visual carry the situation and the line clarify
 its meaning. Check the combined implied claim. Keep simple outputs concise; the full standalone
 guide is references/29-moment-to-meaning.md when available, but this prompt works alone.
+
+The framework shapes meaning, not sentence structure. Do not default to a short situation sentence
+followed by a short consequence sentence. For headlines, choose one natural thought; use one phrase,
+one sentence or two sentences according to what reads best. Two sentences must earn their rhythm.
+Check a batch for repetitive setup-and-payoff cadence as well as repeated arguments. Do not force
+punctuation variety or turn an image headline into a miniature script opening.
 
 ## Image ads
 
@@ -612,7 +618,7 @@ Pass two is where the work is. Pass three is where the risk is.
 
 # Copywriting: from the problem to the moment that matters
 
-Version: 1.0.0 | Approved method: 2026-09-11
+Version: 1.0.1 | Approved method: 2026-09-11 | Headline clarification: 2026-09-12
 
 ## Instructions for the receiving agent
 
@@ -707,6 +713,26 @@ the requested headline. Do not burden every small task with a worksheet.
 
 ## Apply it to the slot
 
+### Headline structure and rhythm
+
+The framework shapes meaning, not sentence structure. Do not automatically divide a headline into
+one short sentence for the situation and another for its emotional consequence. The thinking layers
+can combine naturally in one sentence or phrase, remain implied, or be shared with the visual.
+
+For image headlines, start with one clear, recognisable thought. Use two sentences only when that
+rhythm improves this particular headline. Do not replace the old habit with a rigid one-sentence
+rule. Choose the syntax that serves the idea, and distinguish an image headline from a longer
+spoken script opening.
+
+Review a batch for repeated cadence as well as repeated arguments. Avoid five options with the
+same setup-and-payoff pattern. Do not manufacture punctuation variety or weaken a strong line merely
+to make it look different; the options must first differ in their route into the message.
+
+Illustration of compression, not a required template or customer quotation:
+**Dreading tomorrow before tonight is even over.**
+
+### Format application
+
 | Output | Application |
 |---|---|
 | Hook | Open on one understandable tension, action or practical payoff. Earn the next beat without withholding essential context. |
@@ -790,6 +816,8 @@ Before presenting, ask:
 - Does the body deliver on the hook, with a supported role for this particular product?
 - Are desire, testimony and proven product results clearly distinguished?
 - Does each word or beat earn its place in the requested format?
+- Does the headline read as a natural thought, with sentence count chosen deliberately rather than
+  copied from the framework? Does the batch avoid a repetitive setup-and-payoff cadence?
 
 Revise if the output only names a generic pain, escalates into invented shame or trauma, claims a
 result the product cannot support, or tells an emotional story unrelated to the offer. Do not reject

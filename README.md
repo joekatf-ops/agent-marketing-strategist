@@ -33,7 +33,7 @@ One universal method serves many brands. Each brand keeps its own connected fold
 coordinate history, test history, winners and approved learning. The method is brand-neutral; brand
 facts never transfer between brands.
 
-**Version:** 1.4.0
+**Version:** 1.4.1
 
 The core copywriting method connects a problem or desire to a recognisable moment, consequence,
 personal meaning and desired relief, then establishes the product's supported role. It governs
@@ -41,7 +41,7 @@ hooks, headlines, scripts and image copy while keeping customer research optiona
 agent handoff, attach [`references/29-moment-to-meaning.md`](references/29-moment-to-meaning.md).
 The same guide is included in the craft, image-ad and knowledge bundles.
 
-**Status:** v1.4 implementation with automated package checks. The earlier v1.2 release also had a
+**Status:** v1.4.1 implementation with automated package checks. The earlier v1.2 release also had a
 bounded independent text-only behavioral check; that is not a behavioral benchmark of v1.4 or of
 every LLM and live image provider.
 
@@ -130,7 +130,7 @@ python3 scripts/init-brand-folder.py /path/to/brands/example-brand \
   --slug example-brand
 ```
 
-A freshly initialised brand starts with `method_version: "1.4.0"` and can use controlled
+A freshly initialised brand starts with `method_version: "1.4.1"` and can use controlled
 persistence after its normal readiness checks. The migration section below applies only to existing
 v0.3 folders.
 
@@ -409,6 +409,7 @@ structure is the entire point. See [`corpus/swipe/ATTRIBUTION.md`](corpus/swipe/
 
 | Version | Date | Change |
 |---|---|---|
+| 1.4.1 | 2026-09-12 | Headlines use natural syntax; the emotional framework does not prescribe two short sentences. Added deliberate sentence choice and batch cadence checks to core guidance, copy contracts and the standalone handoff. |
 | 1.4.0 | 2026-09-11 | Core moment-to-meaning method for hooks, headlines, scripts and image copy, standalone agent guide, explicit product bridge and evidence checks, updated copy evaluation and all portable bundles. |
 | 1.3.0 | 2026-09-10 | Bounded Foreplay saved-ad inspection, primary layout reference per concept, reference-to-output checks and paired layout consistency. |
 | 1.2.0 | 2026-09-10 | Every concept gets 1:1 and 9:16 versions by default, with separate layouts, paired filenames, ratio-aware pixel validation and provider model-mismatch reporting. |

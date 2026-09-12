@@ -75,6 +75,11 @@ awareness state and length. Proof appears before the ask.
 **Headlines are independently useful.** Each selects the right prospect or completes a supportable
 idea. Do not repeat the primary text's first line five times.
 
+Choose headline syntax deliberately. The emotional framework does not prescribe a two-sentence
+setup and payoff. A single natural phrase or sentence can carry the moment and meaning. Use two
+sentences when they improve the line, and check the set for repetitive cadence without forcing
+cosmetic variation. This is a craft judgement, not a sentence-count rule.
+
 ## Awareness rules
 
 | Awareness | Strong opening routes | Avoid |
