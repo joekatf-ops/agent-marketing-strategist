@@ -21,10 +21,11 @@ are equally valid starting points. No intake form or customer-research prerequis
 |---|---|
 | `references/00-working-core.md` | Product-first intake, facts, optional research, runtime fallbacks |
 | `references/26-copywriting-standards.md` | Clear, specific, defensible copy and line-level checks |
-| `references/29-moment-to-meaning.md` | Core thinking for all copy: problem or desire, recognisable moment, consequence, personal meaning, desired relief and supported product role; also a standalone agent handoff |
+| `references/29-moment-to-meaning.md` | Core thinking for all copy: problem or desire, recognisable moment, consequence, personal meaning, desired experience and supported product role; also a standalone agent handoff |
 
 Before drafting hooks, headlines, scripts, primary text or image copy, use the moment-to-meaning
-depth check. Identify why the message matters in someone's life, then choose the entry and wording.
+depth check. Identify what the person wants back or wants to experience, then choose the entry and
+wording. The complete ad connects recognition and desired change to a credible product role.
 Repeat the check when editing. Emotional intensity must fit the evidence and format; a practical
 feature, demonstration or offer can be the right expression. Research sharpens the moment but is
 optional. Never turn an inferred feeling into customer testimony or a desired result into a claim.

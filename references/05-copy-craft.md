@@ -123,6 +123,10 @@ sets the quality gate every opening must clear, including the promise or open lo
 practical payoff? It need not contain every layer or name the feeling. Check the headline with its
 image and body: the product must support the expectation they create together.
 
+**Desired experience.** Find what the person wants back or wants to enjoy. A headline can express
+that experience while the image establishes the frustration. Recognition can also lead, provided
+the complete ad offers a credible way forward. Do not merely rephrase the pain in every element.
+
 **Natural structure.** The framework governs meaning, not sentence count. Do not default to two
 short sentences that split situation from consequence. A single sentence or phrase may carry both;
 use two only when the rhythm earns its place. Check batches for repetitive setup-and-payoff cadence,

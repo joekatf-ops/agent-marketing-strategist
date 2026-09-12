@@ -10,7 +10,7 @@ where enforcement actually lives.
 ## Precedence, when two of them collide
 
 The core development method is `29-moment-to-meaning.md`: move from a problem or desire into a
-recognisable moment, its consequence, personal meaning and desired relief, then establish the
+recognisable moment, its consequence, personal meaning and desired experience, then establish the
 product's supported role. Apply it before writing and during editing across every copy format.
 These sixteen standards check the resulting execution. A depth check is mandatory; an emotional
 story is not. Facts and the current task remain the constraints on both.
@@ -31,8 +31,9 @@ Work down this list. The first rule that applies wins, and the loser gets named 
 
 ### 1. Sell the end state
 
-Connect a product detail to a defensible practical use or payoff. A feature-led ad is valid; do not
-force an emotional transformation or invent a customer belief to make the product sound consequential.
+Identify what the person wants back or wants to experience, beyond just stopping a problem.
+Connect a product detail to a defensible use or payoff. Feature-led ads remain valid; do not force
+an emotional transformation or invent beliefs or results.
 
 **Prevents:** feature inventories, spec sheets, and copy that describes the object rather than the
 change.
@@ -44,9 +45,9 @@ Separate what the person wants from what the product is known to do. Use the mom
 sequence to find relevance, never to promote a desired emotional or health outcome into a proven
 benefit. A practical end state can carry quiet satisfaction without explicit emotion language.
 
-**Position, not presence.** The end state must be present in every ad. It is not required to be the
-first line, and at Unaware it must not be, per `24-writing-for-low-awareness.md`. See
-`21-evidence-and-doctrine.md`.
+**Position, not presence.** The complete ad conveys a desirable experience or practical payoff.
+Recognition or desired experience can lead at Problem Aware. At Unaware, establish relevance through
+a situation or desire before pitching the category. Neither pain-first nor benefit-first is universal.
 
 ### 2. Pass the stranger test
 

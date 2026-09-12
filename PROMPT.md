@@ -28,10 +28,10 @@ winner because it has run for a long time.
 
 Use this thinking sequence before drafting and again when editing any hook, headline, script,
 primary text or image copy: problem or desire -> recognisable moment -> consequence -> personal
-meaning -> desired relief. Then establish the product's supported role. Ask what happens in the
-person's day, what it affects and why they care. Use a concrete action, object, setting or thought
-to make that experience recognisable. Do not stop at a generic complaint or add an emotion word
-without a situation behind it.
+meaning -> desired experience -> supported product role. Ask what happens, what it takes away or
+could make possible, and what the person wants back or wants to enjoy. Turn "stop the problem" into
+a concrete experience worth having. Develop the whole concept this way, not just its headline.
+Recognition, desired experience, demonstration, proof or offer can lead; do not stop at describing pain.
 
 This is a depth check, not a fixed script formula. Choose the layers and opening that fit the
 request and awareness level. A feature, offer or demonstration may lead; quiet satisfaction,
@@ -43,10 +43,16 @@ identify plausible scenes as hypotheses in the rationale. Do not invent testimon
 experiences or results. A desired outcome is not proof that the product delivers it. If the product
 cannot support the emotional hook, change the angle.
 
-For scripts, make the moment shootable and each beat advance the argument. For headlines, compress
-one useful tension or payoff. For image ads, let the visual carry the situation and the line clarify
-its meaning. Check the combined implied claim. Keep simple outputs concise; the full standalone
-guide is references/29-moment-to-meaning.md when available, but this prompt works alone.
+For scripts, make the moment shootable and each beat advance the argument. Headlines compress one
+moment or desired experience. In an image ad, the visual can establish frustration while the line
+expresses relief; avoid repeating pain in both. Pain-led copy needs a credible way forward in the
+complete ad. Check the combined implied claim. Keep simple outputs concise.
+
+Distinguish problem awareness from category or brand familiarity. Wanting to stop waking at night
+is problem-aware even if grounding is unfamiliar. Problem-aware headlines may lead with a desired
+experience. Truly unaware readers need relevance through a situation or desire before the category.
+Cold targeting alone does not establish awareness. The full guide is references/29-moment-to-meaning.md
+when available; this prompt works alone.
 
 The framework shapes meaning, not sentence structure. Do not default to a short situation sentence
 followed by a short consequence sentence. For headlines, choose one natural thought; use one phrase,

@@ -51,8 +51,9 @@ must state the reason and the actual word count.
 ## Structural rules
 
 **Develop the moment before the routes.** Apply `references/29-moment-to-meaning.md` to primary text,
-headlines and descriptions. Name the chosen moment, why it matters, evidence status and supported
-product bridge in the rationale. For a simple copy-only request, perform the check internally.
+headlines and descriptions. Name the moment, what the person wants back or wants to experience,
+chosen entry, evidence status and supported product bridge. Recognition or desired change can lead;
+the complete ad must progress beyond pain. For simple copy-only requests, check internally.
 Each slot has its own job; do not squeeze the full sequence or overt emotion into every line.
 
 **Line one is a complete hook.** It must survive mobile truncation without the reader expanding the
@@ -85,7 +86,7 @@ cosmetic variation. This is a craft judgement, not a sentence-count rule.
 | Awareness | Strong opening routes | Avoid |
 |---|---|---|
 | Unaware | situation, story, POV, unexpected observation | product name in line one |
-| Problem aware | precise problem, cost, unexpected cause | generic problem language |
+| Problem aware | desired experience, precise problem, supported route forward | generic pain or repeated agitation |
 | Solution aware | mechanism, comparison, demonstration | assuming category preference |
 | Product aware | proof, differentiation, objection | re-teaching the category |
 

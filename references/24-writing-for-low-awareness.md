@@ -1,11 +1,12 @@
 # Writing for low awareness
 
-The hardest thing this agent does. An unaware reader has no felt problem, so there is nothing for a
-benefit to attach to, and every instinct that works at the decision stage fails here.
+An unaware reader has not recognised the problem or its relevance. Establish relevance before
+pitching a solution. A relatable desire can be an entry as well as a recognisable tension.
 
 `02-customer-state.md` defines the awareness states. `21-evidence-and-doctrine.md` sets the constraint
-that a cold brief may not be answered with a product-led opening. This file is how to actually write
-one, and it exists so the work does not depend on having a matching example to hand.
+that an explicitly unaware brief needs relevance before a product pitch. Cold targeting and brand
+unfamiliarity do not establish problem unawareness. Someone seeking to stop waking at night is
+problem-aware about sleep; a desired-experience headline can lead even if grounding is unfamiliar.
 
 ## The central problem
 
@@ -13,9 +14,9 @@ You cannot sell a solution to a problem the reader does not have. At UWA the rea
 options, not comparing, not sceptical. They are indifferent, which is a harder starting position than
 scepticism, because scepticism at least implies engagement.
 
-So a cold ad has one job before any other: **make the situation recognisable.** Not the product, not
-the benefit, not the category. The situation. If the reader does not think "that is me" in the first
-two seconds, nothing after it is read.
+An unaware opening first makes a situation or desire relevant. The complete ad then connects that
+relevance to a desirable direction and supported product role. This does not require pain in line
+one or repeated agitation. See `29-moment-to-meaning.md` for developing the whole concept.
 
 Everything below is a way of doing that.
 

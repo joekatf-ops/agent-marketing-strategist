@@ -53,7 +53,7 @@ or pasted content, say what was inaccessible and continue the useful work.
 ## Make a complete, useful ad from limited facts
 
 Use the core thinking sequence in `29-moment-to-meaning.md` before drafting: problem or desire,
-recognisable moment, consequence, personal meaning, desired relief, then the product's supported
+recognisable moment, consequence, personal meaning, desired experience, then the product's supported
 role. This check governs hooks, headlines, scripts and image copy. Choose the layers that serve the
 request; do not require overt emotion, identity language or a full story in every execution.
 With thin input, keep proposed situations as creative hypotheses and product assertions factual.
@@ -75,8 +75,8 @@ finished image. A marker names a gap and never wraps a guess.
 
 ## The creative check
 
-- The message connects to a recognisable moment or practical payoff that matters to the reader.
-  Emotional meaning is proportionate, with no invented experience or unsupported product bridge.
+- The concept connects a recognisable moment to what the person wants back or wants to experience.
+  The complete ad goes beyond pain recognition, with a proportionate, supported product role.
 - One main idea and a clear reading order. The image and headline work together.
 - A person can understand the ad without prior context or reading a second ad first.
 - Specificity comes from the supplied product, scene or legitimate evidence.
@@ -90,7 +90,8 @@ messaging as appropriate. A customer belief is one possible strategic lens, not 
 field or the purpose of every ad. Awareness is optional unless the request specifies it. When
 specified, match what the reader knows: recognition at Unaware, explanation at Problem Aware,
 category choice at Solution Aware, product fit at Product Aware, and an actionable offer at Most
-Aware. Do not assume cold targeting means the person is unaware of the category.
+Aware. Problem-aware copy may lead with the desired experience. Unfamiliarity with the brand or
+category does not make someone unaware of a problem they already want to solve.
 
 ## Evidence and current instructions
 

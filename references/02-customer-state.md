@@ -12,13 +12,20 @@ Source: Schwartz. A message variable, not a funnel label.
 | Level | State | Message job | Strong leads | Common mistake |
 |---|---|---|---|---|
 | Unaware | Does not recognise the problem or its relevance | Surface a hidden desire, tension or relatable situation | Story, identity, curiosity, unexpected cause | Naming the product before earning relevance |
-| Problem aware | Feels the pain, may not know the solution | Name the problem precisely, intensify the cost of leaving it | PAS, problem-solution, confession, myth bust | Describing the problem generically |
+| Problem aware | Recognises the problem, may not know the solution | Connect a precise experience or desired change to a credible route forward | Desired-experience lead, problem-solution, PAS, myth bust | Stopping at pain recognition or repeating agitation |
 | Solution aware | Knows solutions exist, comparing categories | Explain why this type of solution works and why alternatives fall short | Mechanism, comparison, demonstration, 4P | Assuming they already prefer this category |
 | Product aware | Knows the product, unconvinced or undecided | Prove superiority, fit, credibility, value | Proof, objection handling, testimonial, authority | Repeating basic category education |
 | Most aware | Knows, wants, close to acting | Make the offer clear, remove final friction | Offer, urgency, risk reversal, availability | Overexplaining instead of closing |
 
 **Rule:** lower awareness needs a longer bridge from the customer's world to the product.
 Higher awareness allows a more direct product or offer lead.
+
+Diagnose awareness of the problem, category and brand separately. Someone who wants to stop waking
+at night is problem-aware about sleep, even if grounding or Cadian is unfamiliar. They can respond
+to a desired-experience headline; pain does not have to lead. For a truly unaware reader, establish
+relevance through a recognisable situation or desire before introducing the category. Cold targeting
+alone does not establish awareness. If a brief labels a known-problem reader "unaware", state this
+distinction and preserve the intended audience rather than silently changing what they know.
 
 **Diagnosing awareness from evidence.** Read reviews and community threads. If people describe
 symptoms without naming a cause, the market is problem aware at best. If they compare named
@@ -87,7 +94,7 @@ objection purely to knock it down.
 | State | Primary job | Useful frameworks |
 |---|---|---|
 | Unaware | Create relevance without prematurely pitching the category | Mass desire, LF8, identity, story lead, StoryBrand, curiosity, unexpected cause |
-| Problem aware | Make the pain specific and consequential | JTBD situation, PAS, problem-solution lead, cost of inaction, Voice of Customer |
+| Problem aware | Connect recognition and desired change to a credible way forward | JTBD situation and desired progress, desired-experience lead, PAS, problem-solution, Voice of Customer |
 | Solution aware | Explain why this route is different and credible | Unique mechanism, comparison, ACCA, 4P, demonstration, discredit common solutions |
 | Product aware | Resolve doubt, prove superiority or fit | Proof ladder, objection-reframe-proof, testimonials, authority, two-sided message |
 | Most aware | Clarify value, remove final friction | Offer lead, value equation, 5P, guarantee, real scarcity and urgency |

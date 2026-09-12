@@ -46,8 +46,9 @@ CRITERIA = (
     (
         "awareness_fit",
         "Sits at the awareness state the brief asked for. Score 0 if a UWA brief is answered with an "
-        "opening that leads on the product name, a price, an offer or a product benefit, regardless "
-        "of how strong that opening is in the abstract.",
+        "opening that pitches the product, price, offer or category benefit before establishing "
+        "relevance. A recognisable situation or desire can establish relevance. Distinguish problem "
+        "awareness from category or brand familiarity; cold targeting alone does not determine it.",
     ),
     (
         "specificity",
@@ -71,13 +72,13 @@ CRITERIA = (
     ),
     (
         "end_state",
-        "Sells the life the product produces rather than the object. The test is whether YOU, having "
-        "read it, can state the end state in one sentence without using the product's name. If you "
+        "Conveys what the person wants back or wants to experience, with a supported product role. "
+        "The test is whether YOU can state that experience or practical payoff without the product's name. If you "
         "can, score 2. The copy does not have to contain that sentence: implied is sufficient, and "
-        "position is set by awareness, so at Unaware and Problem Aware the end state must not lead "
-        "and will usually be carried by the body rather than stated outright. Score 1 when you can "
-        "name it for some options and not others, and 0 when the copy sells the object and there is "
-        "no life behind it to name.",
+        "position depends on awareness and the argument. At Problem Aware, recognition or desired "
+        "experience may lead. At Unaware, establish relevance before the category; an everyday desire "
+        "can do this. Assess headline, visual and support together. Do not reward implied outcomes "
+        "without evidence. Score 1 when only some options pass, and 0 when none does.",
     ),
     (
         "concision",
