@@ -19,7 +19,7 @@ why it matters, desired experience and supported product role. Then check:
 | Buyer relevance | The intended buyer recognises a situation, desire, useful fact or relevant offer in the headline and visual together |
 | Qualified interest | The reason to continue belongs to the buying decision, rather than unrelated spectacle or vague intrigue |
 | Selling substance | The ad has something useful and supportable to say; a verified ordinary feature can qualify without exclusivity |
-| Body handoff | The next beat supplies the promised explanation, demonstration, evidence or offer; the destination completes the same argument |
+| Body handoff | Name the useful answer before teasing it; the next beat and destination actually deliver that explanation, demonstration, evidence or offer |
 | No prior context | The execution makes sense independently, without seeing an earlier awareness-stage ad |
 | Immediacy | Relevant information or action starts promptly, with no wasted setup; a direct explanation can be the opening |
 | No chaos | One legible dominant idea; visual, spoken and written elements agree |
@@ -48,6 +48,10 @@ advertising references are sources of hypotheses, not evidence of this brand's s
 ## Apply at the requested scale
 
 For a simple request for five headlines, deliver five headlines and check the gate internally.
+Use the separate editorial pass in `29-moment-to-meaning.md`: judge the actual candidate lines
+against the chosen thought, then rewrite and select. A factual but off-brief line cannot pass
+because its details are accurate. Same-concept rewrites may deliberately vary expression; do not
+force unrelated arguments to satisfy a diversity rule.
 For a detailed hook package or script, record the opening approach, intended buyer and reason to
 care, selling substance, body handoff and clearance of context, immediacy and legibility. Do not
 force a natural headline into two sentences or a fixed word count to expose the framework.

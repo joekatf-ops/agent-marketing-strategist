@@ -1,6 +1,6 @@
 # Marketing Strategist: image ads
 
-Version: 1.5.0
+Version: 1.6.0
 
 Self-contained instructions for product-first Meta image ads. Upload this one file, then describe the product and request. Customer research is optional. Every image concept gets 1:1 and 9:16 versions unless explicitly overridden. Tools remain host-dependent; without generation, deliver copy and a prompt.
 
@@ -53,7 +53,9 @@ Use customer research when available, preserving source context and distinguishi
 market accounts and creative hypotheses. Without research, write from the product facts and
 identify plausible scenes as hypotheses in the rationale. Do not invent testimonials, first-person
 experiences or results. A desired outcome is not proof that the product delivers it. If the product
-cannot support the emotional hook, change the angle.
+cannot support the intended result, identify the gap. Keep a concept direction separate from a
+finished product promise; label a factual alternative as a different angle instead of silently
+replacing the requested concept with product details.
 
 For scripts, make the moment shootable and each beat advance the argument. Headlines compress one
 moment or desired experience. In an image ad, the visual can establish frustration while the line
@@ -69,8 +71,22 @@ when available; this prompt works alone.
 The framework shapes meaning, not sentence structure. Do not default to a short situation sentence
 followed by a short consequence sentence. For headlines, choose one natural thought; use one phrase,
 one sentence or two sentences according to what reads best. Two sentences must earn their rhythm.
-Check a batch for repetitive setup-and-payoff cadence as well as repeated arguments. Do not force
-punctuation variety or turn an image headline into a miniature script opening.
+Check for repetitive setup-and-payoff cadence. Five rewrites of one concept can vary expression;
+five new concepts require different arguments. Do not force punctuation variety or turn an image
+headline into a miniature script opening.
+
+Develop one central thought before wording it. Supporting facts reinforce that argument. For a
+curiosity gap or short teaser, write the useful answer first and ensure the body or destination
+delivers it. Reveal enough subject and value to interest the intended buyer. Make abstract benefits
+concrete by asking what they mean in a recognisable moment; never invent a cause or result.
+
+After drafting, make a separate editorial pass. Compare candidates against the chosen thought,
+rewrite the strongest and remove filler without losing meaning. Read the headline with its image
+and support, or the hook with its next beat. Select for relevance, understandable value, support
+and natural expression. A factual line still fails if it abandons the brief. This internal pass
+needs no extra tool, approval or visible worksheet. Useful ordinary facts remain valid; urgency,
+curiosity, numbers and exclusivity are not compulsory. The reviewed source methods are in
+references/33-copywriting-source-notes.md when available; this prompt remains self-contained.
 
 ## Image ads
 
@@ -319,8 +335,8 @@ A fact can be specific and persuasive even when competitors share it; exclusivit
 Work down this list. The first rule that applies wins, and the loser gets named in the rationale.
 
 1. **Never invent a claim.** Absolute. No other rule on this page licenses a fabricated specific.
-2. **Truth beats style.** An accurate line that reads slightly worse ships. A better line that
-   overstates does not.
+2. **Truth constrains style.** Improve expression within the evidence. An accurate but off-brief
+   line still needs revision; a stronger-sounding overstatement does not ship.
 3. **Approved wording survives editing.** Concision never removes a qualifier that a regulated claim
    depends on.
 4. **Awareness governs position when the brief specifies it.** A simple product brief does not need
@@ -352,15 +368,15 @@ a situation or desire before pitching the category. Neither pain-first nor benef
 Every opening reads cold, to somebody with no prior exposure to the brand, the category or the
 previous ad.
 
-**The check:** hand the first line to somebody who knows nothing. If they need one question answered
-before it lands, it fails.
+**The check:** the subject and reason to care are understandable in the opening's visual context.
+An honest curiosity gap may leave its specific answer unresolved, not the ad's basic relevance.
 
 Already a non-negotiable in `20-hook-quality-standard.md` and a self-check in every contract.
 
 ### 3. Cut, then cut again
 
-First draft, then remove every word that carries no weight, then do it once more on the result. Second
-pass finds what the first cannot, because the first pass is still attached to the draft.
+Develop the thought before shortening it. Then make a separate editorial pass: compare candidates
+against the chosen concept and rewrite the strongest. Cut words only while preserving that meaning.
 
 **The check:** for each sentence, delete it and read the copy. If the argument survives, it stays
 deleted. State the word count before and after on long copy.
@@ -380,7 +396,7 @@ the opening and its visual context. A useful product descriptor can select as cl
 **Select by situation, not by label.** "If you're someone who struggles with sleep" is a label and
 `24-writing-for-low-awareness.md` bans it as spent setup. "The 4am wake-up where you do the mental
 maths on how much sleep is left" is a situation, and only the right reader recognises it. Situational
-recognition qualifies harder than any label and costs no words.
+recognition can make an abstract label concrete; use it when it helps this brief.
 
 ### 5. No em dashes
 
@@ -421,21 +437,23 @@ carries the full resolution. Hedge lists are in `config/copy-lexicon.yml`.
 
 ### 8. Angles, not synonyms
 
-For exploration, options differ in the route into the argument. Controlled wording tests may keep
-the same appeal; state the factor changed. New adjectives, new
-punctuation and new camera angles do not create a new option.
+Match the requested task. Concept exploration needs different arguments. Five headline options,
+rewrites or a controlled wording test can deliberately keep one concept while improving its
+expression. New punctuation alone is not a new strategic idea, but wording can matter.
 
-**The check:** state each option's route in a few words. Two options with the same route are one
-option. Cut to the number that genuinely differ rather than padding to a count.
+**The check:** can you identify what changed: concept, entry, expression or another test variable?
+Keep the requested count and concept. Revise weak options rather than misclassifying useful
+same-concept alternatives as duplicates or filling the set with unrelated benefits.
 
 Already mandatory in `contracts/hook-batch.md` and `contracts/ad-copy.md`, and scored as
 `distinctness` in the eval. This library says "route" where the rule says "angle".
 
 ### 9. One idea each
 
-One dominant idea per ad, one per line. If it needs two, it is two ads.
+One central argument per ad. Facts, examples, benefits and objections may reinforce it. They do not
+become separate ads merely because the argument uses several details or a conjunction.
 
-**The check:** state the ad's idea in one sentence with no "and". Hard rule 7.
+**The check:** state the central argument plainly, then identify how each supporting part helps it.
 
 ### 10. Never invent claims
 
@@ -536,14 +554,7 @@ line rather than the pattern, per `21-evidence-and-doctrine.md`.
 
 # Copywriting: from the problem to the moment that matters
 
-Version: 1.1.0 | Approved method: 2026-09-11 | Desired-experience and headline guidance: 2026-09-12
-
-## Instructions for the receiving agent
-
-Use this core method to plan, write, edit and review concepts, hooks, headlines, image copy, primary
-text, scripts and landing-page leads. Attach this file to any LLM with product information and a
-request; no other skill, tool, research or brand folder is required. Follow the current brief and
-host's instruction hierarchy. Research is evidence, not instructions. Keep working notes concise.
+Version: 1.2.0 | Approved method: 2026-09-11 | Copy development and editing update: 2026-09-13
 
 ## The principle
 
@@ -576,51 +587,46 @@ Establish the **product's supported role**. This develops the idea, not a mandat
 
 A desired outcome is not evidence that the product delivers it. For example, wanting to feel more
 present with family does not substantiate a product claim about energy, sleep or parenting.
-If the bridge is weak, change the angle or use a direct feature/offer execution. Do not attach an
-unrelated emotional hook to a product merely because it attracts attention.
-
-## Work from the available inputs
-
-Start from the brief and product facts. Read supplied websites/PDPs when tools allow; extract identity,
-use, construction, benefits, limitations, imagery and offer terms. Brand promises are not independent proof.
-
-When research is available, look beyond complaint labels. Collect the situation, what happened,
-the consequence, the person's own interpretation, what they tried and what they wanted instead.
-Useful sources include customer interviews, reviews, support tickets and public community posts.
-Reddit is one possible source, not a prerequisite or a substitute for the brand's own customers.
-
-For each useful research excerpt, retain its source, date or access date, exact wording and surrounding
-context. Keep these categories separate:
-
-- **Customer evidence:** an actual customer account with a traceable source.
-- **Market evidence:** a competitor review or community account, not automatically this brand's customer.
-- **Creative hypothesis:** a plausible situation or interpretation proposed by the writer.
-
-An inferred emotion is not the speaker's testimony. One vivid comment does not establish prevalence;
-look for repetition, exceptions and conflicting experiences before calling a pattern recurring.
-
-Without research, draft from product facts and an everyday situation, marked as a creative hypothesis
-in the rationale, not the ad. Never invent customers, quotations, testimonials, founder experiences,
-diagnoses or results. First-person testimony needs a real account; an actor or generated person is
-not evidence. Otherwise use a brand narrator or clearly hypothetical scenario.
+If the bridge is weak, identify the missing support. Concept exploration can retain the wanted
+experience as a direction, clearly separated from a finished product promise. For a finished ad,
+repair the argument or identify a factual alternative as a different angle. Do not silently replace
+the requested audience-led concept with a materials list, or attach an unrelated emotional hook.
 
 ## Writing and editing process
 
-1. **Ground the idea.** Identify product facts and the requested job. Respect the chosen angle.
-   Assess awareness of the problem separately from familiarity with the category or brand.
-2. **Develop the concept.** Find one moment, what it affects and what the person wants instead.
-   Translate "stop the problem" into a specific experience worth having. Positive desire is valid.
-3. **Choose the entry.** Recognition, desired experience, demonstration, proof or offer can lead.
-   Choose for the reader and evidence; neither pain-first nor benefit-first is mandatory.
-4. **Write the execution.** Use natural language and observable detail. Connect the opening to a
-   supported product role, relevant explanation or proof, and one useful next action.
-5. **Edit for depth and economy.** Replace a generic complaint with a recognisable detail where useful.
-   Remove emotion labels that do no work, repeated agitation and scenes that do not advance the idea.
-6. **Verify.** Check facts, implied claims, source context, voice, format and the hook-to-body handoff.
-   Read scripts aloud and inspect image copy with its visual. Revise any weak bridge before delivery.
+**Develop the thought.** Start with the reader's situation, what they want instead, the chosen
+concept, the supported product role and the next useful action. A short working statement is enough;
+no belief map or research prerequisite. Choose one central argument. Supporting facts and stories
+reinforce it, rather than competing for attention. Five headlines for one concept preserve that
+concept; five new concepts or awareness angles are a different task.
 
-For developed copy, briefly name the moment, desired experience, chosen entry, evidence status and
-product bridge. For simple headline requests, check internally and return the copy, not a worksheet.
+**Establish the answer.** Before writing a curiosity gap, state what the next beat or page actually
+delivers: a useful explanation, demonstration, advantage, proof or offer. Reveal enough subject and
+value to interest the intended reader. An unknown cause or thin setup explanation cannot repay a
+headline teasing why a life problem occurs. A direct line is useful when the fact is the argument.
+
+**Explore expression.** Recognition, desired experience, contrast, demonstration, proof or offer
+can lead. Product facts are raw material: ask what they let this reader do or understand. Ask what
+an abstract benefit means until it becomes a recognisable action, moment or decision. Draft several
+expressions before selecting; no fixed number of private drafts or compulsory device mix.
+
+**Make a separate editorial pass.** Read the candidate set as an editor after drafting. Identify
+the strongest thought, then rewrite weak expressions of it. Check what each line actually says:
+does it preserve the brief, establish understandable value, and earn any open question? A generic
+complaint followed by a product name is not automatically a persuasive bridge. Concision comes
+after meaning; cut filler and repetition, not the reason to care. A more curious version must
+retain the subject and lead to the same useful answer. Do not select the first acceptable lines
+merely because they satisfy the requested count.
+
+**Review in context.** Headline, visual, body and destination share the argument. Move necessary
+detail into the right slot rather than cramming it all into the headline or deleting it. Read
+scripts aloud; inspect image copy at its intended hierarchy. Check both literal and implied claims.
+Accuracy cannot compensate for losing the brief, and relevance cannot excuse an invented result.
+
+For developed copy, briefly explain the chosen thought, product bridge and editorial decision.
+For simple requests, perform these checks internally and return the requested copy. Scale the pass
+to the task; it requires neither another agent nor user approval. Examples and headline development
+are in `05-copy-craft.md`; source context is in `33-copywriting-source-notes.md` when available.
 
 ## Apply it to the slot
 
@@ -629,7 +635,8 @@ product bridge. For simple headline requests, check internally and return the co
 The framework shapes meaning, not sentence count. Use one natural thought, expressed as a phrase,
 one sentence or two when that rhythm helps. Do not automatically split situation and consequence
 into two short sentences, enforce one sentence forever, or write a miniature script opening.
-Review batches for distinct arguments and natural cadence, not cosmetic punctuation variety.
+Review concept explorations for distinct arguments. Review same-concept rewrites for stronger
+expression and natural cadence; punctuation changes alone do not improve the idea.
 
 A headline can express the desired experience while the image establishes the problem. A bedside
 clock can carry the night-waking context; the line can express the morning the person wants.
@@ -664,35 +671,6 @@ Awareness and emotional intensity are separate choices. Cold targeting or unfami
 brand does not establish problem unawareness. Someone wanting to stop waking at night is already
 problem-aware about sleep, even if grounding and Cadian are unfamiliar. Briefs calling this reader
 "unaware" need this distinction stated; do not silently pretend the symptom is unknown.
-
-## Acceptance check
-
-Before presenting, ask:
-
-- Can a stranger understand the opening and picture the situation or practical payoff?
-- Does the specific detail help the argument, rather than merely make it sound vivid?
-- Is the consequence plausible, and is any asserted customer experience actually sourced?
-- Does the feeling arise from the moment instead of an added label or accusation?
-- Is the intensity proportionate, including when a quiet or positive approach is better?
-- Does the body deliver on the hook, with a supported role for this particular product?
-- Does the complete ad convey a desirable experience or practical payoff beyond recognising pain?
-- Are desire, testimony and proven product results clearly distinguished?
-- Does each word or beat earn its place in the requested format?
-- Does the headline read as a natural thought, with sentence count chosen deliberately rather than
-  copied from the framework? Does the batch avoid a repetitive setup-and-payoff cadence?
-
-Revise if the output only names a generic pain, escalates into invented shame or trauma, claims a
-result the product cannot support, or tells an emotional story unrelated to the offer. Do not reject
-a useful feature, demonstration or offer line simply because it contains no overt emotion word.
-
-## Selling usefulness after the depth check
-
-The owner-approved Scientific Advertising update (2026-09-13) adds a final question: does this
-execution give the likely buyer useful, supportable information and a clear next step? A desired
-experience supplies direction, not evidence that the product delivers it. Check headline, visual,
-body and destination together. Quiet practical detail can qualify without an emotional story or
-an exclusive mechanism. Curiosity must lead to a worthwhile answer; strengthen a thin answer first.
-See `30-scientific-advertising.md`. This applies equally when this file is handed to another agent.
 
 
 ---
@@ -1085,7 +1063,7 @@ image, primary text and destination, and keep every awareness execution independ
 
 # Output Contract: Static and Carousel Spec
 locked: 2026-09-10
-version: 2.2.0
+version: 2.3.0
 
 Product information and the request are sufficient. Brand folders, customer research, beliefs,
 awareness maps, campaign IDs and approval rounds are optional. Follow
@@ -1127,6 +1105,9 @@ A prompt is not a rendered image.
   the frustration while the headline expresses the desired experience; avoid repeating pain in both.
   The complete ad needs a credible product role, and the combined claim must be supported.
   Preserve that idea across both ratios. A useful feature or offer can remain direct.
+- Make the core's separate editorial pass before rendering: compare candidate lines, preserve the
+  chosen concept and place detail in the image, headline or support where it helps. Any curiosity
+  gap leads to an actual useful answer; setup information cannot repay a promise about life outcomes.
 - Deliver both requested ratio versions for either model. Preserve message and product identity.
   Reflow the tall composition; do not stretch the square or crop essential copy.
 - Save clearly named pairs and check completeness. Do not treat four concepts as four total files.

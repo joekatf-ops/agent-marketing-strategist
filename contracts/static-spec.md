@@ -1,6 +1,6 @@
 # Output Contract: Static and Carousel Spec
 locked: 2026-09-10
-version: 2.2.0
+version: 2.3.0
 
 Product information and the request are sufficient. Brand folders, customer research, beliefs,
 awareness maps, campaign IDs and approval rounds are optional. Follow
@@ -42,6 +42,9 @@ A prompt is not a rendered image.
   the frustration while the headline expresses the desired experience; avoid repeating pain in both.
   The complete ad needs a credible product role, and the combined claim must be supported.
   Preserve that idea across both ratios. A useful feature or offer can remain direct.
+- Make the core's separate editorial pass before rendering: compare candidate lines, preserve the
+  chosen concept and place detail in the image, headline or support where it helps. Any curiosity
+  gap leads to an actual useful answer; setup information cannot repay a promise about life outcomes.
 - Deliver both requested ratio versions for either model. Preserve message and product identity.
   Reflow the tall composition; do not stretch the square or crop essential copy.
 - Save clearly named pairs and check completeness. Do not treat four concepts as four total files.

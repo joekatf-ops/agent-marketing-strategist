@@ -1,10 +1,15 @@
 # Output Contract: Hook Batch
 locked: 2026-08-27
-version: 1.3.0
+version: 1.4.0
 
 For plain headline requests, follow the requested count and check quality internally. The detailed
 fields below apply when a full hook package is requested; house naming and traceability apply only
 to the selected house campaign profile.
+
+The diversity rules below apply to strategic exploration. For same-concept headline options or
+rewrites, preserve the thought and vary expression as requested. Use the development and separate
+editorial pass in `references/05-copy-craft.md`; do not reject useful wording alternatives solely
+because they share an argument. Establish the promised answer before opening a curiosity gap.
 
 A pre-production option set of strategically different openings for one approved execution. The six
 packages do not create six launch ads. Select one coherent opening for the execution.
@@ -45,8 +50,8 @@ At six, the useful spread is:
 - 1 aggressive hook inside the approved claim ceiling
 - 1 experimental wildcard
 
-Every hook must change the route into the argument. New adjectives, punctuation, camera angles, or
-opening questions do not create a strategically new hook.
+In strategic exploration, every hook changes the route into the argument. New adjectives,
+punctuation, camera angles or opening questions alone do not create a new strategic route.
 
 Direct statements, open loops and benefit-plus-explanation openings are available, not mandatory
 quotas. For a controlled wording test, retain the appeal deliberately and label the test accordingly.
@@ -106,7 +111,7 @@ unless its claim and policy burden are fully resolved.
 
 ## Never
 
-- Six rewordings of one lead
+- Rewordings of one lead presented as six new strategic concepts
 - A hook the body cannot deliver
 - An unverified review, number, result, comparison, or scarcity claim
 - An intrusive personal-attribute question
@@ -124,14 +129,14 @@ unless its claim and policy burden are fully resolved.
 - [ ] Nothing included only to reach a count, and any cut package is accounted for
 - [ ] Every hook has all nineteen fields and the complete traceability set
 - [ ] Hook format, media type, execution format and controlled FORMAT token are separate fields
-- [ ] Each route differs strategically
+- [ ] Strategic exploration varies routes; a rewrite request preserves its chosen concept
 - [ ] Visual, spoken, and on-screen elements express one idea
 - [ ] Every hook earns qualified interest with a useful, supportable selling point
 - [ ] Opening approach suits the argument; devices are not forced
 - [ ] Every hook reads cold, gets to relevant information or action promptly and stays legible
 - [ ] Every body handoff can cash what its opening promised
 - [ ] Every proof burden has a real source or is marked unavailable
-- [ ] Diversity matrix proves the batch is not cosmetic variation
+- [ ] Diversity matrix distinguishes strategic routes when exploration is requested
 - [ ] Every opening earns relevant attention; a direct explanation is allowed when useful
 - [ ] No tier-one machine-writing phrase from `config/copy-lexicon.yml`
 - [ ] No hedge that weakens a claim, and any register hedge is deliberate voice

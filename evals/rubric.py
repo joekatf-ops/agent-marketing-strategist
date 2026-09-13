@@ -28,7 +28,8 @@ CRITERIA = (
         "qualified_interest",
         "The likely buyer has a relevant reason to continue and useful selling substance awaits. "
         "Emotion, curiosity and high stakes are optional. Do not reward vague intrigue, artificial "
-        "intensity or a loop used to conceal a weak payload.",
+        "intensity or a loop used to conceal a weak payload. The promised answer must be useful "
+        "for the chosen reader, not merely a true but unrelated product explanation.",
     ),
     (
         "no_prior_context",
@@ -45,7 +46,9 @@ CRITERIA = (
     ),
     (
         "body_handoff",
-        "The body can cash what the opening opened. No promise the execution cannot deliver.",
+        "The body can cash what the opening opened. No promise the execution cannot deliver. "
+        "Identify the actual worthwhile answer behind any teaser; setup information cannot "
+        "repay an unsupported promise about a life or health outcome.",
     ),
     (
         "awareness_fit",
@@ -74,8 +77,9 @@ CRITERIA = (
     (
         "distinctness",
         "Options differ strategically, by route into the argument, rather than cosmetically by "
-        "adjective or camera angle, when exploration is requested. A controlled wording comparison may "
-        "retain the same appeal deliberately. Respect the requested task and count.",
+        "adjective or camera angle, when new concepts are requested. Headline options, rewrites and "
+        "controlled wording comparisons may retain one appeal deliberately. Do not penalise a "
+        "requested same-concept set for improving expression. Respect the requested task and count.",
     ),
     (
         "end_state",
@@ -96,7 +100,10 @@ CRITERIA = (
     (
         "reader_selection",
         "The intended reader recognises relevant use, desire, fact or offer from the opening and visual "
-        "together. A product descriptor can qualify; do not force a dramatic situation. Penalise empty "
+        "together. Preserve the requested audience and concept; accuracy alone does not rescue an "
+        "off-brief set. When the intended product result lacks evidence, distinguish a concept "
+        "direction from a finished promise and identify factual alternatives honestly. A product "
+        "descriptor can qualify for a suitable brief; do not force a dramatic situation. Penalise empty "
         "qualifiers such as "
         "\"if you're someone who\", which spends words without selecting anyone.",
     ),
@@ -222,7 +229,7 @@ assert _grouped == tuple(key for key, _ in CRITERIA), (
     "GROUPS must list every criterion exactly once, in CRITERIA order"
 )
 
-RUBRIC_VERSION = "2.0.0"
+RUBRIC_VERSION = "2.1.0"
 
 def fingerprint() -> str:
     """Changes when scoring meaning, scale, grouping or judge instructions change."""

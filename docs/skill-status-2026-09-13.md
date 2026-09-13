@@ -1,5 +1,8 @@
 # Marketing strategist: current state after the Scientific Advertising update
 
+Historical v1.5.0 snapshot. The subsequent copywriting integration is recorded in
+[Copywriting update: 1.6.0](copywriting-update-1.6.0.md); the results below remain the original audit.
+
 Date: 13 September 2026. Method version: 1.5.0. This describes implemented instructions and bounded
 validation, not a claim that the method increases conversion or works identically on every model.
 

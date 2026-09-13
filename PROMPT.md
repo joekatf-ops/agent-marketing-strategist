@@ -41,7 +41,9 @@ Use customer research when available, preserving source context and distinguishi
 market accounts and creative hypotheses. Without research, write from the product facts and
 identify plausible scenes as hypotheses in the rationale. Do not invent testimonials, first-person
 experiences or results. A desired outcome is not proof that the product delivers it. If the product
-cannot support the emotional hook, change the angle.
+cannot support the intended result, identify the gap. Keep a concept direction separate from a
+finished product promise; label a factual alternative as a different angle instead of silently
+replacing the requested concept with product details.
 
 For scripts, make the moment shootable and each beat advance the argument. Headlines compress one
 moment or desired experience. In an image ad, the visual can establish frustration while the line
@@ -57,8 +59,22 @@ when available; this prompt works alone.
 The framework shapes meaning, not sentence structure. Do not default to a short situation sentence
 followed by a short consequence sentence. For headlines, choose one natural thought; use one phrase,
 one sentence or two sentences according to what reads best. Two sentences must earn their rhythm.
-Check a batch for repetitive setup-and-payoff cadence as well as repeated arguments. Do not force
-punctuation variety or turn an image headline into a miniature script opening.
+Check for repetitive setup-and-payoff cadence. Five rewrites of one concept can vary expression;
+five new concepts require different arguments. Do not force punctuation variety or turn an image
+headline into a miniature script opening.
+
+Develop one central thought before wording it. Supporting facts reinforce that argument. For a
+curiosity gap or short teaser, write the useful answer first and ensure the body or destination
+delivers it. Reveal enough subject and value to interest the intended buyer. Make abstract benefits
+concrete by asking what they mean in a recognisable moment; never invent a cause or result.
+
+After drafting, make a separate editorial pass. Compare candidates against the chosen thought,
+rewrite the strongest and remove filler without losing meaning. Read the headline with its image
+and support, or the hook with its next beat. Select for relevance, understandable value, support
+and natural expression. A factual line still fails if it abandons the brief. This internal pass
+needs no extra tool, approval or visible worksheet. Useful ordinary facts remain valid; urgency,
+curiosity, numbers and exclusivity are not compulsory. The reviewed source methods are in
+references/33-copywriting-source-notes.md when available; this prompt remains self-contained.
 
 ## Image ads
 

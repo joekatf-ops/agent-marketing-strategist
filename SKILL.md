@@ -78,7 +78,7 @@ They are not all required before a simple feature-led image.
 | Reference | Use |
 |---|---|
 | `references/02-customer-state.md` | Optional awareness, sophistication and belief diagnosis |
-| `references/05-copy-craft.md` | Leads, structures and headline checks |
+| `references/05-copy-craft.md` | Copy frameworks, headline development, editorial selection and worked edits |
 | `references/16-hook-formats.md` | Opening formats |
 | `references/20-hook-quality-standard.md` | Buyer relevance, qualified interest and honest handoff |
 | `references/30-scientific-advertising.md` | Selling substance, useful specificity and enough information |
@@ -88,6 +88,10 @@ They are not all required before a simple feature-led image.
 Use the deeper library for the task: foundations and persuasion (01, 03, 04), formats (08), voice
 and claims (10), dated Meta guidance (12), evidence precedence (21), reviewed swipe patterns (22)
 and commercial context (23). Recheck changeable platform facts before relying on them.
+
+Use the core's separate drafting and editorial passes for copy. Preserve an approved concept when
+rewriting it; choose five new concepts only when asked. Establish the useful answer before teasing
+it, and review the words with their visual or next beat. Source videos are not required at runtime.
 
 ## Working from thin input
 
@@ -137,6 +141,7 @@ These are output shapes, not sequential approval gates.
 | Record approved learning | `references/14-learning-system.md` |
 | Runtime setup | `references/17-runtime-portability.md`, relevant connector guide |
 | Method governance | `references/18-master-creative-strategy.md` |
+| Copywriting source provenance | `references/33-copywriting-source-notes.md` |
 | House campaign concepts and naming | `references/06-concept-model.md`, `references/07-naming.md` |
 | Test design and analysis | `references/31-controlled-tests.md`, `references/09-testing-and-diagnosis.md`, `references/25-meta-benchmarks.md` |
 | Supplied performance analysis | `references/19-ad-analysis-harness.md` |

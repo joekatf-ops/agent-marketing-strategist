@@ -23,8 +23,8 @@ A fact can be specific and persuasive even when competitors share it; exclusivit
 Work down this list. The first rule that applies wins, and the loser gets named in the rationale.
 
 1. **Never invent a claim.** Absolute. No other rule on this page licenses a fabricated specific.
-2. **Truth beats style.** An accurate line that reads slightly worse ships. A better line that
-   overstates does not.
+2. **Truth constrains style.** Improve expression within the evidence. An accurate but off-brief
+   line still needs revision; a stronger-sounding overstatement does not ship.
 3. **Approved wording survives editing.** Concision never removes a qualifier that a regulated claim
    depends on.
 4. **Awareness governs position when the brief specifies it.** A simple product brief does not need
@@ -61,15 +61,15 @@ previous ad.
 
 **Prevents:** setup before the claim, and openings that assume a returning viewer.
 
-**The check:** hand the first line to somebody who knows nothing. If they need one question answered
-before it lands, it fails.
+**The check:** the subject and reason to care are understandable in the opening's visual context.
+An honest curiosity gap may leave its specific answer unresolved, not the ad's basic relevance.
 
 Already a non-negotiable in `20-hook-quality-standard.md` and a self-check in every contract.
 
 ### 3. Cut, then cut again
 
-First draft, then remove every word that carries no weight, then do it once more on the result. Second
-pass finds what the first cannot, because the first pass is still attached to the draft.
+Develop the thought before shortening it. Then make a separate editorial pass: compare candidates
+against the chosen concept and rewrite the strongest. Cut words only while preserving that meaning.
 
 **Prevents:** padding, throat-clearing, and copy whose length came from effort rather than argument.
 
@@ -94,7 +94,7 @@ the opening and its visual context. A useful product descriptor can select as cl
 **Select by situation, not by label.** "If you're someone who struggles with sleep" is a label and
 `24-writing-for-low-awareness.md` bans it as spent setup. "The 4am wake-up where you do the mental
 maths on how much sleep is left" is a situation, and only the right reader recognises it. Situational
-recognition qualifies harder than any label and costs no words.
+recognition can make an abstract label concrete; use it when it helps this brief.
 
 ### 5. No em dashes
 
@@ -143,25 +143,27 @@ carries the full resolution. Hedge lists are in `config/copy-lexicon.yml`.
 
 ### 8. Angles, not synonyms
 
-For exploration, options differ in the route into the argument. Controlled wording tests may keep
-the same appeal; state the factor changed. New adjectives, new
-punctuation and new camera angles do not create a new option.
+Match the requested task. Concept exploration needs different arguments. Five headline options,
+rewrites or a controlled wording test can deliberately keep one concept while improving its
+expression. New punctuation alone is not a new strategic idea, but wording can matter.
 
-**Prevents:** a batch of six that is really one idea written six ways, which tests nothing.
+**Prevents:** cosmetic changes presented as new concepts, or an approved concept lost during rewriting.
 
-**The check:** state each option's route in a few words. Two options with the same route are one
-option. Cut to the number that genuinely differ rather than padding to a count.
+**The check:** can you identify what changed: concept, entry, expression or another test variable?
+Keep the requested count and concept. Revise weak options rather than misclassifying useful
+same-concept alternatives as duplicates or filling the set with unrelated benefits.
 
 Already mandatory in `contracts/hook-batch.md` and `contracts/ad-copy.md`, and scored as
 `distinctness` in the eval. This library says "route" where the rule says "angle".
 
 ### 9. One idea each
 
-One dominant idea per ad, one per line. If it needs two, it is two ads.
+One central argument per ad. Facts, examples, benefits and objections may reinforce it. They do not
+become separate ads merely because the argument uses several details or a conjunction.
 
 **Prevents:** the reader arbitrating between two competing claims, which they resolve by scrolling.
 
-**The check:** state the ad's idea in one sentence with no "and". Hard rule 7.
+**The check:** state the central argument plainly, then identify how each supporting part helps it.
 
 ### 10. Never invent claims
 

@@ -1,6 +1,6 @@
 # Output Contract: Video Script
 locked: 2026-08-27
-version: 1.4.0
+version: 1.5.0
 
 One script for one awareness execution.
 
@@ -51,6 +51,11 @@ name the moment, consequence or personal meaning, evidence status and supported 
 Make the moment shootable; emotion can be visible behaviour rather than a spoken label. Develop
 the argument across beats instead of repeating agitation. Never invent first-person experience
 for a testimonial, even when the speaker is an actor or generated person.
+
+Establish one central argument and the useful answer behind any teaser before drafting the hook.
+After drafting, make the core's separate editorial pass: check each beat advances that argument,
+the opening attracts the intended reader and the next beat earns continued attention. Rewrite the
+strongest expression, read it aloud, and cut repetition without removing explanation or proof.
 
 The three-part opening clears `references/20-hook-quality-standard.md` before the script is
 presented. Record the result under section 3:

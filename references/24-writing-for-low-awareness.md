@@ -45,7 +45,8 @@ If a desired result is not substantiated, do not promise it. Preserve the reques
 question in the concept and move the product's claim to something supported: use, construction,
 setup, terms or an explanation the destination can actually provide. Do not silently abandon the
 chosen audience and turn every option into an unrelated feature inventory. Where no credible bridge
-exists, state that limit briefly and offer the closest useful factual angle.
+exists, distinguish concept exploration from a finished product promise. Identify a factual
+alternative as a different angle rather than treating setup copy as fulfilment of a result-led brief.
 
 For example, a buyer curious about grounding after disappointing mornings can be invited to inspect
 what the bedding setup involves. A placement demonstration cannot establish better sleep or energy.

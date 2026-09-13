@@ -1,6 +1,6 @@
 # Output Contract: Ad Copy
 locked: 2026-08-27
-version: 2.3.0
+version: 2.4.0
 
 Primary text, headlines, descriptions, and one Meta CTA for one approved ad execution.
 
@@ -83,6 +83,11 @@ when it preserves the argument; every execution stands alone. See `references/30
 
 **Headlines are independently useful.** Each selects the right prospect or completes a supportable
 idea. Do not repeat the primary text's first line five times.
+
+Use the development and separate editorial pass in `references/05-copy-craft.md`. Preserve the
+approved concept when the request is for headline options or rewrites; different expressions do
+not need different strategic arguments. Establish any useful answer before teasing it. Select and
+rewrite actual candidate lines with their image and support before returning the requested set.
 
 Choose headline syntax deliberately. The emotional framework does not prescribe a two-sentence
 setup and payoff. A single natural phrase or sentence can carry the moment and meaning. Use two

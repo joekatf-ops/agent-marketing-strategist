@@ -6,7 +6,11 @@ made copy quality untested by construction. This directory is the replacement.
 
 ## What it measures
 
-Version 1.5.0 uses rubric 2.0.0: buyer relevance and qualified interest replace compulsory emotion,
+Version 1.6.0 uses rubric 2.1.0. Same-concept headline options are judged as expressions of the
+requested thought, and factual accuracy does not rescue an off-brief set. A curiosity gap needs
+a worthwhile answer for that reader; setup information cannot repay an outcome promise.
+
+The preceding rubric 2.0.0 introduced buyer relevance and qualified interest in place of compulsory emotion,
 curiosity and stakes; useful information replaces the mid-scene rule; specificity does not require
 exclusivity. Shortening must preserve the selling argument. The maximum remains 36, but the meaning
 has changed. Runs now record a fingerprint of the complete scoring instructions, method version,
@@ -38,7 +42,7 @@ keep a rubric this long legible.
 | Awareness fit | Sits at the awareness state the brief asked for |
 | Specificity | Concrete and useful; ordinary shared facts are valid |
 | Placeholder discipline | Essential gaps marked in briefs, omitted from finished copy; nothing invented |
-| Distinctness | Options differ strategically rather than cosmetically |
+| Distinctness | New concepts differ strategically; requested rewrites preserve the concept and improve expression |
 | End state | A relevant desired experience or practical payoff, without treating desire as proven efficacy |
 
 **Line-level craft**
@@ -106,6 +110,13 @@ is attached to any brief. And it cannot catch a claim that is compliant but comm
 brand you know and it does not. Those remain human judgement.
 
 ## Broader skill use checks
+
+`scenarios/headline-craft.json` adds six raw requests for same-concept rewrites, answer-led curiosity,
+thin input, supplied customer language, limited-evidence concept exploration and verified offers.
+Run these as separate requests against the current skill or its focused bundle. Inspect exact
+outputs, not just framework labels; these qualitative cases do not automatically run in the paid
+CLI evaluator. The Cadian case exercises an existing worked example, so it is a continuity check,
+not an unseen generalisation test. The other cases use different products from the worked edits.
 
 `scenarios/scientific-advertising.json` contains six bounded tasks covering headlines, ordinary
 product facts, trial terms and enquiry follow-up, commercial diagnosis, test planning and product

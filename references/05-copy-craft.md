@@ -22,6 +22,23 @@ Keep the levels separate. AIDA, PAS, FOMO and hook types do not do the same job.
 **Core rule:** frameworks are lenses, not fill-in-the-blank scripts. Start with the strategic
 job, then choose the framework that solves it.
 
+## Choose the substance before the wording
+
+Use the core's development and editorial passes. Identify the reader's current question or
+attitude and the useful understanding or action this execution should enable. One working thought
+is enough. Do not require a formal belief shift when a practical use or offer is the point.
+
+When available, extract a small set of useful material from product facts, websites/PDPs, FAQs,
+reviews, interviews and support conversations: exact phrases, situations, desired experiences,
+objections, demonstrations, evidence and worthwhile answers. Retain source and context. A brand
+assertion is not independent proof; a memorable comment is not evidence of prevalence. Without
+research, start with the brief and clearly identified creative hypotheses.
+
+Select material that supports the chosen argument. A fact becomes copy through its relevance:
+what can this person do, see, understand or decide because of it? Facts need not be numerical or
+exclusive. Do not turn ingredients, materials or technical mechanisms into unrelated human
+outcomes just to complete a feature-to-benefit chain.
+
 ## Quick selector
 
 | If the question is | Start with |
@@ -118,7 +135,72 @@ with data rather than opinion. The family above chooses the route in; `20-hook-q
 sets the buyer-relevance, qualified-interest and honest-handoff gate. Direct statements, open loops
 and benefit-plus-explanation openings are available choices, without a compulsory device count.
 
-## Headline checks
+## Headline development and editorial selection
+
+Use one central thought, then choose an entry for this reader and awareness state. The families
+above are alternatives, not a quota. A wanted experience can lead while the image supplies the
+situation and support establishes the product's role. A purchase-ready reader may simply need the
+verified offer. Headlines, image text, primary text and spoken hooks have different space and
+reading conditions; identify the slot before editing.
+
+For curiosity, write the answer first. A useful question withholds an explanation the buyer wants,
+not the subject needed to understand the ad. A **fascination** is a short teaser of a concrete,
+useful answer in the body or destination. Derive it from actual content and reveal enough value
+to qualify interest. Do not disguise a generic FAQ answer as a revelation about the reader's life.
+Numbers, timeframes, "without" clauses and objection reversals are available when the underlying
+facts support them; they are not slots to fill with invented proof.
+
+After generating candidates, switch from drafting to editing. Compare the actual lines, not just
+their framework labels. Select the strongest underlying thoughts, repair weak expressions and
+remove filler. Ask what an abstraction means until it becomes an observable action or moment.
+Useful specificity is not a demand for more adjectives, dramatic language or a fabricated detail.
+
+For each finalist, establish internally:
+
+- the reader and concept it still serves;
+- what the reader understands immediately and why it matters;
+- the actual answer or advantage that earns continued attention;
+- what the image, support or next beat contributes;
+- whether shortening or adding curiosity lost meaning or introduced an unsupported implication.
+
+If two options serve the same concept, compare expression rather than rejecting one as a duplicate.
+If feedback is available, ask which candidate communicates the chosen thought more clearly and
+why. Preference informs editing; it does not prove conversion. A separate pass can be done by the
+same agent and should not become a mandatory review tool, approval gate or long visible worksheet.
+
+### Original worked edits
+
+These are writing exercises with the stated facts, not testimonials or measured winning ads.
+
+**Desired experience from a practical fact.** A dishwasher-safe ceramic mug is the supplied product.
+"Dishwasher-safe ceramic construction" describes it. **"One less thing to wash by hand"** gives
+that fact a human job. Support names the dishwasher-safe mug; a kitchen scene establishes the
+setting. Do not extend this into claims about hours saved or superiority over all other mugs.
+
+**Useful curiosity with a real answer.** A lock's app displays its current locked/unlocked status.
+The destination demonstrates checking that status remotely. **"What if checking the lock meant
+checking your phone?"** opens a relevant question that the demonstration answers. **"Check the
+lock from the sofa"** is a more direct alternative for the same argument. Either can be selected;
+curiosity does not automatically beat clarity. Neither claims that the app detects a closed door
+or eliminates burglary risk.
+
+**A shorter line that preserves the thought.** A seed kit includes pots, seeds and labelled planting
+instructions. The concept is seeing the first shoots on the kitchen windowsill. "Begin your indoor
+gardening journey" loses the scene. **"Start a little garden on your windowsill"** makes the
+invitation concrete; support names the kit contents. Avoid inventing a germination deadline or
+claiming success is guaranteed. In a headline rewrite, stay with this thought rather than switching
+to price, sustainability and gift-giving merely to produce different angles.
+
+**Cadian: distinguish creative direction from a finished product claim.** The supplied concept is
+making time for bed yet waking tired. "Tired mornings. Curious about grounding?" mentions both
+topics but does not connect them persuasively. The approved direction **"Enjoy the morning you
+went to bed early for"** captures the wanted experience. It is a concept direction, not permission
+to imply that grounding sheets improve sleep without supporting evidence. If only setup facts are
+available, "Grounding beneath your usual fitted sheet" is a different, factual demonstration angle.
+Do not present five such setup lines as successful rewrites of the tired-morning concept. Identify
+the missing product argument once and keep exploration separate from launch-ready wording.
+
+### Final checks
 
 **Moment and meaning.** Does the headline express one recognisable moment, meaningful tension or
 practical payoff? It need not contain every layer or name the feeling. Check the headline with its
@@ -144,6 +226,9 @@ alone; the image can select while its body and destination explain the complete 
 
 **Caples.** Lead with self-interest, news or curiosity, grounded in a clear benefit. Curiosity
 without relevance attracts attention that does not convert.
+
+The source-reviewed additions and their limits are documented in `33-copywriting-source-notes.md`.
+The operating method above works without those videos or their transcripts at runtime.
 
 ## The three-part opening
 

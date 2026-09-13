@@ -1,6 +1,6 @@
 # Copywriting: from the problem to the moment that matters
 
-Version: 1.1.0 | Approved method: 2026-09-11 | Desired-experience and headline guidance: 2026-09-12
+Version: 1.2.0 | Approved method: 2026-09-11 | Copy development and editing update: 2026-09-13
 
 ## Instructions for the receiving agent
 
@@ -40,8 +40,10 @@ Establish the **product's supported role**. This develops the idea, not a mandat
 
 A desired outcome is not evidence that the product delivers it. For example, wanting to feel more
 present with family does not substantiate a product claim about energy, sleep or parenting.
-If the bridge is weak, change the angle or use a direct feature/offer execution. Do not attach an
-unrelated emotional hook to a product merely because it attracts attention.
+If the bridge is weak, identify the missing support. Concept exploration can retain the wanted
+experience as a direction, clearly separated from a finished product promise. For a finished ad,
+repair the argument or identify a factual alternative as a different angle. Do not silently replace
+the requested audience-led concept with a materials list, or attach an unrelated emotional hook.
 
 ## Work from the available inputs
 
@@ -70,21 +72,39 @@ not evidence. Otherwise use a brand narrator or clearly hypothetical scenario.
 
 ## Writing and editing process
 
-1. **Ground the idea.** Identify product facts and the requested job. Respect the chosen angle.
-   Assess awareness of the problem separately from familiarity with the category or brand.
-2. **Develop the concept.** Find one moment, what it affects and what the person wants instead.
-   Translate "stop the problem" into a specific experience worth having. Positive desire is valid.
-3. **Choose the entry.** Recognition, desired experience, demonstration, proof or offer can lead.
-   Choose for the reader and evidence; neither pain-first nor benefit-first is mandatory.
-4. **Write the execution.** Use natural language and observable detail. Connect the opening to a
-   supported product role, relevant explanation or proof, and one useful next action.
-5. **Edit for depth and economy.** Replace a generic complaint with a recognisable detail where useful.
-   Remove emotion labels that do no work, repeated agitation and scenes that do not advance the idea.
-6. **Verify.** Check facts, implied claims, source context, voice, format and the hook-to-body handoff.
-   Read scripts aloud and inspect image copy with its visual. Revise any weak bridge before delivery.
+**Develop the thought.** Start with the reader's situation, what they want instead, the chosen
+concept, the supported product role and the next useful action. A short working statement is enough;
+no belief map or research prerequisite. Choose one central argument. Supporting facts and stories
+reinforce it, rather than competing for attention. Five headlines for one concept preserve that
+concept; five new concepts or awareness angles are a different task.
 
-For developed copy, briefly name the moment, desired experience, chosen entry, evidence status and
-product bridge. For simple headline requests, check internally and return the copy, not a worksheet.
+**Establish the answer.** Before writing a curiosity gap, state what the next beat or page actually
+delivers: a useful explanation, demonstration, advantage, proof or offer. Reveal enough subject and
+value to interest the intended reader. An unknown cause or thin setup explanation cannot repay a
+headline teasing why a life problem occurs. A direct line is useful when the fact is the argument.
+
+**Explore expression.** Recognition, desired experience, contrast, demonstration, proof or offer
+can lead. Product facts are raw material: ask what they let this reader do or understand. Ask what
+an abstract benefit means until it becomes a recognisable action, moment or decision. Draft several
+expressions before selecting; no fixed number of private drafts or compulsory device mix.
+
+**Make a separate editorial pass.** Read the candidate set as an editor after drafting. Identify
+the strongest thought, then rewrite weak expressions of it. Check what each line actually says:
+does it preserve the brief, establish understandable value, and earn any open question? A generic
+complaint followed by a product name is not automatically a persuasive bridge. Concision comes
+after meaning; cut filler and repetition, not the reason to care. A more curious version must
+retain the subject and lead to the same useful answer. Do not select the first acceptable lines
+merely because they satisfy the requested count.
+
+**Review in context.** Headline, visual, body and destination share the argument. Move necessary
+detail into the right slot rather than cramming it all into the headline or deleting it. Read
+scripts aloud; inspect image copy at its intended hierarchy. Check both literal and implied claims.
+Accuracy cannot compensate for losing the brief, and relevance cannot excuse an invented result.
+
+For developed copy, briefly explain the chosen thought, product bridge and editorial decision.
+For simple requests, perform these checks internally and return the requested copy. Scale the pass
+to the task; it requires neither another agent nor user approval. Examples and headline development
+are in `05-copy-craft.md`; source context is in `33-copywriting-source-notes.md` when available.
 
 ## Apply it to the slot
 
@@ -93,7 +113,8 @@ product bridge. For simple headline requests, check internally and return the co
 The framework shapes meaning, not sentence count. Use one natural thought, expressed as a phrase,
 one sentence or two when that rhythm helps. Do not automatically split situation and consequence
 into two short sentences, enforce one sentence forever, or write a miniature script opening.
-Review batches for distinct arguments and natural cadence, not cosmetic punctuation variety.
+Review concept explorations for distinct arguments. Review same-concept rewrites for stronger
+expression and natural cadence; punctuation changes alone do not improve the idea.
 
 A headline can express the desired experience while the image establishes the problem. A bedside
 clock can carry the night-waking context; the line can express the morning the person wants.

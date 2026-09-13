@@ -23,7 +23,13 @@ def image_excerpt(source, text):
     omitted = {
         "PROMPT.md": {"Additional workflows", "Launch invariants"},
         "references/26-copywriting-standards.md": {"Where each rule is enforced", "Running them"},
-        "references/29-moment-to-meaning.md": {"Worked examples", "Origin and scope"},
+        # Intake and final checks already ship in PROMPT, 00, 26 and 30. Retain the complete
+        # thinking, drafting/editing process and slot guidance, not repeated intake/checklists.
+        "references/29-moment-to-meaning.md": {
+            "Instructions for the receiving agent", "Work from the available inputs",
+            "Worked examples", "Acceptance check", "Origin and scope",
+            "Selling usefulness after the depth check",
+        },
     }
     sections = re.split(r"(?=^## )", text, flags=re.MULTILINE)
     kept = []
