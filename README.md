@@ -33,7 +33,7 @@ One universal method serves many brands. Each brand keeps its own connected fold
 coordinate history, test history, winners and approved learning. The method is brand-neutral; brand
 facts never transfer between brands.
 
-**Version:** 1.4.2
+**Version:** 1.5.0
 
 The core copywriting method connects a problem or desire to a recognisable moment, consequence,
 personal meaning and desired experience, then establishes the product's supported role. Find what
@@ -42,7 +42,7 @@ hooks, headlines, scripts and image copy while keeping customer research optiona
 agent handoff, attach [`references/29-moment-to-meaning.md`](references/29-moment-to-meaning.md).
 The same guide is included in the craft, image-ad and knowledge bundles.
 
-**Status:** v1.4.2 implementation with automated package checks. The earlier v1.2 release also had a
+**Status:** v1.5.0 implementation with automated package checks. The earlier v1.2 release also had a
 bounded independent text-only behavioral check; that is not a behavioral benchmark of v1.4 or of
 every LLM and live image provider.
 
@@ -131,7 +131,7 @@ python3 scripts/init-brand-folder.py /path/to/brands/example-brand \
   --slug example-brand
 ```
 
-A freshly initialised brand starts with `method_version: "1.4.2"` and can use controlled
+A freshly initialised brand starts with `method_version: "1.5.0"` and can use controlled
 persistence after its normal readiness checks. The migration section below applies only to existing
 v0.3 folders.
 
@@ -410,6 +410,7 @@ structure is the entire point. See [`corpus/swipe/ATTRIBUTION.md`](corpus/swipe/
 
 | Version | Date | Change |
 |---|---|---|
+| 1.5.0 | 2026-09-13 | Scientific Advertising integration: buyer relevance, useful specifics, complete selling information, controlled test cards, practical commercial extensions and versioned evaluation semantics. |
 | 1.4.2 | 2026-09-12 | Desired-experience thinking across concepts, headlines and copy; recognition and desired change share the ad with a supported product role. Saved owner-approved headline directions, clarified problem versus category/brand awareness, and aligned quality criteria and portable handoffs. |
 | 1.4.1 | 2026-09-12 | Headlines use natural syntax; the emotional framework does not prescribe two short sentences. Added deliberate sentence choice and batch cadence checks to core guidance, copy contracts and the standalone handoff. |
 | 1.4.0 | 2026-09-11 | Core moment-to-meaning method for hooks, headlines, scripts and image copy, standalone agent guide, explicit product bridge and evidence checks, updated copy evaluation and all portable bundles. |
@@ -422,3 +423,16 @@ structure is the entire point. See [`corpus/swipe/ATTRIBUTION.md`](corpus/swipe/
 | 0.3.0 | 2026-08-27 | Adopted `Who x Primary Problem`, four-ad CONTST batches, locked naming, manual ABO launch plans, destination handoffs, CBO scaling with real Post IDs, safe strategy registers and read-only Notion governance. |
 | 0.2.0 | 2026-08-26 | Added multi-brand folders, recurring website refresh, evidence classes, six-hook batches, copy lengths, approved-revision learning, upload bundles and seven runtime guides. |
 | 0.1.0 | 2026-08-26 | Initial strategist with research, concepts, creative production and diagnosis contracts. |
+
+## Scientific Advertising update: 1.5.0
+
+The method now checks useful salesmanship as well as recognisable moments and desired experience.
+It prioritises qualified buyer interest, honest specificity, complete selling information and
+coherent visual/body/page roles. It also provides a controlled comparison card and conditional
+trial, enquiry follow-up, education-cost, channel-incrementality and product-descriptor guidance.
+See references 30, 31 and 32. Historical book prescriptions are adapted, not treated as modern proof.
+
+The current eval uses scoring fingerprints to avoid false before/after comparisons when definitions
+change. Absent API configuration skips the paid CI eval explicitly; package checks remain available.
+Automated checks establish consistency, not conversion lift. Live campaign evidence, broader provider
+and model testing, and brand-specific claim substantiation remain separate work.

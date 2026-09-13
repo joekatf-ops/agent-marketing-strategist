@@ -79,3 +79,11 @@ model-generated scores into ROAS, profitability or causal evidence.
 Keep cross-brand layout patterns in the general library and brand facts, claims and performance
 in their own brand records. Writing or reorganising external boards is a separate action from
 reading them; preserve existing board contents unless the user asks for library management.
+
+## Selling role of the layout
+
+Use `30-scientific-advertising.md` to check what the visual does for the sale: reader recognition,
+product explanation, demonstration, credible evidence or a desired experience. Match a reference's
+hierarchy when requested, while adapting those jobs to this product. Layout fidelity, beauty and
+saved-ad status do not establish sales performance. Preserve useful selling information across the
+image, primary text and destination, and keep every awareness execution independently understandable.

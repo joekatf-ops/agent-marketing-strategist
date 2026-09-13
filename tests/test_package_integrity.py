@@ -892,7 +892,7 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn("Medium version", contract)
         self.assertIn("Long version", contract)
 
-    def test_option_counts_are_guidance_with_a_floor(self):
+    def test_option_counts_respect_the_request_with_useful_defaults(self):
         # Forced counts produce filler. Only the CTA is fixed.
         ad_copy = (ROOT / "contracts" / "ad-copy.md").read_text()
         hook_batch = (ROOT / "contracts" / "hook-batch.md").read_text()
@@ -902,7 +902,7 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn("CTA: exactly 1", ad_copy)
         self.assertIn("3 minimum", ad_copy)
         self.assertNotIn("Create exactly six hook packages", hook_batch)
-        self.assertIn("Three is the floor.", hook_batch)
+        self.assertIn("The user's requested count", hook_batch)
 
     def test_concept_contract_requires_four_initial_awareness_ads(self):
         contract = (ROOT / "contracts" / "concept-batch.md").read_text()
@@ -1328,6 +1328,8 @@ class PackageIntegrityTests(unittest.TestCase):
         "references/05-copy-craft.md",
         "references/16-hook-formats.md",
         "references/20-hook-quality-standard.md",
+        "references/30-scientific-advertising.md",
+        "references/32-commercial-extensions.md",
         "references/24-writing-for-low-awareness.md",
     )
 

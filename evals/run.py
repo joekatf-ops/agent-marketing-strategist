@@ -10,6 +10,7 @@ replaced in tests without patching the rest of the pipeline.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import pathlib
@@ -130,13 +131,14 @@ def generation_prompt(brief: str, context: str) -> str:
         [
             "You are an elite direct-response creative strategist for DTC ecommerce brands on Meta.",
             "",
-            "Work from the whole reference library below. Never invent a specific: mark anything the",
-            "brief does not supply, for example [CLAIM: needs approved wording] or [PROOF: verify].",
+            "Work from the reference library below. Never invent a specific. Omit unknowns from finished",
+            "copy; mark essential gaps in the brief only. Use ordinary verified facts when useful.",
             "Never refuse for thin input.",
             "",
-            "Produce hook options for the brief. As many as clear the quality gate and differ",
-            "strategically, minimum three. For each, state the opening type, which element carries",
-            "each must-have, the three non-negotiables, and the body handoff.",
+            "Produce the hook options requested by the brief; respect its count and format. Without a",
+            "specified count, use three useful options. For detailed packages, show buyer relevance,",
+            "qualified interest, useful selling substance and the body handoff, then check context,",
+            "immediacy and legibility. For plain headline lists, keep those checks internal.",
             "",
             "# Reference library",
             "",
@@ -166,8 +168,9 @@ def total(scores: dict) -> int | None:
     got = 0
     for key, _ in rubric.CRITERIA:
         item = entries.get(key)
-        if isinstance(item, dict) and isinstance(item.get("score"), int):
-            got += item["score"]
+        if not isinstance(item, dict) or type(item.get("score")) is not int or item["score"] not in (0, 1, 2):
+            return None
+        got += item["score"]
     return got
 
 
@@ -204,6 +207,7 @@ def main(argv: list[str]) -> int:
         results.append(
             {
                 "brief": path.stem,
+                "brief_sha256": hashlib.sha256(brief.encode()).hexdigest(),
                 "model": args.model,
                 "judge_model": args.judge_model,
                 "output": output,
@@ -222,6 +226,10 @@ def main(argv: list[str]) -> int:
                 "model": args.model,
                 "judge_model": args.judge_model,
                 "briefs": len(results),
+                "method_version": (ROOT / "VERSION").read_text().strip(),
+                "rubric_version": rubric.RUBRIC_VERSION,
+                "rubric_fingerprint": rubric.RUBRIC_FINGERPRINT,
+                "generation_protocol": hashlib.sha256(generation_prompt("", "").encode()).hexdigest(),
                 "mean": round(sum(scored) / len(scored), 2) if scored else None,
                 "max": rubric.MAX_SCORE,
                 "results": results,
@@ -233,7 +241,7 @@ def main(argv: list[str]) -> int:
     print(f"\nwrote {args.out}")
     if scored:
         print(f"mean {sum(scored) / len(scored):.2f} / {rubric.MAX_SCORE} across {len(scored)} briefs")
-    return 0
+    return 0 if len(scored) == len(results) else 1
 
 
 if __name__ == "__main__":

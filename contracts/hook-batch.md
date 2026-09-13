@@ -1,6 +1,10 @@
 # Output Contract: Hook Batch
 locked: 2026-08-27
-version: 1.2.0
+version: 1.3.0
+
+For plain headline requests, follow the requested count and check quality internally. The detailed
+fields below apply when a full hook package is requested; house naming and traceability apply only
+to the selected house campaign profile.
 
 A pre-production option set of strategically different openings for one approved execution. The six
 packages do not create six launch ads. Select one coherent opening for the execution.
@@ -27,8 +31,8 @@ Every hook package carries all of these fields, even when the values repeat acro
 
 ## Batch size
 
-Produce as many hook packages as clear the quality gate and differ strategically. Six across at
-least four hook formats is the default. Three is the floor.
+Produce as many hook packages as clear the quality gate and differ strategically. Six is the default for a full hook batch when no count is requested. The user's requested count
+takes precedence. Choose formats for the argument, not a quota.
 
 Forced counts produce filler. Four adequate options and one good one is a worse batch than three
 good ones, because the padding costs the attention that should have gone into selection. Cut a
@@ -44,8 +48,8 @@ At six, the useful spread is:
 Every hook must change the route into the argument. New adjectives, punctuation, camera angles, or
 opening questions do not create a strategically new hook.
 
-The batch carries at least one promise opening and at least one open loop, so the option set tests
-the way in and not only the format.
+Direct statements, open loops and benefit-plus-explanation openings are available, not mandatory
+quotas. For a controlled wording test, retain the appeal deliberately and label the test accordingly.
 
 ## Sections, in order
 
@@ -53,7 +57,7 @@ the way in and not only the format.
    Problem, awareness code and job, messaging route, media type, execution format, controlled FORMAT
    token, destination, CTA, complete final ad name and production constraints
 2. **Evidence and claim gate** - proof available, approved language, prohibited language
-3. **Hook packages** - six fixed cards
+3. **Hook packages** - cards matching the requested count
 4. **Diversity matrix** - category, hook format, opening type, media type, execution format, lead
    type, visual pattern, belief, evidence and risk
 5. **Recommended production order** - ranked with the learning value and effort
@@ -77,10 +81,10 @@ the way in and not only the format.
 15. People, assets and location required
 16. Complete final ad name ending in `POSTIDXXX` before publication
 17. Policy and claim risk: LOW, MEDIUM, or HIGH, with reason
-18. Why it fits the coordinate and how it differs from the other five
-19. Hook quality gate from `references/20-hook-quality-standard.md`: opening type as promise or open
-    loop; which element carries emotion, curiosity gap and high stakes, with at least two named and
-    absent ones stated; and the clearance for no prior context, starts in action and no chaos
+18. Why it fits the coordinate and how it differs from the other options
+19. Hook quality gate from `references/20-hook-quality-standard.md`: opening approach, intended buyer,
+    qualified reason to care, useful selling substance, body handoff, no prior context, immediacy
+    and legibility. Emotion, curiosity and stakes are optional devices, not required carriers.
 
 For a static hook, replace the three-second frames with feed object, hierarchy, primary line, and
 proof object. Do not pretend a static is a video storyboard.
@@ -90,7 +94,7 @@ proof object. Do not pretend a static is a video storyboard.
 Score each package from 1 to 5 on:
 
 - coordinate and execution fit;
-- stopping power;
+- qualified buyer interest;
 - clarity without context;
 - proof readiness;
 - brand fit;
@@ -109,27 +113,26 @@ unless its claim and policy burden are fully resolved.
 - A proven competitor execution copied line for line
 - A visual opening that contradicts the spoken or written opening
 - An opening that assumes prior context or spends its first words on setup
-- A promise and an open loop mixed into one opening
-- A must-have claimed without a carrier in a named frame or line
+- Curiosity used to conceal a weak or unrelated selling argument
 - Editing energy or sensory overload standing in for a reason to keep watching
 
 ## Self-check
 
 - [ ] Core depth check from `references/29-moment-to-meaning.md`: a recognisable moment or payoff,
       why it matters, evidence status and a supported product bridge; no manufactured intensity
-- [ ] At least 3 hooks, across at least 4 hook formats when the batch reaches 6
+- [ ] Requested count respected, with formats chosen for the argument
 - [ ] Nothing included only to reach a count, and any cut package is accounted for
 - [ ] Every hook has all nineteen fields and the complete traceability set
 - [ ] Hook format, media type, execution format and controlled FORMAT token are separate fields
 - [ ] Each route differs strategically
 - [ ] Visual, spoken, and on-screen elements express one idea
-- [ ] Every hook declares one opening type, and the batch carries both promise and open loop
-- [ ] Every hook names at least two must-have carriers and states any absent element
-- [ ] Every hook reads cold with no prior context, opens in action and stays legible
+- [ ] Every hook earns qualified interest with a useful, supportable selling point
+- [ ] Opening approach suits the argument; devices are not forced
+- [ ] Every hook reads cold, gets to relevant information or action promptly and stays legible
 - [ ] Every body handoff can cash what its opening promised
 - [ ] Every proof burden has a real source or is marked unavailable
 - [ ] Diversity matrix proves the batch is not cosmetic variation
-- [ ] Every spoken hook uses an interrupting register, not an explanatory one
+- [ ] Every opening earns relevant attention; a direct explanation is allowed when useful
 - [ ] No tier-one machine-writing phrase from `config/copy-lexicon.yml`
 - [ ] No hedge that weakens a claim, and any register hedge is deliberate voice
 - [ ] Production order balances learning value, readiness, and effort

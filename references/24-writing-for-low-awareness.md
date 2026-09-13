@@ -1,166 +1,84 @@
 # Writing for low awareness
 
-An unaware reader has not recognised the problem or its relevance. Establish relevance before
-pitching a solution. A relatable desire can be an entry as well as a recognisable tension.
+An unaware reader has not recognised the problem or its relevance. Establish relevance through a
+recognisable situation or desire before pitching a solution. Cold targeting and unfamiliarity with
+the brand do not establish problem unawareness. Someone seeking to stop waking at night is already
+problem-aware about sleep, even if grounding is unfamiliar. Use references 02, 21 and 29.
 
-`02-customer-state.md` defines the awareness states. `21-evidence-and-doctrine.md` sets the constraint
-that an explicitly unaware brief needs relevance before a product pitch. Cold targeting and brand
-unfamiliarity do not establish problem unawareness. Someone seeking to stop waking at night is
-problem-aware about sleep; a desired-experience headline can lead even if grounding is unfamiliar.
+## Choose a relevant entry
 
-## The central problem
+A useful opening connects what the reader notices or wants to information worth receiving. It can
+be quiet, practical or positive. The complete ad progresses to a supported product role and next
+step. Do not merely repeat the pain, force embarrassment or invent a dramatic event.
 
-You cannot sell a solution to a problem the reader does not have. At UWA the reader is not weighing
-options, not comparing, not sceptical. They are indifferent, which is a harder starting position than
-scepticism, because scepticism at least implies engagement.
+| Entry | Use when | Evidence and handoff |
+|---|---|---|
+| Recognisable situation or desired experience | An everyday moment makes the subject relevant | Ground it in the brief or label it as a creative hypothesis outside the consumer copy |
+| Confession or personal story | A real account makes a relevant experience understandable | Actual source and permission; never invent testimony or pretend an actor is an independent customer |
+| Supported reframe | There is evidence for a mistaken assumption and a useful explanation | Explain the evidence; do not invent an underlying cause or attack a strawman |
+| Honest curiosity | A specific answer matters to the likely buyer | Supply a worthwhile answer, not a thin payload hidden by intrigue |
+| Education or demonstration | The product's use or category needs explaining | Demonstrate what is known, without implying unsupported results |
+| Conversation or question | A real enquiry or clearly presented scenario can introduce the issue | Do not disguise a scripted endorsement as a spontaneous third-party recommendation |
 
-An unaware opening first makes a situation or desire relevant. The complete ad then connects that
-relevance to a desirable direction and supported product role. This does not require pain in line
-one or repeated agitation. See `29-moment-to-meaning.md` for developing the whole concept.
+These are choices, not ranked winners. A direct fact or useful demonstration can pass without
+emotion, curiosity or high stakes. A benefit and a question about how can form one coherent opening.
+Use `20-hook-quality-standard.md` and `30-scientific-advertising.md` to judge qualified interest.
 
-Everything below is a way of doing that.
+## Reveal the product when the argument earns it
 
-## The five doors that work
+Establish relevance first for an explicitly unaware brief, then introduce the category and product
+when they help explain the next useful point. There is no required reveal percentage or first-quarter
+ban. The reader must receive value while the product is withheld; withholding is not value itself.
 
-Ranked by how reliably they open a cold audience, with the measured rate from
-`12-meta-platform.md` §4.2 where one exists. Baseline is about 5 percent.
+Headline, visual and supporting copy can have complementary jobs. Judge their combined meaning and
+implied claim instead of forcing the same awareness label onto every component. Each complete ad
+must make sense without seeing an earlier awareness execution.
 
-### 1. Confession, 8.74 percent
+The historical swipe corpus contains late reveals and long-running ads. Those are observed creative
+patterns, not evidence that late reveals cause sales or that longevity means profitability. Archived
+hook-rate figures describe their source samples; they do not rank the best route for a new brand.
+Consult reference 12 for dated source context and recheck changeable platform guidance before use.
 
-A specific, self-incriminating admission. The highest measured hook type that requires no prior
-product knowledge, and it beats plain storytelling by 40 percent relative.
+## Keep the customer's interest when claims are limited
 
-It works because an admission cannot be an advertisement. Nobody discloses a personal failure to sell
-something, so the reflex that kills a benefit claim in the same slot does not fire.
+If a desired result is not substantiated, do not promise it. Preserve the requested situation or
+question in the concept and move the product's claim to something supported: use, construction,
+setup, terms or an explanation the destination can actually provide. Do not silently abandon the
+chosen audience and turn every option into an unrelated feature inventory. Where no credible bridge
+exists, state that limit briefly and offer the closest useful factual angle.
 
-The requirement is that the admission costs the speaker something. "I used to struggle with energy"
-costs nothing and reads as setup. "My mom gave me my first cup of coffee when I was fourteen because
-my teachers kept telling her I was falling asleep in class" costs something, and it is unfakeable.
-That one holds a 78 percent reveal position in the corpus.
+For example, a buyer curious about grounding after disappointing mornings can be invited to inspect
+what the bedding setup involves. A placement demonstration cannot establish better sleep or energy.
+Keep that distinction clear in the complete ad, not just a disclaimer outside it.
 
-Test: could a competitor's ad contain this sentence? If yes, it is not a confession, it is a preamble.
+## Problem aware
 
-### 2. Category indictment, or the unexpected cause
+The reader recognises the problem; they do not need to be repeatedly told it hurts. A desired
+experience, more precise recognition, useful demonstration or supported explanation may lead.
+Naming a waking time is a scene, not a medical diagnosis or permission to infer its cause.
 
-Attack what the category taught the reader to believe, not a rival brand. A prospect will defend a
-brand they use and will not defend an industry.
+Use the requested angle, show what the person wants instead, then establish what this product can
+credibly contribute. Research sharpens language and objections when available. It is not required
+for a useful first draft, and a vivid anecdote is not evidence of prevalence or efficacy.
 
-*"The skincare industry has spent billions convincing you that fat is dirty, but your ancestors used
-animal fat, honey and herbs."* Product appears at 96 percent through. The argument is complete before
-the thing being sold exists in the ad.
+## Review and measurement
 
-The requirement is a specific belief you can name and a credible reason it is wrong. Without the
-reason it is just contrarianism, which reads as marketing.
+Read the opening with its image or first frame: can the intended person recognise the subject,
+understand why it matters and see a worthwhile reason to continue? Confusion or a generic surprise
+is not a substitute for qualified interest. Neither shortness nor a curiosity device proves quality.
 
-### 3. Curiosity, or the open loop, 7.77 percent
+Judge commercial results against the stated objective and measurement window. Do not assume lower
+awareness must mean worse conversion or cheaper reach. Read business outcomes before using hook
+and hold rates to investigate. Strong attention with weak sales can implicate qualification,
+expectation, argument, offer, destination, stock or tracking. Inspect the whole path.
 
-Withhold something the reader now wants. Substantially above baseline and needs no product knowledge.
+Comparing complete UWA and PDA executions can identify observed commercial differences; it does
+not isolate an awareness effect when audience, delivery, message or destination also varies. Use
+`31-controlled-tests.md` for narrower follow-up plans. The house profile's five-day review is a
+checkpoint, not automatic evidence of a winner.
 
-At UWA the loop must be about the reader's situation rather than the product. "Watch out for these
-ingredients" works cold. "You will not believe what our formula does" does not, because it presumes
-interest in the formula.
+## Source status
 
-### 4. Mechanism education
-
-Teach the category first. Name the product last. *"Here's why mushrooms are a superfood you need to
-have. I start my morning with six different mushrooms..."* holds the product to 93 percent.
-
-By the time the product arrives it reads as the conclusion of an argument rather than a pitch. The
-requirement is a mechanism that is genuinely interesting on its own. If the mechanism is boring, the
-reader leaves before the product exists, and this door becomes the worst of the five.
-
-### 5. The overheard exchange
-
-Put the claim in a third party's mouth answering a question nobody planted. *"What keeps you motivated
-throughout the day?"* asked of a stranger, answered with a product the viewer has not heard of. Two
-entries in the corpus using this ran 377 days.
-
-Fragile in a specific way: the moment the exchange sounds scripted, the credibility inverts and it
-performs worse than a direct claim would have. Leave the hesitation in. *"I think maybe what works
-for me... I don't know if it's everyone?"* is a sentence no copywriter would write, which is exactly
-why it survives as speech.
-
-## Where to reveal the product
-
-The corpus gives a usable range. Genuine cold openings hold the product to **78 to 96 percent** of
-runtime, or never name it verbally at all. The longest-running video in the corpus, at 706 days, is
-20 seconds long and does not say the product name.
-
-That is not a rule to copy mechanically. It is a diagnostic: if your cold ad names the product in the
-first quarter, it is not a cold ad, whatever the brief said. Either rewrite the opening or change the
-awareness target and say you did.
-
-Two nuances that matter more than the number:
-
-**The headline and the opening may sit at different awareness levels on purpose.** The longest-running
-live ad in the corpus, 412 days, pairs a pure offer headline with a video that withholds the product
-until 56 percent through. The offer de-risks the click, the video earns the attention. Do not force
-one awareness state across every element of the same ad.
-
-**Holding the product is not the same as delaying the value.** The reader must be getting something in
-those first seconds, recognition, tension, a genuinely interesting fact. A cold opening that withholds
-the product *and* gives nothing is not cold, it is slow.
-
-## Installing stakes when there are none
-
-At PDA the stakes exist and you invoke them. At UWA they do not exist yet and you have to install
-them, which is the single most technically difficult move in this file.
-
-Three ways that work:
-
-- **Cost of continuing.** Not "this is a problem" but what another year of it looks like specifically.
-- **Embarrassment at not knowing.** The reader's ignorance is the stake. This is why confession pairs
-  so naturally with cold: the speaker's admission gives the reader permission to have the same gap.
-- **A near miss.** Something almost went wrong. The stake is in the almost.
-
-What does not work: inflating the problem. An unaware reader has no felt problem, so exaggeration
-does not raise stakes, it destroys credibility. They have nothing to check the claim against except
-their own indifference, and indifference wins.
-
-Per `20-hook-quality-standard.md`, a stakes-raising visual may be oblique but may not contradict the
-spoken line or promise an argument the body abandons.
-
-## Problem aware, the second-hardest state
-
-At PRA the reader feels the problem and does not know what solves it. The failure mode is different
-and more common: **describing the problem generically.**
-
-The reader already knows they sleep badly. Telling them so wastes the opening. What earns attention is
-naming the problem more precisely than they have named it themselves, or naming its cause.
-
-Precision is the whole job. "Trouble sleeping" is a category. "You fall asleep fine and wake at 3am"
-is a diagnosis, and a reader who recognises it grants authority for everything after it.
-
-*"Why I quit my supplements for this"* runs 528 days at a 33 percent reveal. Quitting is a stronger
-frame than starting, because the reader who already suspects their current thing does nothing gets
-permission rather than a pitch.
-
-## What kills a cold ad
-
-- The product, the brand or the price in the first line
-- Setup before the claim. *"If you're someone who..."* is a whole second spent on nothing
-- A generic problem statement the reader has heard a hundred times
-- A premise that assumes the problem is already felt
-- Inflated stakes, which read as dishonest to someone with no reason to trust you
-- Sensory overload standing in for a reason to watch
-- An offer. At UWA an offer answers a question the reader has not asked
-
-## How to judge one
-
-A cold ad is not judged like a decision-stage ad, and applying the wrong standard is how good cold
-creative gets killed early.
-
-- Judge the opening on whether the situation is recognisable, not on whether the product is clear
-- Expect worse immediate conversion and better reach and cost per impression
-- Read hold rate before conversion rate. A cold ad that holds attention and does not convert may need
-  a different destination rather than a different hook. See `23-commercial-context.md`
-- Do not compare a UWA ad's conversion against a PDA ad's in the same batch and conclude the UWA
-  creative failed. They are answering different questions
-- Per the launch invariants, five full days is a review point and not a verdict
-
-## The one-line test
-
-Read your opening cold, to someone who has never heard of the product, and stop after two seconds.
-
-If their reaction is "so what", you have written a benefit. If it is "wait, what", you have written a
-cold ad.
+This reviewed guide supersedes the earlier ranked-hook, compulsory-stakes and fixed-reveal advice
+following the owner-approved Scientific Advertising integration on 2026-09-13. The historical corpus
+and source notes remain evidence to inspect, not higher-priority instructions or performance laws.

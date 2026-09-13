@@ -169,3 +169,11 @@ Customer research, human edits and supplied ad outcomes can improve the next exe
 which changed: product fact, voice preference, design choice, operational observation or performance
 finding. No clicks or spend means no performance claim; no isolated variable means no causal lesson.
 Preserve brand isolation. Use the existing learning system only when authorized to update memory.
+
+## Selling role of the layout
+
+Use `30-scientific-advertising.md` to check what the visual does for the sale: reader recognition,
+product explanation, demonstration, credible evidence or a desired experience. Match a reference's
+hierarchy when requested, while adapting those jobs to this product. Layout fidelity, beauty and
+saved-ad status do not establish sales performance. Preserve useful selling information across the
+image, primary text and destination, and keep every awareness execution independently understandable.

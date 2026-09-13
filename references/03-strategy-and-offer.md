@@ -5,14 +5,15 @@
 Source: Dunford, *Obviously Awesome*. Work in order:
 
 1. **Competitive alternatives.** What would the customer do if the product did not exist?
-2. **Unique attributes.** What can it do or contain that the alternatives do not?
+2. **Attributes and differences.** What can it do or contain, and which differences from alternatives
+   are evidenced? Specific facts do not need to be exclusive to be useful.
 3. **Value.** What desirable outcome do those attributes create?
 4. **Best-fit customer.** Who cares most about that value, and in what situation?
 5. **Market category.** What frame helps that customer understand the value fastest?
 
 The real competitor is often the status quo, a workaround, or doing nothing.
 
-## Unique mechanism
+## Supported mechanism
 
 The believable reason the product produces the result. It turns a generic promise into a
 specific explanation.
@@ -24,7 +25,9 @@ specific explanation.
 | Delivery mechanism | Why this method is easier, faster, safer or more reliable |
 
 A mechanism must be understandable, relevant and supportable. A technical label with no
-explanatory value is not a mechanism.
+explanatory value is not a mechanism. Do not invent a cause or uniqueness. When a mechanism is
+unknown, sell supported construction, use or terms. A category-common fact may still be worth
+explaining; see `30-scientific-advertising.md`.
 
 ## Contrast
 
@@ -89,6 +92,11 @@ scarcity, urgency or anticipated regret. False timers and invented sell-outs are
 
 ## Making an offer testable in an ad
 
-An offer is testable when a single ad can carry it: one dominant promise, one named mechanism,
-one reason to act now, one price frame. If the ad needs three sentences to explain the terms,
-the offer is a landing page job, not an ad job.
+An offer test needs a clear proposition, honest material terms and a next step. A mechanism,
+discount or deadline is not compulsory. Allocate information across image, body and destination
+without hiding costs or conditions. Use `31-controlled-tests.md` to define the comparison.
+
+For a trial or sample, specify what uncertainty it resolves, what the buyer experiences, all upfront
+and return costs, refund conditions, friction and post-trial action. Use `32-commercial-extensions.md`
+for the offer card, enquiry follow-up and buyer-facing product descriptors. Those names are distinct
+from the campaign and ad identifiers in `07-naming.md`.

@@ -30,6 +30,10 @@ Repeat the check when editing. Emotional intensity must fit the evidence and for
 feature, demonstration or offer can be the right expression. Research sharpens the moment but is
 optional. Never turn an inferred feeling into customer testimony or a desired result into a claim.
 
+Before presenting, check buyer relevance, useful selling information, support and the next step.
+Specific does not mean exclusive: a verified ordinary fact can persuade. Curiosity serves that
+argument; it never conceals a weak body. Preserve necessary proof and offer terms when shortening.
+
 ## Image ads
 
 For image creation, adaptation or revision, read `references/27-image-ad-workflow.md` and
@@ -66,7 +70,9 @@ They are not all required before a simple feature-led image.
 | `references/02-customer-state.md` | Optional awareness, sophistication and belief diagnosis |
 | `references/05-copy-craft.md` | Leads, structures and headline checks |
 | `references/16-hook-formats.md` | Opening formats |
-| `references/20-hook-quality-standard.md` | Coherence and attention checks |
+| `references/20-hook-quality-standard.md` | Buyer relevance, qualified interest and honest handoff |
+| `references/30-scientific-advertising.md` | Selling substance, useful specificity and enough information |
+| `references/32-commercial-extensions.md` | Conditional trial, enquiry follow-up, education, distribution and product-naming guidance |
 | `references/24-writing-for-low-awareness.md` | Unaware and problem-aware writing when requested |
 
 Use the deeper library for the task: foundations and persuasion (01, 03, 04), formats (08), voice
@@ -122,7 +128,7 @@ These are output shapes, not sequential approval gates.
 | Runtime setup | `references/17-runtime-portability.md`, relevant connector guide |
 | Method governance | `references/18-master-creative-strategy.md` |
 | House campaign concepts and naming | `references/06-concept-model.md`, `references/07-naming.md` |
-| Test analysis | `references/09-testing-and-diagnosis.md`, `references/25-meta-benchmarks.md` |
+| Test design and analysis | `references/31-controlled-tests.md`, `references/09-testing-and-diagnosis.md`, `references/25-meta-benchmarks.md` |
 | Supplied performance analysis | `references/19-ad-analysis-harness.md` |
 
 ## Brand and research context

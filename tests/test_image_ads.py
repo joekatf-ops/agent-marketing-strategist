@@ -158,6 +158,15 @@ class ImageBundleTests(unittest.TestCase):
         builder = load("build-image-ad-bundle")
         self.assertEqual(builder.build(), builder.OUT.read_text())
 
+    def test_image_excerpt_removes_only_declared_non_image_sections(self):
+        builder = load("build-image-ad-bundle")
+        sample = "# Core\nkeep\n\n## Additional workflows\nDROP\n\n## Safety\nKEEP\n"
+        image = builder.image_excerpt("PROMPT.md", sample)
+        self.assertNotIn("DROP", image)
+        self.assertIn("KEEP", image)
+        self.assertIn("# Core", image)
+        self.assertEqual(sample.strip(), builder.image_excerpt("references/30-scientific-advertising.md", sample))
+
     def test_image_bundle_can_ship_in_git(self):
         result = subprocess.run(["git", "check-ignore", "dist/image-ad-bundle.md"], cwd=ROOT,
                                 capture_output=True, text=True)

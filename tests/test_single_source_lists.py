@@ -53,7 +53,7 @@ class CraftStackTests(unittest.TestCase):
         declared = tuple(builder().craft_stack())
 
         self.assertEqual(declared, tuple(run.CRAFT_STACK))
-        self.assertEqual(len(declared), 8)
+        self.assertIn("references/30-scientific-advertising.md", declared)
 
     def test_every_declared_reference_exists(self):
         for relative in builder().craft_stack():

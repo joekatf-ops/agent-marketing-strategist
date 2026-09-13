@@ -11,6 +11,14 @@ Benchmark figures for hook rate, hold rate, cost, conversion and what counts as 
 `25-meta-benchmarks.md`. Read them as market evidence: a result in the brand's own test register
 outranks any of them.
 
+## Plan the comparison before production
+
+Use `31-controlled-tests.md` for a test card: question, control, changed factor, constants, allocation,
+business outcome, exposure, decision and limits. That general comparison method is available outside
+the house profile. Keep broad exploration separate from controlled wording tests and package tests.
+Retain the existing control, record interruptions and do not treat five days or unequal platform
+delivery as causal proof. Missing budget or baseline volume remains an explicit planning gap.
+
 ## Creative-testing stage
 
 Use one creative-testing campaign for one product and one region.

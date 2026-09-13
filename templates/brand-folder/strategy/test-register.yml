@@ -15,3 +15,9 @@ tests: []
 # Reserve the next CONTST number for every NNT, INSPO or ITR batch and never reuse it.
 # Keep stopped, rejected and archived test records. Broad-batch observations are associations;
 # proposed explanations must state confidence and causal limits rather than claim an isolated cause.
+
+# Optional detail on the existing test entry (older records remain valid):
+# test_design: question, hypothesis, design, control, changed_factor, constants, allocation,
+# primary_outcome, diagnostics, exposure, decision_rule, stop_rules, limitations, owner, state.
+# appeal_summary: reader, desired_experience, selling_point, proof, body_handoff.
+# See references/31-controlled-tests.md. No second ledger and no automatic rule promotion.

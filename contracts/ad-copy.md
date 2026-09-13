@@ -1,8 +1,11 @@
 # Output Contract: Ad Copy
 locked: 2026-08-27
-version: 2.2.0
+version: 2.3.0
 
 Primary text, headlines, descriptions, and one Meta CTA for one approved ad execution.
+
+For simple requests, deliver the requested asset and count. Full production fields are for a
+detailed package; CONTST naming and destination exceptions apply only to the house campaign profile.
 
 ## Artefact
 
@@ -40,7 +43,7 @@ A Markdown block per ad. A batch may use a table only when every required field 
 - Descriptions: 2 by default, 1 minimum
 - CTA: exactly 1
 
-Counts other than the CTA are guidance. Five headlines that repeat one idea are worth less than
+The user's requested count and asset type take precedence. Counts other than the CTA are guidance. Five headlines that repeat one idea are worth less than
 three that select different prospects, and padding to reach a number spends the attention that
 should have gone into choosing. Cut rather than pad, and say what you cut in the rationale.
 
@@ -58,18 +61,23 @@ Each slot has its own job; do not squeeze the full sequence or overt emotion int
 
 **Line one is a complete hook.** It must survive mobile truncation without the reader expanding the
 copy. It may name the situation, make a supportable promise, open a curiosity gap, present proof, or
-answer an objection. It never starts with the brand name or "Introducing".
+answer an objection. A brand or offer can lead when it is already relevant to the reader; an
+unaware brief needs relevance established first.
 
 Every first line and every headline clears `references/20-hook-quality-standard.md`. State the
-opening type as promise or open loop in the route header, and check the first line cold: no prior
-context, no setup before the claim, one legible idea. The route's body cashes what its first line
-opened, and the headline set does not mix a promise and an open loop inside one line.
+opening approach in a detailed route header and check buyer relevance, useful selling substance,
+no prior context, immediacy and one legible idea. The body cashes the opening. A useful benefit and
+an honest explanation gap may share a line. Never hide a weak argument behind curiosity.
 
 **Route A and route B enter through different arguments.** A promise lead and a confession lead are
 meaningfully different. Two synonyms inside the same sentence are not.
 
 **Body structure is named.** Use a structure from `references/05-copy-craft.md`, adapted to the
 awareness state and length. Proof appears before the ask.
+
+**Enough selling information.** Preserve the facts, explanation, proof and material offer terms
+needed for this next step. Allocate them across image, body and destination. Shorter is better only
+when it preserves the argument; every execution stands alone. See `references/30-scientific-advertising.md`.
 
 **One close.** Give one instruction and one CTA. Do not add competing asks.
 
@@ -90,7 +98,9 @@ cosmetic variation. This is a craft judgement, not a sentence-count rule.
 | Solution aware | mechanism, comparison, demonstration | assuming category preference |
 | Product aware | proof, differentiation, objection | re-teaching the category |
 
-Most Aware is handled by the offer and conversion environment, not as a standard ad output.
+Most Aware is available for ordinary offer and product requests. Its job is to make the verified
+offer, material terms and next action easy to understand. The optional house launch profile retains
+its four named awareness executions.
 
 ## Formatting rules
 
@@ -101,7 +111,7 @@ Most Aware is handled by the offer and conversion environment, not as a standard
 - Apply `references/10-voice-and-claims.md` and approved brand-folder voice rules.
 - Brand voice may change style, never the claim gate.
 - Keep the important meaning early in every length.
-- Match the register to the slot: line one interrupts, the body explains, the headline compresses, the
+- Match the register to the slot: line one earns relevant attention, the body explains, the headline compresses, the
   description supports, the CTA instructs. See the slot table in `references/26-copywriting-standards.md`.
 - Every mechanism clause carries the payoff it produces. Machinery without a "so that" is not an
   argument.
@@ -123,7 +133,7 @@ Most Aware is handled by the offer and conversion environment, not as a standard
 - [ ] At least 3 headlines and 1 description, each independently useful, and exactly 1 CTA
 - [ ] Nothing included only to reach a count, and anything cut is named in the rationale
 - [ ] Every first line stands alone before truncation
-- [ ] Every route declares its opening type as promise or open loop
+- [ ] Every route chooses an opening approach that earns qualified interest
 - [ ] Every first line and headline reads cold with no prior context and no setup
 - [ ] Every route's body cashes what its first line opened
 - [ ] Every body structure is named and proof precedes the ask

@@ -73,6 +73,12 @@ not need them. Use a gap marker only when the requested idea depends on the miss
 and keep it in the brief or clearly unfinished copy draft. Never render an unresolved marker in a
 finished image. A marker names a gap and never wraps a guess.
 
+## Selling usefulness
+
+Select a relevant buyer, offer useful information, support it and make the next step clear. Specific
+facts need not be exclusive. Curiosity must lead to a worthwhile answer. Preserve necessary proof
+and terms when shortening. See `30-scientific-advertising.md`.
+
 ## The creative check
 
 - The concept connects a recognisable moment to what the person wants back or wants to experience.

@@ -95,3 +95,11 @@ Use `dist/craft-bundle.md` for developed hooks and writing, or the full `dist/kn
 for advanced research, governed ad analysis, learning records and manual campaign planning.
 The optional house campaign profile has its own naming and test conventions. Those do not impose
 a four-ad batch, customer-research gate or budget floor on ordinary creative work.
+
+## Added in 1.5.0
+
+The writing check now prioritises buyer relevance and useful, supportable selling information.
+Curiosity is optional and must lead somewhere worthwhile. Ordinary verified facts can persuade.
+For trials, enquiry follow-up, education cost, channel availability and product descriptors, ask for
+that task directly. For comparisons, ask for a controlled test card with the existing control and
+known constraints. A simple product brief still works without research, performance data or tools.

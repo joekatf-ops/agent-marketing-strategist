@@ -2,15 +2,45 @@
 """Build the self-contained image-ad bundle. No API or third-party dependency."""
 import argparse
 import pathlib
+import re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = ROOT / "dist/image-ad-bundle.md"
 SOURCES = (
     "PROMPT.md", "references/00-working-core.md", "references/26-copywriting-standards.md",
-    "references/29-moment-to-meaning.md",
+    "references/29-moment-to-meaning.md", "references/30-scientific-advertising.md",
     "references/27-image-ad-workflow.md", "references/28-saved-ad-layouts.md", "contracts/static-spec.md",
     "contracts/reference-analysis.md", "connectors/higgsfield.md", "connectors/foreplay.md", "config/copy-lexicon.yml",
 )
+
+
+def image_excerpt(source, text):
+    """Keep image instructions intact while omitting non-image and duplicate teaching material.
+
+    Extract from canonical sources, never maintain a second copy of the rules. The full writing
+    guide and examples still ship in the craft and knowledge bundles and as standalone files.
+    """
+    omitted = {
+        "PROMPT.md": {"Additional workflows", "Launch invariants"},
+        "references/26-copywriting-standards.md": {"Where each rule is enforced", "Running them"},
+        "references/29-moment-to-meaning.md": {"Worked examples", "Origin and scope"},
+    }
+    sections = re.split(r"(?=^## )", text, flags=re.MULTILINE)
+    kept = []
+    for section in sections:
+        heading = section.splitlines()[0].removeprefix("## ").strip() if section else ""
+        if heading in omitted.get(source, set()):
+            continue
+        if source == "PROMPT.md" and heading == "Selling usefulness and commercial decisions":
+            # The first paragraph is the complete selling check. Operational methods are optional.
+            section = "\n\n".join(section.split("\n\n")[:2]) + "\n"
+        kept.append(section)
+    text = "".join(kept)
+    if source == "references/26-copywriting-standards.md":
+        # Explanations of the failure each rule prevents duplicate its actionable check.
+        text = re.sub(r"^\*\*Prevents:\*\*.*?(?=\n\n|\Z)", "", text,
+                      flags=re.MULTILINE | re.DOTALL)
+    return re.sub(r"\n{3,}", "\n\n", text).strip()
 
 
 def build():
@@ -19,10 +49,12 @@ def build():
              "Self-contained instructions for product-first Meta image ads. Upload this one file, "
              "then describe the product and request. Customer research is optional. Every image concept gets "
              "1:1 and 9:16 versions unless explicitly overridden. Tools remain host-dependent; without generation, deliver copy and a prompt.\n\n"
+             "This image edition omits non-image operations, extended worked examples and duplicate enforcement commentary; "
+             "the actual core checks and image workflow are retained from their canonical sources. "
              "Optional deeper-library references are not prerequisites. The included core and image "
              "workflow govern this task; house campaign rules apply only to that named profile.\n"]
     for source in SOURCES:
-        parts.append(f"\n\n---\n<!-- source: {source} -->\n\n{(ROOT / source).read_text().strip()}\n")
+        parts.append(f"\n\n---\n<!-- source: {source} -->\n\n{image_excerpt(source, (ROOT / source).read_text())}\n")
     return "".join(parts)
 
 

@@ -1,6 +1,6 @@
 # Copywriting: from the problem to the moment that matters
 
-Version: 1.0.2 | Approved method: 2026-09-11 | Desired-experience and headline guidance: 2026-09-12
+Version: 1.1.0 | Approved method: 2026-09-11 | Desired-experience and headline guidance: 2026-09-12
 
 ## Instructions for the receiving agent
 
@@ -223,3 +223,12 @@ development and copywriting. This method approval does not establish product eff
 This guide is an original operational synthesis and application of that principle, not a transcript
 or a claim that the speakers defined every step here. The examples and checks were developed for
 the marketing strategist. The method guides creative judgement; it does not prove conversion lift.
+
+## Selling usefulness after the depth check
+
+The owner-approved Scientific Advertising update (2026-09-13) adds a final question: does this
+execution give the likely buyer useful, supportable information and a clear next step? A desired
+experience supplies direction, not evidence that the product delivers it. Check headline, visual,
+body and destination together. Quiet practical detail can qualify without an emotional story or
+an exclusive mechanism. Curiosity must lead to a worthwhile answer; strengthen a thin answer first.
+See `30-scientific-advertising.md`. This applies equally when this file is handed to another agent.

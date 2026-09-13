@@ -58,9 +58,9 @@ class RubricTests(unittest.TestCase):
         # references/20-hook-quality-standard.md must each be scored.
         for required in (
             "opening_type",
-            "must_have_carriers",
+            "qualified_interest",
             "no_prior_context",
-            "starts_in_action",
+            "immediacy",
             "no_chaos",
             "body_handoff",
         ):
@@ -72,6 +72,16 @@ class RubricTests(unittest.TestCase):
 
         self.assertIn("placeholder_discipline", prompt)
         self.assertIn("do not penalise a marked placeholder", prompt)
+
+    def test_fingerprint_changes_when_criterion_meaning_changes(self):
+        rubric = load("rubric")
+        original = rubric.fingerprint()
+        revised = list(rubric.CRITERIA)
+        key, description = revised[0]
+        revised[0] = (key, description + " Changed meaning.")
+        with mock.patch.object(rubric, "CRITERIA", tuple(revised)):
+            self.assertNotEqual(original, rubric.fingerprint())
+            self.assertEqual(rubric.MAX_SCORE, len(revised) * 2)
 
     def test_judge_prompt_carries_the_brief_and_the_output(self):
         rubric = load("rubric")
@@ -129,9 +139,16 @@ class RunnerTests(unittest.TestCase):
         rubric = load("rubric")
         first = rubric.CRITERIA[0][0]
 
-        self.assertEqual(1, run.total({"scores": {first: {"score": 1}}}))
+        self.assertIsNone(run.total({"scores": {first: {"score": 1}}}))
         self.assertIsNone(run.total({"scores": "not a mapping"}))
         self.assertIsNone(run.total({}))
+
+    def test_invalid_judge_scores_do_not_become_performance_totals(self):
+        run, rubric = load("run"), load("rubric")
+        for invalid in (True, -1, 3, "2"):
+            verdict = {"scores": {key: {"score": 2} for key, _ in rubric.CRITERIA}}
+            verdict["scores"][rubric.CRITERIA[0][0]]["score"] = invalid
+            self.assertIsNone(run.total(verdict))
 
     def test_parse_scores_recovers_json_wrapped_in_prose(self):
         run = load("run")
@@ -171,6 +188,8 @@ class RunnerTests(unittest.TestCase):
             payload = json.loads(out.read_text())
 
         self.assertEqual(1, payload["briefs"])
+        self.assertEqual(rubric.RUBRIC_FINGERPRINT, payload["rubric_fingerprint"])
+        self.assertEqual(64, len(payload["results"][0]["brief_sha256"]))
         self.assertEqual(rubric.MAX_SCORE, payload["results"][0]["total"])
         self.assertEqual(float(rubric.MAX_SCORE), payload["mean"])
 
@@ -181,7 +200,7 @@ class RunnerTests(unittest.TestCase):
 
         self.assertIn("Never invent a specific", prompt)
         self.assertIn("Never refuse for thin input", prompt)
-        self.assertIn("minimum three", prompt)
+        self.assertIn("respect its count and format", prompt)
 
     def test_generation_context_uses_the_focused_writing_route(self):
         run = load("run")
@@ -190,7 +209,7 @@ class RunnerTests(unittest.TestCase):
         for relative in validator_stack:
             with self.subTest(relative=relative):
                 self.assertTrue((ROOT / relative).is_file())
-        self.assertEqual(len(validator_stack), 8)
+        self.assertIn("references/30-scientific-advertising.md", validator_stack)
 
     def test_the_eval_loads_exactly_what_the_skill_declares(self):
         # The defect this catches: 26-copywriting-standards.md joined the craft stack
@@ -230,11 +249,14 @@ class ReportTests(unittest.TestCase):
             "model": "m",
             "judge_model": "m",
             "briefs": 1,
+            "rubric_fingerprint": rubric.RUBRIC_FINGERPRINT,
+            "generation_protocol": "same-protocol",
             "mean": mean,
             "max": rubric.MAX_SCORE,
             "results": [
                 {
                     "brief": "greens-powder-cold",
+                    "brief_sha256": "same-brief",
                     "total": score,
                     "max": rubric.MAX_SCORE,
                     "verdict": {
@@ -304,6 +326,30 @@ class ReportTests(unittest.TestCase):
         self.assertIn("90.0%", output)
         self.assertIn("88.9%", output)
         self.assertNotIn("+14.00", output)
+
+    def test_changed_meaning_with_same_maximum_refuses_deltas(self):
+        old, new = self.make_run(8, 8), self.make_run(14, 14)
+        old["rubric_fingerprint"] = "old-meaning"
+        output = self.compare_output(old, new)
+        self.assertIn("RUBRIC CHANGED", output)
+        self.assertNotIn("+6.00", output)
+        self.assertNotIn("criterion (new", output)
+
+    def test_unknown_legacy_rubric_refuses_deltas(self):
+        old = self.make_run(8, 8)
+        del old["rubric_fingerprint"]
+        output = self.compare_output(old, self.make_run(14, 14))
+        self.assertIn("RUBRIC UNVERIFIED", output)
+        self.assertNotIn("+6.00", output)
+
+    def test_changed_brief_or_judge_refuses_deltas(self):
+        for field in ("judge_model", "generation_protocol"):
+            old = self.make_run(8, 8)
+            old[field] = "different"
+            self.assertNotIn("+6.00", self.compare_output(old, self.make_run(14, 14)))
+        old = self.make_run(8, 8)
+        old["results"][0]["brief_sha256"] = "changed"
+        self.assertIn("Brief content", self.compare_output(old, self.make_run(14, 14)))
 
     def test_criteria_absent_from_the_baseline_are_listed_separately(self):
         rubric = load("rubric")

@@ -1,6 +1,6 @@
 # Output Contract: Static and Carousel Spec
 locked: 2026-09-10
-version: 2.1.0
+version: 2.2.0
 
 Product information and the request are sufficient. Brand folders, customer research, beliefs,
 awareness maps, campaign IDs and approval rounds are optional. Follow
@@ -84,3 +84,13 @@ Do not label an unverified draft policy-approved.
 - [ ] Selected layout matched deliberately; hierarchy and typography remain coherent across both ratios
 - [ ] Actual outputs displayed, or absence of rendering capability stated
 - [ ] Job IDs retained; no duplicate successful or pending jobs
+
+## Selling usefulness before rendering
+
+Check the primary line and visual for buyer relevance, a supportable selling point and a useful next
+step. A shared product fact can persuade without an exclusive claim. Emotion, high stakes and an
+open loop are optional; preserve natural headline syntax. Give the visual a selling job: recognition,
+product explanation, demonstration, credible proof or the desired experience. Decorative fidelity
+alone is not a reason to use it. Keep the necessary explanation, evidence and material terms across
+image, primary text and destination, without crowding every fact into the image. Each awareness
+execution stands alone. Use `references/30-scientific-advertising.md` for the full check.

@@ -160,3 +160,36 @@ ordinary offer and product messaging. Another test design may be agreed for diff
 - Every new ad name ends in `POSTIDXXX`; after publication, preserve the real Post ID.
 - Launch plans and changes are manual only. Never publish ads or change budgets automatically.
 - These counts belong to this named profile. Ordinary creative requests follow the user's requested count.
+
+## Selling usefulness and commercial decisions
+
+Select the likely buyer through a relevant situation, desire, fact or offer. The headline and visual
+can work together. Use a direct statement, an honest open loop, or a benefit with a useful question.
+Emotion, curiosity and high stakes are optional; never require a two-of-three count. Repair weak
+selling substance rather than concealing it behind curiosity. Specificity does not require an
+exclusive feature. Explain the practical significance of ordinary verified facts without inventing
+superiority. Preserve enough information, proof and material terms across image, body and destination.
+Every awareness execution must make sense without a preceding ad. Length follows the selling job.
+
+When planning a comparison, state the question, existing control, changed factor, constants,
+allocation, business outcome, diagnostic metrics, exposure/budget, decision rule and limitations.
+Randomisation or another credible comparison design is needed for a causal claim; equal spend or
+one changed headline alone does not establish it. Leave unknown budget/baselines as plan gaps, not
+invented numbers or a reason to withhold a useful plan. Preserve the control. Distinguish broad
+appeal exploration from wording tests and multi-change package tests. Clicks and hook rate diagnose;
+new-customer economics, contribution and retained value judge commercial usefulness. Healthy hook
+rate with poor conversion does not prove the creative works or the page is the sole problem.
+
+For trials or samples, identify the buyer's uncertainty, what they can experience, actual terms,
+upfront payment, refund conditions, return/shipping costs, next step and fully counted economics.
+A paid trial is not free; an experience is not clinical proof. Draft enquiry follow-up around the
+specific question and original appeal, with a useful answer and one next action. Drafting does not
+authorise sending. For market choice, compare education effort and behaviour change with selling
+cost as hypotheses. Before launch, check availability and distinguish additional sales from sales
+shifted between channels. When asked for buyer-facing names or descriptors, favour clear supported
+meaning and fit with the existing brand; identify confusion and availability checks without claiming
+legal clearance. These are conditional tasks, not prerequisites for ordinary copy.
+
+The focused references are 30 (salesmanship), 31 (controlled tests) and 32 (commercial extensions).
+Old evaluation totals with different or unknown scoring definitions are not comparable, even when
+the maximum score is unchanged. A craft score is not measured advertising performance.

@@ -115,7 +115,8 @@ argument. Neither completes the sale.
 
 See `12-meta-platform.md` for what is currently working in the first three seconds on Meta,
 with data rather than opinion. The family above chooses the route in; `20-hook-quality-standard.md`
-sets the quality gate every opening must clear, including the promise or open loop declaration.
+sets the buyer-relevance, qualified-interest and honest-handoff gate. Direct statements, open loops
+and benefit-plus-explanation openings are available choices, without a compulsory device count.
 
 ## Headline checks
 
@@ -134,7 +135,12 @@ without forcing artificial variety. Write an image headline, not a miniature scr
 
 **4U test.** Useful (does it promise something the right prospect values?), Urgent (a credible
 reason to care now?), Unique (distinct route, mechanism or framing?), Ultra-specific (concrete
-enough to be understood and believed?).
+enough to be understood and believed?). Treat these as prompts, not four compulsory ingredients.
+Do not invent urgency or exclusivity. A shared but useful verified feature can be a strong appeal.
+
+**Selling substance.** Use `30-scientific-advertising.md` to check useful information, evidence and
+next action. Shorten without losing what the buyer needs to decide. Each awareness execution stands
+alone; the image can select while its body and destination explain the complete case.
 
 **Caples.** Lead with self-interest, news or curiosity, grounded in a clear benefit. Curiosity
 without relevance attracts attention that does not convert.

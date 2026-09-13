@@ -132,3 +132,12 @@ test-register patch is not evidence that test, winner or revision memory changed
 - Private personal data not needed for the lesson
 - Competitor practices as brand preferences
 - Performance conclusions that the supplied test did not isolate
+
+## Optional test-design and appeal detail
+
+Extend the existing test-register entry with `test_design` and, when helpful, `appeal_summary` from
+`31-controlled-tests.md`. Preserve the control, exact changed factor, constants, allocation, primary
+outcome, exposure, decision rule and causal limits. The appeal summary records reader, desired
+experience, selling point, proof and body handoff. This is not a second ledger or an automatic brand
+rule. Historical entries remain valid without the optional detail. Never rewrite old observations
+as if they had been collected under the new design, and keep controlled persistence approval intact.

@@ -15,6 +15,11 @@ product's supported role. Apply it before writing and during editing across ever
 These sixteen standards check the resulting execution. A depth check is mandatory; an emotional
 story is not. Facts and the current task remain the constraints on both.
 
+Apply the selling-usefulness check from `30-scientific-advertising.md`: select the likely buyer,
+provide useful selling information, support it and make the next step clear. Curiosity, emotion and
+stakes serve that job and are optional. Repair a weak payload rather than disguising it with a loop.
+A fact can be specific and persuasive even when competitors share it; exclusivity needs separate proof.
+
 Work down this list. The first rule that applies wins, and the loser gets named in the rationale.
 
 1. **Never invent a claim.** Absolute. No other rule on this page licenses a fabricated specific.
@@ -72,7 +77,8 @@ pass finds what the first cannot, because the first pass is still attached to th
 deleted. State the word count before and after on long copy.
 
 **Bounded by rule 3 of precedence.** Cut words, never cut a qualifier a claim needs. A shorter line
-that overstates is not a better line.
+that overstates is not a better line. Also preserve necessary explanation, proof, offer conditions
+and the next action across the complete execution. There is no universal shortest winning length.
 
 ### 4. Select your reader
 
@@ -82,7 +88,8 @@ not sure the ad is for them scrolls.
 **Prevents:** copy pitched at everybody, which persuades nobody, and the qualification being left to
 the targeting.
 
-**The check:** can the intended reader tell inside the first line that this is about them.
+**The check:** can the intended reader recognise a relevant situation, desire, fact or offer from
+the opening and its visual context. A useful product descriptor can select as clearly as a scene.
 
 **Select by situation, not by label.** "If you're someone who struggles with sleep" is a label and
 `24-writing-for-low-awareness.md` bans it as spent setup. "The 4am wake-up where you do the mental
@@ -100,9 +107,9 @@ is verbatim third-party ad copy in `corpus/`, recorded as it ran.
 
 ### 6. Tone matches slot
 
-Each slot in an ad has a different job, so each takes a different register. The hook interrupts. The
-body explains. The headline compresses. The CTA instructs. One tone applied across all four means at
-least three are wrong.
+Each slot has a job. The hook earns relevant attention, the body explains, the headline makes the
+key idea legible and the CTA instructs. Adapt the register where useful, without forcing tonal
+changes. A direct explanation or offer may be the most useful opening.
 
 **Prevents:** hooks that read like body copy, which is the most common reason a good idea fails in the
 first second, and CTAs that hedge.
@@ -111,10 +118,10 @@ first second, and CTAs that hedge.
 
 | Slot | Register | Fails when |
 |---|---|---|
-| Video hook, first 3 seconds | Interrupting, mid-scene, spoken | It explains, or sets up |
+| Video hook, first 3 seconds | Relevant action or information, speakable | It wastes setup or attracts unrelated attention |
 | Primary text line one | Complete before truncation | It depends on line two |
 | Primary text body | Explanatory, sentences vary | It repeats line one at length |
-| Headline, ~40 characters | Compressed, one idea | It is a summary of the body |
+| Headline, length fits placement | Clear, one dominant idea | Compression removes the reason to care |
 | Description | Supporting, factual | It restates the headline |
 | CTA | Instruction, one action | It hedges, or offers two actions |
 | Static primary line | Legible at thumbnail | It needs the body to make sense |
@@ -136,7 +143,8 @@ carries the full resolution. Hedge lists are in `config/copy-lexicon.yml`.
 
 ### 8. Angles, not synonyms
 
-Multiple options must differ in the route into the argument, not in wording. New adjectives, new
+For exploration, options differ in the route into the argument. Controlled wording tests may keep
+the same appeal; state the factor changed. New adjectives, new
 punctuation and new camera angles do not create a new option.
 
 **Prevents:** a batch of six that is really one idea written six ways, which tests nothing.
@@ -220,8 +228,8 @@ sentence, first frame of the video.
 
 **Prevents:** buried leads, and copy that dies at truncation with the argument still ahead of it.
 
-**The check:** truncate at 80 characters. What survives should be a complete and compelling
-proposition. If it is not, the copy is not long, it is buried.
+**The check:** preview the actual placement. An 80-character cut is a useful stress test, not a
+universal character limit. Put the relevant point early and preserve the meaning and material terms.
 
 **The point is not always the product.** At Unaware the point is the situation, and
 `24-writing-for-low-awareness.md` holds the product name back deliberately. Front-loading orders by
@@ -235,8 +243,9 @@ a suitable provisional voice; do not block creation or invent an established bra
 **Prevents:** competent copy that any competitor could have run, which builds nothing across
 impressions.
 
-**The check:** swap in a competitor's name. If the ad still works unchanged, there is no brand in it.
-This is the same test as `specificity` in the eval, applied to voice instead of proof.
+**The check:** compare against the supplied brand voice, product facts and visual identity.
+The competitor-name swap can reveal generic phrasing, but is not a pass/fail specificity test.
+Shared category facts can sell honestly. Do not invent an exclusive feature to sound distinctive.
 
 Voice comes from `context/voice.md` and `learning/approved-rules.yml` in the connected brand folder.
 Without a brand folder this rule cannot be fully met, and the honest response is to say so rather than
