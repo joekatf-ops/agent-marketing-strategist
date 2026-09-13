@@ -1,7 +1,7 @@
 # Meta creative benchmarks and thresholds
 
 Benchmark data for reading performance, not for writing. Loaded with the ops stack when planning or
-diagnosing a test, and deliberately not in the always-loaded craft stack: a benchmark tells you
+diagnosing a test, and deliberately not in the short shared core: a benchmark tells you
 whether a number is good, and it cannot help you write the next line.
 
 Split out of `12-meta-platform.md`, which keeps the specs, the policy, the hook data and the script

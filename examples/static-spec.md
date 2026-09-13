@@ -23,7 +23,7 @@ coordinate, a different awareness job.
 - CTA: Learn More
 - Complete final ad name:
   `CONTST004_NNT_REMOTE_WORKERS_CABLE_SEARCH_PRA_STATIC_LP_POSTIDXXX`
-- Ratios required: 1:1 and 4:5 master, 9:16 adaptation
+**Ratios:** 1:1 square only.
 
 ## 2. The job
 
@@ -89,7 +89,7 @@ fabric cable pouch, six charging cables tangled together, one hand pushing them 
 a second pouch of equal frame size, six charging cables each held in its own elastic loop behind a
 transparent mesh divider, all six visible. Equal frame share for both pouches, no size advantage.
 No text, no labels, no arrows, no tick or cross marks, no logos. Leave the top 14 percent and the
-bottom 6 percent of the frame empty. 4:5 aspect ratio.
+bottom 6 percent of the frame empty. 1:1 aspect ratio.
 ```
 
 Copy is composited, not generated. Both lines in section 4 are laid over the finished image using the

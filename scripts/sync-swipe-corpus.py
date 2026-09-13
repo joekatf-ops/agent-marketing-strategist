@@ -197,6 +197,10 @@ def merge(existing: list[dict], fetched: list[dict]) -> tuple[list[dict], dict[s
             entry["annotation"] = previous["annotation"]
             entry["reviewed"] = previous.get("reviewed", False)
             counts["annotations_kept"] += 1
+        if "visual_analysis" in previous:
+            entry["visual_analysis"] = previous["visual_analysis"]
+        if "media" in previous:
+            entry["media"] = previous["media"]
         merged.append(entry)
     # Entries no longer on the board are retained: removing one would silently
     # discard reviewed annotation work.

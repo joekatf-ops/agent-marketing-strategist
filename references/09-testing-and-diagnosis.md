@@ -1,5 +1,8 @@
 # Testing, measurement and diagnosis
 
+Scope: governed house campaign profile. These conventions are not universal Meta requirements and do not gate ordinary product-first image creation.
+
+
 This file governs test structure, observation and decisions. Benchmarks and sourced platform
 thresholds live in `references/12-meta-platform.md`. Meta launch, evidence capture and campaign
 changes are manual. This method neither requires nor implies live Meta access.
@@ -7,6 +10,14 @@ changes are manual. This method neither requires nor implies live Meta access.
 Benchmark figures for hook rate, hold rate, cost, conversion and what counts as a winner are in
 `25-meta-benchmarks.md`. Read them as market evidence: a result in the brand's own test register
 outranks any of them.
+
+## Plan the comparison before production
+
+Use `31-controlled-tests.md` for a test card: question, control, changed factor, constants, allocation,
+business outcome, exposure, decision and limits. That general comparison method is available outside
+the house profile. Keep broad exploration separate from controlled wording tests and package tests.
+Retain the existing control, record interruptions and do not treat five days or unequal platform
+delivery as causal proof. Missing budget or baseline volume remains an explicit planning gap.
 
 ## Creative-testing stage
 

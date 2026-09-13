@@ -892,7 +892,7 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn("Medium version", contract)
         self.assertIn("Long version", contract)
 
-    def test_option_counts_are_guidance_with_a_floor(self):
+    def test_option_counts_respect_the_request_with_useful_defaults(self):
         # Forced counts produce filler. Only the CTA is fixed.
         ad_copy = (ROOT / "contracts" / "ad-copy.md").read_text()
         hook_batch = (ROOT / "contracts" / "hook-batch.md").read_text()
@@ -902,7 +902,7 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn("CTA: exactly 1", ad_copy)
         self.assertIn("3 minimum", ad_copy)
         self.assertNotIn("Create exactly six hook packages", hook_batch)
-        self.assertIn("Three is the floor.", hook_batch)
+        self.assertIn("The user's requested count", hook_batch)
 
     def test_concept_contract_requires_four_initial_awareness_ads(self):
         contract = (ROOT / "contracts" / "concept-batch.md").read_text()
@@ -933,7 +933,7 @@ class PackageIntegrityTests(unittest.TestCase):
 
         declared = (ROOT / "VERSION").read_text().strip()
         self.assertIn(f"**Version:** {declared}", readme)
-        self.assertIn("thirteen governed artefacts", readme)
+        self.assertIn("fourteen governed artefacts", readme)
         self.assertIn("| Creative Audit |", readme)
         self.assertIn("Analyse these ads for <brand>", readme)
         self.assertIn("creative-audit", readme)
@@ -1321,33 +1321,30 @@ class PackageIntegrityTests(unittest.TestCase):
         )
 
     CRAFT_STACK = (
-        "references/01-foundations.md",
+        "references/00-working-core.md",
+        "references/26-copywriting-standards.md",
+        "references/29-moment-to-meaning.md",
         "references/02-customer-state.md",
-        "references/03-strategy-and-offer.md",
-        "references/04-persuasion.md",
         "references/05-copy-craft.md",
-        "references/08-formats.md",
-        "references/10-voice-and-claims.md",
-        "references/12-meta-platform.md",
         "references/16-hook-formats.md",
         "references/20-hook-quality-standard.md",
-        "references/21-evidence-and-doctrine.md",
-        "references/22-swipe-corpus.md",
-        "references/23-commercial-context.md",
+        "references/30-scientific-advertising.md",
+        "references/32-commercial-extensions.md",
         "references/24-writing-for-low-awareness.md",
-        "references/26-copywriting-standards.md",
     )
 
     def craft_stack_section(self):
         validator = load_validator()
         return validator.markdown_section(
-            (ROOT / "SKILL.md").read_text(), "The craft stack, always loaded"
+            (ROOT / "SKILL.md").read_text(), "Core craft"
+        ) + validator.markdown_section(
+            (ROOT / "SKILL.md").read_text(), "Writing craft"
         )
 
-    def test_craft_stack_is_complete_and_always_loaded(self):
+    def test_focused_writing_route_is_complete(self):
         section = self.craft_stack_section()
 
-        self.assertNotEqual("", section, "SKILL.md must declare an always-loaded stack")
+        self.assertNotEqual("", section, "SKILL.md must declare the core and writing routes")
         for relative in self.CRAFT_STACK:
             with self.subTest(relative=relative):
                 self.assertIn(relative, section)
@@ -1356,7 +1353,7 @@ class PackageIntegrityTests(unittest.TestCase):
     def test_craft_references_are_not_gated_behind_the_ops_stack(self):
         validator = load_validator()
         ops = validator.markdown_section(
-            (ROOT / "SKILL.md").read_text(), "The ops stack, loaded only when relevant"
+            (ROOT / "SKILL.md").read_text(), "Operations, when relevant"
         )
 
         self.assertNotEqual("", ops)

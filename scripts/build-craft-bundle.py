@@ -1,30 +1,8 @@
 #!/usr/bin/env python3
-"""Build the craft bundle: the paste-in artefact for chat surfaces.
+"""Build a focused writing bundle from the core and writing routes in SKILL.md.
 
-    python3 scripts/build-craft-bundle.py
-
-Two bundles exist because two runtimes have different constraints.
-
-`build-knowledge-bundle.py` produces the full bundle: every reference, every
-contract, the schemas and every connector and runtime guide. That is right for an
-agent IDE that will work across the whole method, and wrong for a chat window,
-where it spends context on install guides the model will never act on.
-
-This builds the craft bundle instead: the always-loaded craft stack, the output
-contracts a chat surface actually produces, and the operating prompt. Roughly half
-the size, and none of it is documentation about installation.
-
-Half rather than a tenth because the craft itself is large, and most of that is
-`12-meta-platform.md` at about 10,100 tokens even after the diagnostic benchmarks
-were split out to `25-meta-benchmarks.md` in the ops stack. That file is worth its
-size: it is the only sourced, dated platform layer in the package.
-
-The warning threshold is 220 KB, raised from 200 KB when
-`26-copywriting-standards.md` joined the craft stack. The threshold exists to catch
-silent bloat, not to cap the method, so a deliberate addition raises it and an
-accidental one trips it. If a target surface cannot take the current size, the next
-cuts in order of payoff are `22-swipe-corpus.md` at about 5,400 tokens, which is
-evidence rather than instruction, and the specs half of `12-meta-platform.md`.
+The image bundle serves image production. The full bundle is the optional method archive.
+Use --check to detect drift without writing.
 """
 
 from __future__ import annotations
@@ -40,7 +18,7 @@ SKILL = ROOT / "SKILL.md"
 
 # Parsed from SKILL.md rather than hardcoded, so the bundle cannot drift from the
 # stack the skill declares.
-CRAFT_SECTION = "The craft stack, always loaded"
+CRAFT_SECTION = "Core craft"
 FORMATS_SECTION = "Formats available on request"
 
 # Contracts SKILL.md offers that a chat surface cannot act on, each with the reason. The
@@ -82,7 +60,7 @@ def section_after(heading: str, level: str = "##") -> str:
 
 
 def craft_stack() -> list[str]:
-    found = re.findall(r"`(references/[^`]+\.md)`", section_after(CRAFT_SECTION))
+    found = re.findall(r"`(references/[^`]+\.md)`", section_after(CRAFT_SECTION) + section_after("Writing craft"))
     if not found:
         sys.exit("no craft references found in the craft stack section")
     return list(dict.fromkeys(found))
@@ -154,7 +132,7 @@ def main() -> int:
     if full.is_file():
         other = len(full.read_text())
         print(f"Full bundle for comparison: {other / 1024:.0f} KB, ~{other // 4:,} tokens")
-    if kilobytes > 220:
+    if kilobytes > 120:
         print("WARNING: the craft bundle is larger than intended for a chat surface.")
     return 0
 

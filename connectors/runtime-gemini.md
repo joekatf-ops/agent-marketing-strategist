@@ -1,5 +1,11 @@
 # Gemini Setup
 
+For ordinary image ads, use `dist/image-ad-bundle.md` or the image route in `SKILL.md`. Product
+information is enough; customer research and brand bundles are optional. Every image concept gets both 1:1 and 9:16 versions unless explicitly overridden.
+Generation, browsing and persistence depend on this host's actual available tools. The governed
+ad-analysis setup below is not an image-creation prerequisite.
+
+
 Last verified: 2026-08-27
 
 Official MCP reference: https://geminicli.com/docs/tools/mcp-server/

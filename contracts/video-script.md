@@ -1,8 +1,11 @@
 # Output Contract: Video Script
 locked: 2026-08-27
-version: 1.3.0
+version: 1.5.0
 
 One script for one awareness execution.
+
+For simple requests, deliver the requested asset and count. Full production fields are for a
+detailed package; CONTST naming and destination exceptions apply only to the house campaign profile.
 
 ## Artefact
 Markdown. Table-driven, shootable without a follow-up conversation.
@@ -13,7 +16,7 @@ Markdown. Table-driven, shootable without a follow-up conversation.
    Primary Problem, awareness code and job, messaging route, primary hook, media type, execution
    format from the format library, target length, destination, CTA, complete final ad name ending in
    `POSTIDXXX` before publication, and production difficulty
-2. **The job** - one line: the belief this execution has to move
+2. **The job** - one line: the product message or practical benefit to communicate; a belief shift is optional
 3. **The three-part opening** - visual hook, spoken or written hook, on-screen anchor. All
    three express one idea
 4. **Script table** - the body, beat by beat
@@ -37,34 +40,47 @@ CTA. Every row has a beat. A row that cannot be named is a row that gets cut.
 
 - Total length matches the format library range for the chosen format
 - The opening occupies the first 3 seconds and is specified frame by frame
-- Beats: 5 to 9. Fewer is thin, more is cluttered
+- Usually 5 to 9 beats; use the number needed for a complete argument within the requested format
 - One CTA, in the final beat
 - Proof appears before the ask, never after
 
 ## Opening gate
 
+Use `references/29-moment-to-meaning.md` to develop the situation before drafting. In the rationale,
+name the moment, consequence or personal meaning, evidence status and supported product role.
+Make the moment shootable; emotion can be visible behaviour rather than a spoken label. Develop
+the argument across beats instead of repeating agitation. Never invent first-person experience
+for a testimonial, even when the speaker is an actor or generated person.
+
+Establish one central argument and the useful answer behind any teaser before drafting the hook.
+After drafting, make the core's separate editorial pass: check each beat advances that argument,
+the opening attracts the intended reader and the next beat earns continued attention. Rewrite the
+strongest expression, read it aloud, and cut repetition without removing explanation or proof.
+
 The three-part opening clears `references/20-hook-quality-standard.md` before the script is
 presented. Record the result under section 3:
 
-- Opening type: promise or open loop, declared once
-- Must-have carriers: which of the visual, spoken or on-screen element carries emotion, curiosity gap
-  and high stakes, with at least two named and any absent element stated
-- Non-negotiables: no prior context, starts in action, no chaos
+- Opening approach and the intended buyer's reason to care
+- Useful selling substance and where the body delivers it
+- No prior context, immediacy and legibility
 
-Frame one is mid-scene, not mid-explanation. A dialogue-heavy opening still qualifies when it wastes
-no words on setup. A stakes-raising visual may be oblique, but it may not contradict the spoken line
-or promise an argument the body abandons.
+Relevant action, a direct explanation or a useful offer can open. Emotion, curiosity and stakes are
+optional, and a benefit may accompany a specific question. Never use a loop to disguise a weak body.
+Every awareness execution stands alone. Preserve the necessary explanation, proof and material terms
+across the script and destination; see `references/30-scientific-advertising.md`.
 
 ## Awareness rules
 
 | Awareness | Opening job | Body job | Close |
 |---|---|---|---|
 | UWA | Reflect the experience, create curiosity | Build relevance before naming the category | Soft, to LP by default |
-| PRA | Name the problem precisely | Explain the underlying cause, introduce the mechanism | To LP by default |
+| PRA | Name the problem precisely | Give a supported explanation or practical route forward | To LP by default |
 | SLA | Mechanism, comparison or demonstration | Why this route works and alternatives fall short | To PDP by default |
 | PDA | Proof or differentiation | Objection handling, offer terms | Direct, to PDP by default |
 
-Most Aware is handled by the offer and conversion environment, not as a standard script output.
+Most Aware is available for ordinary offer and product requests. Its job is to make the verified
+offer, material terms and next action easy to understand. The optional house launch profile retains
+its four named awareness executions.
 
 ## Destination defaults and exceptions
 
@@ -84,7 +100,7 @@ controlled destination token: LP, PDP, HP or CP. If it cannot, the script is blo
 - Written to be read by a person holding a camera, not a strategist
 - Spoken lines are speakable. Read them aloud
 - No em dashes
-- Register shifts by beat: the hook interrupts, the body explains, the CTA instructs
+- Register shifts by beat: the hook earns relevant attention, the body explains, the CTA instructs
 - Every mechanism beat carries the payoff it produces, not just the machinery
 - Every visual instruction is specific enough to shoot: "hands unboxing on a kitchen bench,
   morning light", not "product shot"
@@ -93,7 +109,7 @@ controlled destination token: LP, PDP, HP or CP. If it cannot, the script is blo
 
 - A hook the body does not deliver on
 - An opening that assumes prior context or spends its first words on setup
-- A promise and an open loop mixed into one opening
+- Curiosity hiding a weak or unrelated selling argument
 - Editing energy or sensory overload standing in for a reason to keep watching
 - A beat with no named structural job
 - Stock-footage vagueness in the visual column
@@ -103,13 +119,15 @@ controlled destination token: LP, PDP, HP or CP. If it cannot, the script is blo
 
 ## Self-check before presenting
 
+- [ ] Moment-to-meaning check completed; the relevant experience and product bridge are coherent
+- [ ] Emotional intensity fits the evidence; desired relief is not treated as proven efficacy
 - [ ] Three-part opening present, all three expressing one idea
-- [ ] Opening type declared as promise or open loop
-- [ ] At least two must-have carriers named, and any absent element stated
-- [ ] Opening reads cold with no prior context, starts in action and stays legible
+- [ ] Opening approach earns qualified interest with supportable selling substance
+- [ ] Emotion, curiosity and stakes are used only when they help
+- [ ] Opening reads cold, begins promptly with relevant information or action and stays legible
 - [ ] The body cashes what the opening promised
 - [ ] Every script row has a named beat
-- [ ] Beat count between 5 and 9
+- [ ] Enough beats for the selling job, without padding or missing material terms
 - [ ] Proof lands before the ask
 - [ ] One CTA, in the final beat
 - [ ] Length inside the format range

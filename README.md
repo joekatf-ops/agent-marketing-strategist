@@ -12,16 +12,20 @@ for whoever maintains the package.
 
 ## Try it in two minutes
 
-On a chat surface, paste [`dist/craft-bundle.md`](dist/craft-bundle.md) and
-[`PROMPT.md`](PROMPT.md) as knowledge, then ask for what you want. No brand folder, no setup, no
-readiness check.
+For image ads, upload [`dist/image-ad-bundle.md`](dist/image-ad-bundle.md), then describe the product.
+No customer research, belief map, brand folder or setup is required to create a useful brief.
 
-> Write hook options for a greens powder aimed at someone who does not think their supplement
-> routine is a problem.
+> Make one square image ad for my desk cable organiser. It holds six cables. Keep it simple.
 
-In Cursor, Codex or Claude Code, point the agent at [`SKILL.md`](SKILL.md) instead and it will read
-the rest itself. [Multiple LLM support](#multiple-llm-support) covers what each surface actually
-supports, because they differ a great deal.
+With Higgsfield connected, the skill can generate through Nano Banana Pro or ChatGPT image generation.
+Every image concept gets both 1:1 and 9:16 versions, including edits and carousel frames, unless
+explicitly overridden. Four concepts normally produce eight files. With no image tool, it delivers
+exact copy, both layout briefs and prompts, honestly labelled as unrendered. For a text-only surface with no uploads,
+paste [`PROMPT.md`](PROMPT.md) alone. For richer writing, use the craft bundle.
+
+In Codex, Cursor or Claude Code, install the folder as a skill or point the agent at `SKILL.md`.
+[Multiple LLM support](#multiple-llm-support) describes capability differences. Instructions are
+portable; a host still needs its own browsing, image-generation and file capabilities.
 
 ## What it is
 
@@ -29,17 +33,30 @@ One universal method serves many brands. Each brand keeps its own connected fold
 coordinate history, test history, winners and approved learning. The method is brand-neutral; brand
 facts never transfer between brands.
 
-**Version:** 1.0.0
+**Version:** 1.6.0
 
-**Status:** ready for use by an operator who can run Python and keep a brand folder, or by
-anyone on a chat surface using the craft bundle. See Multiple LLM support for what each runtime
-actually supports, because they differ a great deal.
+The core copywriting method connects a problem or desire to a recognisable moment, consequence,
+personal meaning and desired experience, then establishes the product's supported role. Find what
+the customer wants back; choose recognition or desired change as the entry. It governs
+hooks, headlines, scripts and image copy while keeping customer research optional. For a standalone
+agent handoff, attach [`references/29-moment-to-meaning.md`](references/29-moment-to-meaning.md).
+The same guide is included in the craft, image-ad and knowledge bundles.
 
-Version 1.0.0 opens the router so any advertising request is served, always loads the craft stack,
-adds judgement as an output, adds an annotated swipe corpus and an eval that scores the output, and
-moves the ad-analysis tooling to its own repository. It preserves the `Who x Primary Problem`
-coordinate, brand isolation, the evidence classes, the claim gate, test history and
-approved-revision learning.
+Version 1.6.0 adds a separate editorial pass, answer-led curiosity, same-concept headline rewrites
+and worked edits. Reviewed source notes for Hormozi, Dry, Georgi and Suby are in
+[`references/33-copywriting-source-notes.md`](references/33-copywriting-source-notes.md).
+
+**Status:** implemented copywriting methods with package checks and bounded qualitative trials.
+These do not establish higher conversion or identical behavior across every LLM and image provider.
+See [the 1.6.0 update and validation](docs/copywriting-update-1.6.0.md) for the exact scope and limits.
+
+Version 1.1.0 makes product information the starting point and research an optional enhancement.
+It introduces the square image workflow, a standalone image bundle, reference-analysis records,
+actual image-dimension validation and current Higgsfield instructions. It narrows the default reading
+load, limits swipe teaching to reviewed annotations and scopes campaign conventions to the named
+house profile. Brand isolation, approved learning and governed performance analysis remain available.
+
+See [`evals/image-ads/README.md`](evals/image-ads/README.md) for behavior cases and validation limits.
 
 ## The operating model
 
@@ -48,7 +65,7 @@ Universal strategist
 ├── canonical Master Creative Strategy method
 ├── output contracts, naming, hook formats and research rules
 ├── optional connectors for research and read-only retrieval
-└── one active brand folder per run
+└── optional active brand folder per run
     ├── brand, product, offer, economics and approved claims
     ├── website snapshots and classified evidence
     ├── Who x Primary Problem coordinates
@@ -79,13 +96,13 @@ These records have different identities and lifecycles:
 | Concept test batch | One new sequential `CONTST###` with source NNT, INSPO or ITR | Every new batch receives the next number, including an ITR on the same coordinate |
 | Ad execution | One complete ad inside a batch | Awareness, messaging route, hook, format, creator, proof, offer presentation, visual or destination may change without creating a new coordinate |
 
-Every initial NNT or INSPO batch contains four standalone ads: UWA recognition, PRA diagnosis, SLA
-differentiation and PDA decision. Most Aware is conversion-environment guidance, not a standard ad.
+Within the optional house campaign profile, every initial NNT or INSPO batch contains four standalone ads: UWA recognition, PRA diagnosis, SLA
+differentiation and PDA decision. Most Aware is conversion-environment guidance in that profile. Ordinary image ads may use any relevant awareness level, including Most Aware, and follow the requested count.
 Six hook packages are a pre-production option set for one approved execution, not six launch ads.
 
 ## What it produces
 
-The package has thirteen governed artefacts. They are output shapes available on request, not gates
+The package has fourteen governed artefacts. They are output shapes available on request, not gates
 to pass through: a hook does not require a Concept Batch first, and no contract stands between a
 question and an answer.
 
@@ -98,6 +115,7 @@ question and an answer.
 | Hook Batch | Creates six strategically different pre-production openings across at least four hook formats |
 | Ad Copy | Creates two lead routes, each in short, medium and long form, plus five headlines, two descriptions and one CTA |
 | Video Script | Produces a shootable beat-by-beat script, coherent opening, shot list and claim check |
+| Reference Analysis | Separates inspected design observations, interpretation and performance evidence before paired-ratio adaptation |
 | Static and Carousel Spec | Produces an executable layout, exact copy, visual direction and claim check |
 | Campaign Launch Plan | Gives a human operator an exact manual Meta build, budget, naming, observation and scaling handoff |
 | Destination Handoff | Preserves ad-to-page promise, proof, offer and CTA continuity for every execution |
@@ -109,7 +127,7 @@ Each artefact has a versioned contract in [`contracts/`](contracts/).
 
 ## Start a brand
 
-Create one folder for every brand:
+Optional for ordinary creative work. Create one folder per brand when persistent facts and learning are useful:
 
 ```bash
 python3 scripts/init-brand-folder.py /path/to/brands/example-brand \
@@ -117,7 +135,7 @@ python3 scripts/init-brand-folder.py /path/to/brands/example-brand \
   --slug example-brand
 ```
 
-A freshly initialised brand starts with `method_version: "0.4.0"` and can use controlled
+A freshly initialised brand starts with `method_version: "1.6.0"` and can use controlled
 persistence after its normal readiness checks. The migration section below applies only to existing
 v0.3 folders.
 
@@ -165,7 +183,7 @@ brand rule.
 
 Firecrawl is preferred when available. The strategist:
 
-- checks the site whenever the brand folder opens;
+- checks relevant source freshness when retrieving facts or preparing research and launch work;
 - retrieves new and changed pages;
 - runs a full crawl when the last full snapshot is seven or more days old;
 - forces a fresh crawl before major research, concept batches and launches;
@@ -176,7 +194,7 @@ language and ads. Those findings stay labelled as market evidence until first-pa
 
 ## Optional connectors
 
-The reviewed repository snapshot and one complete brand folder are sufficient for normal use.
+A product description and the prompt or relevant bundle are sufficient for ordinary creative work.
 Connectors are optional capability upgrades, not prerequisites and not proof of live access.
 
 Start with [`connectors/README.md`](connectors/README.md), then use the relevant guide:
@@ -184,6 +202,7 @@ Start with [`connectors/README.md`](connectors/README.md), then use the relevant
 - [`connectors/firecrawl.md`](connectors/firecrawl.md) for website retrieval
 - [`connectors/trendtrack.md`](connectors/trendtrack.md) for trend discovery
 - [`connectors/foreplay.md`](connectors/foreplay.md) for ad discovery
+- [`connectors/higgsfield.md`](connectors/higgsfield.md) for square and vertical image generation
 - [`connectors/notion-composio.md`](connectors/notion-composio.md) for a read-only universal-method freshness check
 
 A connector is available only after a successful read-only call in the current runtime. Missing
@@ -209,20 +228,22 @@ Use the guide for the selected LLM surface:
 - [Grok Agents](connectors/runtime-grok-agents.md), which is an architecture spec for a Grok agent
   you build yourself rather than an install path. Nothing in it is automated.
 
-Writable runtimes open the strategist and exactly one active brand folder.
+Writable runtimes open the strategist and, when supplied, the selected brand folder.
 
-Upload-only runtimes use a generated bundle. There are two, because a chat window and an agent IDE
-have different constraints:
+Upload-only runtimes choose the bundle for the task. Sizes are approximate byte/4 estimates, not
+model-tokenizer measurements:
 
 | Bundle | Size | Use it when |
 |---|---|---|
-| `dist/craft-bundle.md` | about 54,000 tokens | A chat surface. Carries the craft stack and the output contracts, and nothing about installation |
-| `dist/knowledge-bundle.md` | about 96,000 tokens | A runtime that will act on the whole method, including naming, testing, brand folders, connectors and the analysis harness |
+| `dist/image-ad-bundle.md` | about 22,000 tokens | Product-first image creation in both ratios, adaptation and revision |
+| `dist/craft-bundle.md` | about 35,000 tokens | A chat surface. Carries the craft stack and the output contracts, and nothing about installation |
+| `dist/knowledge-bundle.md` | about 105,000 tokens | A runtime that will act on the whole method, including naming, testing, brand folders, connectors and the analysis harness |
 
-Both ship in the repository, so the paste-in path needs no Python: open the file, copy it, paste it.
+All three ship in the repository, so the paste-in path needs no Python: open the file, copy it, paste it.
 They are generated, so CI checks they are not stale against their sources.
 
 ```bash
+python3 scripts/build-image-ad-bundle.py         # rebuild image bundle
 python3 scripts/build-craft-bundle.py            # rebuild
 python3 scripts/build-craft-bundle.py --check     # fail if stale
 python3 scripts/build-knowledge-bundle.py
@@ -233,10 +254,8 @@ python3 scripts/build-brand-bundle.py /path/to/brands/example-brand /path/to/exa
 The brand bundle is not committed, because a brand folder carries the brand's own claims and
 economics. Generate it locally.
 
-The largest single file in the craft bundle is `references/12-meta-platform.md`, at roughly 10,000
-tokens. It earns the space: it is the only sourced and dated platform layer here. Its benchmark
-section was split into `references/25-meta-benchmarks.md`, which loads with the ops stack instead,
-because a benchmark tells you whether a number is good and cannot help you write.
+The full archive carries dated platform guidance. The focused bundles load the smaller task context;
+recheck changeable platform facts when needed rather than treating historical benchmarks as universal rules.
 
 The canonical brand folder remains the source of truth. Rebuild both bundles after an approved
 universal-method release or canonical brand-folder change.
@@ -395,8 +414,30 @@ structure is the entire point. See [`corpus/swipe/ATTRIBUTION.md`](corpus/swipe/
 
 | Version | Date | Change |
 |---|---|---|
+| 1.6.0 | 2026-09-13 | Integrates four reviewed copywriting sources: one central argument, concrete meaning, useful next-step value, qualified curiosity and separate editorial selection. Resolves same-concept rewrite conflicts, adds worked edits, updates scoring semantics and rebuilds portable editions. |
+| 1.5.0 | 2026-09-13 | Scientific Advertising integration: buyer relevance, useful specifics, complete selling information, controlled test cards, practical commercial extensions and versioned evaluation semantics. |
+| 1.4.2 | 2026-09-12 | Desired-experience thinking across concepts, headlines and copy; recognition and desired change share the ad with a supported product role. Saved owner-approved headline directions, clarified problem versus category/brand awareness, and aligned quality criteria and portable handoffs. |
+| 1.4.1 | 2026-09-12 | Headlines use natural syntax; the emotional framework does not prescribe two short sentences. Added deliberate sentence choice and batch cadence checks to core guidance, copy contracts and the standalone handoff. |
+| 1.4.0 | 2026-09-11 | Core moment-to-meaning method for hooks, headlines, scripts and image copy, standalone agent guide, explicit product bridge and evidence checks, updated copy evaluation and all portable bundles. |
+| 1.3.0 | 2026-09-10 | Bounded Foreplay saved-ad inspection, primary layout reference per concept, reference-to-output checks and paired layout consistency. |
+| 1.2.0 | 2026-09-10 | Every concept gets 1:1 and 9:16 versions by default, with separate layouts, paired filenames, ratio-aware pixel validation and provider model-mismatch reporting. |
+| 1.1.1 | 2026-09-10 | Websites, landing pages and PDPs are explicit brief inputs, with product extraction, message continuity, source dates and conflict handling. |
+| 1.1.0 | 2026-09-10 | Product-first square image workflow, optional customer research, current Higgsfield adapter, focused bundles, reviewed-only swipe teaching, reference records and raster-dimension validation. |
 | 1.0.0 | 2026-08-31 | Opened the closed router so any advertising request is served, always loaded the 25k craft stack instead of routing craft references selectively, added the Strategist Read contract so judgement has an output, marked thin input rather than refusing it, resolved the library's contradictions against the measured data, made option counts advisory, added the annotated swipe corpus and its Foreplay sync, added the eval harness and its CI scoring, extended the static contract to generated imagery, split the craft bundle from the full bundle, banned em dashes everywhere with a character check, retired Notion as canonical, fixed a TOCTOU hash guard that accepted a corrupted digest 86 percent of the time, and moved the ad-analysis tooling to agent-ad-analysis-harness. The v0.4 claim of complete seven-runtime workflows was overstated: three runtimes are first class, three are upload-only with a developer maintaining bundles, and Grok Agents is a build spec. |
 | 0.4.0 | 2026-08-27 | Added the portable ad-analysis intake, initializer and validator, Creative Audit, Performance Diagnosis routing, safe persistence patches, schema-aware universal bundle and complete seven-runtime workflows. |
 | 0.3.0 | 2026-08-27 | Adopted `Who x Primary Problem`, four-ad CONTST batches, locked naming, manual ABO launch plans, destination handoffs, CBO scaling with real Post IDs, safe strategy registers and read-only Notion governance. |
 | 0.2.0 | 2026-08-26 | Added multi-brand folders, recurring website refresh, evidence classes, six-hook batches, copy lengths, approved-revision learning, upload bundles and seven runtime guides. |
 | 0.1.0 | 2026-08-26 | Initial strategist with research, concepts, creative production and diagnosis contracts. |
+
+## Scientific Advertising update: 1.5.0
+
+The method now checks useful salesmanship as well as recognisable moments and desired experience.
+It prioritises qualified buyer interest, honest specificity, complete selling information and
+coherent visual/body/page roles. It also provides a controlled comparison card and conditional
+trial, enquiry follow-up, education-cost, channel-incrementality and product-descriptor guidance.
+See references 30, 31 and 32. Historical book prescriptions are adapted, not treated as modern proof.
+
+The current eval uses scoring fingerprints to avoid false before/after comparisons when definitions
+change. Absent API configuration skips the paid CI eval explicitly; package checks remain available.
+Automated checks establish consistency, not conversion lift. Live campaign evidence, broader provider
+and model testing, and brand-specific claim substantiation remain separate work.

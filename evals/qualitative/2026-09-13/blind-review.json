@@ -1,0 +1,84 @@
+[
+  {
+    "id": "A",
+    "preference": "left",
+    "reason": "Narrow preference for left because the request specifically asks for concise image-ad headlines. 'Cotton meets stainless steel.' creates product curiosity in four words, and 'Lift the fitted sheet. Meet Cadian.' gives a simple action and brand introduction. Both provide five headlines, an image sentence and the supplied setup facts without inventing sleep or energy outcomes. Right's stainless-steel question is also a strong curiosity option, but several other lines are longer product explanations.",
+    "left_issues": [
+      "The set only weakly connects with the specified experience of waking tired; avoiding unsupported outcomes does not itself create audience relevance.",
+      "'Curious about grounding sheets?' is generic, and the introductory caveat is unnecessary for this short deliverable.",
+      "Calling the depicted underlay 'provisional' could be clearer: the illustration, rather than the supplied product facts, is provisional."
+    ],
+    "right_issues": [
+      "'A grounded outlet is part of this bedding setup.' is factual but reads more like supporting copy than a curiosity-led image headline.",
+      "Several headlines could be shortened for image use.",
+      "The set also weakly connects with the supplied tired-on-waking audience, and its introductory evidence caveat adds length."
+    ]
+  },
+  {
+    "id": "B",
+    "preference": "right",
+    "reason": "Narrow preference for right's readily usable separation of headline, supporting copy, visual and CTA. 'Give every cable its own place.' followed by 'Six separate loops for six cables.' communicates the practical benefit without treating a shared category feature as exclusive. Both satisfy the factual constraints and identify the product illustration as provisional; right makes the format-specific layout instructions easier to extract.",
+    "left_issues": [
+      "The long visual paragraph combines art direction, two formats and reference limitations, making a simple concept harder to scan.",
+      "The closing defence of the shared feature and statement that no images were generated add little to the requested concept."
+    ],
+    "right_issues": [
+      "'Shop Now' is a generic CTA; the left's 'Shop the organiser' is more specific.",
+      "The user did not request two aspect ratios, and the closing explanation could be removed for an even simpler deliverable."
+    ]
+  },
+  {
+    "id": "C",
+    "preference": "tie",
+    "reason": "Both deliver a concise ad and a return-focused follow-up with the same essential terms: 'Pay $300 upfront' and 'Return collection costs $40.' Neither invents health benefits, a net refund amount or refund timing. Left adds a useful check on when the trial starts; right is slightly leaner. These differences do not establish a material overall advantage.",
+    "left_issues": [
+      "The post-draft checklist is useful but slightly expands a request for concise copy.",
+      "A final customer-ready version still needs the actual refund-request method and other unspecified operating details."
+    ],
+    "right_issues": [
+      "The checklist does not flag the unspecified start of the 30-night period, which left explicitly identifies.",
+      "'Learn More' is less specific than the left's trial-focused CTA, and the final email still needs the actual refund-request method."
+    ]
+  },
+  {
+    "id": "D",
+    "preference": "tie",
+    "reason": "Both correctly calculate contribution after advertising as '-$400' for A and '$500' for B, distinguish observed economics from causal evidence, and remain within 200 words. Left explicitly explains that 'Non-random delivery' prevents attributing the difference to creative and specifies new-customer classification checks. Right usefully prioritises 'attribution and purchase lag' and cautions against scaling conclusions. Both provide a proportionate, useful investigation without diagnosing an unobserved problem.",
+    "left_issues": [
+      "The investigation could explicitly include delayed purchases; its timing comparison does not state purchase lag as clearly as right."
+    ],
+    "right_issues": [
+      "The table labels customers more generally than the supplied new-customer measure, although the surrounding text clarifies the basis.",
+      "The cause caveat would be more explanatory if it directly named the non-randomised delivery, as left does."
+    ]
+  },
+    {
+    "id": "E",
+    "preference": "right",
+    "reason": "Right is longer, but its extra detail makes the proposed comparison more executable despite missing budget and conversion history. It specifies one documented attribution window, a seven-day pilot followed by purchase delay, and a clear review rule: 'stop early only for the spend cap, broken tracking, checkout failure or a predefined unacceptable loss.' It also says seven days alone cannot establish a winner. Left supplies a sound compact plan, but leaves the primary decision metric and operational stopping exceptions less explicit.",
+    "left_issues": [
+      "It lists purchase rate, cost per purchase and contribution without selecting the primary adoption metric or explaining how conflicting results would be handled.",
+      "It requires setting a sample and observation window before comparison but gives less concrete guidance on the first pilot when baseline volume is unavailable.",
+      "The instruction against early stopping should distinguish opportunistic stopping from stopping for a spend cap or broken measurement."
+    ],
+    "right_issues": [
+      "It narrows 'which headline sells better' to acquiring new customers; whether repeat-customer purchases belong in the decision still needs agreement.",
+      "The table is lengthy for a small comparison, and some state and ownership detail could be shortened.",
+      "Seven days is a provisional pilot choice, not an evidence-based duration for this business; the answer appropriately acknowledges that limitation."
+    ]
+  },
+  {
+    "id": "F",
+    "preference": "right",
+    "reason": "Narrow preference for right because its added detail directly serves the requested naming trade-offs and remaining checks. Beyond the shared four-person ambiguity, it notes that 'Four' also sounds like 'for' and that 'Sorted' may be less familiar in some markets. Both retain the existing brand, offer exactly three factual product names or descriptors, and avoid implying unsupported cooling, waterproofing or patented features. Right provides somewhat more useful guidance for testing the options.",
+    "left_issues": [
+      "The checks are sufficient but broad; spoken ambiguity, recall and language or market comprehension could be made more explicit.",
+      "Calling an option 'more memorable' is a creative judgement, not a tested buyer response, although the answer does label all proposals untested."
+    ],
+    "right_issues": [
+      "The descriptions are wordier than necessary, particularly the hypothetical extensions into other product ranges.",
+      "'Memorable' and 'easy to say' remain untested creative judgements.",
+      "Domain checks may be unnecessary for a descriptor used beneath an existing brand and should stay conditional."
+    ]
+  }
+]

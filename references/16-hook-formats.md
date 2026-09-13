@@ -9,21 +9,13 @@ opening is strong enough to produce. Choosing a format here does not clear that 
 
 ## Pre-production option set for an approved execution
 
-Produce as many hook packages as clear `20-hook-quality-standard.md` and differ strategically from
-each other. Six across at least four formats is the default when there is no reason to choose
-otherwise. Three is the floor. Cut anything that only differs cosmetically rather than padding to
-reach a number.
+Use `contracts/hook-batch.md` for counts and package fields. Respect the requested number. For a
+full exploratory batch with no requested count, six is a default, not a format quota. Choose useful
+routes rather than filler. In a controlled wording comparison, deliberately retain the same appeal
+and change only the declared factor; it need not invent a different argument for every variant.
 
-At six, the useful spread is:
-
-- Two evidence-led safe packages
-- Two proven-pattern packages
-- One aggressive package inside the claim ceiling
-- One experimental wildcard
-
-Every package must change the route into the argument. Swapping adjectives does not create a new
-hook. Select one coherent opening for each launch execution. The option set never implies that many
-launch ads, a new coordinate or a new CONTST batch.
+Select one coherent opening for each launch execution. Options do not imply more launch ads, a
+new coordinate or a new CONTST batch. Ordinary headline requests need no house naming fields.
 
 ## Video hook formats
 

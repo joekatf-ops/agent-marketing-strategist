@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 import pathlib
 import sys
 
@@ -19,21 +21,24 @@ _STRUCTURAL = "; ".join(_LEXICON["structural_tells"])
 CRITERIA = (
     (
         "opening_type",
-        "Opening type declared as promise or open loop, and appropriate for how strong the body is.",
+        "Opening approach suits the selling job: direct statement, honest open loop or a useful benefit "
+        "plus explanation gap. Labels belong in detailed packages, not mandatory in plain headline lists.",
     ),
     (
-        "must_have_carriers",
-        "At least two of emotion, curiosity gap and high stakes, each attributed to a named frame, "
-        "line or visual element rather than merely asserted. An absent element is stated, not hidden.",
+        "qualified_interest",
+        "The likely buyer has a relevant reason to continue and useful selling substance awaits. "
+        "Emotion, curiosity and high stakes are optional. Do not reward vague intrigue, artificial "
+        "intensity or a loop used to conceal a weak payload. The promised answer must be useful "
+        "for the chosen reader, not merely a true but unrelated product explanation.",
     ),
     (
         "no_prior_context",
         "Reads cold. No backstory assumed, no setup spent before the claim.",
     ),
     (
-        "starts_in_action",
-        "Opens mid-scene rather than mid-explanation. Nothing spent explaining what the viewer needs "
-        "to know first.",
+        "immediacy",
+        "Gets promptly to relevant information or action without wasted setup. A direct explanation, "
+        "feature, offer or demonstration can pass; opening mid-scene is not mandatory.",
     ),
     (
         "no_chaos",
@@ -41,56 +46,72 @@ CRITERIA = (
     ),
     (
         "body_handoff",
-        "The body can cash what the opening opened. No promise the execution cannot deliver.",
+        "The body can cash what the opening opened. No promise the execution cannot deliver. "
+        "Identify the actual worthwhile answer behind any teaser; setup information cannot "
+        "repay an unsupported promise about a life or health outcome.",
     ),
     (
         "awareness_fit",
         "Sits at the awareness state the brief asked for. Score 0 if a UWA brief is answered with an "
-        "opening that leads on the product name, a price, an offer or a product benefit, regardless "
-        "of how strong that opening is in the abstract.",
+        "opening that pitches the product, price, offer or category benefit before establishing "
+        "relevance. A recognisable situation or desire can establish relevance. Distinguish problem "
+        "awareness from category or brand familiarity; cold targeting alone does not determine it.",
     ),
     (
         "specificity",
-        "Concrete. Fails if every specific could be swapped to a competitor's product without "
-        "changing a word.",
+        "Concrete and useful. Specificity does not require exclusivity: verified ordinary facts can "
+        "persuade even when competitors share them. Apply the moment-to-meaning check: the execution makes a "
+        "situation or practical payoff matter and gives this product a supported role. "
+        "A generic pain label with an intense emotion word is insufficient. A clear feature, offer "
+        "or demonstration can earn full credit without overt emotion. Do not reward invented "
+        "customer experience, exaggerated distress or an unsupported emotional outcome.",
     ),
     (
         "placeholder_discipline",
-        "Unverified specifics are marked in place. Nothing refused for thin input. Score 0 if any "
+        "Essential unknowns are marked in the brief, while finished copy omits unsupported specifics "
+        "and remains useful. Never put placeholders in final pixels. Nothing refused for thin input. "
+        "Score 0 if any "
         "specific was invented, including an invented figure wrapped in a marker or tagged for "
         "removal: a marker names a gap and never wraps a guess.",
     ),
     (
         "distinctness",
         "Options differ strategically, by route into the argument, rather than cosmetically by "
-        "adjective or camera angle.",
+        "adjective or camera angle, when new concepts are requested. Headline options, rewrites and "
+        "controlled wording comparisons may retain one appeal deliberately. Do not penalise a "
+        "requested same-concept set for improving expression. Respect the requested task and count.",
     ),
     (
         "end_state",
-        "Sells the life the product produces rather than the object. The test is whether YOU, having "
-        "read it, can state the end state in one sentence without using the product's name. If you "
+        "Conveys what the person wants back or wants to experience, with a supported product role. "
+        "The test is whether YOU can state that experience or practical payoff without the product's name. If you "
         "can, score 2. The copy does not have to contain that sentence: implied is sufficient, and "
-        "position is set by awareness, so at Unaware and Problem Aware the end state must not lead "
-        "and will usually be carried by the body rather than stated outright. Score 1 when you can "
-        "name it for some options and not others, and 0 when the copy sells the object and there is "
-        "no life behind it to name.",
+        "position depends on awareness and the argument. At Problem Aware, recognition or desired "
+        "experience may lead. At Unaware, establish relevance before the category; an everyday desire "
+        "can do this. Assess headline, visual and support together. Do not reward implied outcomes "
+        "without evidence. Score 1 when only some options pass, and 0 when none does.",
     ),
     (
         "concision",
-        "No word carries no weight. Deleting any sentence would cost the argument something. Padding, "
-        "throat-clearing and restatement at length all fail.",
+        "Every word earns its place. Deleting any sentence would cost the argument something. Padding, "
+        "throat-clearing and restatement at length all fail. Shortening must preserve necessary selling "
+        "information, evidence and material terms across the execution. No fixed word count is required.",
     ),
     (
         "reader_selection",
-        "The intended reader can tell inside the first line that this is about them, and it is done "
-        "with a recognisable situation rather than a label. Score 0 for a bare qualifier such as "
+        "The intended reader recognises relevant use, desire, fact or offer from the opening and visual "
+        "together. Preserve the requested audience and concept; accuracy alone does not rescue an "
+        "off-brief set. When the intended product result lacks evidence, distinguish a concept "
+        "direction from a finished promise and identify factual alternatives honestly. A product "
+        "descriptor can qualify for a suitable brief; do not force a dramatic situation. Penalise empty "
+        "qualifiers such as "
         "\"if you're someone who\", which spends words without selecting anyone.",
     ),
     (
         "tone_per_slot",
-        "Register matches the job of each slot: the opening interrupts, the body explains, a headline "
-        "compresses, a CTA instructs. Score 0 if one register is applied across all of them, most "
-        "commonly a hook that reads like body copy.",
+        "Register supports the job: the opening earns relevant attention, the body explains, the "
+        "headline makes the point legible and the CTA instructs. A useful direct explanation can "
+        "open; no compulsory tonal contrast or two-sentence cadence.",
     ),
     (
         "no_hedging",
@@ -106,8 +127,8 @@ CRITERIA = (
     ),
     (
         "front_loaded",
-        "The most important thing comes first at every scale. Truncating the first line at 80 "
-        "characters should still leave a complete, compelling proposition. At UWA the important thing "
+        "The relevant point comes early at every scale and remains clear in the requested placement. "
+        "An 80-character cut is a stress test, not a universal rule. At UWA the important thing "
         "is the situation, not the product, so a withheld product name is not a failure here.",
     ),
     (
@@ -125,9 +146,9 @@ GROUPS = (
         "Opening quality",
         (
             "opening_type",
-            "must_have_carriers",
+            "qualified_interest",
             "no_prior_context",
-            "starts_in_action",
+            "immediacy",
             "no_chaos",
             "body_handoff",
         ),
@@ -164,8 +185,8 @@ def judge_prompt(brief: str, output: str) -> str:
     lines = [
         "You are auditing direct-response advertising output against a fixed rubric.",
         "",
-        "Judge only what is present. Do not reward intent, do not penalise a marked placeholder: a",
-        "marked placeholder is correct behaviour when a specific was not supplied in the brief.",
+        "Judge only what is present. Do not reward intent; do not penalise a marked placeholder in a brief.",
+        "Finished copy should omit unknown specifics, not present placeholders as usable copy.",
         "",
         "## The brief",
         "",
@@ -207,3 +228,12 @@ _grouped = tuple(key for _, keys in GROUPS for key in keys)
 assert _grouped == tuple(key for key, _ in CRITERIA), (
     "GROUPS must list every criterion exactly once, in CRITERIA order"
 )
+
+RUBRIC_VERSION = "2.1.0"
+
+def fingerprint() -> str:
+    """Changes when scoring meaning, scale, grouping or judge instructions change."""
+    canonical = {"version": RUBRIC_VERSION, "prompt": judge_prompt("", "")}
+    return hashlib.sha256(json.dumps(canonical, sort_keys=True).encode()).hexdigest()
+
+RUBRIC_FINGERPRINT = fingerprint()
