@@ -1331,6 +1331,8 @@ class PackageIntegrityTests(unittest.TestCase):
         "references/30-scientific-advertising.md",
         "references/32-commercial-extensions.md",
         "references/24-writing-for-low-awareness.md",
+        "references/35-creative-frameworks.md",
+        "references/08-formats.md",
     )
 
     def craft_stack_section(self):
@@ -1339,6 +1341,8 @@ class PackageIntegrityTests(unittest.TestCase):
             (ROOT / "SKILL.md").read_text(), "Core craft"
         ) + validator.markdown_section(
             (ROOT / "SKILL.md").read_text(), "Writing craft"
+        ) + validator.markdown_section(
+            (ROOT / "SKILL.md").read_text(), "Ad format recommendations"
         )
 
     def test_focused_writing_route_is_complete(self):

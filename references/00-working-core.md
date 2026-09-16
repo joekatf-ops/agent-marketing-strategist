@@ -111,6 +111,13 @@ the conflict, use a clearly identified owner correction where appropriate, and k
 record intact until an update is authorized. A factual assertion about health or efficacy still
 needs evidence. Never transfer facts, styles or customer learning between brands.
 
+For the named brand, load available core, voice, visual and approved-learning context before
+drafting. Saved delivery ratios and production preferences override generic fallback choices.
+If no folder was supplied, check the current workspace's `memory/brands/<named-brand-slug>/brand.yml`
+and verify that its identity matches. Never substitute another brand's context.
+A partial creative pack is useful without a full launch register. Attach the selected brand
+bundle separately on upload-only hosts; its media references still need actual image attachments.
+
 ## Research adds depth
 
 Use research already present. If deeper research is requested, retrieve customer and market sources,
@@ -122,7 +129,7 @@ Do not restart research for a small correction to an existing ad.
 ## Honest completion
 
 Deliver each image concept in both 1:1 square and 9:16 vertical, for Nano Banana Pro and GPT Image 2,
-unless the current user request explicitly chooses a different ratio set. Four concepts normally
+unless the current request or selected brand's saved preferences choose a different ratio set. Four concepts normally
 produce eight files. Count concepts, model comparisons and ratio variants separately before generation.
 Keep the same message, product facts and design identity within each pair, but recompose for the tall
 canvas. Do not stretch a square or crop essential copy. Check mobile readability and the intended

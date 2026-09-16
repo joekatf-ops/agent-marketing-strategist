@@ -79,7 +79,9 @@ quotas. For a controlled wording test, retain the appeal deliberately and label 
 8. Controlled ad-name FORMAT token from `references/07-naming.md`, such as UGC
 9. Visual opening, frame by frame for the first three seconds when video
 10. Spoken opening or primary written line
-11. On-screen anchor
+11. On-screen anchor: exact headline and emphasis, reviewed separately from speech captions under
+    `references/20-hook-quality-standard.md`. Apply approved brand voice rules; preserve approved
+    speech when only the headline is being revised.
 12. Body handoff that cashes the hook's promise
 13. Proof and claims required, with evidence IDs and approval status
 14. Destination and CTA

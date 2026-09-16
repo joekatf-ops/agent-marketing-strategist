@@ -47,7 +47,7 @@ def craft_stack() -> tuple[str, ...]:
     """
     text = SKILL.read_text()
     found = []
-    for heading in (CRAFT_SECTION, "Writing craft"):
+    for heading in (CRAFT_SECTION, "Writing craft", "Ad format recommendations"):
         match = re.search(rf"^##[ \t]+{re.escape(heading)}[ \t]*$", text, re.MULTILINE)
         if match is None:
             raise SystemExit(f"SKILL.md has no '{heading}' section")

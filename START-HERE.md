@@ -1,5 +1,21 @@
 # Start here
 
+
+## Current release: 1.7.0
+
+Use the image bundle for art direction and image production, the craft bundle for hooks and scripts,
+or the full knowledge bundle for the wider method. Attach the selected brand bundle as well when
+you want its saved preferences and approved examples. Files do not carry over between hosts unless
+they are actually attached or installed. Brand artwork references are separate media attachments.
+
+You can ask: "Give me three established formats, with three executions for each", "Write three
+founder hooks with visual, spoken, screen text and next beat", or "Regenerate this accepted ad with
+the requested change while preserving the light, colour and composition." Saved brand delivery
+ratios apply unless your request overrides them.
+
+See the [integration map](docs/creative-learning-integration-1.7.0.md) for what changed and the
+[validation record](docs/release-validation-1.7.0.md) for actual checks and limits.
+
 Describe the product and ask for the ad. Customer research, customer beliefs and a brand folder
 are optional. The strategist should produce useful work immediately and improve it when you add
 better product information, research or references.

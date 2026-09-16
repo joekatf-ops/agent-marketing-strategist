@@ -99,6 +99,11 @@ controlled destination token: LP, PDP, HP or CP. If it cannot, the script is blo
 
 - Written to be read by a person holding a camera, not a strategist
 - Spoken lines are speakable. Read them aloud
+- Review the opening on-screen headline separately from spoken captions. Apply approved brand
+  headline preferences; any curiosity must lead to a relevant answer in the spoken line,
+  demonstration or next beat. Preserve approved speech during a headline-only revision.
+- For founder or UGC delivery, specify achievable presenter actions and natural direct-to-camera
+  lines. Do not invent personal results or founder history.
 - No em dashes
 - Register shifts by beat: the hook earns relevant attention, the body explains, the CTA instructs
 - Every mechanism beat carries the payoff it produces, not just the machinery

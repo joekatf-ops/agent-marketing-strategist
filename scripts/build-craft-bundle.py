@@ -19,7 +19,7 @@ SKILL = ROOT / "SKILL.md"
 # Parsed from SKILL.md rather than hardcoded, so the bundle cannot drift from the
 # stack the skill declares.
 CRAFT_SECTION = "Core craft"
-FORMATS_SECTION = "Formats available on request"
+FORMATS_SECTION = "Deliverables available on request"
 
 # Contracts SKILL.md offers that a chat surface cannot act on, each with the reason. The
 # contract list is parsed from SKILL.md and every entry must be either bundled or excluded
@@ -60,7 +60,7 @@ def section_after(heading: str, level: str = "##") -> str:
 
 
 def craft_stack() -> list[str]:
-    found = re.findall(r"`(references/[^`]+\.md)`", section_after(CRAFT_SECTION) + section_after("Writing craft"))
+    found = re.findall(r"`(references/[^`]+\.md)`", section_after(CRAFT_SECTION) + section_after("Writing craft") + section_after("Ad format recommendations"))
     if not found:
         sys.exit("no craft references found in the craft stack section")
     return list(dict.fromkeys(found))

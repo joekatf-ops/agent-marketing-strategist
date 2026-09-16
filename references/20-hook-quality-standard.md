@@ -45,6 +45,34 @@ Start a video with meaningful action when useful. Start a static with a clear fe
 headline. Neither must copy a creator's storytelling conventions to qualify as an ad. Creator and
 advertising references are sources of hypotheses, not evidence of this brand's sales performance.
 
+## On-screen headline development
+
+Review the on-screen headline as its own copy element within the three-part opening. Speech
+captions can repeat the audio for accessibility; the headline can add a distinct reason to listen.
+Keep one coherent idea across the visual, speech and headline. When the owner has approved the
+spoken line and requested a headline revision, preserve the spoken line and other approved layers.
+
+Apply the connected brand's approved voice rules. When the brief calls for direct curiosity:
+
+- Make the situation, behaviour or buying decision concrete and understandable immediately.
+- Open a relevant question, contradiction or information gap that the spoken line, demonstration
+  or next beat actually resolves. Establish that answer before writing the headline.
+- Replace generic slogans, polished fragments and obvious scene labels when they provide no
+  useful reason to continue. Shortness and capital letters do not establish hook quality.
+- Use natural wording. A direct statement can create curiosity; do not force every headline into
+  a question or a repeated “check this first” template.
+- A teaser such as “check this first” must name a meaningful decision and lead to a useful answer.
+  Do not withhold basic context or overpromise the importance of a routine product detail.
+- Review at mobile size and ensure the wording can be read within its actual screen time.
+
+These are editorial checks, not performance evidence. An owner-approved headline is an example of
+that brand's preferred expression, not a universal template. Curiosity remains optional outside a
+brief or approved rule that calls for it; the existing selling-usefulness gate still applies.
+
+For founder and UGC scripts, specify an achievable first-frame action, natural direct-to-camera
+speech, exact on-screen words and the next beat. Delivery style does not supply a testimonial or a
+founder origin story: those require a real account.
+
 ## Apply at the requested scale
 
 For a simple request for five headlines, deliver five headlines and check the gate internally.

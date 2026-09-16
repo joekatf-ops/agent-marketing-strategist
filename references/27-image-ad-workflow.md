@@ -2,6 +2,9 @@
 
 Create useful 1:1 and 9:16 versions of each image concept from product information and a prompt. Research is an enhancement.
 The brief is about the product and the requested creative task, not a compulsory customer belief.
+The current request and selected brand's saved ratio preferences override the fallback pair.
+Use `34-art-direction-and-revisions.md` for photographic cohesion, type, reference roles and
+preserving approved art direction through a fresh generation.
 
 ## Three entry points
 
@@ -104,12 +107,15 @@ vertical plans. If no suitable reference was inspected, identify the layout as o
 
 Use `connectors/higgsfield.md` for the current tool contract. Honor the user's selected model.
 Otherwise use the connector's ordinary image default. For each concept, submit separate
-`aspect_ratio: "1:1"` and `aspect_ratio: "9:16"` jobs unless the current request overrides the ratio set.
+`aspect_ratio: "1:1"` and `aspect_ratio: "9:16"` jobs unless the request or selected brand overrides the ratio set.
 Inspect a first render before using it as a reference for the companion layout. Keep copy and product
 facts consistent; reflow typography and reposition the scene for the vertical canvas.
 Start at the supported 2k resolution for final static ads unless the request requires another
 resolution or cost choice. Quality parameters vary by model and must be checked before use.
 
+Honour an explicit full-regeneration request. Preserve approved copy, identity, palette, light,
+composition and hierarchy while generating the whole scene anew. Do not silently use a product
+cutout instead. Exact logo/type finishing is a separate operation when allowed by the request.
 Choose complete-image generation when integrated typography and image design fit the task. Use
 generated imagery with separate exact composition when logos, small text or brand typography need
 more control and the host supports that route. Both routes require final verification.
@@ -141,7 +147,8 @@ reading order, subject scale, relative type size, contrast, spacing and amount o
 the brand's typography and visual treatment across ratios even when positions change. Inspect at
 a realistic phone width, not only zoomed in or on a large contact sheet. Passing spelling and
 dimension checks alone does not establish design quality. If generation repeatedly changes
-hardware, preserve inspected product pixels and compose around them when tools allow.
+hardware, reassess reference roles and the brief. Preserving inspected product pixels is an option
+only when compatible with the user's requested production route.
 
 The local helper `scripts/validate-image-ad.py` can validate a production record and measure PNG,
 JPEG or WebP dimensions with Python's standard library. Vision is still required for product fidelity,

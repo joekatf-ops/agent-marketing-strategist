@@ -129,6 +129,13 @@ the conflict, use a clearly identified owner correction where appropriate, and k
 record intact until an update is authorized. A factual assertion about health or efficacy still
 needs evidence. Never transfer facts, styles or customer learning between brands.
 
+For the named brand, load available core, voice, visual and approved-learning context before
+drafting. Saved delivery ratios and production preferences override generic fallback choices.
+If no folder was supplied, check the current workspace's `memory/brands/<named-brand-slug>/brand.yml`
+and verify that its identity matches. Never substitute another brand's context.
+A partial creative pack is useful without a full launch register. Attach the selected brand
+bundle separately on upload-only hosts; its media references still need actual image attachments.
+
 ## Research adds depth
 
 Use research already present. If deeper research is requested, retrieve customer and market sources,
@@ -140,7 +147,7 @@ Do not restart research for a small correction to an existing ad.
 ## Honest completion
 
 Deliver each image concept in both 1:1 square and 9:16 vertical, for Nano Banana Pro and GPT Image 2,
-unless the current user request explicitly chooses a different ratio set. Four concepts normally
+unless the current request or selected brand's saved preferences choose a different ratio set. Four concepts normally
 produce eight files. Count concepts, model comparisons and ratio variants separately before generation.
 Keep the same message, product facts and design identity within each pair, but recompose for the tall
 canvas. Do not stretch a square or crop essential copy. Check mobile readability and the intended
@@ -1151,13 +1158,29 @@ than inventing a token or producing an invalid ad name.
 
 # Format library
 
-Twenty-five executions with their structure, best awareness fit and production requirements.
-Format is an execution variable, never a concept axis. Pick the format that serves the
-messaging job, not the one that is easiest to shoot.
+Reusable ad formats with their structure, typical awareness fit and production requirements.
+These are creative structures used when planning Meta ads, not Meta placement names or proof
+that a brand has run every format. Format is an execution variable, never a concept axis.
+Pick the format that serves the messaging job, not the one that is easiest to shoot.
+
+## Format versus execution
+
+- **Format:** a reusable structure, such as Us vs Them, Benefits Callout or Listicle.
+- **Execution:** a specific angle and visual treatment of the current concept within that format.
+  "Grounding outdoors versus grounding in bed" is an execution of Us vs Them, not a format name.
+- **Art direction:** the typography, palette, photography and visual finish applied to the execution.
+- **Media and delivery:** image/video/carousel and 4:5/9:16 describe the asset, not the persuasive structure.
+- **Awareness:** the audience's knowledge determines the messaging job; it is not a format.
+
+For format requests, use `../contracts/format-options.md`: name each format first and give three
+distinct execution options within it. Preserve the concept across those options. Use the table
+names consistently; Comparison / Us Versus Them is an alias of Us vs Them, and Benefit Stack /
+Benefit Pointout is an alias of Benefits Callout. A label such as "premium bedroom scene" belongs
+under an execution. Select the dominant structure when an execution combines familiar formats.
 
 ## Image formats
 
-All image formats: paired 1:1 square and 9:16 vertical versions, including carousel frames. Video formats keep their own placement specifications.
+For image production, the fallback is paired 1:1 square and 9:16 vertical versions, including carousel frames. The request or selected brand's saved delivery preferences can override this. Format recommendations alone do not trigger generation. Video formats keep their own placement specifications.
 Assets needed: product image, brand assets, proof and copy inputs.
 
 | Format | Structure | Best for | Awareness |
@@ -1165,14 +1188,19 @@ Assets needed: product image, brand assets, proof and copy inputs.
 | Problem callout | Pain-led headline, visualised symptom, curiosity bridge | Immediate recognition of a specific pain | UWA, PRA |
 | Meme / pattern interrupt | Familiar meme structure, Who-specific tension, subtle product payoff | Attention, relatability, emotional recognition | UWA |
 | Native social post | Post-style hook, short observation or story, light brand cue | Low-polish authenticity and feed fit | UWA, PRA |
-| Listicle | Numbered headline, concise points, product bridge | Education, curiosity, saves | UWA, PRA |
+| Listicle | Numbered headline, concise points, product bridge | Education, reasons to consider, practical evaluation | UWA, PRA, SLA |
 | Advertorial / editorial | Editorial headline, contextual visual, short proof deck, subtle product bridge | Native-feed education and authority | UWA, PRA |
 | Problem to solution | Problem panel, mechanism or product bridge, desired outcome | Simple before and after logic | PRA, SLA |
 | Mechanism / how it works | Mechanism headline, three-step visual explanation, benefit | Explaining why the product is different | PRA, SLA |
-| Comparison / us versus them | Two-column criteria, clear contrast, substantiated takeaway | Differentiation and switching | SLA, PDA |
+| Us vs Them | Two-column criteria, clear contrast, substantiated takeaway | Differentiation and switching | SLA, PDA |
 | Testimonial / review | Quote hook, reviewer context, rating or proof, product | Trust and objection handling | SLA, PDA |
-| Benefit stack | Product hero, three to five benefit hierarchy, CTA | Multiple reasons to choose | SLA, PDA |
+| Benefits Callout | Product or lifestyle hero with three to five concise benefit callouts | Relevant reasons to consider or choose | SLA, PDA |
 | Product hero | Strong product focal point, one core benefit, proof and CTA | Product recognition, differentiation and decision support | PDA |
+| Offer / Promotion | Product or bundle, verified offer, included value and material terms | Offer-led decision support | PDA |
+
+Awareness fit is guidance, not a hard restriction. Select benefits, facts and comparison criteria
+from the active product evidence. A format is not permission to invent results, quotes or rival
+weaknesses. An editorial format does not imply an independent publisher or news finding.
 
 ## Video formats
 
@@ -1202,7 +1230,8 @@ Second-by-second beat structures and retention data for these shapes are in
    folder's production constraints.
 4. Prefer the format that makes the messaging route visible. A visible-proof route wants
    demonstration or comparison, not a talking head.
-5. Check the shortlist against the measured rates below before settling.
+5. Choose on argument, facts and production fit. The historical study below is optional context;
+   its spend threshold is not a profitability metric or a forecast for the active brand.
 6. Across the four executions in an initial NNT or INSPO batch, vary format where it creates a
    different expression or learning value. Format changes do not create a new coordinate.
 
@@ -2370,7 +2399,9 @@ The universal skill remains unchanged across brands.
 
 ## Resolve the brand
 
-1. Find `brand.yml` in the folder supplied for the task.
+1. Find `brand.yml` in the folder supplied for the task. If no folder was supplied, check the
+   current workspace's `memory/brands/<named-brand-slug>/brand.yml` and verify that its identity
+   matches the named brand. Do not search unrelated private folders or default to another brand.
 2. Read the slug, method version, controlled naming codes, next test number, markets, products and
    evidence status from `brand.yml`, then read website freshness from
    `sources/website/crawl-state.json`.
@@ -2397,6 +2428,12 @@ Never collapse these classes. A competitor review does not prove how this brand'
 A website claim does not prove a product result.
 
 ## Mode-specific readiness
+
+The requirements below apply to governed brand-folder planning and launch readiness. An ordinary
+copy, image or revision request follows the product-first core and can use a partial creative pack.
+Read available brand-core, voice, visual and approved-learning files before drafting. Missing
+economics, registers or performance reports do not block that creative work. Brand delivery and
+production preferences take precedence over universal fallback choices unless the user overrides them.
 
 ### Research
 
@@ -2482,6 +2519,11 @@ during initialisation.
 # Retained learning
 
 The brand gets smarter through traceable approved changes, not through general conversation memory.
+
+For source-grounded reference reviews and creative-history synthesis use
+`36-creative-learning-practice.md`. Load the relevant approved learning before the next comparable
+assignment. Keep artwork approval, a brand preference and a universal method update distinct.
+Do not add a second model judge or automatic rewrite loop to ordinary creative production.
 
 Test memory and human-revision learning are separate record classes. Performance and execution
 observations, tentative explanations, confidence and next actions belong in
@@ -3203,6 +3245,34 @@ controlled headline tests may deliberately keep the same appeal and vary only wo
 Start a video with meaningful action when useful. Start a static with a clear feed object and
 headline. Neither must copy a creator's storytelling conventions to qualify as an ad. Creator and
 advertising references are sources of hypotheses, not evidence of this brand's sales performance.
+
+## On-screen headline development
+
+Review the on-screen headline as its own copy element within the three-part opening. Speech
+captions can repeat the audio for accessibility; the headline can add a distinct reason to listen.
+Keep one coherent idea across the visual, speech and headline. When the owner has approved the
+spoken line and requested a headline revision, preserve the spoken line and other approved layers.
+
+Apply the connected brand's approved voice rules. When the brief calls for direct curiosity:
+
+- Make the situation, behaviour or buying decision concrete and understandable immediately.
+- Open a relevant question, contradiction or information gap that the spoken line, demonstration
+  or next beat actually resolves. Establish that answer before writing the headline.
+- Replace generic slogans, polished fragments and obvious scene labels when they provide no
+  useful reason to continue. Shortness and capital letters do not establish hook quality.
+- Use natural wording. A direct statement can create curiosity; do not force every headline into
+  a question or a repeated “check this first” template.
+- A teaser such as “check this first” must name a meaningful decision and lead to a useful answer.
+  Do not withhold basic context or overpromise the importance of a routine product detail.
+- Review at mobile size and ensure the wording can be read within its actual screen time.
+
+These are editorial checks, not performance evidence. An owner-approved headline is an example of
+that brand's preferred expression, not a universal template. Curiosity remains optional outside a
+brief or approved rule that calls for it; the existing selling-usefulness gate still applies.
+
+For founder and UGC scripts, specify an achievable first-frame action, natural direct-to-camera
+speech, exact on-screen words and the next beat. Delivery style does not supply a testimonial or a
+founder origin story: those require a real account.
 
 ## Apply at the requested scale
 
@@ -4122,6 +4192,9 @@ Pass two is where the work is. Pass three is where the risk is.
 
 Create useful 1:1 and 9:16 versions of each image concept from product information and a prompt. Research is an enhancement.
 The brief is about the product and the requested creative task, not a compulsory customer belief.
+The current request and selected brand's saved ratio preferences override the fallback pair.
+Use `34-art-direction-and-revisions.md` for photographic cohesion, type, reference roles and
+preserving approved art direction through a fresh generation.
 
 ## Three entry points
 
@@ -4224,12 +4297,15 @@ vertical plans. If no suitable reference was inspected, identify the layout as o
 
 Use `connectors/higgsfield.md` for the current tool contract. Honor the user's selected model.
 Otherwise use the connector's ordinary image default. For each concept, submit separate
-`aspect_ratio: "1:1"` and `aspect_ratio: "9:16"` jobs unless the current request overrides the ratio set.
+`aspect_ratio: "1:1"` and `aspect_ratio: "9:16"` jobs unless the request or selected brand overrides the ratio set.
 Inspect a first render before using it as a reference for the companion layout. Keep copy and product
 facts consistent; reflow typography and reposition the scene for the vertical canvas.
 Start at the supported 2k resolution for final static ads unless the request requires another
 resolution or cost choice. Quality parameters vary by model and must be checked before use.
 
+Honour an explicit full-regeneration request. Preserve approved copy, identity, palette, light,
+composition and hierarchy while generating the whole scene anew. Do not silently use a product
+cutout instead. Exact logo/type finishing is a separate operation when allowed by the request.
 Choose complete-image generation when integrated typography and image design fit the task. Use
 generated imagery with separate exact composition when logos, small text or brand typography need
 more control and the host supports that route. Both routes require final verification.
@@ -4261,7 +4337,8 @@ reading order, subject scale, relative type size, contrast, spacing and amount o
 the brand's typography and visual treatment across ratios even when positions change. Inspect at
 a realistic phone width, not only zoomed in or on a large contact sheet. Passing spelling and
 dimension checks alone does not establish design quality. If generation repeatedly changes
-hardware, preserve inspected product pixels and compose around them when tools allow.
+hardware, reassess reference roles and the brief. Preserving inspected product pixels is an option
+only when compatible with the user's requested production route.
 
 The local helper `scripts/validate-image-ad.py` can validate a production record and measure PNG,
 JPEG or WebP dimensions with Python's standard library. Vision is still required for product fidelity,
@@ -5035,6 +5112,269 @@ also carries these source notes.
 Evaluate actual outputs for brief fidelity, useful value, honest curiosity and natural expression.
 Keep writing preferences separate from campaign results. Approval to integrate a method does not
 approve every example as a product claim or establish that the method improves conversion.
+
+------------------------------------------------------------------------------
+<!-- source: references/34-art-direction-and-revisions.md -->
+------------------------------------------------------------------------------
+
+# Art direction, production and revisions
+
+Use for image briefs, generation, adaptations and visual critique. A format names the argument's
+structure; art direction makes that structure visible. "Premium" alone supplies neither. A plain
+native note, an editorial image and a studio product scene can each be the right finish.
+
+## Decide what the viewer should notice
+
+Give the visual, headline and supporting copy one coherent selling job. Specify the first focal
+point, supporting context and next reading priority before choosing effects. A static has a hook
+through its image, words and hierarchy; a native photograph can rely on its accompanying caption.
+Use the current concept and accepted copy. Do not substitute a new audience to fit an attractive
+reference. Packaging, badges, on-image buttons and a product photograph are optional.
+
+For emotional scenes, describe observable behaviour: the action, expression, posture and setting
+that communicate the particular moment. A person lying in bed does not necessarily communicate
+frustration. Do not turn every problem into exaggerated distress or let an explanatory illustration
+imply a demonstrated biological result.
+
+## Give each reference a job
+
+Separate product identity, accepted artwork, layout, lighting/material finish, typography and logo
+references. Inspect the actual attachments that will reach the model. Original product photos
+control construction, material, colourway, proportions, seams, hardware and printed identity.
+Their pose and lighting are not automatically locked. A fresh photograph-like scene may use a new
+fold, drape or camera angle while preserving the actual product.
+
+A competitor reference can supply reading order without supplying its palette, claim or offer.
+A beautiful render of the wrong product can teach light, but cannot define product identity.
+Use the latest selected artwork as the revision anchor; the highest version number or most recent
+failed render is not necessarily the master. Never describe an unapproved draft as approved.
+
+## Brief a connected scene
+
+For photographic work, specify camera angle, scale, ground plane, light direction and softness,
+tonal falloff, contact and cast shadows, material response and separation from the background.
+Objects in one scene need compatible perspective, light and contact. Purposeful overlap can show
+depth; an indiscriminate drop shadow or glow cannot repair incompatible objects.
+
+Different materials need different highlights. Preserve fabric thinness and weave, printed pouch
+creases, matte packaging and reflective hardware as appropriate. Avoid thickening a sheet into a
+towel or adding glossy plastic finish to textile. Props must explain use, flavour, scale, emotion
+or comparison. Product tangibility does not require a box in every execution.
+
+Preserve the selected exposure, saturation and shadow depth during revisions. "Make premium" is
+not permission to brighten everything or replace rich colour with a pale flat background. Equally,
+an owner-selected pale studio scene remains valid. Transfer the quality of a benchmark, not every
+object or colour in it.
+
+## Typography, colour and information
+
+Specify the role of each tier: lead, explanation, labels, proof/benefits and action. Choose deliberate
+type scale, line breaks, spacing and alignment. Distinguish text colour from background colour and
+name the exact words and form of emphasis: highlight bar, underline, weight or colour. The strongest
+accent should serve the main hook. A supporting detail should not accidentally become the lead.
+
+A one-line headline must read at phone size. Reword it only when authorised, rather than shrinking
+it to fit. Keep approved words intact during a visual revision. Typography can feel considered
+through hierarchy and spacing without bevels, glows or shadows. Original logo artwork and real fonts
+may be used for exact finishing when compatible with the request. A supplied font sheet does not
+guarantee model fidelity.
+
+Separate three contrast checks: the image edge against light and dark feed UI; text against its
+immediate background; and the product against props and scene. Inspect at phone size when possible.
+Record an unperformed preview as untested. Placement overlays must be checked for the actual
+destination, not inferred from a universal safe-zone percentage.
+
+## Full regeneration preserves approved decisions
+
+Write a final-state brief, not an accumulating list of contradictory patches. Carry:
+
+- Exact copy and product invariants.
+- Selected master and each reference's role.
+- Approved composition, light, palette, type and atmosphere to preserve.
+- The requested changes, including exact emphasis and allowed movement.
+- Requested ratios, output dimensions and production route.
+
+When the user requests full regeneration, regenerate the integrated scene and product. Do not
+silently replace that instruction with a cutout or crop. Exact logo/type finishing is distinct from
+substituting old product pixels; disclose the actual route. If the route cannot satisfy the request,
+state that concrete limitation. When regeneration is not required, controlled editing or composition
+can preserve successful artwork. Filing, renaming and proportional export do not require generation.
+
+In guided development, establish the selected master before multiplying variants. A supplied final
+ad already serves as the master; do not restart approval. Recompose each requested ratio with the
+same message, identity and finish. Honour a saved brand's ratio defaults when the current request
+does not specify them. Verify actual pixel dimensions rather than trusting a model setting.
+
+## Diagnose before another iteration
+
+Check the whole image against the brief and quality reference, then check copy and identity. If
+details are correct but the scene is flat, inspect lighting, pose, scale, reference roles and the
+brief's imposed layout. Prompt interpretation can be the problem; do not assume the source photos
+or model are poor. If a palette was copied from a layout-only reference, correct that role.
+
+Keep a compact preserve/change record and an acceptance reason. Do not turn a rejected branch into
+the next style authority or continue an unbounded cosmetic loop. Use one justified correction within
+the authorised scope, then reassess the approach if the same defect persists. This is ordinary
+production judgement, not a compulsory second AI judge, paid evaluation or new approval gate.
+
+Retain prompts, referenced assets, selected and returned model IDs, settings, outputs and actual
+inspection status. Separate generated, technically checked, owner-approved and commercially tested.
+Different models, prompts or manual finishing do not constitute a controlled model comparison.
+
+------------------------------------------------------------------------------
+<!-- source: references/35-creative-frameworks.md -->
+------------------------------------------------------------------------------
+
+# Creative framework menu
+
+Use when developing copy or scripts, or when the user asks for a named method. These are flexible
+argument structures, not mandatory templates or performance rankings. Ad formats are in
+`08-formats.md`; awareness, performer, visual treatment and aspect ratio are separate decisions.
+
+## Headline entries
+
+| Entry | Thought to develop | What must follow |
+|---|---|---|
+| Recognisable contradiction | The person does what is expected but still faces a specific friction | An explanation or product role that fits the tension |
+| Wanted value | A concrete experience the buyer wants in a recognisable context | A supported way the product matters |
+| Burden removal | The desired activity with less relevant effort | Actual setup or use that explains the convenience |
+| Useful question | The question blocking understanding or purchase | A direct, useful answer |
+| Concrete difference | A verified feature that changes practical use | The detail shown or explained accurately |
+| Proof or offer | Supplied evidence or a relevant buying term | Its actual scope, conditions and next step |
+
+Change the entry or expression while preserving the requested concept. A headline field, on-image
+lead, on-screen hook and speech caption have different jobs; do not apply one word count or case
+rule to all four. Use the active brand's conventions, natural connecting words and necessary context.
+
+## Primary text arguments
+
+| Method | Sequence |
+|---|---|
+| PAS | Recognisable problem, proportionate consequence, relevant solution and action |
+| AIDA | Attention, relevance, wanted experience with a reason to believe, action |
+| Objection to answer | Actual objection, answer, demonstration or evidence, invitation |
+| Feature to lived value | Concrete feature, practical advantage, recognisable use moment, action |
+| Customer language to argument | Genuine attributed phrase, context, product relevance, reason to act |
+| Reason to switch | Current friction, fair contrast, verified difference, invitation |
+
+Write connected prose with enough information to persuade. Two requested alternatives should have
+distinct entries or arguments, not merely adjective changes. Bullets and short benefit callouts are
+optional aids to scanning. A long explanation belongs in prose, not an overgrown callout. Do not
+impose a fixed body length, a question ban or an emoji pattern.
+
+Illustrative feature-to-value miniature, for a bottle with a verified locking lid:
+"Your bottle shares a bag with everything else your day depends on. This lid locks before you leave.
+Watch the closing action, then choose your colour." The bag gives use context; no leak-test result
+has been invented. Develop the value before shortening the words.
+
+## Script arguments
+
+| Method | Beat sequence |
+|---|---|
+| Demonstrate and explain | Visible action, relevance, operation, answered objection, action |
+| Problem to product | Recognisable moment, consequence, product entry, reason to believe, next step |
+| Question to understanding | Buyer question, direct answer, visual explanation, product fit, invitation |
+| Reason to switch | Current experience, friction, alternative, honest contrast, action |
+| Genuine story | Real starting situation, decision, documented experience, recommendation |
+| Choose with criteria | Buying decision, useful criteria, visible product evidence, fit/tradeoff, action |
+
+Choose the argument before deciding whether a founder, creator, customer or narrator delivers it.
+For founder/UGC, make the opening filmable with natural direct-to-camera speech, simple action and
+the actual product. UGC is a delivery style, not evidence of a personal result. An invented founder
+story is not made true by putting it in first person.
+
+Write visual, spoken line, screen headline and useful next beat together. For alternative hooks
+sharing one body, check that every opening reaches that body naturally. Distinguish the headline
+from accessibility captions. Preserve approved speech during a headline-only revision. Apply
+`20-hook-quality-standard.md` and the selected brand's approved headline preferences.
+
+For a finished script, supply exact speech through the close, approximate time, action, screen words
+and required product/proof assets. Every beat advances understanding or confidence. A beat outline
+is not a full script; a script is not a rendered video. Timing remains an estimate until performed.
+Keep the destination and offer consistent with the opening. A question about life outcomes cannot
+be repaid solely with installation instructions.
+
+## Static structures and devices
+
+Product hero, product plus reasons, native note/listicle, aligned comparison, evidence card and
+demonstration/detail are useful families. Use established names in `08-formats.md` when offering
+formats, then give distinct executions of the current concept. Do not introduce a second format
+catalogue through invented scene names.
+
+Select only devices that strengthen the argument: a useful question or pattern interrupt; genuine
+proof; a verified offer or gift stack; a list or detail explanation; fair contrast; native/editorial
+type; actual variants or newness. Several devices can coexist if their hierarchy is clear. A badge,
+quote, discount and headline should not compete as four separate leads.
+
+Historical brands can teach a mechanism: routine/value architecture, context-specific relevance,
+product tangibility or ownership confidence. Identify the transferable move, not a competitor claim,
+celebrity endorsement or unverified result. Use `34-art-direction-and-revisions.md` to turn the
+selected format into a concrete visual brief.
+
+------------------------------------------------------------------------------
+<!-- source: references/36-creative-learning-practice.md -->
+------------------------------------------------------------------------------
+
+# Creative references, opportunities and measurement
+
+Use for reference calibration, supplied research/history or performance interpretation. Ordinary
+copy requests do not need a research project or a fixed quota of reference reviews.
+
+## Capture the owner's judgement
+
+An accessible image/video and whatever feedback the owner supplies are enough. Record source and
+version, reviewed modalities/coverage, actual likes/dislikes/model targets, observed design choices,
+intended transfer, proposed rule and scope, and outcome status. Do not demand a dislike when the
+instruction is already clear. Lead with design when the review is about light, material and type.
+
+Separate the owner's reason, your interpretation and measured performance. A transcript cannot
+establish acting or visual quality. A screenshot cannot establish production method. Use labels
+such as owner-liked, craft strength or performance unknown; measured winners need actual results.
+
+Consolidate related corrections into the smallest useful rule and retain a teaching example plus
+its exceptions. A one-off red highlight stays with the execution; an explicit no-branding preference
+may apply to that brand's unaware work. Record rejected branches to avoid repeating them. Follow
+`14-learning-system.md` for approval, scope and append-only persistence. Do not claim retraining,
+cross-host synchronisation or remembered learning without actually updating the relevant record.
+
+## Turn supplied research into opportunities
+
+Map source language -> observed situation -> interpreted insight -> buying argument -> execution.
+Add the supplied creative history: asset/version, tested/not tested/unknown, actual result context,
+next learnable difference and destination. Something absent from an export is not necessarily
+untested. Reposted quotations are not independent support; popular comments are not purchase data.
+
+Explore feature -> practical benefit -> lived consequence -> emotional value or desired experience.
+Choose one strong argument from those branches. Keep aspirations distinct from established product
+effects. When a causal claim is unsupported, preserve the useful idea and offer a concrete truthful
+expression instead of replacing it with a list of caveats or a weaker unrelated concept.
+
+## Read results at the right level
+
+Start with commercial outcomes and compatible economics, then investigate attention and funnel
+metrics. AOV alone does not establish a better offer; hook rate alone does not establish an ad winner.
+With matching website components, revenue per landing-page view equals AOV multiplied by purchase
+conversion rate as a decimal. A 25% AOV increase needs at least 80% of the prior conversion rate to
+preserve revenue per view before costs. This is arithmetic, not a test threshold.
+
+Keep metric definitions with the active brand's measurement record. Total purchases, website
+purchases, link clicks, outbound clicks and unique clicks are not interchangeable. Missing is not
+zero; division by zero is undefined. Sum compatible numerators and denominators before dividing.
+Do not average ratios unweighted, double-count attribution columns or combine overlapping platform
+and store revenue. Static images have no video hook or hold rate. ThruPlay-based hold is not a
+universal full-video completion rate.
+
+Retain dates, attribution, currency, timezone, traffic context, creative/version, effective page and
+offer mapping, and extraction time. Ad rows may contain page variants; ad-set rows contain multiple
+creatives. A page-causality claim needs reliable assignment and a credible comparison, not an ad
+row's ratio. Avoid duplicating spend through a many-to-many order join. Allow attribution to mature.
+
+Return observation, comparison context, uncertainty, plausible bottleneck and next creative
+hypothesis. Clicks without arrivals may involve loading, redirects or tracking. Arrivals without
+orders call for checking message continuity, product, price, trust and friction. Neither pattern
+proves a single cause. Use `09-testing-and-diagnosis.md`, `19-ad-analysis-harness.md` and
+`31-controlled-tests.md` when the requested scope needs them. A saved measurement playbook is not
+evidence of a live tracking audit or permission to change budgets, launch or schedule monitoring.
 
 ==============================================================================
 # PART: OUTPUT CONTRACTS
@@ -5992,6 +6332,65 @@ proof, claim qualifier, offer where used and CTA next step.
 - [ ] Any blocking gap prevents launch readiness
 
 ------------------------------------------------------------------------------
+<!-- source: contracts/format-options.md -->
+------------------------------------------------------------------------------
+
+# Output Contract: Ad Formats and Execution Options
+
+Use when the user asks what formats could work for a concept, product or awareness stage.
+Also use when they select one named format and ask for ways to execute it. This is an ideation
+response; do not render images, launch ads or change the concept unless requested.
+
+## Select from the format library
+
+Read `../references/08-formats.md`. Use recognisable format names from its image or video table,
+matching the media the user is working on. A user-supplied format list takes precedence. Treat
+aliases consistently rather than creating a different name for every scene or headline.
+
+A format is the repeatable ad structure. An execution is a particular angle and visual use of
+that structure. For example: Us vs Them is the format; comparing two practical routines is an
+execution. A bedroom photograph, red highlight, 4:5 canvas or solution-aware audience is not
+itself a format. A new format may be proposed when needed, but label it as an addition to the
+library rather than pretending it is already used by the brand.
+
+## Response shape
+
+1. Default to three suitable formats. Respect the user's requested number of formats.
+2. For each, state the established **format name** and explain its structure in one sentence.
+3. Give **three genuinely different execution options within that format**, each with a short
+   angle/title and a concrete description of what the viewer would see or compare. These are
+   different executions of the existing concept, not three different personas or pain concepts.
+4. Keep the three options distinct in message angle or visual organisation. Three cosmetic colour
+   changes or paraphrased headlines do not constitute three execution options.
+5. Finish with a short recommendation of one format and, when useful, one execution, grounded in
+   the supplied concept, audience state and available assets. Do not imply performance certainty.
+
+If one format has already been selected, provide three options for that format only. If the user
+asks for a list of names only, provide the names without expanding them. A requested count of
+execution options overrides the default three. Carry forward earlier constraints such as image
+only, copy approval before generation, or a particular awareness stage.
+
+## Keep format, angle and facts separate
+
+Use the available product truth. Benefits Callout needs supported benefits; Us vs Them needs fair,
+supported comparisons; Testimonial / Review needs actual approved testimony. Do not compensate for
+missing evidence by inventing an outcome, competitor weakness or review. Explain a necessary
+dependency briefly in the relevant option, or choose a different usable format.
+
+Solution-aware does not automatically mean a setup tutorial. Options should help the person assess
+the solution's relevance, practical fit or substantiated advantages. Preserve the persona, pain
+and desired experience from the concept without turning the desired experience into a guaranteed
+product result. Treat draft execution labels as directions, not as approved final ad copy.
+
+## Quick self-check
+
+- Are the main labels actual formats from the library rather than custom creative descriptions?
+- Does each selected format have three distinct options, unless the user asked otherwise?
+- Do the options stay within the requested concept, media and audience stage?
+- Are the options concrete enough to choose between, with no fabricated claims or proof?
+- Did the response stay at the requested ideation scope?
+
+------------------------------------------------------------------------------
 <!-- source: contracts/hook-batch.md -->
 ------------------------------------------------------------------------------
 
@@ -6076,7 +6475,9 @@ quotas. For a controlled wording test, retain the appeal deliberately and label 
 8. Controlled ad-name FORMAT token from `references/07-naming.md`, such as UGC
 9. Visual opening, frame by frame for the first three seconds when video
 10. Spoken opening or primary written line
-11. On-screen anchor
+11. On-screen anchor: exact headline and emphasis, reviewed separately from speech captions under
+    `references/20-hook-quality-standard.md`. Apply approved brand voice rules; preserve approved
+    speech when only the headline is being revised.
 12. Body handoff that cashes the hook's promise
 13. Proof and claims required, with evidence IDs and approval status
 14. Destination and CTA
@@ -6247,7 +6648,7 @@ from automatic collection and from evidence of ad performance.
 
 # Output Contract: Static and Carousel Spec
 locked: 2026-09-10
-version: 2.3.0
+version: 2.4.0
 
 Product information and the request are sufficient. Brand folders, customer research, beliefs,
 awareness maps, campaign IDs and approval rounds are optional. Follow
@@ -6257,17 +6658,18 @@ awareness maps, campaign IDs and approval rounds are optional. Follow
 
 Markdown brief plus actual images when requested and available. Every image concept and carousel
 frame is delivered in both **1:1 and 9:16**, unless the current request explicitly overrides the
-ratio set. Count concepts separately from files: four concepts normally produce eight images.
+ratio set or the selected brand has saved delivery preferences. Resolve that set before generation.
+Count concepts separately from files: four concepts normally produce eight images.
 A prompt is not a rendered image.
 
 ## Sections, in order
 
-1. **Header**: product, supplied facts, request, concept count, output count, format, ratios `1:1` and `9:16`. Add brand,
+1. **Header**: product, supplied facts, request, concept count, output count, format and resolved delivery ratios. Add brand,
    market, destination and preferred model when known. Full ad names and campaign IDs apply only
    when operating the named house campaign profile.
 2. **The job**: the single product message, useful feature or practical benefit to communicate.
    Belief change and awareness are optional lenses, not required inputs.
-3. **Layout**: subject and zones, one primary line, separate square and vertical compositions with breathing room.
+3. **Layout**: subject and zones, one primary line, a separate composition for each requested ratio with breathing room.
    Recompose an upright reference rather than cropping away the message.
    Record the chosen reference ID, inspected media and layout features to retain, or mark an original layout.
 4. **Copy on the asset**: exact words and hierarchy. Keep Meta primary text, headline and CTA
@@ -6275,6 +6677,9 @@ A prompt is not a rendered image.
 5. **Visual direction and production needs**: references and product details to preserve. Use
    supplied brand visuals or select a provisional palette, type and style, labelled in the brief.
    Do not invent an official logo or packaging.
+   Apply `references/34-art-direction-and-revisions.md`: name the focal order, light/materials,
+   text and colour roles, reference jobs, approved properties and requested changes. State full
+   generation versus editing/finishing accurately. Product identity does not lock a dull source pose.
 6. **Image-model prompt**: derived from sections 1 to 5, with each explicit output ratio, exact copy,
    reference roles, composition and exclusions. For Higgsfield use `connectors/higgsfield.md`.
 7. **Carousel frames**: only when requested; each frame has both ratio versions, is independently legible and has one message.
@@ -6544,6 +6949,11 @@ controlled destination token: LP, PDP, HP or CP. If it cannot, the script is blo
 
 - Written to be read by a person holding a camera, not a strategist
 - Spoken lines are speakable. Read them aloud
+- Review the opening on-screen headline separately from spoken captions. Apply approved brand
+  headline preferences; any curiosity must lead to a relevant answer in the spoken line,
+  demonstration or next beat. Preserve approved speech during a headline-only revision.
+- For founder or UGC delivery, specify achievable presenter actions and natural direct-to-camera
+  lines. Do not invent personal results or founder history.
 - No em dashes
 - Register shifts by beat: the hook earns relevant attention, the body explains, the CTA instructs
 - Every mechanism beat carries the payoff it produces, not just the machinery

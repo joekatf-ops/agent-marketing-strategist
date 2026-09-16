@@ -33,7 +33,7 @@ One universal method serves many brands. Each brand keeps its own connected fold
 coordinate history, test history, winners and approved learning. The method is brand-neutral; brand
 facts never transfer between brands.
 
-**Version:** 1.6.0
+**Version:** 1.7.0
 
 The core copywriting method connects a problem or desire to a recognisable moment, consequence,
 personal meaning and desired experience, then establishes the product's supported role. Find what
@@ -41,6 +41,13 @@ the customer wants back; choose recognition or desired change as the entry. It g
 hooks, headlines, scripts and image copy while keeping customer research optional. For a standalone
 agent handoff, attach [`references/29-moment-to-meaning.md`](references/29-moment-to-meaning.md).
 The same guide is included in the craft, image-ad and knowledge bundles.
+
+Version 1.7.0 integrates photographic art direction and revision learning, established-format
+recommendations, coordinated video hooks and complete script structures. The selected brand
+context supplies its own creative preferences and delivery ratios. Read the
+[integration map](docs/creative-learning-integration-1.7.0.md) and
+[release validation](docs/release-validation-1.7.0.md). Private brand records remain separate from
+this public, brand-neutral repository.
 
 Version 1.6.0 adds a separate editorial pass, answer-led curiosity, same-concept headline rewrites
 and worked edits. Reviewed source notes for Hormozi, Dry, Georgi and Suby are in
@@ -135,7 +142,7 @@ python3 scripts/init-brand-folder.py /path/to/brands/example-brand \
   --slug example-brand
 ```
 
-A freshly initialised brand starts with `method_version: "1.6.0"` and can use controlled
+A freshly initialised brand starts with `method_version: "1.7.0"` and can use controlled
 persistence after its normal readiness checks. The migration section below applies only to existing
 v0.3 folders.
 
@@ -414,6 +421,7 @@ structure is the entire point. See [`corpus/swipe/ATTRIBUTION.md`](corpus/swipe/
 
 | Version | Date | Change |
 |---|---|---|
+| 1.7.0 | 2026-09-16 | Consolidates art direction, full-regeneration continuity, format recommendations and three-part hooks; adds complete script methods and creative-learning practice; loads scoped brand preferences and rebuilds portable editions. |
 | 1.6.0 | 2026-09-13 | Integrates four reviewed copywriting sources: one central argument, concrete meaning, useful next-step value, qualified curiosity and separate editorial selection. Resolves same-concept rewrite conflicts, adds worked edits, updates scoring semantics and rebuilds portable editions. |
 | 1.5.0 | 2026-09-13 | Scientific Advertising integration: buyer relevance, useful specifics, complete selling information, controlled test cards, practical commercial extensions and versioned evaluation semantics. |
 | 1.4.2 | 2026-09-12 | Desired-experience thinking across concepts, headlines and copy; recognition and desired change share the ad with a supported product role. Saved owner-approved headline directions, clarified problem versus category/brand awareness, and aligned quality criteria and portable handoffs. |

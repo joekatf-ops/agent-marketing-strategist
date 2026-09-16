@@ -2,6 +2,11 @@
 
 The brand gets smarter through traceable approved changes, not through general conversation memory.
 
+For source-grounded reference reviews and creative-history synthesis use
+`36-creative-learning-practice.md`. Load the relevant approved learning before the next comparable
+assignment. Keep artwork approval, a brand preference and a universal method update distinct.
+Do not add a second model judge or automatic rewrite loop to ordinary creative production.
+
 Test memory and human-revision learning are separate record classes. Performance and execution
 observations, tentative explanations, confidence and next actions belong in
 `strategy/test-register.yml`. Human edits teach future work only through the approval-gated,

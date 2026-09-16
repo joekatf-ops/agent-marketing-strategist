@@ -1,6 +1,6 @@
 # Output Contract: Static and Carousel Spec
 locked: 2026-09-10
-version: 2.3.0
+version: 2.4.0
 
 Product information and the request are sufficient. Brand folders, customer research, beliefs,
 awareness maps, campaign IDs and approval rounds are optional. Follow
@@ -10,17 +10,18 @@ awareness maps, campaign IDs and approval rounds are optional. Follow
 
 Markdown brief plus actual images when requested and available. Every image concept and carousel
 frame is delivered in both **1:1 and 9:16**, unless the current request explicitly overrides the
-ratio set. Count concepts separately from files: four concepts normally produce eight images.
+ratio set or the selected brand has saved delivery preferences. Resolve that set before generation.
+Count concepts separately from files: four concepts normally produce eight images.
 A prompt is not a rendered image.
 
 ## Sections, in order
 
-1. **Header**: product, supplied facts, request, concept count, output count, format, ratios `1:1` and `9:16`. Add brand,
+1. **Header**: product, supplied facts, request, concept count, output count, format and resolved delivery ratios. Add brand,
    market, destination and preferred model when known. Full ad names and campaign IDs apply only
    when operating the named house campaign profile.
 2. **The job**: the single product message, useful feature or practical benefit to communicate.
    Belief change and awareness are optional lenses, not required inputs.
-3. **Layout**: subject and zones, one primary line, separate square and vertical compositions with breathing room.
+3. **Layout**: subject and zones, one primary line, a separate composition for each requested ratio with breathing room.
    Recompose an upright reference rather than cropping away the message.
    Record the chosen reference ID, inspected media and layout features to retain, or mark an original layout.
 4. **Copy on the asset**: exact words and hierarchy. Keep Meta primary text, headline and CTA
@@ -28,6 +29,9 @@ A prompt is not a rendered image.
 5. **Visual direction and production needs**: references and product details to preserve. Use
    supplied brand visuals or select a provisional palette, type and style, labelled in the brief.
    Do not invent an official logo or packaging.
+   Apply `references/34-art-direction-and-revisions.md`: name the focal order, light/materials,
+   text and colour roles, reference jobs, approved properties and requested changes. State full
+   generation versus editing/finishing accurately. Product identity does not lock a dull source pose.
 6. **Image-model prompt**: derived from sections 1 to 5, with each explicit output ratio, exact copy,
    reference roles, composition and exclusions. For Higgsfield use `connectors/higgsfield.md`.
 7. **Carousel frames**: only when requested; each frame has both ratio versions, is independently legible and has one message.
