@@ -9,14 +9,26 @@ where enforcement actually lives.
 
 ## Precedence, when two of them collide
 
+The core development method is `29-moment-to-meaning.md`: move from a problem or desire into a
+recognisable moment, its consequence, personal meaning and desired experience, then establish the
+product's supported role. Apply it before writing and during editing across every copy format.
+These sixteen standards check the resulting execution. A depth check is mandatory; an emotional
+story is not. Facts and the current task remain the constraints on both.
+
+Apply the selling-usefulness check from `30-scientific-advertising.md`: select the likely buyer,
+provide useful selling information, support it and make the next step clear. Curiosity, emotion and
+stakes serve that job and are optional. Repair a weak payload rather than disguising it with a loop.
+A fact can be specific and persuasive even when competitors share it; exclusivity needs separate proof.
+
 Work down this list. The first rule that applies wins, and the loser gets named in the rationale.
 
 1. **Never invent a claim.** Absolute. No other rule on this page licenses a fabricated specific.
-2. **Truth beats style.** An accurate line that reads slightly worse ships. A better line that
-   overstates does not.
+2. **Truth constrains style.** Improve expression within the evidence. An accurate but off-brief
+   line still needs revision; a stronger-sounding overstatement does not ship.
 3. **Approved wording survives editing.** Concision never removes a qualifier that a regulated claim
    depends on.
-4. **Awareness governs position.** What goes first is set by the customer's state of knowledge, per
+4. **Awareness governs position when the brief specifies it.** A simple product brief does not need
+   a formal awareness diagnosis. When the stage is known, ordering follows it, per
    `02-customer-state.md`. Rules about ordering yield to it.
 5. **Everything else is craft**, and craft judgement is arguable. Say which way you went.
 
@@ -24,8 +36,9 @@ Work down this list. The first rule that applies wins, and the loser gets named 
 
 ### 1. Sell the end state
 
-Sell the life the product produces, not the product. The reader is buying the version of their
-situation that exists after purchase.
+Identify what the person wants back or wants to experience, beyond just stopping a problem.
+Connect a product detail to a defensible use or payoff. Feature-led ads remain valid; do not force
+an emotional transformation or invent beliefs or results.
 
 **Prevents:** feature inventories, spec sheets, and copy that describes the object rather than the
 change.
@@ -33,9 +46,13 @@ change.
 **The check:** name the end state in one sentence without using the product's name. If you cannot, the
 copy is selling an object.
 
-**Position, not presence.** The end state must be present in every ad. It is not required to be the
-first line, and at Unaware it must not be, per `24-writing-for-low-awareness.md`. See
-`21-evidence-and-doctrine.md`.
+Separate what the person wants from what the product is known to do. Use the moment-to-meaning
+sequence to find relevance, never to promote a desired emotional or health outcome into a proven
+benefit. A practical end state can carry quiet satisfaction without explicit emotion language.
+
+**Position, not presence.** The complete ad conveys a desirable experience or practical payoff.
+Recognition or desired experience can lead at Problem Aware. At Unaware, establish relevance through
+a situation or desire before pitching the category. Neither pain-first nor benefit-first is universal.
 
 ### 2. Pass the stranger test
 
@@ -44,15 +61,15 @@ previous ad.
 
 **Prevents:** setup before the claim, and openings that assume a returning viewer.
 
-**The check:** hand the first line to somebody who knows nothing. If they need one question answered
-before it lands, it fails.
+**The check:** the subject and reason to care are understandable in the opening's visual context.
+An honest curiosity gap may leave its specific answer unresolved, not the ad's basic relevance.
 
 Already a non-negotiable in `20-hook-quality-standard.md` and a self-check in every contract.
 
 ### 3. Cut, then cut again
 
-First draft, then remove every word that carries no weight, then do it once more on the result. Second
-pass finds what the first cannot, because the first pass is still attached to the draft.
+Develop the thought before shortening it. Then make a separate editorial pass: compare candidates
+against the chosen concept and rewrite the strongest. Cut words only while preserving that meaning.
 
 **Prevents:** padding, throat-clearing, and copy whose length came from effort rather than argument.
 
@@ -60,7 +77,8 @@ pass finds what the first cannot, because the first pass is still attached to th
 deleted. State the word count before and after on long copy.
 
 **Bounded by rule 3 of precedence.** Cut words, never cut a qualifier a claim needs. A shorter line
-that overstates is not a better line.
+that overstates is not a better line. Also preserve necessary explanation, proof, offer conditions
+and the next action across the complete execution. There is no universal shortest winning length.
 
 ### 4. Select your reader
 
@@ -70,12 +88,13 @@ not sure the ad is for them scrolls.
 **Prevents:** copy pitched at everybody, which persuades nobody, and the qualification being left to
 the targeting.
 
-**The check:** can the intended reader tell inside the first line that this is about them.
+**The check:** can the intended reader recognise a relevant situation, desire, fact or offer from
+the opening and its visual context. A useful product descriptor can select as clearly as a scene.
 
 **Select by situation, not by label.** "If you're someone who struggles with sleep" is a label and
 `24-writing-for-low-awareness.md` bans it as spent setup. "The 4am wake-up where you do the mental
 maths on how much sleep is left" is a situation, and only the right reader recognises it. Situational
-recognition qualifies harder than any label and costs no words.
+recognition can make an abstract label concrete; use it when it helps this brief.
 
 ### 5. No em dashes
 
@@ -88,9 +107,9 @@ is verbatim third-party ad copy in `corpus/`, recorded as it ran.
 
 ### 6. Tone matches slot
 
-Each slot in an ad has a different job, so each takes a different register. The hook interrupts. The
-body explains. The headline compresses. The CTA instructs. One tone applied across all four means at
-least three are wrong.
+Each slot has a job. The hook earns relevant attention, the body explains, the headline makes the
+key idea legible and the CTA instructs. Adapt the register where useful, without forcing tonal
+changes. A direct explanation or offer may be the most useful opening.
 
 **Prevents:** hooks that read like body copy, which is the most common reason a good idea fails in the
 first second, and CTAs that hedge.
@@ -99,10 +118,10 @@ first second, and CTAs that hedge.
 
 | Slot | Register | Fails when |
 |---|---|---|
-| Video hook, first 3 seconds | Interrupting, mid-scene, spoken | It explains, or sets up |
+| Video hook, first 3 seconds | Relevant action or information, speakable | It wastes setup or attracts unrelated attention |
 | Primary text line one | Complete before truncation | It depends on line two |
 | Primary text body | Explanatory, sentences vary | It repeats line one at length |
-| Headline, ~40 characters | Compressed, one idea | It is a summary of the body |
+| Headline, length fits placement | Clear, one dominant idea | Compression removes the reason to care |
 | Description | Supporting, factual | It restates the headline |
 | CTA | Instruction, one action | It hedges, or offers two actions |
 | Static primary line | Legible at thumbnail | It needs the body to make sense |
@@ -124,24 +143,27 @@ carries the full resolution. Hedge lists are in `config/copy-lexicon.yml`.
 
 ### 8. Angles, not synonyms
 
-Multiple options must differ in the route into the argument, not in wording. New adjectives, new
-punctuation and new camera angles do not create a new option.
+Match the requested task. Concept exploration needs different arguments. Five headline options,
+rewrites or a controlled wording test can deliberately keep one concept while improving its
+expression. New punctuation alone is not a new strategic idea, but wording can matter.
 
-**Prevents:** a batch of six that is really one idea written six ways, which tests nothing.
+**Prevents:** cosmetic changes presented as new concepts, or an approved concept lost during rewriting.
 
-**The check:** state each option's route in a few words. Two options with the same route are one
-option. Cut to the number that genuinely differ rather than padding to a count.
+**The check:** can you identify what changed: concept, entry, expression or another test variable?
+Keep the requested count and concept. Revise weak options rather than misclassifying useful
+same-concept alternatives as duplicates or filling the set with unrelated benefits.
 
 Already mandatory in `contracts/hook-batch.md` and `contracts/ad-copy.md`, and scored as
 `distinctness` in the eval. This library says "route" where the rule says "angle".
 
 ### 9. One idea each
 
-One dominant idea per ad, one per line. If it needs two, it is two ads.
+One central argument per ad. Facts, examples, benefits and objections may reinforce it. They do not
+become separate ads merely because the argument uses several details or a conjunction.
 
 **Prevents:** the reader arbitrating between two competing claims, which they resolve by scrolling.
 
-**The check:** state the ad's idea in one sentence with no "and". Hard rule 7.
+**The check:** state the central argument plainly, then identify how each supporting part helps it.
 
 ### 10. Never invent claims
 
@@ -150,7 +172,8 @@ competitor fact. Ever, for any reason, including that the copy is better with on
 
 **Prevents:** the failure that survives every other quality gate and cannot be fixed after publication.
 
-**The check:** every specific traces to the claim library or carries a marker. **A marker names a gap
+**The check:** every specific traces to supplied product facts or relevant evidence. Mark essential
+gaps in a brief only, never in finished image copy. **A marker names a gap
 and never wraps a guess.** `[STAT: needs a real figure]` is correct. An invented figure tagged for
 removal is still an invented figure: it reached the page, it reads as real, and somebody will ship it.
 
@@ -187,8 +210,8 @@ is an argument.
 
 ### 13. Numbers beat adjectives
 
-A quantity, a duration, a price, a count or a temperature outperforms any adjective describing the
-same thing. "Three weeks" beats "quickly". "The 4am wake-up" beats "poor sleep".
+A supported quantity, duration, price, count or temperature can make a description more concrete.
+This is a writing preference, not a universal performance claim. "Three weeks" beats "quickly". "The 4am wake-up" beats "poor sleep".
 
 **Prevents:** inflated adjectives, which readers discount automatically because every competitor uses
 them.
@@ -196,7 +219,7 @@ them.
 **The check:** circle every adjective doing persuasive work and try to replace it with a figure.
 
 **When no figure exists, do not reach for the adjective.** The order of preference is: a real figure,
-then a marked placeholder naming the figure needed, then a concrete situation with no number in it. The
+then a concrete situation with no number in it. Mark an essential missing figure in the brief only. The
 vague adjective is last and usually worse than all three. Rule 10 outranks this rule absolutely: the
 absence of a number is never a reason to produce one.
 
@@ -207,8 +230,8 @@ sentence, first frame of the video.
 
 **Prevents:** buried leads, and copy that dies at truncation with the argument still ahead of it.
 
-**The check:** truncate at 80 characters. What survives should be a complete and compelling
-proposition. If it is not, the copy is not long, it is buried.
+**The check:** preview the actual placement. An 80-character cut is a useful stress test, not a
+universal character limit. Put the relevant point early and preserve the meaning and material terms.
 
 **The point is not always the product.** At Unaware the point is the situation, and
 `24-writing-for-low-awareness.md` holds the product name back deliberately. Front-loading orders by
@@ -216,13 +239,15 @@ the reader's interest, not by the brand's.
 
 ### 15. Sound unmistakably brand
 
-The copy should be identifiable as this brand with the logo removed.
+When a brand voice is supplied, make the copy identifiable without the logo. Without one, choose
+a suitable provisional voice; do not block creation or invent an established brand rule.
 
 **Prevents:** competent copy that any competitor could have run, which builds nothing across
 impressions.
 
-**The check:** swap in a competitor's name. If the ad still works unchanged, there is no brand in it.
-This is the same test as `specificity` in the eval, applied to voice instead of proof.
+**The check:** compare against the supplied brand voice, product facts and visual identity.
+The competitor-name swap can reveal generic phrasing, but is not a pass/fail specificity test.
+Shared category facts can sell honestly. Do not invent an exclusive feature to sound distinctive.
 
 Voice comes from `context/voice.md` and `learning/approved-rules.yml` in the connected brand folder.
 Without a brand folder this rule cannot be fully met, and the honest response is to say so rather than
@@ -275,10 +300,14 @@ line rather than the pattern, per `21-evidence-and-doctrine.md`.
 
 Do not run sixteen checks in sequence on every line. Three passes:
 
-1. **Write.** Awareness sets the order, one idea, end state present, reader selected.
-2. **Cut.** Rules 3, 7, 13 and 16 together. This is the pass that makes copy sound human, and it is
-   the one most often skipped.
-3. **Verify.** Rules 10, 11 and 5. Every specific traces or is marked, every claim is defensible, the
-   characters are clean.
+1. **Develop and write.** Use the moment-to-meaning sequence to find the relevant experience and
+   supported product bridge. Awareness sets the order when specified; choose one idea, a defensible
+   end state and a recognisable reader situation or practical payoff.
+2. **Deepen and cut.** Replace generic pain labels with useful concrete detail. Check why the moment
+   matters; do not merely add an emotion word. Apply rules 3, 7, 13 and 16, removing repeated agitation,
+   padding and any scene that does not advance the argument.
+3. **Verify.** Rules 10, 11 and 5. Every asserted fact traces, essential missing claims stay in the
+   brief, hypotheses are labelled in the rationale, the product bridge is defensible and the
+   characters are clean. No invented customer testimony or emotional result.
 
 Pass two is where the work is. Pass three is where the risk is.

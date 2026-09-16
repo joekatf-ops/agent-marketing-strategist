@@ -121,3 +121,10 @@ give logical reasons that justify it.
 **Bird's two tests.**
 - **You Test:** does the copy talk mainly about the customer, or the company?
 - **So What Test:** after every claim ask "so what?" until it resolves into a customer benefit.
+
+## Applying Hopkins today
+
+Use `30-scientific-advertising.md` for the reviewed source and practical salesmanship check,
+`31-controlled-tests.md` for measured comparisons, and `32-commercial-extensions.md` for trials,
+follow-up, education cost, distribution and product descriptors. Length follows the selling job.
+Historical anecdotes and methods are hypotheses to adapt, not current performance benchmarks.

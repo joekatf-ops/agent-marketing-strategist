@@ -35,8 +35,10 @@ You will rarely have all of these. You need enough to know whether the ask is vi
 
 Two readings that change creative direction:
 
-**Strong ROAS with weak contribution** means the ad is working and the offer is not. More creative
-will not fix it. The offer, the price or the product cost has to move.
+**Strong ROAS with weak contribution** shows that attributed revenue is not yielding enough
+contribution. Check attribution, customer mix, discounts, product and fulfilment costs, refunds,
+creative expectations and the offer. It does not prove that the ad works or that the offer alone
+is responsible. State whether contribution includes advertising before doing arithmetic.
 
 **Low first-order ROAS with strong retention** means an apparently failing ad may be correct. This is
 the case where a diagnosis that only reads platform metrics gives exactly the wrong instruction.
@@ -54,8 +56,9 @@ economics as volume rises.
 Advertising can reveal fit and accelerate it. It cannot manufacture it. A brand with no fit and a
 large creative budget produces a fast, expensive and unambiguous answer.
 
-The practical test on a brief: if the product has no repeat purchase and no organic recommendation,
-treat every creative result as a hypothesis about the market rather than a verdict on the ad.
+Interpret signals for the product: repeat purchase is less informative for a durable product than
+continued use, satisfaction and referral. Limited evidence leaves market fit uncertain; a single
+creative result cannot settle it.
 
 ## Segmentation and the Who
 
@@ -72,7 +75,7 @@ faster, safer. Emotional: how they want to feel. Social: how they want to be see
 Useful form: when [situation], I want to [motivation], so I can [desired progress].
 
 This is where a Who comes from. A Who defined by demographics produces interchangeable ads; a Who
-defined by situation produces ads only that brand could run.
+defined by situation can make the offer relevant without claiming the situation belongs to one brand.
 
 ## The offer as a lever
 
@@ -82,9 +85,9 @@ Components: core product, quantity or bundle, price, bonus, guarantee or trial, 
 payment terms, genuine scarcity, and one clear CTA.
 
 Offer strength rises by increasing perceived value and confidence, and by reducing delay, effort,
-uncertainty and risk. Note which half that is: **most offer improvement is subtraction of risk, not
-addition of promise.** That matches the without-framework in `03-strategy-and-offer.md` and the
-reason confession openings outperform claims.
+uncertainty and risk. Test whether removing a real barrier helps before enlarging the promise.
+The without-framework in `03-strategy-and-offer.md` can help articulate a barrier; it does not prove
+that confession openings outperform direct claims.
 
 Never invent urgency, scarcity or a guarantee. A fabricated deadline is a claim, and it is the
 easiest one to get caught making.
@@ -105,9 +108,10 @@ Conversion levers, in rough order of how often they are the actual problem:
 7. Speed and mobile usability
 8. Missing trust, shipping, returns and guarantee information
 
-When hook rate is healthy and conversion is not, the creative is doing its job and the destination is
-not. Recommend a Destination Handoff rather than more hooks. This is the single most common
-misdiagnosis in creative testing.
+Healthy hook rate with weak conversion leaves several explanations open: unqualified attention,
+overpromising, a weak argument, message mismatch, page friction, price, stock or tracking. Inspect
+creative and destination together before selecting a test. Hook rate alone cannot prove the
+creative works or locate the fault. Use `31-controlled-tests.md` to separate observations from causes.
 
 Improving conversion means making value and decisions easier to understand. It does not mean pressure.
 
@@ -143,7 +147,7 @@ Acquisition is the beginning, not the outcome. Retention improves when the produ
 promised, onboarding makes success easier, communication supports use, replenishment is timely,
 service resolves friction, and customers feel understood.
 
-Retention raises LTV and payback, which raises the CAC the business can sustain, which changes what
+Retention can raise LTV and shorten payback, which raises the CAC the business can sustain, which changes what
 creative is allowed to cost. It is the least visible input to how aggressive an acquisition strategy
 can be.
 
@@ -171,3 +175,10 @@ Every one of these is also an account-survival rule on Meta. The claim gate in
 Condensed from the Master Creative Strategy hub, archived verbatim in
 `docs/notion-archive/`. That material was the source of most of this reference library, and this
 commercial layer was the part that never made it across.
+
+## Conditional commercial extensions
+
+Use `32-commercial-extensions.md` when the question includes samples or trials, enquiry follow-up,
+the cost of educating a market or changing a habit, dealer/channel availability and incrementality,
+or buyer-facing product naming. Consider the whole acquisition and fulfilment cost, and distinguish
+new total business from sales transferred between channels. These checks do not gate ordinary drafts.

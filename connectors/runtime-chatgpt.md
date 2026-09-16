@@ -1,5 +1,11 @@
 # ChatGPT Setup
 
+For ordinary image ads, use `dist/image-ad-bundle.md` or the image route in `SKILL.md`. Product
+information is enough; customer research and brand bundles are optional. Every image concept gets both 1:1 and 9:16 versions unless explicitly overridden.
+Generation, browsing and persistence depend on this host's actual available tools. The governed
+ad-analysis setup below is not an image-creation prerequisite.
+
+
 Last verified: 2026-08-27
 
 ChatGPT capabilities vary by plan, workspace policy, desktop or web surface, Projects, GPTs, apps, and connectors. Use only the controls visible in the current account.
@@ -10,7 +16,7 @@ ChatGPT capabilities vary by plan, workspace policy, desktop or web surface, Pro
 2. Add the universal strategist knowledge bundle.
 3. Add the current brand bundle to the project or conversation.
 4. Use `PROMPT.md` as the operating instruction.
-5. At the start of each task, require the brand readiness check and active-brand confirmation.
+5. If a brand bundle is supplied, select it explicitly. Run readiness only for requested readiness or launch work.
 
 Replace the uploaded brand bundle after approved learning is recorded in the durable brand folder.
 

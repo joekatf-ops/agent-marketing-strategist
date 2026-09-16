@@ -1195,20 +1195,16 @@
     "transcription": null,
     "opening_seconds": null
    },
-   "annotation": {
-    "opening_type": "promise",
-    "must_have_carriers": {
-     "emotion": null,
-     "curiosity_gap": null,
-     "high_stakes": null
-    },
-    "non_negotiables_cleared": null,
-    "why_it_works": "Social proof as the entire headline, over a cold video opening. Same split-level pattern as the 412-day winner: proof in the headline, curiosity in the video.",
-    "teaching_note": "Headline-only reading. Foreplay returned no transcript for this ad, so the execution itself was not assessed."
-   },
+   "annotation": null,
    "annotatable": true,
    "annotatable_blocker": null,
-   "reviewed": false
+   "reviewed": false,
+   "visual_analysis": {
+    "inspection_status": "not-inspected",
+    "observations": [],
+    "interpretations": [],
+    "reason": "Prior video-style annotation removed: image media was not inspected."
+   }
   },
   {
    "id": "GSale3zqip3agX82ZJf9",

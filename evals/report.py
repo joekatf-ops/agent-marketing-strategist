@@ -26,15 +26,14 @@ def load(path: pathlib.Path) -> dict:
 
 
 def criterion_means(run: dict) -> dict[str, float]:
-    sums: dict[str, list[int]] = {key: [] for key, _ in rubric.CRITERIA}
+    sums: dict[str, list[int]] = {}
     for result in run["results"]:
         entries = (result.get("verdict") or {}).get("scores")
         if not isinstance(entries, dict):
             continue
-        for key, _ in rubric.CRITERIA:
-            item = entries.get(key)
+        for key, item in entries.items():
             if isinstance(item, dict) and isinstance(item.get("score"), int):
-                sums[key].append(item["score"])
+                sums.setdefault(key, []).append(item["score"])
     return {
         key: round(sum(values) / len(values), 2)
         for key, values in sums.items()
@@ -61,39 +60,38 @@ def summarise(run: dict, path: pathlib.Path) -> None:
 def compare(before: dict, after: dict) -> None:
     print("\n=== comparison ===")
 
-    # The rubric grows. When it does, the two runs are scored out of different totals and a
-    # raw delta is nonsense: 18/20 against 32/36 would print "+14.00, better". Per-criterion
-    # means stay comparable for the criteria present on both sides, so those carry the
-    # comparison and the totals are shown as percentages with the mismatch named.
     before_max, after_max = before.get("max"), after.get("max")
-    rescaled = (
-        isinstance(before_max, (int, float))
-        and isinstance(after_max, (int, float))
-        and before_max != after_max
-    )
-
+    rescaled = before_max != after_max
     before_mean, after_mean = before.get("mean"), after.get("mean")
+    left_hash, right_hash = before.get("rubric_fingerprint"), after.get("rubric_fingerprint")
+    reasons = []
+    if rescaled or (left_hash and right_hash and left_hash != right_hash):
+        reasons.append(f"RUBRIC CHANGED: scored out of {before_max} before and {after_max} after; "
+                       "scoring definitions must also match")
+    elif not left_hash or not right_hash:
+        reasons.append("RUBRIC UNVERIFIED: one or both runs lack a scoring fingerprint")
+    for field in ("model", "judge_model", "generation_protocol"):
+        if not before.get(field) or before.get(field) != after.get(field):
+            reasons.append(f"Comparison protocol differs or is unknown: {field}")
+    before_briefs = {r["brief"]: r.get("brief_sha256") for r in before["results"]}
+    after_briefs = {r["brief"]: r.get("brief_sha256") for r in after["results"]}
+    if before_briefs != after_briefs or not all(before_briefs.values()):
+        reasons.append("Brief content or selection differs or cannot be verified")
+    if any(r.get("total") is None for run in (before, after) for r in run["results"]):
+        reasons.append("One or more verdicts are incomplete")
+    if reasons:
+        print("\n".join(reasons))
+        for label, mean, maximum in (("before", before_mean, before_max), ("after", after_mean, after_max)):
+            if isinstance(mean, (int, float)) and isinstance(maximum, (int, float)) and maximum > 0:
+                print(f"{label}: {mean}/{maximum} ({100 * mean / maximum:.1f}%)")
+        print("No total or per-criterion deltas: these readings are not a verified like-for-like comparison.")
+        print("Percentages do not repair a changed rubric. Re-score comparable outputs under one rubric.")
+        return
     if isinstance(before_mean, (int, float)) and isinstance(after_mean, (int, float)):
-        if rescaled:
-            before_pct = 100 * before_mean / before_max
-            after_pct = 100 * after_mean / after_max
-            print(
-                f"RUBRIC CHANGED: scored out of {before_max} before and {after_max} after, "
-                "so the totals are not directly comparable."
-            )
-            print(
-                f"mean {before_mean}/{before_max} ({before_pct:.1f}%) -> "
-                f"{after_mean}/{after_max} ({after_pct:.1f}%)"
-            )
-            print(
-                "Read the per-criterion table below instead. A percentage across different "
-                "criteria is not a like-for-like measurement either: the added criteria may "
-                "simply be harder or easier than the ones they joined.\n"
-            )
-        else:
-            delta = after_mean - before_mean
-            direction = "better" if delta > 0 else "worse" if delta < 0 else "unchanged"
-            print(f"mean {before_mean} -> {after_mean}  ({delta:+.2f}, {direction})\n")
+        delta = after_mean - before_mean
+        direction = "better" if delta > 0 else "worse" if delta < 0 else "unchanged"
+        print(f"mean {before_mean} -> {after_mean}  ({delta:+.2f}, {direction})\n")
+        print("Direction of this rubric reading only; no measured sales lift or statistical certainty.\n")
 
     left, right = criterion_means(before), criterion_means(after)
     print(f"{'criterion':26} {'before':>7} {'after':>7} {'delta':>7}")

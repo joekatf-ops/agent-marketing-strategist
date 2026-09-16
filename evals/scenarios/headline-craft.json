@@ -1,0 +1,26 @@
+[
+  {
+    "id": "same-concept",
+    "request": "Write five concise static-ad headlines for a reversible dog coat. One side is yellow, the other navy. Our approved concept is changing the colour without buying another coat. Keep that concept; vary the wording. Do not introduce weather protection, warmth, durability or savings figures because none is supplied. Return five headlines only."
+  },
+  {
+    "id": "useful-curiosity",
+    "request": "Give me three image-ad headlines and one supporting line for a reusable notebook. It has wipe-clean pages and uses its included pen. The destination shows the three actual steps: write with the included pen, wipe the page with a damp cloth, dry before reuse. The chosen concept is starting the next list on the same page. Make two headlines curious and one direct. Do not invent an app, scan feature, unlimited lifespan, savings or environmental impact."
+  },
+  {
+    "id": "thin-input",
+    "request": "Create one simple image-ad concept for a key tray with three labelled sections: home, car and work. Nothing else is known about the product and we do not have research. Give the headline, supporting copy and image direction. Do not generate an image."
+  },
+  {
+    "id": "customer-language",
+    "request": "Write five concise image-ad headlines for a carry-on bag with a separate front pocket for documents. The concept is finding the boarding pass without opening the main compartment. Two supplied interview excerpts are: customer A, 'I had to open the whole bag at the gate'; customer B, 'I just want my passport where I can see it'. Use the situations to sharpen our brand copy, not as testimonials. We have no time-saved or security claims. Keep the concept and return only the headlines."
+  },
+  {
+    "id": "limited-evidence-concept",
+    "request": "Develop three headline directions for the concept of going to bed early but waking without energy for the day. The product is Cadian's cotton and stainless-steel grounding underlay, placed under the usual fitted sheet and connected to a properly grounded outlet. No sleep outcome evidence or educational landing-page explanation is supplied. This is concept exploration, not a request for launch-ready ads. Keep the desired morning experience central, and briefly distinguish each direction from what could currently be claimed about the product."
+  },
+  {
+    "id": "offer-ready",
+    "request": "Write three short image-ad headlines for people who already want our two-pack of cotton pillowcases. The verified offer is two pillowcases for $40 with free delivery. No deadline or scarcity. Keep the price clear and make purchase easy. No research is available and no new sleep benefit should be introduced. Return the three headlines only."
+  }
+]

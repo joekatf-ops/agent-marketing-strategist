@@ -6,10 +6,11 @@ output/
 __pycache__/
 *.pyc
 node_modules/
-# The two paste-in bundles ship with the repository, because the upload-only install
+# The three paste-in bundles ship with the repository, because the upload-only install
 # path is "download this file and paste it" and a gitignored bundle makes that
 # impossible without running Python first. CI checks they are not stale.
 dist/*
+!dist/image-ad-bundle.md
 !dist/craft-bundle.md
 !dist/knowledge-bundle.md
 .fuse_hidden*

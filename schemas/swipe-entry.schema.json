@@ -5,57 +5,137 @@
   "description": "One annotated ad in the swipe corpus. Longevity is behavioural evidence, never a performance claim.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["id", "source", "brand", "format", "evidence", "awareness", "content", "reviewed"],
+  "required": [
+    "id",
+    "source",
+    "brand",
+    "format",
+    "evidence",
+    "awareness",
+    "content",
+    "reviewed"
+  ],
   "properties": {
     "id": {
       "type": "string",
       "description": "Foreplay internal ad id. Stable, and the key used when re-syncing."
     },
     "ad_id": {
-      "type": ["string", "null"],
+      "type": [
+        "string",
+        "null"
+      ],
       "description": "Platform ad identifier as reported by Foreplay."
     },
     "foreplay_url": {
-      "type": ["string", "null"],
+      "type": [
+        "string",
+        "null"
+      ],
       "description": "Canonical Foreplay URL, taken from the API rather than constructed."
     },
     "source": {
       "type": "string",
-      "enum": ["curated-board", "discovery"],
+      "enum": [
+        "curated-board",
+        "discovery"
+      ],
       "description": "curated-board carries the owner's judgement already. discovery does not."
     },
     "board": {
-      "type": ["string", "null"],
+      "type": [
+        "string",
+        "null"
+      ],
       "description": "Board name when the source is curated-board."
     },
     "brand": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id"],
+      "required": [
+        "id"
+      ],
       "properties": {
-        "id": { "type": "string" },
-        "name": { "type": ["string", "null"] },
-        "category": { "type": ["string", "null"] },
-        "site": { "type": ["string", "null"] }
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "category": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "site": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
       }
     },
     "format": {
       "type": "string",
-      "enum": ["video", "image", "dco", "carousel", "text", "unknown"]
+      "enum": [
+        "video",
+        "image",
+        "dco",
+        "carousel",
+        "text",
+        "unknown"
+      ]
     },
-    "product_category": { "type": ["string", "null"] },
-    "niches": { "type": "array", "items": { "type": "string" } },
+    "product_category": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "niches": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
     "evidence": {
       "type": "object",
       "description": "Behavioural evidence only. No performance figures are available from this source.",
       "additionalProperties": false,
       "properties": {
-        "running_days": { "type": ["integer", "null"] },
-        "live": { "type": ["boolean", "null"] },
-        "started_running": { "type": ["integer", "null"] },
-        "video_duration_seconds": { "type": ["number", "null"] },
+        "running_days": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "live": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "started_running": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "video_duration_seconds": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
         "product_mentioned_at_seconds": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "description": "Negative one means the product is never named in the transcript."
         },
         "class": {
@@ -68,19 +148,38 @@
     "awareness": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["code", "basis"],
+      "required": [
+        "code",
+        "basis"
+      ],
       "properties": {
         "code": {
-          "type": ["string", "null"],
-          "enum": ["UWA", "PRA", "SLA", "PDA", null]
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "UWA",
+            "PRA",
+            "SLA",
+            "PDA",
+            null
+          ]
         },
         "mention_ratio": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "description": "product_mentioned_at_seconds divided by video_duration_seconds."
         },
         "basis": {
           "type": "string",
-          "enum": ["mention-ratio", "inferred-from-copy", "unavailable"],
+          "enum": [
+            "mention-ratio",
+            "inferred-from-copy",
+            "unavailable"
+          ],
           "description": "mention-ratio is computed. inferred-from-copy is judgement and needs review."
         }
       }
@@ -89,11 +188,29 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "headline": { "type": ["string", "null"] },
-        "primary_text": { "type": ["string", "null"] },
-        "transcription": { "type": ["string", "null"] },
+        "headline": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "primary_text": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "transcription": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "opening_seconds": {
-          "type": ["array", "null"],
+          "type": [
+            "array",
+            "null"
+          ],
           "description": "Timestamped transcript segments covering the first three seconds.",
           "items": {
             "type": "object",
@@ -103,24 +220,65 @@
       }
     },
     "annotation": {
-      "type": ["object", "null"],
+      "type": [
+        "object",
+        "null"
+      ],
       "description": "The teaching layer. Drafted by the agent, corrected by a human.",
       "additionalProperties": false,
       "properties": {
-        "opening_type": { "type": ["string", "null"], "enum": ["promise", "open loop", null] },
+        "opening_type": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "promise",
+            "open loop",
+            null
+          ]
+        },
         "must_have_carriers": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "emotion": { "type": ["string", "null"] },
-            "curiosity_gap": { "type": ["string", "null"] },
-            "high_stakes": { "type": ["string", "null"] }
+            "emotion": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "curiosity_gap": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "high_stakes": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
           }
         },
-        "non_negotiables_cleared": { "type": ["boolean", "null"] },
-        "why_it_works": { "type": ["string", "null"] },
+        "non_negotiables_cleared": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "why_it_works": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "teaching_note": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "The transferable move, stated so it can be applied to a different product."
         }
       }
@@ -129,10 +287,133 @@
       "type": "boolean",
       "description": "False when the source carries no headline, copy or transcript to read."
     },
-    "annotatable_blocker": { "type": ["string", "null"] },
+    "annotatable_blocker": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
     "reviewed": {
       "type": "boolean",
       "description": "False until a human confirms the annotation. Only reviewed entries are taught."
+    },
+    "media": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source"
+        ],
+        "properties": {
+          "source": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "image",
+              "video",
+              "frame",
+              "unknown"
+            ]
+          },
+          "width": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "height": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "accessed_at": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "visual_analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "inspection_status",
+        "observations",
+        "interpretations"
+      ],
+      "properties": {
+        "inspection_status": {
+          "enum": [
+            "not-inspected",
+            "inspected"
+          ]
+        },
+        "observations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "interpretations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reason": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "inspected_at": {
+          "type": "string"
+        },
+        "awareness": {
+          "enum": [
+            "unaware",
+            "problem-aware",
+            "solution-aware",
+            "product-aware",
+            "most-aware",
+            "uncertain"
+          ]
+        },
+        "adaptation": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "inspection_status": {
+                "const": "inspected"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "source",
+              "inspected_at"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "inspection_status": {
+                "const": "not-inspected"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "observations": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

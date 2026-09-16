@@ -1,6 +1,6 @@
 # Output Contracts
 
-The strategist has thirteen governed artefacts. They are output shapes, available when the work
+The strategist has fourteen governed artefacts. They are output shapes, available when the work
 calls for one or the user asks for one by name. They are not gates: a request for a hook does not
 require a Concept Batch first, and no contract is a precondition for answering a question.
 
@@ -11,10 +11,11 @@ Load a contract in full before producing that artefact.
 | Strategist Read | `contracts/strategist-read.md` | Any request for judgement rather than production |
 | Brand Readiness | `contracts/brand-readiness.md` | When asked whether a brand is ready, or before a launch plan |
 | Customer Intelligence Brief | `contracts/customer-intelligence.md` | New brand, stale evidence, or research refresh |
-| Concept Batch | `contracts/concept-batch.md` | Before creative production |
-| Hook Batch | `contracts/hook-batch.md` | After a concept and execution are selected |
+| Concept Batch | `contracts/concept-batch.md` | Governed house campaign planning only |
+| Hook Batch | `contracts/hook-batch.md` | Hook requests, directly from the available brief |
 | Ad Copy | `contracts/ad-copy.md` | Primary text, headlines, descriptions, and CTA |
 | Video Script | `contracts/video-script.md` | Any selected video execution |
+| Reference Analysis | `contracts/reference-analysis.md` | Supplied inspiration and paired-ratio adaptation |
 | Static and Carousel Spec | `contracts/static-spec.md` | Any selected static or carousel execution |
 | Campaign Launch Plan | `contracts/campaign-launch-plan.md` | Before a human builds or changes Meta campaigns |
 | Destination Handoff | `contracts/destination-handoff.md` | Before launch, for ad-to-page message continuity |
@@ -22,7 +23,12 @@ Load a contract in full before producing that artefact.
 | Ad Diagnosis | `contracts/ad-diagnosis.md` | Manual performance analysis and next decisions |
 | Learning Update | `contracts/learning-update.md` | After an approved human revision |
 
-## Rules that apply to all thirteen
+## Shared rules and scoped campaign conventions
+
+Product information and a prompt are enough for ordinary creative work. Customer research, beliefs,
+brand visuals and campaign identifiers are optional. Rules 11 to 15 describe the named house
+campaign profile only. The current user request controls ordinary creative count and direction;
+flag factual conflicts without silently overwriting stored records. Every image concept gets both 1:1 and 9:16 versions unless explicitly overridden.
 
 1. **Resolve the brand when there is one.** An artefact produced against a connected brand folder
    names the brand, market, product, evidence version and approved-learning version. An artefact
@@ -36,7 +42,7 @@ Load a contract in full before producing that artefact.
 4. **The claim gate never bends.** Regulated or high-risk claims require approved wording and
    substantiation for the active market before an ad runs. It does not block drafting.
 5. **Thin input is marked, not refused.** Missing evidence changes confidence, marking and permitted
-   use. Mark the placeholder in place, never invent the specific, never pad to satisfy a count, and
+   use. Mark essential gaps in the brief only, omit unknown details from finished copy and pixels, and
    never withhold the work.
 6. **Freshness is part of validity.** Research and strategy state the last website check, material
    changes, connector results, and important source dates.

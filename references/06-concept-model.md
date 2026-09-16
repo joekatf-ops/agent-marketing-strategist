@@ -1,5 +1,8 @@
 # Concept coordinates, test batches and executions
 
+Scope: governed house campaign profile. These conventions are not universal Meta requirements and do not gate ordinary product-first image creation.
+
+
 ## Canonical coordinate
 
 One concept coordinate is exactly:
@@ -38,6 +41,13 @@ resolution, mechanism, demonstration, comparison, story and belief shift.
 The route must advance a coherent argument for the selected Who, Primary Problem and awareness job.
 The historical term angle may remain in migration records or general copy theory, but it must not
 appear in a new concept equation, concept card, name or register field.
+
+Develop the argument with `29-moment-to-meaning.md`: the recognisable experience, what it takes away
+or could make possible, what the person wants back, and the product's supported role. Recognition
+or desired experience can lead, depending on awareness and evidence. Do not stop at describing pain.
+Share these jobs across headline, visual and support; the whole execution must make sense.
+This thinking deepens the existing coordinate and messaging route; it does not add a concept axis
+or require a worksheet for ordinary headline requests.
 
 ## Source classification
 

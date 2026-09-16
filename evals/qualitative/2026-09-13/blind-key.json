@@ -1,0 +1,26 @@
+{
+  "A": {
+    "left": "A",
+    "right": "B"
+  },
+  "B": {
+    "left": "B",
+    "right": "A"
+  },
+  "C": {
+    "left": "B",
+    "right": "A"
+  },
+  "D": {
+    "left": "B",
+    "right": "A"
+  },
+  "E": {
+    "left": "A",
+    "right": "B"
+  },
+  "F": {
+    "left": "A",
+    "right": "B"
+  }
+}

@@ -1,4 +1,7 @@
 # Output Contract: Campaign Launch Plan
+
+Scope: governed house campaign profile. These conventions are not universal Meta requirements and do not gate ordinary product-first image creation.
+
 locked: 2026-08-27
 version: 1.0.0
 

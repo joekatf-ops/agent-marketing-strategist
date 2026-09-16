@@ -41,5 +41,7 @@ jobs:
 
       - name: The shipped bundles are generated, so they must be current
         run: |
+          python3 scripts/build-image-ad-bundle.py --check
+          python3 scripts/validate-image-ad.py examples/image-ad-run.json
           python3 scripts/build-craft-bundle.py --check
           python3 scripts/build-knowledge-bundle.py --check

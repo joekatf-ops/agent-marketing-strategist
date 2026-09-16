@@ -5,7 +5,9 @@ The universal skill remains unchanged across brands.
 
 ## Resolve the brand
 
-1. Find `brand.yml` in the folder supplied for the task.
+1. Find `brand.yml` in the folder supplied for the task. If no folder was supplied, check the
+   current workspace's `memory/brands/<named-brand-slug>/brand.yml` and verify that its identity
+   matches the named brand. Do not search unrelated private folders or default to another brand.
 2. Read the slug, method version, controlled naming codes, next test number, markets, products and
    evidence status from `brand.yml`, then read website freshness from
    `sources/website/crawl-state.json`.
@@ -32,6 +34,12 @@ Never collapse these classes. A competitor review does not prove how this brand'
 A website claim does not prove a product result.
 
 ## Mode-specific readiness
+
+The requirements below apply to governed brand-folder planning and launch readiness. An ordinary
+copy, image or revision request follows the product-first core and can use a partial creative pack.
+Read available brand-core, voice, visual and approved-learning files before drafting. Missing
+economics, registers or performance reports do not block that creative work. Brand delivery and
+production preferences take precedence over universal fallback choices unless the user overrides them.
 
 ### Research
 

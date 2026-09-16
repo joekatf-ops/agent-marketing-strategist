@@ -1,12 +1,28 @@
 # Format library
 
-Twenty-five executions with their structure, best awareness fit and production requirements.
-Format is an execution variable, never a concept axis. Pick the format that serves the
-messaging job, not the one that is easiest to shoot.
+Reusable ad formats with their structure, typical awareness fit and production requirements.
+These are creative structures used when planning Meta ads, not Meta placement names or proof
+that a brand has run every format. Format is an execution variable, never a concept axis.
+Pick the format that serves the messaging job, not the one that is easiest to shoot.
+
+## Format versus execution
+
+- **Format:** a reusable structure, such as Us vs Them, Benefits Callout or Listicle.
+- **Execution:** a specific angle and visual treatment of the current concept within that format.
+  "Grounding outdoors versus grounding in bed" is an execution of Us vs Them, not a format name.
+- **Art direction:** the typography, palette, photography and visual finish applied to the execution.
+- **Media and delivery:** image/video/carousel and 4:5/9:16 describe the asset, not the persuasive structure.
+- **Awareness:** the audience's knowledge determines the messaging job; it is not a format.
+
+For format requests, use `../contracts/format-options.md`: name each format first and give three
+distinct execution options within it. Preserve the concept across those options. Use the table
+names consistently; Comparison / Us Versus Them is an alias of Us vs Them, and Benefit Stack /
+Benefit Pointout is an alias of Benefits Callout. A label such as "premium bedroom scene" belongs
+under an execution. Select the dominant structure when an execution combines familiar formats.
 
 ## Image formats
 
-All image formats: 1:1 and 4:5 master, adapt to 9:16 where needed. Production difficulty low.
+For image production, the fallback is paired 1:1 square and 9:16 vertical versions, including carousel frames. The request or selected brand's saved delivery preferences can override this. Format recommendations alone do not trigger generation. Video formats keep their own placement specifications.
 Assets needed: product image, brand assets, proof and copy inputs.
 
 | Format | Structure | Best for | Awareness |
@@ -14,14 +30,19 @@ Assets needed: product image, brand assets, proof and copy inputs.
 | Problem callout | Pain-led headline, visualised symptom, curiosity bridge | Immediate recognition of a specific pain | UWA, PRA |
 | Meme / pattern interrupt | Familiar meme structure, Who-specific tension, subtle product payoff | Attention, relatability, emotional recognition | UWA |
 | Native social post | Post-style hook, short observation or story, light brand cue | Low-polish authenticity and feed fit | UWA, PRA |
-| Listicle | Numbered headline, concise points, product bridge | Education, curiosity, saves | UWA, PRA |
+| Listicle | Numbered headline, concise points, product bridge | Education, reasons to consider, practical evaluation | UWA, PRA, SLA |
 | Advertorial / editorial | Editorial headline, contextual visual, short proof deck, subtle product bridge | Native-feed education and authority | UWA, PRA |
 | Problem to solution | Problem panel, mechanism or product bridge, desired outcome | Simple before and after logic | PRA, SLA |
 | Mechanism / how it works | Mechanism headline, three-step visual explanation, benefit | Explaining why the product is different | PRA, SLA |
-| Comparison / us versus them | Two-column criteria, clear contrast, substantiated takeaway | Differentiation and switching | SLA, PDA |
+| Us vs Them | Two-column criteria, clear contrast, substantiated takeaway | Differentiation and switching | SLA, PDA |
 | Testimonial / review | Quote hook, reviewer context, rating or proof, product | Trust and objection handling | SLA, PDA |
-| Benefit stack | Product hero, three to five benefit hierarchy, CTA | Multiple reasons to choose | SLA, PDA |
+| Benefits Callout | Product or lifestyle hero with three to five concise benefit callouts | Relevant reasons to consider or choose | SLA, PDA |
 | Product hero | Strong product focal point, one core benefit, proof and CTA | Product recognition, differentiation and decision support | PDA |
+| Offer / Promotion | Product or bundle, verified offer, included value and material terms | Offer-led decision support | PDA |
+
+Awareness fit is guidance, not a hard restriction. Select benefits, facts and comparison criteria
+from the active product evidence. A format is not permission to invent results, quotes or rival
+weaknesses. An editorial format does not imply an independent publisher or news finding.
 
 ## Video formats
 
@@ -51,7 +72,8 @@ Second-by-second beat structures and retention data for these shapes are in
    folder's production constraints.
 4. Prefer the format that makes the messaging route visible. A visible-proof route wants
    demonstration or comparison, not a talking head.
-5. Check the shortlist against the measured rates below before settling.
+5. Choose on argument, facts and production fit. The historical study below is optional context;
+   its spend threshold is not a profitability metric or a forecast for the active brand.
 6. Across the four executions in an initial NNT or INSPO batch, vary format where it creates a
    different expression or learning value. Format changes do not create a new coordinate.
 

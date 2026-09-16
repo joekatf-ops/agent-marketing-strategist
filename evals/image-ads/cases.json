@@ -1,0 +1,108 @@
+[
+  {
+    "id": "product-only",
+    "request": "Make me an image ad for my desk cable organiser. It holds six cables. I have no customer research or photos yet. Keep it simple.",
+    "capabilities": [
+      "text"
+    ],
+    "checks": [
+      "Useful copy and square prompt",
+      "No research/belief gate",
+      "No invented product construction or proof",
+      "No claimed render"
+    ]
+  },
+  {
+    "id": "research-upgrade",
+    "request": "Make a square concept for a six-cable desk organiser. Two customer support messages say: 'Can I use it on a standing desk?' and 'Will it fit a thick charging cable?'.",
+    "capabilities": [
+      "text"
+    ],
+    "checks": [
+      "Use as two questions, not representative prevalence",
+      "No invented compatibility answer",
+      "Supply a concept without blocking on full research"
+    ]
+  },
+  {
+    "id": "unseen-reference",
+    "request": "Make a Nano Banana Pro prompt using https://example.com/unavailable-ad.png. Saved caption: Six cables. Six places. Our desk organiser holds six cables.",
+    "capabilities": [
+      "text"
+    ],
+    "checks": [
+      "No invented visual observation",
+      "Original square alternative clearly distinguished",
+      "No inferred six separate slots",
+      "Retain model preference"
+    ]
+  },
+  {
+    "id": "most-aware-offer",
+    "request": "Give me one offer image prompt for people ready to buy. Product: six-cable desk organiser. Current offer supplied by owner: $20, today through 30 September 2026.",
+    "capabilities": [
+      "text"
+    ],
+    "checks": [
+      "One square prompt",
+      "Use actual supplied terms",
+      "No four-ad house campaign gate",
+      "No invented stock limit"
+    ]
+  },
+  {
+    "id": "brand-correction",
+    "request": "Use this owner correction: it holds six cables, not eight as in the old brand note. Make one product image prompt.",
+    "context": "Old brand note: capacity eight cables.",
+    "capabilities": [
+      "text"
+    ],
+    "checks": [
+      "Six per explicit owner correction",
+      "Stored conflict identified concisely",
+      "No silent record overwrite"
+    ]
+  },
+  {
+    "id": "mixed-job-results",
+    "request": "Finish my three requested square images from existing jobs.",
+    "context": "Job index 0 succeeded; index 1 pending; index 2 failed. Retry budget permits one failed-item retry. Mock tools only.",
+    "capabilities": [
+      "mock-generation"
+    ],
+    "checks": [
+      "Never rerun 0 or 1",
+      "Retry only 2 once",
+      "Inspect actual dimensions before verified"
+    ]
+  },
+  {
+    "id": "real-render-pair",
+    "request": "Using my supplied product photo, make the same square concept with Nano Banana Pro and ChatGPT generation.",
+    "capabilities": [
+      "generation",
+      "vision",
+      "file-metadata"
+    ],
+    "checks": [
+      "Dedicated read-only estimates",
+      "One per requested model",
+      "Public reference role image",
+      "Actual 1:1 dimensions",
+      "Spelling and fidelity inspected"
+    ],
+    "requires": "Authorized live rendering and actual product attachment"
+  },
+  {
+    "id": "brand-isolation",
+    "request": "Make a simple ad for an unbranded six-cable desk organiser.",
+    "context": "A separate earlier task used Cadian colours. Those are not inputs to this task.",
+    "capabilities": [
+      "text"
+    ],
+    "checks": [
+      "No inherited Cadian identity or product details",
+      "Provisional design explicitly chosen for current product"
+    ]
+  }
+]

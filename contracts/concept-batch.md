@@ -1,4 +1,7 @@
 # Output Contract: Concept Batch
+
+Scope: governed house campaign profile. These conventions are not universal Meta requirements and do not gate ordinary product-first image creation.
+
 locked: 2026-08-27
 version: 3.0.0
 
@@ -71,6 +74,12 @@ Each execution records: awareness code and job, messaging route, primary hook, m
 format, required proof and claims, destination, CTA, people, assets and location required, and the
 complete final ad name ending in `POSTIDXXX` before publication.
 
+Use `references/29-moment-to-meaning.md` to develop each argument: the recognisable moment, what
+the person wants back or wants to experience, the chosen entry and the supported product role.
+Capture this briefly in the execution rationale, not as new coordinate axes. A pain-led opening
+needs a credible way forward in the complete ad; a desired-experience opening needs a supported
+product connection. Category or brand unfamiliarity alone does not establish problem unawareness.
+
 A deliberate deviation is permitted only when the execution and page remain congruent and the page
 maps to one controlled destination token: LP, PDP, HP or CP. Record the default, selected token,
 final URL, reason, supporting evidence, risks, owner and approval in the Destination Handoff. If the
@@ -97,6 +106,7 @@ execution variable, justify the narrower set and state what the comparison canno
 - [ ] Every batch has the next unused CONTST ID and one source classification
 - [ ] Every initial NNT or INSPO has exactly UWA, PRA, SLA and PDA once each
 - [ ] Every execution includes route, format, proof, destination and job
+- [ ] Each complete execution conveys a desired experience or useful payoff with a supported product role
 - [ ] UWA and PRA default to LP; SLA and PDA default to PDP
 - [ ] Every deliberate destination exception is recorded and remains congruent
 - [ ] Every default and exception maps to one controlled destination token: LP, PDP, HP or CP

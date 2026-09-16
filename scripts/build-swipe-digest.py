@@ -119,8 +119,8 @@ def build_digest(entries: list[dict]) -> str:
         "  unaware buyer. Treat the code as a sort, not a fact.",
         "- **The never-named sentinel is unreliable.** At least one entry reports the product as never",
         "  named while its transcript names it. Check before relying on that value.",
-        "- Annotations marked unreviewed are one reading, not an established fact. Weight them",
-        "  accordingly and never cite one as proof.",
+        "- Only human-reviewed annotations enter this teaching digest. Unreviewed drafts remain",
+        "  in the corpus review queue; they are not taught as established patterns.",
         "",
         "## How to use this",
         "",
@@ -134,8 +134,12 @@ def build_digest(entries: list[dict]) -> str:
         "",
     ]
 
+    if not reviewed:
+        out.extend(["No reviewed teaching examples are available yet. Use supplied references or original",
+                    "product-first concepts; do not substitute unreviewed drafts as evidence.", ""])
+
     for code, title, blurb in BANDS:
-        group = [e for e in annotated if e["awareness"].get("code") == code]
+        group = [e for e in reviewed if e["awareness"].get("code") == code]
         if not group:
             continue
         group.sort(key=lambda e: -((e.get("evidence") or {}).get("running_days") or 0))

@@ -17,6 +17,7 @@ into one generic failure.
 |---|---|---|
 | Website crawling | Firecrawl | browser, supplied export |
 | Competitor ad intelligence | TrendTrack | Foreplay, Meta Ad Library, browser |
+| Saved image-ad references and boards | Foreplay | supplied ads, reviewed local swipe records |
 | Customer review mining | Firecrawl | review export, browser |
 | Community research | public search | supplied community export |
 | Search and demand language | search and trends tools | browser |
@@ -25,6 +26,11 @@ into one generic failure.
 
 Live Meta reporting is deferred. A manual export satisfies diagnosis when it contains the required
 fields.
+
+For saved-layout work, Foreplay is the preferred route. Follow `connectors/foreplay.md` and
+`references/28-saved-ad-layouts.md`. Foreplay Lens is a separate capability: discovery access does
+not prove access to first-party performance. Use authenticated Lens reads only when available and
+relevant; manual reporting remains a valid fallback and launch stays manual.
 
 Reading Notion is research and is never required. When the current host exposes a user-authenticated
 Notion connection, follow `connectors/notion-composio.md`. Configured does not mean live: only a
