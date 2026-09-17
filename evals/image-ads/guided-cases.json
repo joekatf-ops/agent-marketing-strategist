@@ -1,0 +1,52 @@
+[
+  {
+    "id": "new-reference",
+    "entrypoint": "SKILL.md",
+    "input": "Create a Story image ad for Wayline Cable Dock. It is a matte silicone organiser with six cable slots and an adhesive base. We have no customer research or brand guide. Use a two-column comparison layout with the organiser as the main subject below the columns. Start the concept with me. No offer or discount.",
+    "expected": [
+      "Starts at one meaningful unresolved creative decision with three grounded options and a recommendation.",
+      "Treats product, format, ratio and lack of offer as supplied.",
+      "Does not require customer research, invent product photos or generate prematurely."
+    ]
+  },
+  {
+    "id": "selection-continuity",
+    "entrypoint": "SKILL.md",
+    "input": "We are creating a Wayline Cable Dock ad. Product: matte silicone organiser, six cable slots, adhesive base. Approved persona: people working at a home desk. Approved angle: keep frequently used cables within reach. Approved format: product hero. Approved headline: Your charger, right where you left it. Supporting copy: Six slots. One tidy desk. Story only. Last options presented were art directions: 1 warm daylight on an oak desk with charcoal sans serif type; 2 cool grey studio with white type; 3 dark navy studio with warm spotlight and cream type. My reply: lets go with 3. Build it.",
+    "expected": [
+      "Binds 3 to dark navy art direction, not an earlier copy choice.",
+      "Preserves headline, supporting copy, persona and ratio.",
+      "Presents ready copy/prompt without another question; acknowledges test tool limits, not a fake render."
+    ]
+  },
+  {
+    "id": "approved-revision",
+    "entrypoint": "SKILL.md",
+    "input": "The final Story ad is approved. Make its 4:5 version now using full regeneration. Preserve the warm grey studio light, off-white typography, six-slot silicone product and exact copy: Your charger, right where you left it. Six slots. One tidy desk. The approved master and product photograph are not accessible in this text-only test. Do not invent what they look like.",
+    "expected": [
+      "Does not restart persona, angle or headline choices.",
+      "Prepares ratio-specific final-state prompt and identifies unavailable visual references.",
+      "Preserves full regeneration and cannot claim visual inspection, image creation or exact font matching."
+    ]
+  },
+  {
+    "id": "delegated-thin-input",
+    "entrypoint": "PROMPT.md",
+    "input": "Make one square image ad for Fernwick, a green silicone spatula with a removable head. Choose everything for me and just generate. There are no photos, offers or font files. Keep it factual and simple.",
+    "expected": [
+      "Bypasses guided selection, selects factual copy and provisional art direction.",
+      "Uses supplied brand/product without importing another brand palette or claims.",
+      "Provides ready prompt honestly when rendering unavailable; does not demand fonts or product photos."
+    ]
+  },
+  {
+    "id": "portable-guided",
+    "entrypoint": "dist/image-ad-bundle.md",
+    "input": "Let us develop a fresh 4:5 image concept for Fernwick silicone spatulas. The removable head is the feature. Audience: people cooking at home. The format is a simple benefits callout. Headline, supporting copy and visual direction are still open. No discount.",
+    "expected": [
+      "Reuses supplied persona and format.",
+      "Offers one unresolved creative choice, not a complete unsolicited final ad or a multi-question intake.",
+      "No generation or fabricated visual inspection."
+    ]
+  }
+]

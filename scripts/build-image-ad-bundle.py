@@ -9,7 +9,8 @@ OUT = ROOT / "dist/image-ad-bundle.md"
 SOURCES = (
     "references/00-working-core.md", "references/26-copywriting-standards.md",
     "references/29-moment-to-meaning.md", "references/30-scientific-advertising.md",
-    "references/27-image-ad-workflow.md", "references/34-art-direction-and-revisions.md",
+    "references/27-image-ad-workflow.md", "references/37-guided-image-development.md",
+    "references/34-art-direction-and-revisions.md",
     "references/08-formats.md", "contracts/format-options.md",
     "references/28-saved-ad-layouts.md", "contracts/static-spec.md",
     "contracts/reference-analysis.md", "connectors/higgsfield.md", "connectors/foreplay.md", "config/copy-lexicon.yml",
@@ -24,6 +25,18 @@ def image_excerpt(source, text):
     """
     omitted = {
         "PROMPT.md": {"Additional workflows", "Launch invariants"},
+        # Image-specific planning is carried in full by 37, 34 and static-spec. Keep
+        # 27's operational generation/verification, without repeating its planning
+        # summary, format table or delivery summary. 00 retains product intake and
+        # evidence precedence; 26, 29 and 30 carry its repeated writing checks.
+        "references/00-working-core.md": {
+            "Make a complete, useful ad from limited facts", "Selling usefulness", "The creative check",
+        },
+        "references/27-image-ad-workflow.md": {
+            "Three entry points", "1. Resolve the product and request", "2. Choose the message and format",
+            "3. Select and adapt a visual reference", "4. Write the production brief",
+            "7. Deliver and improve", "Selling role of the layout",
+        },
         # The image edition carries the operative core instead of duplicating PROMPT.
         # Keep visual/format methods without video tables, study rankings, bibliographies
         # or dated connector setup instructions in every image request.
@@ -65,7 +78,8 @@ def build():
              "Self-contained instructions for product-first Meta image ads. Upload this one file, "
              "then describe the product and request. Customer research is optional. Every image concept gets "
              "1:1 and 9:16 versions unless the request or selected brand's delivery preferences override them. Tools remain host-dependent; without generation, deliver copy and a prompt.\n\n"
-             "The operating core is included directly; PROMPT.md is not required with this edition. "
+             "New concepts default to guided choices and one master first. Ready briefs, approved revisions "
+             "and explicit delegation proceed directly. The operating core is included directly; PROMPT.md is not required with this edition. "
              "This image edition omits non-image operations, extended worked examples, historical setup detail and duplicate checklists; "
              "the actual core checks and image workflow are retained from their canonical sources. "
              "Optional deeper-library references are not prerequisites. The included core and image "

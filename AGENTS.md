@@ -7,7 +7,8 @@ are equally valid starting points. No intake form or customer-research prerequis
 ## Start every run here
 
 1. Read the three core references below; reuse them within the session.
-2. Produce the requested work from supplied product facts. Choose a suitable message and format.
+2. Produce the requested work from supplied product facts. For new image concepts, use the guided
+   route below; ready briefs and revisions proceed directly. For other work, choose a suitable message and format.
    Supplied websites, landing pages and PDPs count as inputs: retrieve them and the relevant product
    page before asking for facts already available there. Follow the website intake in the core.
 3. Add relevant research, brand context and tools when available or requested. Do not turn a simple
@@ -47,6 +48,10 @@ stage, art direction or aspect ratio as a new format. This is ideation, not perm
 
 For image creation, adaptation or revision, read `references/27-image-ad-workflow.md` and
 `references/34-art-direction-and-revisions.md`, then `contracts/static-spec.md`.
+Use `references/37-guided-image-development.md` to select the working mode and retain decisions.
+For a new concept, guide one unresolved creative choice at a time with three grounded options and a
+recommendation. Skip supplied or approved choices. Ready briefs, approved-master revisions and
+explicitly delegated creation proceed directly. Do not restart the guided process for those tasks.
 Use `connectors/higgsfield.md` only when using Higgsfield.
 
 - Deliver every image concept in **both 1:1 and 9:16**, for Nano Banana Pro and ChatGPT.
@@ -54,9 +59,11 @@ Use `connectors/higgsfield.md` only when using Higgsfield.
   delivery preferences override these fallback ratios. Load them before generating.
   Four concepts mean eight files by default; count concepts separately from ratio variants.
   Recompose each layout for its canvas and preserve the message and product across the pair.
-- Product information plus a prompt is enough. Default to one concept in both ratios unless another count or ratio is requested.
+- Product information plus a prompt is enough to begin. Default to one concept and the resolved ratio set.
+  In guided development, build and review one master before its variants, unless all outputs are requested now.
 - Brand visuals, photographs, research, awareness stages, customer beliefs and campaign IDs are
-  enhancements, not intake gates. Choose provisional art direction when none exists.
+  enhancements, not intake gates. Offer provisional art directions when none exists; select one
+  yourself when creative choices have been delegated.
 - Without an actual product photo, avoid asserting unknown packaging or appearance. A text-led or
   contextual ad is useful; identify any provisional product illustration.
 - For supplied inspiration, use `contracts/reference-analysis.md`. Inspect accessible images before
@@ -66,8 +73,9 @@ Use `connectors/higgsfield.md` only when using Higgsfield.
   reference pass, not a research prerequisite. Without access or a suitable match, create an original.
 - Adapt the design logic and message structure to this product. Do not import a competitor's
   product claims, proof, brand identity or unsupported winner status.
-- A make-an-ad request permits the needed generation without a second concept approval. Respect
-  plan-only instructions, spending limits and required provider payment choices.
+- Once the direction is selected and building is authorized, show the final brief and prompt, then
+  generate without another permission question. Respect plan-only instructions, spending limits and
+  required provider payment choices. Keep the decision record, reference roles and actual settings.
 - Verify actual dimensions against each requested ratio, spelling, product fidelity and visual hierarchy. Never infer
   successful inspection from a job status.
 
@@ -114,8 +122,8 @@ A marker names a gap and never wraps a guess: `[CLAIM: needs approved wording]` 
 `[STAT: needs a real figure]` belongs in a proposed brief when essential, never around an invented
 claim or number. Omit an unknown price, review, offer, result or mechanism from finished copy.
 A plain description is enough to start. Do not demand a belief map, interview, persona or readiness
-report. Ask only for a detail whose absence actually prevents the requested work; continue the
-independent parts.
+report. Guided image choices are creative selections, not demands for research documents. Outside
+that mode, ask only for a detail whose absence prevents the requested work; continue independent parts.
 
 ## What to produce
 
@@ -123,7 +131,8 @@ Answer the request directly. Critique honestly and improve the underlying work.
 
 ### Deliverables available on request
 
-These are output shapes, not sequential approval gates.
+These are output shapes, not a mandatory sequence of documents. New image concepts follow the
+guided creative selections above; other deliverables do not inherit those choice rounds.
 
 | Format | Contract |
 |---|---|

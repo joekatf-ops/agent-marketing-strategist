@@ -17,6 +17,10 @@ No customer research, belief map, brand folder or setup is required to create a 
 
 > Make one square image ad for my desk cable organiser. It holds six cables. Keep it simple.
 
+For a new concept, the strategist offers the first unresolved creative choice. Existing facts and
+selected directions are reused. Add "choose the direction for me and generate" to delegate the
+choices, or supply a complete brief to go directly to production.
+
 With Higgsfield connected, the skill can generate through Nano Banana Pro or ChatGPT image generation.
 Every image concept gets both 1:1 and 9:16 versions, including edits and carousel frames, unless
 explicitly overridden. Four concepts normally produce eight files. With no image tool, it delivers
@@ -33,7 +37,7 @@ One universal method serves many brands. Each brand keeps its own connected fold
 coordinate history, test history, winners and approved learning. The method is brand-neutral; brand
 facts never transfer between brands.
 
-**Version:** 1.7.0
+**Version:** 1.8.0
 
 The core copywriting method connects a problem or desire to a recognisable moment, consequence,
 personal meaning and desired experience, then establishes the product's supported role. Find what
@@ -41,6 +45,12 @@ the customer wants back; choose recognition or desired change as the entry. It g
 hooks, headlines, scripts and image copy while keeping customer research optional. For a standalone
 agent handoff, attach [`references/29-moment-to-meaning.md`](references/29-moment-to-meaning.md).
 The same guide is included in the craft, image-ad and knowledge bundles.
+
+Version 1.8.0 makes new image concepts a guided creative process: one unresolved choice at a time,
+with approved decisions carried into a complete production brief. Ready briefs, revisions and
+explicit delegation proceed directly. Actual font references, visual checks and saved generation
+records preserve the selected direction. The installed skill, paste-in prompt and portable bundles
+share this routing. See the [release validation](docs/release-validation-1.8.0.md).
 
 Version 1.7.0 integrates photographic art direction and revision learning, established-format
 recommendations, coordinated video hooks and complete script structures. The selected brand
@@ -142,7 +152,7 @@ python3 scripts/init-brand-folder.py /path/to/brands/example-brand \
   --slug example-brand
 ```
 
-A freshly initialised brand starts with `method_version: "1.7.0"` and can use controlled
+A freshly initialised brand starts with `method_version: "1.8.0"` and can use controlled
 persistence after its normal readiness checks. The migration section below applies only to existing
 v0.3 folders.
 
@@ -243,8 +253,8 @@ model-tokenizer measurements:
 | Bundle | Size | Use it when |
 |---|---|---|
 | `dist/image-ad-bundle.md` | about 22,000 tokens | Product-first image creation in both ratios, adaptation and revision |
-| `dist/craft-bundle.md` | about 35,000 tokens | A chat surface. Carries the craft stack and the output contracts, and nothing about installation |
-| `dist/knowledge-bundle.md` | about 105,000 tokens | A runtime that will act on the whole method, including naming, testing, brand folders, connectors and the analysis harness |
+| `dist/craft-bundle.md` | about 49,000 tokens | A chat surface. Carries the craft stack and the output contracts, and nothing about installation |
+| `dist/knowledge-bundle.md` | about 126,000 tokens | A runtime that will act on the whole method, including naming, testing, brand folders, connectors and the analysis harness |
 
 All three ship in the repository, so the paste-in path needs no Python: open the file, copy it, paste it.
 They are generated, so CI checks they are not stale against their sources.
@@ -421,6 +431,7 @@ structure is the entire point. See [`corpus/swipe/ATTRIBUTION.md`](corpus/swipe/
 
 | Version | Date | Change |
 |---|---|---|
+| 1.8.0 | 2026-09-17 | Guided image development, retained creative selections, direct routing for ready briefs and revisions, typography references and saved production records across installed and portable editions. |
 | 1.7.0 | 2026-09-16 | Consolidates art direction, full-regeneration continuity, format recommendations and three-part hooks; adds complete script methods and creative-learning practice; loads scoped brand preferences and rebuilds portable editions. |
 | 1.6.0 | 2026-09-13 | Integrates four reviewed copywriting sources: one central argument, concrete meaning, useful next-step value, qualified curiosity and separate editorial selection. Resolves same-concept rewrite conflicts, adds worked edits, updates scoring semantics and rebuilds portable editions. |
 | 1.5.0 | 2026-09-13 | Scientific Advertising integration: buyer relevance, useful specifics, complete selling information, controlled test cards, practical commercial extensions and versioned evaluation semantics. |

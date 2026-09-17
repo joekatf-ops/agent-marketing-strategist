@@ -1,10 +1,11 @@
 # Output Contract: Static and Carousel Spec
-locked: 2026-09-10
-version: 2.4.0
+locked: 2026-09-17
+version: 2.5.0
 
 Product information and the request are sufficient. Brand folders, customer research, beliefs,
-awareness maps, campaign IDs and approval rounds are optional. Follow
-`references/27-image-ad-workflow.md`; keep simple deliveries concise.
+awareness maps and campaign IDs are optional. New concepts default to the guided choices in
+`references/37-guided-image-development.md`; ready briefs, approved-master revisions and explicitly
+delegated creation proceed directly. Follow `references/27-image-ad-workflow.md`; keep deliveries concise.
 
 ## Artefact
 
@@ -12,7 +13,13 @@ Markdown brief plus actual images when requested and available. Every image conc
 frame is delivered in both **1:1 and 9:16**, unless the current request explicitly overrides the
 ratio set or the selected brand has saved delivery preferences. Resolve that set before generation.
 Count concepts separately from files: four concepts normally produce eight images.
-A prompt is not a rendered image.
+A prompt is not a rendered image. In guided mode, the first delivery is the master for design
+feedback, with outstanding variants stated. Acceptance triggers the already requested variants.
+A supplied final master or an explicit request for the whole set bypasses that pause.
+
+Keep a decision table with values, source and selection status during development. Preserve accepted
+choices; do not label proposals as approved. Save the table, exact prompt, reference/font sources,
+actual settings, native/export dimensions and inspection results beside the finished images.
 
 ## Sections, in order
 
@@ -82,7 +89,7 @@ Do not label an unverified draft policy-approved.
 
 - [ ] Useful ad from available facts; no unnecessary research or brand-folder gate
 - [ ] One product message; exact copy, prompt and layout agree
-- [ ] Both requested ratio versions present for each concept; actual dimensions measured when accessible
+- [ ] Master or complete-set delivery identified correctly; outstanding variants stated; actual dimensions measured when accessible
 - [ ] No fabricated proof, unknown product details or missing-fact markers in finished pixels
 - [ ] Provisional creative direction or illustration identified in the brief
 - [ ] Rendered text checked against copy; product and composition visually inspected

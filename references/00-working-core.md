@@ -9,7 +9,9 @@ available. None is an intake requirement for ordinary creative work.
 Identify what the product is, the useful facts supplied, the requested output and any constraints.
 Use current-session facts about this brand as well as connected files. If the product or service is
 not identifiable at all, ask one short question about it. Otherwise choose a reasonable direction
-and produce the requested work. Do not turn a simple prompt into an interview.
+and produce the requested work. For new image concepts, follow `37-guided-image-development.md`: offer
+one meaningful creative choice at a time, skipping supplied decisions. Ready briefs, revisions and
+explicitly delegated creation proceed directly. This is creative selection, not a research interview.
 
 Distinguish these inputs:
 
