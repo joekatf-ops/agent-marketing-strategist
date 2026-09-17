@@ -1,7 +1,7 @@
 # Start here
 
 
-## Current release: 1.7.0
+## Current release: 1.8.0
 
 Use the image bundle for art direction and image production, the craft bundle for hooks and scripts,
 or the full knowledge bundle for the wider method. Attach the selected brand bundle as well when
@@ -13,12 +13,13 @@ founder hooks with visual, spoken, screen text and next beat", or "Regenerate th
 the requested change while preserving the light, colour and composition." Saved brand delivery
 ratios apply unless your request overrides them.
 
-See the [integration map](docs/creative-learning-integration-1.7.0.md) for what changed and the
-[validation record](docs/release-validation-1.7.0.md) for actual checks and limits.
+See the [guided image workflow](references/37-guided-image-development.md) for the new default and
+the [validation record](docs/release-validation-1.8.0.md) for actual checks and limits.
 
 Describe the product and ask for the ad. Customer research, customer beliefs and a brand folder
-are optional. The strategist should produce useful work immediately and improve it when you add
-better product information, research or references.
+are optional. For a new image concept, the strategist starts with the next unresolved creative
+choice, offering three options and a recommendation. Existing selections remain fixed. Ready briefs
+and revisions go directly to production; say "choose for me and generate" to delegate a new concept.
 
 ## The quickest start
 
@@ -31,7 +32,9 @@ For a text-only chat with no uploads, paste `PROMPT.md` and your request.
 
 Every image concept comes in **1:1 square and 9:16 vertical**, with either Nano Banana Pro or ChatGPT
 generation. Four concepts produce eight files. An explicit ratio request overrides this default.
-The skill chooses one useful message, writes the copy and designs each layout. You do not need to provide
+The skill guides or resolves the message, copy and art direction, according to the working mode.
+Guided development establishes one master before the companion layout, unless you request all
+outputs now. You do not need to provide
 an awareness stage, belief map, campaign number or an approved visual system.
 
 ## What you get
@@ -49,7 +52,8 @@ browsing capability merely by reading a skill.
 > Give me the prompt only. I will generate it myself.
 
 If a provider needs authentication or a choice about payment, complete that provider step. Ordinary
-creative choices do not require another approval round. A plan-only request never starts generation.
+generation after a selected direction needs no additional approval round. A plan-only request never
+starts generation. The saved creative record preserves exact copy, choices, references and settings.
 
 ## Product information is enough
 

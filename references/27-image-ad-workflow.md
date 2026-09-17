@@ -4,18 +4,22 @@ Create useful 1:1 and 9:16 versions of each image concept from product informati
 The brief is about the product and the requested creative task, not a compulsory customer belief.
 The current request and selected brand's saved ratio preferences override the fallback pair.
 Use `34-art-direction-and-revisions.md` for photographic cohesion, type, reference roles and
-preserving approved art direction through a fresh generation.
+preserving approved art direction through a fresh generation. Use `37-guided-image-development.md`
+for guided choices, decision records, typography references and mode selection before production.
 
 ## Three entry points
 
-1. **Create:** use the supplied product information to choose a message and composition.
+1. **Create:** use the supplied facts and guide unresolved message and composition choices.
 2. **Adapt:** inspect a supplied ad, identify its useful structure, and rebuild the argument for
    the active product and brand.
 3. **Revise:** change the requested part of an existing asset while preserving approved details.
 
 Use whatever brand context and research are already available. Do not require setup, a research
-report, customer persona, awareness label, CONTST ID or concept approval to start. Ordinary requests
-default to one concept with two finished ratio versions unless a different count or ratio is requested. Options are not launch ads.
+report, persona document, awareness label or CONTST ID to start. For a new concept, present three
+grounded options for the next meaningful unresolved decision, recommend one and wait for selection.
+Skip supplied decisions. A complete brief, approved-master revision or explicit delegation goes
+straight to production. Default to one concept and the resolved ratio set. In guided mode, establish
+one master before its variants unless the user asks for the whole set now. Options are not launch ads.
 
 ## 1. Resolve the product and request
 
@@ -26,9 +30,9 @@ do not request a separate product brief for facts the supplied page already cont
 
 Extract product name or type, supplied features, use, target market when relevant, offer if supplied,
 brand preferences, image references and requested count. Missing optional information is not a
-blocker. Choose an appropriate provisional style when none is supplied and identify that choice
-briefly outside the creative. Ask only if the product itself is unknown or a required input cannot
-be inferred responsibly.
+blocker. Offer suitable provisional directions when style is open, or select one when delegated.
+Identify provisional choices outside the creative. Clarify product ambiguity only when necessary;
+use the guided workflow for open creative choices rather than asking for missing research.
 
 Use a supplied product photo when available. Inspect it before generation: silhouette, material,
 color, packaging, wordmark, proportions, hardware, connection points and visible text are identity
@@ -40,6 +44,9 @@ not depict invented packaging or hardware. State any fidelity limitation. Do not
 request just because photoreal product reproduction is not possible.
 
 ## 2. Choose the message and format
+
+Follow the selected working mode. In guided development, present the next open choice and wait;
+do not silently decide every layer or submit a generation while choices are pending.
 
 Use one concrete product detail, practical payoff, use case, demonstration, legitimate offer or
 research-supported angle. Customer research can sharpen which message to choose; a belief-change
@@ -95,6 +102,9 @@ visual hierarchy, identity constraints, reference roles, paired output dimension
 platform copy and CTA if relevant, and checks. Test identifiers and belief maps are unnecessary
 outside a requested governed campaign batch.
 
+Carry forward the decision table from `37-guided-image-development.md`. Present the completed
+brief, exact copy and final prompt before authorized production without adding a final approval loop.
+
 The image-model prompt is derived from this brief. Give each reference a distinct job: product
 identity, composition, style or logo. Product identity and exact copy outrank a decorative reference.
 Keep unresolved factual placeholders out of generation prompts and final artwork.
@@ -126,7 +136,8 @@ corrections. Different formats or unequal manual finishing demonstrate options b
 model quality. Report a provider model mismatch as an unverified comparison.
 
 A request to make images authorizes the necessary generation within its count and stated budget.
-Do not add approval pauses for routine creative choices. A plan-only request does not authorize
+Finish open guided selections first; a selected direction plus "build it" needs no extra approval.
+Ready briefs and explicit delegation bypass selection rounds. A plan-only request does not authorize
 generation. Resolve a provider's explicit payment-choice question before proceeding. Estimate
 through the dedicated read-only estimator; never use a generation call as a dry run.
 
@@ -169,7 +180,9 @@ dominate the user's result unless requested. Without a generation capability, de
 brief and prompt and state that the image was not generated.
 
 Where persistence exists, retain `schemas/image-ad-run.schema.json` data beside the outputs. In chat,
-the same information can be returned as a compact handoff. Saving a record does not make an ad
+the same information can be returned as a compact handoff. Keep the companion creative record
+described in `37-guided-image-development.md` for decisions, font sources and native/export details.
+Do not add unsupported fields to the existing structured schema. Saving a record does not make an ad
 approved or launched. Keep generated, verified, approved and launched states distinct.
 
 Customer research, human edits and supplied ad outcomes can improve the next execution. Record

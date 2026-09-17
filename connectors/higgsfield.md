@@ -47,8 +47,9 @@ and attachment mapping, or choose a design that avoids an exact product depictio
 
 ## Execution
 
-1. Derive exact copy and prompt from the brief. A normal make-an-ad request authorizes production;
-   do not add a concept approval round. A plan-only request stops before generation.
+1. Derive exact copy and prompt from the ready brief. The image workflow resolves guided creative
+   choices before this connector runs. A selected direction plus production authorization needs
+   no further concept approval here. A plan-only request stops before generation.
 2. Verify access, model, references and dedicated cost estimate. Respect spending limits. If the
    provider requires a credits/allowance choice, obtain that choice; do not guess it.
 3. Submit one job per concept and ratio, explicit `aspect_ratio: "1:1"` or `"9:16"`, default `count: 1`.

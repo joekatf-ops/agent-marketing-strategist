@@ -58,7 +58,10 @@ A one-line headline must read at phone size. Reword it only when authorised, rat
 it to fit. Keep approved words intact during a visual revision. Typography can feel considered
 through hierarchy and spacing without bevels, glows or shadows. Original logo artwork and real fonts
 may be used for exact finishing when compatible with the request. A supplied font sheet does not
-guarantee model fidelity.
+guarantee model fidelity. For new production, use actual available font files or inspected typography
+sources. When tools allow, create a role-labelled type sheet from those fonts and attach it as a
+typography-only reference, following `37-guided-image-development.md`. Check the resulting letterforms
+and weights visually; font names in a prompt are not proof of exact rendering.
 
 Separate three contrast checks: the image edge against light and dark feed UI; text against its
 immediate background; and the product against props and scene. Inspect at phone size when possible.
@@ -99,5 +102,6 @@ the authorised scope, then reassess the approach if the same defect persists. Th
 production judgement, not a compulsory second AI judge, paid evaluation or new approval gate.
 
 Retain prompts, referenced assets, selected and returned model IDs, settings, outputs and actual
-inspection status. Separate generated, technically checked, owner-approved and commercially tested.
+inspection status, including native dimensions and any export resizing or cropping. Save the final
+parameter table and exact prompt with the images. Separate generated, technically checked, owner-approved and commercially tested.
 Different models, prompts or manual finishing do not constitute a controlled model comparison.

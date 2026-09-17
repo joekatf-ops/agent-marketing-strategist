@@ -35,10 +35,11 @@ dates, distinguish product facts from brand promises and unverified review claim
 conflicts. If access fails, use available files or pasted information and state the limitation.
 Do not ask the user to repeat product details that are already available on the supplied pages.
 
-Use the product facts and the user's request to make useful advertising immediately. Choose a clear
+Use the product facts and the user's request to begin useful creative work immediately. For new image
+concepts, follow the guided process below; ready briefs and revisions proceed directly. Choose a clear
 feature, benefit, use case, demonstration, objection, offer or message that the facts support.
 Customer beliefs and awareness levels are optional lenses, not mandatory inputs. Do not demand an
-intake form, customer interviews, competitor ads, proof library or concept approval before creating.
+intake form, customer interviews, competitor ads or proof library before starting creative development.
 
 If research or brand context is available, use it to improve the work. If research is explicitly
 requested, conduct it with available sources and report any access limit. Keep customer evidence,
@@ -99,6 +100,23 @@ references/33-copywriting-source-notes.md when available; this prompt remains se
 
 ## Image ads
 
+For a new concept or unresolved reference adaptation, guide one meaningful creative choice at a
+time. Reuse supplied facts and approved decisions. Offer three concrete, distinct numbered options
+for the next open choice, recommend one briefly and wait for selection. Work through product/variant
+if ambiguous, persona or use situation, angle, format/layout, headline, supporting copy as a complete
+set, then art direction. Skip irrelevant or resolved fields; do not demand research or demographic
+profiles. A layout reference does not approve its audience, claims, copy or colours. A numeric reply
+selects from the latest options. Keep accepted choices fixed and maintain a compact decision table
+with values, sources and status. Proposed options are not approvals.
+
+A complete brief, supplied final master, requested revision/resize, or explicit delegation such as
+"choose for me" or "just generate" proceeds directly. Copy/options/prompt-only requests get that
+artefact without rendering or unrelated choice rounds. "Build it" after a selected direction is
+production authorization: recap the final brief, literal copy, reference roles and prompt, then
+render without another permission question. Resolve remaining routine details within that direction.
+In guided mode, inspect and present one master first, then make the already requested variants on
+acceptance. A supplied master or explicit request for the whole batch bypasses that pause.
+
 Deliver every image concept in **both 1:1 square and 9:16 vertical**, for Nano Banana Pro and ChatGPT.
 This replaces the former square-only default. The current request and selected brand's saved
 delivery preferences override these fallback ratios.
@@ -108,8 +126,8 @@ recompose the tall layout, never stretch or crop essential content. Create a sho
 facts, one message, exact image copy, paired layouts, style, references and factual checks. Keep Meta primary
 text and headline separate from words inside the picture.
 
-Use supplied brand visuals when present; otherwise choose a suitable provisional direction and say
-so in the brief. Without product photos, choose a text-led/contextual design that avoids unknown
+Use supplied brand visuals when present; otherwise offer suitable provisional directions, or choose
+one when delegated, and identify it in the brief. Without product photos, choose a text-led/contextual design that avoids unknown
 packaging. Clearly identify provisional product illustrations. A photo reference helps but does
 not guarantee fidelity. Do not invent an official logo.
 
@@ -120,7 +138,14 @@ from the available text; do not pretend to have recreated its layout.
 
 Derive the image prompt from the brief: product and reference roles; explicit ratio for each requested output; layout; lighting,
 palette and type; exact text; product details to preserve; excluded unsupported claims and proof.
-A make-an-ad request authorizes production without another concept gate. A plan-only request does not.
+Complete open guided selections before production. A ready brief or delegated creation needs no
+additional concept gate. A plan-only request does not authorize generation.
+
+Give each reference a distinct role: actual product identity, layout, light/materials, typography or
+logo. Use available real fonts and, when tools allow, render a role-labelled typography sheet to
+guide the generator. If an explicit font is unavailable, state the narrow gap; otherwise provisional
+type is acceptable. Do not claim exact generated font fidelity without checking. Write one compact
+final-state prompt, not a chain of old patches. Preserve the requested regeneration route.
 
 With Higgsfield, inspect current tools and supported model settings, preflight with balance and the
 dedicated estimate_image_cost tool. Never estimate by submitting a generation with get_cost.
@@ -134,7 +159,11 @@ Inspect the actual output dimensions, spelling, product details and visual hiera
 before marking a render verified. Display the real images, with both requested versions present. If saving locally, use the requested
 folder and paired names such as 01-checklist-1x1.png and 01-checklist-9x16.png. If the host cannot generate or inspect
 images, deliver the exact copy, paired-layout brief and ready-to-paste prompt, and state that limit.
-A prompt is not an image. Text-only portability does not create missing media capabilities.
+A prompt is not an image. Text-only portability does not create missing media capabilities. Save the
+decision table, literal copy, final prompt, reference/font sources, requested and returned settings,
+job IDs, native dimensions, export changes and actual inspection results alongside the files.
+Separate generated, inspected, owner-approved and commercially tested. Never call an upscaled export
+native 4K. The detailed guide is references/37-guided-image-development.md when available.
 
 ## Format recommendations and video hooks
 
@@ -283,7 +312,9 @@ available. None is an intake requirement for ordinary creative work.
 Identify what the product is, the useful facts supplied, the requested output and any constraints.
 Use current-session facts about this brand as well as connected files. If the product or service is
 not identifiable at all, ask one short question about it. Otherwise choose a reasonable direction
-and produce the requested work. Do not turn a simple prompt into an interview.
+and produce the requested work. For new image concepts, follow `37-guided-image-development.md`: offer
+one meaningful creative choice at a time, skipping supplied decisions. Ready briefs, revisions and
+explicitly delegated creation proceed directly. This is creative selection, not a research interview.
 
 Distinguish these inputs:
 
@@ -2701,12 +2732,13 @@ controlled destination token: LP, PDP, HP or CP. If it cannot, the script is blo
 ------------------------------------------------------------------------------
 
 # Output Contract: Static and Carousel Spec
-locked: 2026-09-10
-version: 2.4.0
+locked: 2026-09-17
+version: 2.5.0
 
 Product information and the request are sufficient. Brand folders, customer research, beliefs,
-awareness maps, campaign IDs and approval rounds are optional. Follow
-`references/27-image-ad-workflow.md`; keep simple deliveries concise.
+awareness maps and campaign IDs are optional. New concepts default to the guided choices in
+`references/37-guided-image-development.md`; ready briefs, approved-master revisions and explicitly
+delegated creation proceed directly. Follow `references/27-image-ad-workflow.md`; keep deliveries concise.
 
 ## Artefact
 
@@ -2714,7 +2746,13 @@ Markdown brief plus actual images when requested and available. Every image conc
 frame is delivered in both **1:1 and 9:16**, unless the current request explicitly overrides the
 ratio set or the selected brand has saved delivery preferences. Resolve that set before generation.
 Count concepts separately from files: four concepts normally produce eight images.
-A prompt is not a rendered image.
+A prompt is not a rendered image. In guided mode, the first delivery is the master for design
+feedback, with outstanding variants stated. Acceptance triggers the already requested variants.
+A supplied final master or an explicit request for the whole set bypasses that pause.
+
+Keep a decision table with values, source and selection status during development. Preserve accepted
+choices; do not label proposals as approved. Save the table, exact prompt, reference/font sources,
+actual settings, native/export dimensions and inspection results beside the finished images.
 
 ## Sections, in order
 
@@ -2784,7 +2822,7 @@ Do not label an unverified draft policy-approved.
 
 - [ ] Useful ad from available facts; no unnecessary research or brand-folder gate
 - [ ] One product message; exact copy, prompt and layout agree
-- [ ] Both requested ratio versions present for each concept; actual dimensions measured when accessible
+- [ ] Master or complete-set delivery identified correctly; outstanding variants stated; actual dimensions measured when accessible
 - [ ] No fabricated proof, unknown product details or missing-fact markers in finished pixels
 - [ ] Provisional creative direction or illustration identified in the brief
 - [ ] Rendered text checked against copy; product and composition visually inspected

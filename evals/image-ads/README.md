@@ -5,9 +5,15 @@ The portable cases in `cases.json` can be run in any LLM, from `PROMPT.md` alone
 bundle. Give the model only the selected user request, context and capabilities. Keep the evaluation
 criteria out of its input. Save the actual response, model/runtime, date and package version.
 
-Evaluate observable behavior: useful finished copy, supported facts, appropriate format, square
-instructions/output, no unnecessary intake gate, no fabricated research or visual inspection, and
-honest rendering status. Check actual pixels when a generator is used. Different wording is expected.
+Evaluate observable behavior: correct guided/direct routing, retained selections, supported facts,
+appropriate format, requested ratios, no unnecessary research intake, no fabricated visual inspection
+and honest rendering status. New concepts now begin with a creative choice unless delegated or
+already specified. Historical v1.1 expectations below describe that release, not the current default.
+Check actual pixels when a generator is used. Different wording is expected.
+
+`guided-cases.json` covers v1.8 routing and selection continuity. Supply only each case's `input`
+and the named skill entrypoint, with generation and external writes disabled. Evaluate the actual
+response against `expected` afterwards, without providing those criteria to the test agent.
 
 The existing `evals/run.py` remains the Anthropic hook-writing runner. It is not a multi-provider
 image test. Image cases can be executed manually in other hosts without an API-specific harness.
