@@ -6,32 +6,28 @@ import re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = ROOT / "dist/image-ad-bundle.md"
+PLAYBOOK = "/Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md"
 SOURCES = (
-    "references/00-working-core.md", "references/26-copywriting-standards.md",
-    "references/29-moment-to-meaning.md", "references/30-scientific-advertising.md",
+    "references/00-working-core.md",
     "references/27-image-ad-workflow.md", "references/37-guided-image-development.md",
     "references/34-art-direction-and-revisions.md",
     "references/08-formats.md", "contracts/format-options.md",
     "references/28-saved-ad-layouts.md", "contracts/static-spec.md",
-    "contracts/reference-analysis.md", "connectors/higgsfield.md", "connectors/foreplay.md", "config/copy-lexicon.yml",
+    "contracts/reference-analysis.md", "connectors/higgsfield.md", "connectors/foreplay.md",
 )
 
 
 def image_excerpt(source, text):
     """Keep image instructions intact while omitting non-image and duplicate teaching material.
 
-    Extract from canonical sources, never maintain a second copy of the rules. The full writing
-    guide and examples still ship in the craft and knowledge bundles and as standalone files.
+    Extract from canonical sources, never maintain a second copy of the rules. Ad copy is not
+    carried here: it follows the DTC Ad Copywriting playbook named in the bundle header.
     """
     omitted = {
         "PROMPT.md": {"Additional workflows", "Launch invariants"},
         # Image-specific planning is carried in full by 37, 34 and static-spec. Keep
         # 27's operational generation/verification, without repeating its planning
-        # summary, format table or delivery summary. 00 retains product intake and
-        # evidence precedence; 26, 29 and 30 carry its repeated writing checks.
-        "references/00-working-core.md": {
-            "Make a complete, useful ad from limited facts", "Selling usefulness", "The creative check",
-        },
+        # summary, format table or delivery summary.
         "references/27-image-ad-workflow.md": {
             "Three entry points", "1. Resolve the product and request", "2. Choose the message and format",
             "3. Select and adapt a visual reference", "4. Write the production brief",
@@ -41,18 +37,9 @@ def image_excerpt(source, text):
         # Keep visual/format methods without video tables, study rankings, bibliographies
         # or dated connector setup instructions in every image request.
         "references/08-formats.md": {"Video formats", "Choosing a format"},
-        "references/30-scientific-advertising.md": {"Learn the appeal, not only the wording", "Source and limits"},
         "connectors/foreplay.md": {"Access and authentication", "Read routes verified in this session"},
         "contracts/static-spec.md": {"Self-check before presenting"},
         "contracts/format-options.md": {"Quick self-check"},
-        "references/26-copywriting-standards.md": {"Where each rule is enforced", "Running them"},
-        # Intake and final checks already ship in PROMPT, 00, 26 and 30. Retain the complete
-        # thinking, drafting/editing process and slot guidance, not repeated intake/checklists.
-        "references/29-moment-to-meaning.md": {
-            "Instructions for the receiving agent", "Work from the available inputs",
-            "Worked examples", "Acceptance check", "Origin and scope",
-            "Selling usefulness after the depth check",
-        },
     }
     sections = re.split(r"(?=^## )", text, flags=re.MULTILINE)
     kept = []
@@ -60,15 +47,8 @@ def image_excerpt(source, text):
         heading = section.splitlines()[0].removeprefix("## ").strip() if section else ""
         if heading in omitted.get(source, set()):
             continue
-        if source == "PROMPT.md" and heading == "Selling usefulness and commercial decisions":
-            # The first paragraph is the complete selling check. Operational methods are optional.
-            section = "\n\n".join(section.split("\n\n")[:2]) + "\n"
         kept.append(section)
     text = "".join(kept)
-    if source == "references/26-copywriting-standards.md":
-        # Explanations of the failure each rule prevents duplicate its actionable check.
-        text = re.sub(r"^\*\*Prevents:\*\*.*?(?=\n\n|\Z)", "", text,
-                      flags=re.MULTILINE | re.DOTALL)
     return re.sub(r"\n{3,}", "\n\n", text).strip()
 
 
@@ -77,7 +57,10 @@ def build():
     parts = [f"# Marketing Strategist: image ads\n\nVersion: {version}\n\n"
              "Self-contained instructions for product-first Meta image ads. Upload this one file, "
              "then describe the product and request. Customer research is optional. Every image concept gets "
-             "1:1 and 9:16 versions unless the request or selected brand's delivery preferences override them. Tools remain host-dependent; without generation, deliver copy and a prompt.\n\n"
+             "1:1 and 9:16 versions unless the request or selected brand's delivery preferences override them. Tools remain host-dependent; without generation, deliver the brief and a prompt.\n\n"
+             "Ad copy (hooks, scripts, headlines, primary text, descriptions, static ad copy) follows the DTC Ad "
+             f"Copywriting playbook: {PLAYBOOK}. Read it before writing any ad copy. This bundle carries no "
+             "copywriting method; write the words on the image with the playbook.\n\n"
              "New concepts default to guided choices and one master first. Ready briefs, approved revisions "
              "and explicit delegation proceed directly. The operating core is included directly; PROMPT.md is not required with this edition. "
              "This image edition omits non-image operations, extended worked examples, historical setup detail and duplicate checklists; "

@@ -51,9 +51,6 @@ jobs:
             --board-id "${{ inputs.board_id || '2ENRoYTUU6aWD9Cf8Qzy' }}" \
             --board-name "${{ inputs.board_name || 'best_ads' }}"
 
-      - name: Rebuild the digest and review file
-        run: python3 scripts/build-swipe-digest.py
-
       - name: Validate and test
         run: |
           python3 scripts/validate-package.py .
@@ -72,8 +69,6 @@ jobs:
             New entries arrive with drafted annotations marked `reviewed: false`.
             Existing annotations and review flags are preserved: the sync refreshes
             fetched fields only.
-
-            Before merging, check `corpus/swipe/REVIEW.md` for anything awaiting review.
 
             Two standing caveats on this data. Ad longevity is behavioural evidence
             and not a measured return. Awareness codes are computed from how long an

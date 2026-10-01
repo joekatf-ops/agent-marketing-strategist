@@ -72,10 +72,9 @@ or pasted content, say what was inaccessible and continue the useful work.
 
 ## Make a complete, useful ad from limited facts
 
-Use the core thinking sequence in `29-moment-to-meaning.md` before drafting: problem or desire,
-recognisable moment, consequence, personal meaning, desired experience, then the product's supported
-role. This check governs hooks, headlines, scripts and image copy. Choose the layers that serve the
-request; do not require overt emotion, identity language or a full story in every execution.
+The words in the ad, on the image or in the platform fields, are ad copy. Ad copy (hooks, scripts, headlines, primary text, descriptions, static ad copy) follows the DTC Ad
+Copywriting playbook: /Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy.
 With thin input, keep proposed situations as creative hypotheses and product assertions factual.
 
 Choose one product fact, use case, practical benefit, offer or distinctive detail as the main idea.
@@ -96,8 +95,8 @@ finished image. A marker names a gap and never wraps a guess.
 ## Selling usefulness
 
 Select a relevant buyer, offer useful information, support it and make the next step clear. Specific
-facts need not be exclusive. Curiosity must lead to a worthwhile answer. Preserve necessary proof
-and terms when shortening. See `30-scientific-advertising.md`.
+facts need not be exclusive. Preserve necessary proof and terms across the image, the platform copy
+and the destination.
 
 ## The creative check
 
@@ -106,7 +105,7 @@ and terms when shortening. See `30-scientific-advertising.md`.
 - One main idea and a clear reading order. The image and headline work together.
 - A person can understand the ad without prior context or reading a second ad first.
 - Specificity comes from the supplied product, scene or legitimate evidence.
-- The copy communicates a useful reason to care; it does not list machinery without a payoff.
+- The words were written with the DTC Ad Copywriting playbook and give a useful reason to care.
 - The product and any claimed result match what is supported.
 - The destination continues the ad's promise and offer when one is supplied.
 - Exact words, brand spelling, mobile legibility and final dimensions are checked before delivery.
@@ -158,7 +157,7 @@ Use clear paired filenames such as 01-checklist-1x1.png and 01-checklist-9x16.pn
 produce one required ratio, state the limit and use a supported adaptation route, never silently omit it.
 Video formats are a separate workflow.
 
-A host with text alone can write copy and a complete generation brief. A host with vision can
+A host with text alone can write a complete generation brief. A host with vision can
 inspect supplied references. A connected image tool can generate. A writable workspace can retain
 assets and learning. Establish actual capability before claiming these actions. Missing optional
 tools never erase the work that can be completed. State exactly what was produced and what remains.
@@ -273,34 +272,16 @@ People buy outcomes and a version of themselves. Three directions:
 Identity is strongest when attached to real behaviour, community or progress. Empty flattery
 is not identity marketing.
 
-## Direct response principles by source
+## Applying the classics today
 
-**Hopkins.** Salesmanship in print. Offer buyer value, not self-congratulation. Be specific.
-Give a reason why. Length follows the selling job. Demonstrations reduce disbelief. Traced
-response decides, not internal opinion.
+The direct-response classics (Hopkins, Ogilvy, Halbert, Sugarman, Bird) shaped the laws above. Their
+copywriting craft is not restated here. Ad copy (hooks, scripts, headlines, primary text, descriptions, static ad copy) follows the DTC Ad
+Copywriting playbook: /Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy.
 
-**Ogilvy.** Research product, customer and language before writing. The headline promises a
-benefit, delivers news, or attracts the right prospect. Seek one big idea. Make the product
-the hero. Do not win a response by damaging long-term trust.
-
-**Halbert.** Choose a starving crowd before polishing the pitch. Write to one person in plain
-language. Study the market's own words. The opening must earn the next line. Strong offers
-and list quality outweigh stylistic brilliance.
-
-**Sugarman.** The sole purpose of the first sentence is to get the second read. Build a
-slippery slide. Plant curiosity the copy later resolves. Sell the emotional outcome, then
-give logical reasons that justify it.
-
-**Bird's two tests.**
-- **You Test:** does the copy talk mainly about the customer, or the company?
-- **So What Test:** after every claim ask "so what?" until it resolves into a customer benefit.
-
-## Applying Hopkins today
-
-Use `30-scientific-advertising.md` for the reviewed source and practical salesmanship check,
-`31-controlled-tests.md` for measured comparisons, and `32-commercial-extensions.md` for trials,
-follow-up, education cost, distribution and product descriptors. Length follows the selling job.
-Historical anecdotes and methods are hypotheses to adapt, not current performance benchmarks.
+Use `31-controlled-tests.md` for measured comparisons and `32-commercial-extensions.md` for trials,
+follow-up, education cost, distribution and product descriptors. Historical anecdotes and methods
+are hypotheses to adapt, not current performance benchmarks.
 
 ------------------------------------------------------------------------------
 <!-- source: references/02-customer-state.md -->
@@ -443,7 +424,7 @@ specific explanation.
 A mechanism must be understandable, relevant and supportable. A technical label with no
 explanatory value is not a mechanism. Do not invent a cause or uniqueness. When a mechanism is
 unknown, sell supported construction, use or terms. A category-common fact may still be worth
-explaining; see `30-scientific-advertising.md`.
+explaining.
 
 ## Contrast
 
@@ -600,274 +581,6 @@ Never use placeholder statistics, fabricated testimonials, invented sell-outs, o
 language that outruns the source.
 
 ------------------------------------------------------------------------------
-<!-- source: references/05-copy-craft.md -->
-------------------------------------------------------------------------------
-
-# Copy craft: leads, structures, hooks, headlines
-
-## The framework hierarchy
-
-Begin with the core thinking method in `29-moment-to-meaning.md`. Find the recognisable moment,
-consequence and personal meaning, then connect the product through supported facts. Use that insight
-to select a lead and structure below. Do not bolt an emotional line onto an unrelated argument.
-The method applies to simple features and offers too; practical relevance may be its best expression.
-
-Keep the levels separate. AIDA, PAS, FOMO and hook types do not do the same job.
-
-| Level | Question | Examples |
-|---|---|---|
-| Market force | What desire already exists? | Mass desire, LF8, Jobs to Be Done |
-| Customer state | What do they know and believe? | Awareness, sophistication, necessary beliefs |
-| Messaging route | Which persuasive argument should this execution make? | How it works, reframe, old way, visible proof, objection, mechanism, demonstration, comparison, story, belief shift |
-| Lead | How should the message enter? | Offer, promise, problem-solution, big secret, proclamation, story |
-| Body structure | In what order should the case unfold? | PAS, AIDA, BAB, 4P, PASTOR, ACCA, QUEST, Hook-Story-Offer |
-| Persuasion device | What strengthens belief or action? | Proof, authority, social proof, risk reversal, scarcity, contrast |
-| Expression | How is the idea made immediate? | Hook, headline, visual demonstration, story, Voice of Customer |
-
-**Core rule:** frameworks are lenses, not fill-in-the-blank scripts. Start with the strategic
-job, then choose the framework that solves it.
-
-## Choose the substance before the wording
-
-Use the core's development and editorial passes. Identify the reader's current question or
-attitude and the useful understanding or action this execution should enable. One working thought
-is enough. Do not require a formal belief shift when a practical use or offer is the point.
-
-When available, extract a small set of useful material from product facts, websites/PDPs, FAQs,
-reviews, interviews and support conversations: exact phrases, situations, desired experiences,
-objections, demonstrations, evidence and worthwhile answers. Retain source and context. A brand
-assertion is not independent proof; a memorable comment is not evidence of prevalence. Without
-research, start with the brief and clearly identified creative hypotheses.
-
-Select material that supports the chosen argument. A fact becomes copy through its relevance:
-what can this person do, see, understand or decide because of it? Facts need not be numerical or
-exclusive. Do not turn ingredients, materials or technical mechanisms into unrelated human
-outcomes just to complete a feature-to-benefit chain.
-
-## Quick selector
-
-| If the question is | Start with |
-|---|---|
-| Why does this problem or product matter in daily life? | Moment-to-meaning: situation, consequence, personal meaning and supported product role |
-| Who is most likely to care? | Mass desire, LF8, JTBD, starving crowd |
-| What do they already know? | Awareness levels |
-| What have they already heard? | Market sophistication |
-| What must they believe before buying? | Necessary beliefs, belief chain, inoculation |
-| Why should they choose us? | Dunford positioning, unique mechanism, category framing |
-| Is the offer strong enough? | Value equation, offer stack, risk reversal |
-| How should the message begin? | Lead types, headline and hook families |
-| How should the argument unfold? | PAS, AIDA, BAB, 4P, PASTOR, ACCA, QUEST, StoryBrand |
-| Why should they believe the claim? | Proof ladder, reason why, specificity, demonstration |
-| What is stopping action? | Objection map, two-sided message, risk reversal, urgency |
-| Does the message feel human? | Voice of Customer, one-reader rule, You Test, So What Test |
-| Does the click continue the same promise? | Message match and scent trail |
-
-## Lead frameworks
-
-Source: Masterson and Forde, *Great Leads*. The lead is the route into the argument. Colder
-audience, more indirect lead.
-
-| Lead type | Best fit | Core move |
-|---|---|---|
-| Offer | Purchase-ready conversion environment or verified product-aware offer context | Open with the deal, terms or access |
-| Promise | Product or solution aware | Lead with a desirable, credible result |
-| Problem-solution | Problem aware | Name the pain, expose its cost, introduce the solution |
-| Big secret | A credible hidden cause exists | Reveal information that changes how they see the problem |
-| Proclamation | The brand has a defensible point of view | Make a bold declaration, then substantiate it |
-| Story | Lower awareness or high scepticism | Create identification and tension before revealing the selling point |
-
-## Body structures
-
-| Framework | Sequence | Best use | Watch-out |
-|---|---|---|---|
-| AIDA | Attention, Interest, Desire, Action | General persuasive flow | Too broad to create strategy by itself |
-| PAS | Problem, Agitate, Solution | Clear, felt pain with real consequences | Agitation becomes manipulative when exaggerated |
-| BAB | Before, After, Bridge | Transformation and desire-led messages | The bridge still needs mechanism and proof |
-| 4P | Promise, Picture, Proof, Push | Outcome-led with strong evidence | Do not make the picture more specific than the proof allows |
-| PASTOR | Problem, Amplify, Story, Testimony, Offer, Response | Longer video, advertorial, sales page | Bloats if every step repeats the same claim |
-| ACCA | Awareness, Comprehension, Conviction, Action | Education-heavy or unfamiliar categories | Comprehension without desire is a lecture |
-| QUEST | Qualify, Understand, Educate, Stimulate, Transition | Specific persona, considered purchase | Qualification must feel recognisable, not exclusionary |
-| Hook-Story-Offer | Hook, Story, Offer | Creator-led, founder-led, narrative video | The story must change belief, not merely entertain |
-| StoryBrand SB7 | Character, Problem, Guide, Plan, CTA, Avoid failure, Success | Clear brand or product narrative | The customer is the hero, the brand is the guide |
-| 5P | Problem, Promise, Proof, Proposition, Push | Complete direct-response case | Proof must land before the ask gets demanding |
-
-## Benefit structures
-
-**FAB.** Feature (what it is) to Advantage (what that lets it do differently) to Benefit (why
-that matters). Extend when useful: Feature to Advantage to Functional benefit to Emotional payoff.
-
-**Means-End Chain.** Attribute to Functional consequence to Emotional consequence to Personal
-value. The deeper version of FAB. Stops feature copy short of the reason a person cares.
-
-**Without framework.** Achieve [result] without [hated effort, risk or trade-off]. Strongest
-when the avoided sacrifice is a real barrier, not a gimmick.
-
-## Belief-shift structures
-
-**I was like you, but worse.** Establish credible similarity, show the same frustration or
-failed alternatives, reveal the discovery, demonstrate the result, invite the next step.
-
-**Discredit the common solution.** Acknowledge what they have tried, explain why it fails in
-this situation, introduce the missing mechanism, prove the alternative. Attack the limitation,
-never the intelligence of the customer.
-
-**Objection, reframe, proof.** State the objection honestly, change the frame or explain the
-overlooked fact, supply evidence that closes the gap.
-
-## Hook and headline families
-
-A hook earns the next moment of attention. A headline selects the right prospect and opens the
-argument. Neither completes the sale.
-
-| Family | Strategic job | Typical shape |
-|---|---|---|
-| Direct benefit | Make the outcome immediately relevant | Get [result] without [barrier] |
-| Problem recognition | Create instant self-identification | If [specific situation] keeps happening... |
-| Unexpected cause | Replace their explanation | It may not be [assumed cause]. It may be [new cause] |
-| Curiosity gap | Reveal a gap worth closing | The reason [unexpected outcome] happens... |
-| Contrarian or myth | Challenge a familiar but flawed belief | Why [common advice] fails when [condition] |
-| Identity | Call in a specific person or aspiration | For [person] who refuses to [rejected identity] |
-| Proof | Lead with credible evidence | What happened when [relevant person] tried [method] |
-| Demonstration | Make the claim visible | Watch [product or mechanism] do [specific thing] |
-| Comparison | Make the choice easier to understand | [Old way] versus [new way] |
-| Story or confession | Create identification and tension | I kept [struggling] until I realised... |
-| Question | Trigger self-assessment | Why does [problem] happen even when [effort]? |
-| News | Create novelty and relevance | A new [category or mechanism] for [specific job] |
-| Offer | Convert existing intent | Get [product or terms] before [real limit] |
-
-See `12-meta-platform.md` for what is currently working in the first three seconds on Meta,
-with data rather than opinion. The family above chooses the route in; `20-hook-quality-standard.md`
-sets the buyer-relevance, qualified-interest and honest-handoff gate. Direct statements, open loops
-and benefit-plus-explanation openings are available choices, without a compulsory device count.
-
-## Headline development and editorial selection
-
-Use one central thought, then choose an entry for this reader and awareness state. The families
-above are alternatives, not a quota. A wanted experience can lead while the image supplies the
-situation and support establishes the product's role. A purchase-ready reader may simply need the
-verified offer. Headlines, image text, primary text and spoken hooks have different space and
-reading conditions; identify the slot before editing.
-
-For curiosity, write the answer first. A useful question withholds an explanation the buyer wants,
-not the subject needed to understand the ad. A **fascination** is a short teaser of a concrete,
-useful answer in the body or destination. Derive it from actual content and reveal enough value
-to qualify interest. Do not disguise a generic FAQ answer as a revelation about the reader's life.
-Numbers, timeframes, "without" clauses and objection reversals are available when the underlying
-facts support them; they are not slots to fill with invented proof.
-
-After generating candidates, switch from drafting to editing. Compare the actual lines, not just
-their framework labels. Select the strongest underlying thoughts, repair weak expressions and
-remove filler. Ask what an abstraction means until it becomes an observable action or moment.
-Useful specificity is not a demand for more adjectives, dramatic language or a fabricated detail.
-
-For each finalist, establish internally:
-
-- the reader and concept it still serves;
-- what the reader understands immediately and why it matters;
-- the actual answer or advantage that earns continued attention;
-- what the image, support or next beat contributes;
-- whether shortening or adding curiosity lost meaning or introduced an unsupported implication.
-
-If two options serve the same concept, compare expression rather than rejecting one as a duplicate.
-If feedback is available, ask which candidate communicates the chosen thought more clearly and
-why. Preference informs editing; it does not prove conversion. A separate pass can be done by the
-same agent and should not become a mandatory review tool, approval gate or long visible worksheet.
-
-### Original worked edits
-
-These are writing exercises with the stated facts, not testimonials or measured winning ads.
-
-**Desired experience from a practical fact.** A dishwasher-safe ceramic mug is the supplied product.
-"Dishwasher-safe ceramic construction" describes it. **"One less thing to wash by hand"** gives
-that fact a human job. Support names the dishwasher-safe mug; a kitchen scene establishes the
-setting. Do not extend this into claims about hours saved or superiority over all other mugs.
-
-**Useful curiosity with a real answer.** A lock's app displays its current locked/unlocked status.
-The destination demonstrates checking that status remotely. **"What if checking the lock meant
-checking your phone?"** opens a relevant question that the demonstration answers. **"Check the
-lock from the sofa"** is a more direct alternative for the same argument. Either can be selected;
-curiosity does not automatically beat clarity. Neither claims that the app detects a closed door
-or eliminates burglary risk.
-
-**A shorter line that preserves the thought.** A seed kit includes pots, seeds and labelled planting
-instructions. The concept is seeing the first shoots on the kitchen windowsill. "Begin your indoor
-gardening journey" loses the scene. **"Start a little garden on your windowsill"** makes the
-invitation concrete; support names the kit contents. Avoid inventing a germination deadline or
-claiming success is guaranteed. In a headline rewrite, stay with this thought rather than switching
-to price, sustainability and gift-giving merely to produce different angles.
-
-**Cadian: distinguish creative direction from a finished product claim.** The supplied concept is
-making time for bed yet waking tired. "Tired mornings. Curious about grounding?" mentions both
-topics but does not connect them persuasively. The approved direction **"Enjoy the morning you
-went to bed early for"** captures the wanted experience. It is a concept direction, not permission
-to imply that grounding sheets improve sleep without supporting evidence. If only setup facts are
-available, "Grounding beneath your usual fitted sheet" is a different, factual demonstration angle.
-Do not present five such setup lines as successful rewrites of the tired-morning concept. Identify
-the missing product argument once and keep exploration separate from launch-ready wording.
-
-### Final checks
-
-**Moment and meaning.** Does the headline express one recognisable moment, meaningful tension or
-practical payoff? It need not contain every layer or name the feeling. Check the headline with its
-image and body: the product must support the expectation they create together.
-
-**Desired experience.** Find what the person wants back or wants to enjoy. A headline can express
-that experience while the image establishes the frustration. Recognition can also lead, provided
-the complete ad offers a credible way forward. Do not merely rephrase the pain in every element.
-
-**Natural structure.** The framework governs meaning, not sentence count. Do not default to two
-short sentences that split situation from consequence. A single sentence or phrase may carry both;
-use two only when the rhythm earns its place. Check batches for repetitive setup-and-payoff cadence,
-without forcing artificial variety. Write an image headline, not a miniature script opening.
-
-**4U test.** Useful (does it promise something the right prospect values?), Urgent (a credible
-reason to care now?), Unique (distinct route, mechanism or framing?), Ultra-specific (concrete
-enough to be understood and believed?). Treat these as prompts, not four compulsory ingredients.
-Do not invent urgency or exclusivity. A shared but useful verified feature can be a strong appeal.
-
-**Selling substance.** Use `30-scientific-advertising.md` to check useful information, evidence and
-next action. Shorten without losing what the buyer needs to decide. Each awareness execution stands
-alone; the image can select while its body and destination explain the complete case.
-
-**Caples.** Lead with self-interest, news or curiosity, grounded in a clear benefit. Curiosity
-without relevance attracts attention that does not convert.
-
-The source-reviewed additions and their limits are documented in `33-copywriting-source-notes.md`.
-The operating method above works without those videos or their transcripts at runtime.
-
-## The three-part opening
-
-On Meta the opening combines three parts that must express ONE idea, not compete:
-
-1. **Visual hook.** What is seen first.
-2. **Spoken or written hook.** The opening claim or tension.
-3. **On-screen anchor.** The words that make the meaning unmistakable without sound.
-
-## Story frameworks
-
-Make the chosen moment visible and the personal meaning legible through behaviour, voice or context.
-Use a real account for testimonial or founder experience; otherwise use a brand narrator or a
-clearly hypothetical scene. Every beat advances the idea. Repeating pain at greater intensity is
-not progression, and a demonstration only proves what is actually demonstrated.
-
-**StoryBrand SB7.** A character wants something. They meet an external, internal or
-philosophical problem. A guide shows empathy and authority. The guide gives a plan. The
-character is called to action. The stakes of inaction are understood. They reach success.
-
-**Compact transformation.** Situation, Struggle, Failed attempts, Discovery, Change, Evidence,
-Invitation. Each beat advances belief. Remove any scene that exists only because ads need a story.
-
-**Founder story.** Origin problem, Personal stake, Search or frustration, Product principle,
-Evidence, Mission. Works when the origin explains a customer benefit or a credible product
-decision. Biography without buyer relevance is not persuasion.
-
-## Message match
-
-The ad creates an expectation the destination must fulfil. Keep consistent: Who and activating
-situation, Primary Problem, messaging route, core promise, mechanism, proof, offer terms, language,
-and the CTA as the natural next step.
-
-------------------------------------------------------------------------------
 <!-- source: references/06-concept-model.md -->
 ------------------------------------------------------------------------------
 
@@ -915,12 +628,11 @@ The route must advance a coherent argument for the selected Who, Primary Problem
 The historical term angle may remain in migration records or general copy theory, but it must not
 appear in a new concept equation, concept card, name or register field.
 
-Develop the argument with `29-moment-to-meaning.md`: the recognisable experience, what it takes away
-or could make possible, what the person wants back, and the product's supported role. Recognition
-or desired experience can lead, depending on awareness and evidence. Do not stop at describing pain.
-Share these jobs across headline, visual and support; the whole execution must make sense.
-This thinking deepens the existing coordinate and messaging route; it does not add a concept axis
-or require a worksheet for ordinary headline requests.
+Develop the argument around the recognisable experience, what it takes away or could make possible,
+what the person wants back, and the product's supported role. Recognition or desired experience can
+lead, depending on awareness and evidence. This thinking deepens the existing coordinate and
+messaging route; it does not add a concept axis. The words that express it follow the DTC Ad
+Copywriting playbook.
 
 ## Source classification
 
@@ -960,24 +672,14 @@ prove that an isolated variable caused the outcome.
 
 ## Hook selection and delivery copy
 
-For an approved execution, the six-hook development system is a pre-production option set, not six
-launch ads. Build strategically different packages across at least four formats, then select one
-coherent opening per execution. Its visual hook, spoken or written hook and on-screen anchor all
-communicate the same idea, and the body fulfils that opening.
+Select one coherent opening per execution. Its visual hook, spoken or written hook and on-screen
+anchor all communicate the same idea, and the body fulfils that opening. Ad copy (hooks, scripts, headlines, primary text, descriptions, static ad copy) follows the DTC Ad
+Copywriting playbook: /Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy.
 
-Each selected execution also receives:
-
-- two or more strategically distinct lead routes;
-- short, medium and long primary text for each route;
-- headlines, five by default and three at minimum, each independently useful;
-- one or two descriptions;
-- exactly one CTA.
-
-Counts other than the CTA are guidance. `contracts/ad-copy.md` governs the shape, and padding to
-reach a number is worth less than cutting to the options that earn their place.
-
-These are delivery options linked to the execution. They do not create new coordinates or test IDs
-until they become part of a new launched batch.
+Hooks, primary text, headlines, descriptions and the CTA written for an execution are delivery
+options linked to it. They do not create new coordinates or test IDs until they become part of a
+new launched batch.
 
 ## Required execution traceability
 
@@ -1284,6 +986,23 @@ offer and conversion environment rather than a standard ad format.
 - **Contrast**, make before and after, old and new, problem and solution visually legible
 - **Distinctive assets**, use recognisable brand elements without turning the ad into a poster
 
+## Static devices
+
+Select only devices that strengthen the argument: a useful question or pattern interrupt, genuine
+proof, a verified offer or gift stack, a list or detail explanation, fair contrast, native or
+editorial type, or actual variants and newness. Several devices can coexist when their hierarchy is
+clear. A badge, quote, discount and headline should not compete as four separate leads.
+
+Historical brands can teach a mechanism: routine or value architecture, context-specific relevance,
+product tangibility or ownership confidence. Take the transferable move, never a competitor claim,
+celebrity endorsement or unverified result. Use `34-art-direction-and-revisions.md` to turn the
+selected format into a concrete visual brief.
+
+The words inside any format are ad copy. Ad copy (hooks, scripts, headlines, primary text,
+descriptions, static ad copy) follows the DTC Ad Copywriting playbook:
+/Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy.
+
 ------------------------------------------------------------------------------
 <!-- source: references/09-testing-and-diagnosis.md -->
 ------------------------------------------------------------------------------
@@ -1572,42 +1291,11 @@ Before a concept is expressed, check:
 ## Writing quality
 
 Voice rules come from `context/voice.md` and `learning/approved-rules.yml` in the active brand
-folder. These are the floor, applied on top of the approved brand voice.
+folder. Ad copy (hooks, scripts, headlines, primary text, descriptions, static ad copy) follows the DTC Ad
+Copywriting playbook: /Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy.
 
-**Structure.** Write to one person. One dominant idea per ad. Short sentences carry pressure;
-long sentences carry explanation. Vary them. The first line earns the second.
-
-**Specificity.** Real numbers over adjectives. Named situations over categories. A time, a
-place, a quantity, a condition. "Three weeks" beats "quickly". "The 4am wake-up" beats
-"poor sleep".
-
-**Banned outright, with no brand-voice exception:**
-
-- Em dashes and en dashes, everywhere and always. Use a comma, a colon, or two sentences.
-
-**Avoid unless the brand voice earns them:**
-
-- Words that signal machine writing: delve, unlock, elevate, harness, seamless, robust,
-  game-changer, revolutionary, transform your, in today's world, it's not just X it's Y
-- Rule-of-three lists used as filler
-- Rhetorical questions stacked back to back
-- Sentences that begin "Whether you're..."
-- Hedging that removes the claim: "may potentially help support"
-
-These are tells, not laws. A rule of three that lands is not filler, and the distinction is whether
-the third item earns its place or exists to complete the rhythm. Judge the line, not the pattern.
-Emoji follow the brand's approved voice rather than a blanket rule: the corpus contains long-running
-winners built on emoji headlines, so a general ban would contradict the evidence.
-- Comment bait, engagement bait, fake urgency
-
-**The two tests, run on every draft:**
-
-- **You Test.** Does the copy talk mainly about the customer, or the company?
-- **So What Test.** After each claim, ask "so what?" until it resolves into a benefit the
-  customer actually feels.
-
-**The read-aloud test.** If you would not say the sentence to a person standing in front of
-you, rewrite it.
+Em dashes and en dashes are banned everywhere and always. Use a comma, a colon, or two sentences.
 
 ------------------------------------------------------------------------------
 <!-- source: references/11-research-tools.md -->
@@ -1784,8 +1472,11 @@ delivers 1:1 and 9:16; historical ratio comparisons below do not change that pro
 
 
 Researched 26 August 2026. This file is the platform-and-numbers layer only. The theory
-(awareness, sophistication, persuasion, offer, copy structures) lives in files 01 to 11 and is
-not repeated here.
+(awareness, sophistication, persuasion, offer) lives in files 01 to 11 and is not repeated here.
+The hook and script figures below are platform evidence for planning and diagnosis, not a writing
+method. Ad copy (hooks, scripts, headlines, primary text, descriptions, static ad copy) follows the DTC Ad
+Copywriting playbook: /Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy.
 
 Everything below carries a source. Anything unsourced is tagged. Platform specs and policy
 change without notice: re-verify anything load-bearing before a launch, and treat the dates in
@@ -2169,8 +1860,8 @@ From [RocketShip HQ, 8 June 2026](https://www.rocketshiphq.com/text-overlays-vid
 Motion describes an external production pattern of **10 concepts x 5 to 10 hook variations**, where
 the body, proof and offer are reused while openings vary. This is a benchmark observation, not the
 strategist's standard batch shape or an instruction to treat the hook as an isolated test variable.
-Under the governed method, six hook packages are a pre-production option set for an approved
-execution and one coherent opening is selected per launch ad. Motion's 25-hook catalogue
+Under the governed method, one coherent opening is selected per launch ad, and hook writing
+follows the DTC Ad Copywriting playbook. Motion's 25-hook catalogue
 ([source](https://motionapp.com/blog/best-dtc-meta-ad-hooks-2025)) remains a format menu: post-it
 reveal, sunglasses reflection, blurred-to-focus, phone screen text, remote-control SKU switch,
 chase sequence, fake text exchange, off-camera partner validation, reverse drop, jump out of phone,
@@ -2179,7 +1870,7 @@ man-on-the-street, story-time journal and multi-creator mashup.
 
 ---
 
-## 5. Video script structures, second by second
+## 5. Video length and retention data
 
 ### 5.1 The sourced backbone
 
@@ -2197,129 +1888,8 @@ Two cliffs. The first at **0 to 3s** (70 to 80% of impressions never reach 3s in
 
 **The single most important consequence: the offer and the brand name must be delivered before 15 seconds, because 94 to 97% of impressions never get there.**
 
-`[Everything in the timing columns below is PRACTITIONER CONVENTION unless a source is named. The beat sequences are extrapolated from Motion's six-beat backbone and the 2.5 words-per-second rate; the exact second boundaries are not published anywhere.]`
-
-### UGC direct-to-camera (15s cold prospecting default)
-
-| Sec | Beat | Fight the drop |
-|---|---|---|
-| 0.0 to 0.5 | Face already talking, mid-sentence. Caption card already on screen | No logo, no title card, no fade-in. First frame is a human face at conversational distance |
-| 0.5 to 3 | Hook line. The data favours **offer-only or confession**, not question | Cut on the beat at ~3s. A visual change at the 3s mark resets attention right where hook rate is measured |
-| 3 to 6 | Problem, stated behaviourally not demographically | Second cut. Introduce the product physically here even if not named |
-| 6 to 10 | Mechanism plus first proof (10s proof window) | Proof must be visual, not spoken |
-| 10 to 13 | Value prop, 2 to 3 differentiators max | |
-| 13 to 15 | Offer plus CTA | Brand name legible on screen, not only spoken |
-
-Drop points: 0 to 3s, and 6 to 8s where the pivot from problem to product happens. The pivot is where a scripted-sounding transition kills the ad. Bridge with a discovery line.
-
-### Problem-solution narrative (20 to 30s)
-
-| Sec | Beat |
-|---|---|
-| 0 to 3 | The problem shown, not described. Visual of the failure state |
-| 3 to 7 | Escalation. A second, worse instance of the same problem |
-| 7 to 9 | Turn. "Then I found..." |
-| 9 to 15 | Mechanism. Why this works when the other things did not |
-| 15 to 22 | Proof: demo, result, or third-party |
-| 22 to 30 | Offer, risk reversal, CTA |
-
-Drop: the 7 to 9s turn. Make the turn a **visual** cut, not a verbal one.
-
-### Founder talking head (20 to 40s)
-
-**Founder visual style hit rate: 8.57%, well above baseline.**
-
-| Sec | Beat |
-|---|---|
-| 0 to 3 | Confession or contrarian claim. Not "hi I'm the founder of" |
-| 3 to 6 | Credential established in one clause, in passing |
-| 6 to 12 | The thing the category does wrong |
-| 12 to 20 | What we built instead, held in hand |
-| 20 to 30 | Proof: manufacturing, ingredient, test, or numbers |
-| 30 to 40 | Direct ask |
-
-Drop: 3 to 6s if the credential is front-loaded. The credential arrives **after** the hook is paid off, never as the opener.
-
-### Product demo (10 to 20s)
-
-Three demo categories ([Motion](https://motionapp.com/blog/demonstration-ads-for-facebook-tiktok)): **dramatic**, **street test**, **simple scientific**.
-
-| Sec | Beat |
-|---|---|
-| 0 to 2 | The mess, the failure, the before state, in motion |
-| 2 to 5 | Product enters frame and acts |
-| 5 to 9 | The change happens on camera in one unbroken shot |
-| 9 to 13 | Repeat the demo from a second angle or surface |
-| 13 to 20 | Offer, CTA |
-
-Drop: 5 to 9s if the transformation is cut around rather than shown continuously. **One unbroken shot of the change is the whole asset.**
-
-### Comparison / us vs them (15 to 25s)
-
-Us-vs-them hit rate **6.52%**, above baseline but well below Letter and Founder.
-
-| Sec | Beat |
-|---|---|
-| 0 to 3 | Both options in frame simultaneously. The contrast IS the hook |
-| 3 to 8 | Old way fails, on camera |
-| 8 to 13 | New way succeeds, same test, same conditions |
-| 13 to 18 | Named difference (the mechanism) |
-| 18 to 25 | Offer |
-
-Drop: 8s. Keep the failing option **in frame** during the success shot rather than cutting away.
-
-**Policy note for health and beauty:** a side-by-side of a **person before and after** for weight loss or wrinkles is prohibited outright. A side-by-side of **two products or two conditions** is not. Keep the comparison off the body.
-
-### Listicle (20 to 40s)
-
-Listicle hook hit rate **5.45%**, listicle visual style **5.30%**. **Both at or below baseline. This format is measurably mediocre and is over-briefed.**
-
-| Sec | Beat |
-|---|---|
-| 0 to 3 | The count plus the payoff, together |
-| 3 to 9 | Item 1, strongest |
-| 9 to 15 | Item 2 |
-| 15 to 21 | Item 3 |
-| 21 to 30 | Offer |
-
-Drop: after item 1, at ~9s. Number on screen so the viewer sees how much is left, and put the strongest item first.
-
-### Green screen (15 to 25s)
-
-**Hit rate 4.87%, the lowest visual style in the dataset and below baseline. Recommend against unless there is account-level evidence to the contrary.**
-
-If used: 0 to 3s the reaction to what is behind you, 3 to 8s what the artefact is, 8 to 15s your read on it, 15 to 25s the product tie and offer. Drop at 3 to 5s when the viewer cannot read the artefact, which most green screen ads fail.
-
-### B-roll VSL (45 to 90s, warm and mid-funnel only)
-
-Exceeds the 5 to 15s window that qualifies for all placements. Will not serve In-Stream.
-
-| Sec | Beat |
-|---|---|
-| 0 to 3 | Hook over the single most arresting B-roll frame |
-| 3 to 10 | Problem, wide |
-| 10 to 20 | Failed alternatives |
-| 20 to 30 | Mechanism reveal |
-| 30 to 45 | Proof stack |
-| 45 to 60 | Offer construction |
-| 60 to 75 | Risk reversal |
-| 75 to 90 | CTA plus urgency |
-
-Cold hold rate for 30 to 60s prospecting is **8 to 18%, median ~12%**, roughly a third worse than 15 to 30s creative. **Do not run this cold.** Hard visual reset every 5 to 7 seconds, and plant a specific, dated open loop before 10s that only closes after 45s.
-
-### Testimonial (15 to 30s)
-
-UGC asset type hit rate **7.56%**; UGC overlay **6.73%**; UGC mashup **6.28%**.
-
-| Sec | Beat |
-|---|---|
-| 0 to 3 | The result stated as a number or a specific, with the speaker's face |
-| 3 to 7 | The skepticism admitted (the confession mechanic, 8.74% hit rate) |
-| 7 to 14 | What changed, concretely and datedly |
-| 14 to 22 | Sensory or usage detail that only a real user would say |
-| 22 to 30 | Recommendation plus offer |
-
-Drop: 3 to 7s. Fight it with the admitted doubt. **A testimonial that never concedes anything is read as an ad and dies at second 4.**
+Beat-by-beat script templates were removed from this file in 1.9.0. Script structure, beat timing
+and hook writing follow the DTC Ad Copywriting playbook named at the top of this file.
 
 ### 5.3 Published retention curve data
 
@@ -2758,77 +2328,6 @@ Preflight with `balance`, which is free. Unavailable or out of credits does not 
 work: produce the spec and the prompt, hand them over, and say generation was not performed.
 
 ------------------------------------------------------------------------------
-<!-- source: references/16-hook-formats.md -->
-------------------------------------------------------------------------------
-
-# Hook formats
-
-A hook is the first complete unit of an ad, not just one sentence. For video it combines format,
-visual opening, spoken opening and on-screen anchor. For static it combines feed pattern, primary
-line, image or proof object and visual hierarchy.
-
-This file supplies the format taxonomy. `20-hook-quality-standard.md` decides whether a chosen
-opening is strong enough to produce. Choosing a format here does not clear that gate.
-
-## Pre-production option set for an approved execution
-
-Use `contracts/hook-batch.md` for counts and package fields. Respect the requested number. For a
-full exploratory batch with no requested count, six is a default, not a format quota. Choose useful
-routes rather than filler. In a controlled wording comparison, deliberately retain the same appeal
-and change only the declared factor; it need not invent a different argument for every variant.
-
-Select one coherent opening for each launch execution. Options do not imply more launch ads, a
-new coordinate or a new CONTST batch. Ordinary headline requests need no house naming fields.
-
-## Video hook formats
-
-| Format | Opening move | Strong fit | Production need |
-|---|---|---|---|
-| Offer-first | Terms and value immediately when a verified offer supports a product-aware decision | product aware | product and offer |
-| Confession | Admit a credible doubt or mistake | unaware, problem aware | credible speaker |
-| Unexpected cause | Replace the assumed explanation | problem aware | supportable mechanism |
-| Demonstration | Show the product truth in motion | solution, product aware | visible test |
-| Comparison | Put two options under equivalent conditions | solution, product aware | fair comparison |
-| Founder declaration | Defensible brand point of view | problem, product aware | founder or authority |
-| Customer quote | Lead with exact approved customer language | solution, product aware | usage rights |
-| Comment response | Put a real objection on screen | problem, product aware | source comment |
-| Letter or note | Written statement appears as the feed object | broad | legible note or card |
-| POV situation | Show the activating moment | unaware | recognisable situation |
-| Problem visualisation | Show the failure state before explaining | problem aware | specific scene |
-| Product in action | Product enters and acts immediately | solution, product aware | product demo |
-| Proof-first | Verified result or evidence opens | solution, product aware | approved proof |
-| Myth or reframe | Challenge a common explanation | problem, solution aware | credible reason why |
-| Story cold-open | Enter at the moment of tension | unaware | speaker and scene |
-| Objection-first | Say the blocking doubt honestly | product aware | proof answer |
-| List payoff | State the count and outcome together | unaware, problem aware | compact points |
-| Contrarian statement | State a defensible disagreement | broad | substantiation |
-
-Question hooks are allowed only when they do not imply a protected personal attribute and when a
-question is the strongest route into the idea.
-
-## Static hook formats
-
-| Format | Primary object |
-|---|---|
-| Text-only statement | one high-contrast line |
-| Letter or note | handwritten or typed note |
-| Proof card | approved review, result or demonstration frame |
-| Comparison | fair visible contrast |
-| Native social post | observation in platform-native grammar |
-| Product claim | product plus one supportable benefit |
-| Problem callout | recognisable situation, not an intrusive attribute assertion |
-| Offer card | complete offer and reason to act |
-
-## Hook package fields
-
-`contracts/hook-batch.md` governs the field list. It is the single definition, so this file does not
-restate it. Two files describing the same object with different field counts is how the earlier
-11-versus-19 contradiction survived for months.
-
-Whatever the field list, two craft rules hold: all three opening elements express one idea, and the
-body must cash the cheque written by the hook.
-
-------------------------------------------------------------------------------
 <!-- source: references/17-runtime-portability.md -->
 ------------------------------------------------------------------------------
 
@@ -3198,109 +2697,6 @@ upload-only output is a patch, not persistence
 ```
 
 ------------------------------------------------------------------------------
-<!-- source: references/20-hook-quality-standard.md -->
-------------------------------------------------------------------------------
-
-# Hook quality standard
-
-`16-hook-formats.md` supplies opening formats. This file checks whether an opening earns useful
-attention and leads into an honest selling argument. Apply it to hooks, primary-text first lines,
-script openings and image headlines in their visual context.
-
-This reviewed standard combines the earlier Shaun Eng hook-masterclass notes with the
-owner-approved Scientific Advertising review of 2026-09-13. The former compulsory two-of-three
-emotion, curiosity and stakes count is retired. See `30-scientific-advertising.md` for provenance
-and `21-evidence-and-doctrine.md` for source precedence.
-
-## The selling-usefulness gate
-
-Develop the opening with `29-moment-to-meaning.md`: recognisable moment or practical payoff,
-why it matters, desired experience and supported product role. Then check:
-
-| Check | Pass condition |
-|---|---|
-| Buyer relevance | The intended buyer recognises a situation, desire, useful fact or relevant offer in the headline and visual together |
-| Qualified interest | The reason to continue belongs to the buying decision, rather than unrelated spectacle or vague intrigue |
-| Selling substance | The ad has something useful and supportable to say; a verified ordinary feature can qualify without exclusivity |
-| Body handoff | Name the useful answer before teasing it; the next beat and destination actually deliver that explanation, demonstration, evidence or offer |
-| No prior context | The execution makes sense independently, without seeing an earlier awareness-stage ad |
-| Immediacy | Relevant information or action starts promptly, with no wasted setup; a direct explanation can be the opening |
-| No chaos | One legible dominant idea; visual, spoken and written elements agree |
-
-A hook that attracts the stop and loses the sale is not proven strong. Hook rate is a diagnostic
-input, never a verdict about conversion. If the body is weak, improve its useful information or
-change the appeal. Do not conceal a thin payload behind a stronger open loop.
-
-## Choose a device for the argument
-
-| Opening approach | Useful when | Check |
-|---|---|---|
-| Direct statement or promise | The benefit, fact, demonstration or terms deserve attention on their own | Supported and relevant, not a generic boast |
-| Open loop | A specific question matters to the buyer and the answer is worth discovering | The body actually answers it promptly |
-| Benefit plus explanation gap | State a useful destination while inviting the reader to see how | Clear payoff and an honest answer; combining these is not an automatic failure |
-
-Emotion, curiosity and stakes are optional devices. Quiet relief, a clear product description or
-an ordinary practical advantage can be effective craft. Do not invent distress or testimonials to
-meet a quota. A batch need not include every device. Different appeals are useful for exploration;
-controlled headline tests may deliberately keep the same appeal and vary only wording.
-
-Start a video with meaningful action when useful. Start a static with a clear feed object and
-headline. Neither must copy a creator's storytelling conventions to qualify as an ad. Creator and
-advertising references are sources of hypotheses, not evidence of this brand's sales performance.
-
-## On-screen headline development
-
-Review the on-screen headline as its own copy element within the three-part opening. Speech
-captions can repeat the audio for accessibility; the headline can add a distinct reason to listen.
-Keep one coherent idea across the visual, speech and headline. When the owner has approved the
-spoken line and requested a headline revision, preserve the spoken line and other approved layers.
-
-Apply the connected brand's approved voice rules. When the brief calls for direct curiosity:
-
-- Make the situation, behaviour or buying decision concrete and understandable immediately.
-- Open a relevant question, contradiction or information gap that the spoken line, demonstration
-  or next beat actually resolves. Establish that answer before writing the headline.
-- Replace generic slogans, polished fragments and obvious scene labels when they provide no
-  useful reason to continue. Shortness and capital letters do not establish hook quality.
-- Use natural wording. A direct statement can create curiosity; do not force every headline into
-  a question or a repeated “check this first” template.
-- A teaser such as “check this first” must name a meaningful decision and lead to a useful answer.
-  Do not withhold basic context or overpromise the importance of a routine product detail.
-- Review at mobile size and ensure the wording can be read within its actual screen time.
-
-These are editorial checks, not performance evidence. An owner-approved headline is an example of
-that brand's preferred expression, not a universal template. Curiosity remains optional outside a
-brief or approved rule that calls for it; the existing selling-usefulness gate still applies.
-
-For founder and UGC scripts, specify an achievable first-frame action, natural direct-to-camera
-speech, exact on-screen words and the next beat. Delivery style does not supply a testimonial or a
-founder origin story: those require a real account.
-
-## Apply at the requested scale
-
-For a simple request for five headlines, deliver five headlines and check the gate internally.
-Use the separate editorial pass in `29-moment-to-meaning.md`: judge the actual candidate lines
-against the chosen thought, then rewrite and select. A factual but off-brief line cannot pass
-because its details are accurate. Same-concept rewrites may deliberately vary expression; do not
-force unrelated arguments to satisfy a diversity rule.
-For a detailed hook package or script, record the opening approach, intended buyer and reason to
-care, selling substance, body handoff and clearance of context, immediacy and legibility. Do not
-force a natural headline into two sentences or a fixed word count to expose the framework.
-
-## Reject or repair
-
-- Unqualified attention with no useful connection to the offer
-- A generic complaint with no relevant moment or practical payoff
-- Invented customer experience, shame, urgency, exclusivity or efficacy
-- A question the body never answers or an answer too weak to justify the question
-- An ad that needs a previous ad to make sense
-- A visual that promises a different argument or invents evidence
-- Shortening that removes necessary proof, meaningful terms or the next step
-
-Inspect the whole ad for enough selling information using `30-scientific-advertising.md`.
-The image need not contain the whole sales case; the connected execution must carry it coherently.
-
-------------------------------------------------------------------------------
 <!-- source: references/21-evidence-and-doctrine.md -->
 ------------------------------------------------------------------------------
 
@@ -3381,46 +2777,6 @@ feature can be the message; do not turn its practical payoff into an unsupported
 Remove empty verbal padding, not qualifiers that preserve truth. Keep the limits of an approved
 claim and the wording of a real quote. If removing a hedge changes the factual meaning, keep it
 or rewrite within the evidence. Do not invent a first-person confession to sound authentic.
-
-------------------------------------------------------------------------------
-<!-- source: references/22-swipe-corpus.md -->
-------------------------------------------------------------------------------
-
-# Swipe corpus: annotated openings that ran
-
-Real direct-response ads with the move named, so a pattern can be applied to a product that
-is not in this file. `16-hook-formats.md` gives the taxonomy and
-`20-hook-quality-standard.md` gives the gate. This file is the worked evidence.
-
-Generated by `scripts/build-swipe-digest.py` from `corpus/swipe/entries.json`. Do not edit by
-hand.
-
-## What the evidence is and is not
-
-- 69 entries, 30 annotated, 0 human-reviewed.
-- Source: curated Foreplay board best_ads, plus any discovery backfill.
-- **Longevity is behavioural evidence, never performance.** A long-running ad tells you an
-  operator kept funding it. It is not a measured return, and a neglected ad can run for a year.
-- **Awareness codes are a proxy.** Where a code is present it was computed from how long the ad
-  runs before naming the product. An ad can name the product immediately and still address an
-  unaware buyer. Treat the code as a sort, not a fact.
-- **The never-named sentinel is unreliable.** At least one entry reports the product as never
-  named while its transcript names it. Check before relying on that value.
-- Only human-reviewed annotations enter this teaching digest. Unreviewed drafts remain
-  in the corpus review queue; they are not taught as established patterns.
-
-## How to use this
-
-1. Find the band matching the awareness state you are writing for.
-2. Read the moves, not the words. Copying a line from here produces a worse ad than the
-   original and may copy a claim this brand cannot support.
-3. Check the pattern against the brand's own tested results first. A result in the brand's test
-   register outranks anything here.
-4. Every claim in a corpus ad belongs to that brand. Reusing the claim is not permitted; reusing
-   the structure is the point.
-
-No reviewed teaching examples are available yet. Use supplied references or original
-product-first concepts; do not substitute unreviewed drafts as evidence.
 
 ------------------------------------------------------------------------------
 <!-- source: references/23-commercial-context.md -->
@@ -3612,96 +2968,6 @@ or buyer-facing product naming. Consider the whole acquisition and fulfilment co
 new total business from sales transferred between channels. These checks do not gate ordinary drafts.
 
 ------------------------------------------------------------------------------
-<!-- source: references/24-writing-for-low-awareness.md -->
-------------------------------------------------------------------------------
-
-# Writing for low awareness
-
-An unaware reader has not recognised the problem or its relevance. Establish relevance through a
-recognisable situation or desire before pitching a solution. Cold targeting and unfamiliarity with
-the brand do not establish problem unawareness. Someone seeking to stop waking at night is already
-problem-aware about sleep, even if grounding is unfamiliar. Use references 02, 21 and 29.
-
-## Choose a relevant entry
-
-A useful opening connects what the reader notices or wants to information worth receiving. It can
-be quiet, practical or positive. The complete ad progresses to a supported product role and next
-step. Do not merely repeat the pain, force embarrassment or invent a dramatic event.
-
-| Entry | Use when | Evidence and handoff |
-|---|---|---|
-| Recognisable situation or desired experience | An everyday moment makes the subject relevant | Ground it in the brief or label it as a creative hypothesis outside the consumer copy |
-| Confession or personal story | A real account makes a relevant experience understandable | Actual source and permission; never invent testimony or pretend an actor is an independent customer |
-| Supported reframe | There is evidence for a mistaken assumption and a useful explanation | Explain the evidence; do not invent an underlying cause or attack a strawman |
-| Honest curiosity | A specific answer matters to the likely buyer | Supply a worthwhile answer, not a thin payload hidden by intrigue |
-| Education or demonstration | The product's use or category needs explaining | Demonstrate what is known, without implying unsupported results |
-| Conversation or question | A real enquiry or clearly presented scenario can introduce the issue | Do not disguise a scripted endorsement as a spontaneous third-party recommendation |
-
-These are choices, not ranked winners. A direct fact or useful demonstration can pass without
-emotion, curiosity or high stakes. A benefit and a question about how can form one coherent opening.
-Use `20-hook-quality-standard.md` and `30-scientific-advertising.md` to judge qualified interest.
-
-## Reveal the product when the argument earns it
-
-Establish relevance first for an explicitly unaware brief, then introduce the category and product
-when they help explain the next useful point. There is no required reveal percentage or first-quarter
-ban. The reader must receive value while the product is withheld; withholding is not value itself.
-
-Headline, visual and supporting copy can have complementary jobs. Judge their combined meaning and
-implied claim instead of forcing the same awareness label onto every component. Each complete ad
-must make sense without seeing an earlier awareness execution.
-
-The historical swipe corpus contains late reveals and long-running ads. Those are observed creative
-patterns, not evidence that late reveals cause sales or that longevity means profitability. Archived
-hook-rate figures describe their source samples; they do not rank the best route for a new brand.
-Consult reference 12 for dated source context and recheck changeable platform guidance before use.
-
-## Keep the customer's interest when claims are limited
-
-If a desired result is not substantiated, do not promise it. Preserve the requested situation or
-question in the concept and move the product's claim to something supported: use, construction,
-setup, terms or an explanation the destination can actually provide. Do not silently abandon the
-chosen audience and turn every option into an unrelated feature inventory. Where no credible bridge
-exists, distinguish concept exploration from a finished product promise. Identify a factual
-alternative as a different angle rather than treating setup copy as fulfilment of a result-led brief.
-
-For example, a buyer curious about grounding after disappointing mornings can be invited to inspect
-what the bedding setup involves. A placement demonstration cannot establish better sleep or energy.
-Keep that distinction clear in the complete ad, not just a disclaimer outside it.
-
-## Problem aware
-
-The reader recognises the problem; they do not need to be repeatedly told it hurts. A desired
-experience, more precise recognition, useful demonstration or supported explanation may lead.
-Naming a waking time is a scene, not a medical diagnosis or permission to infer its cause.
-
-Use the requested angle, show what the person wants instead, then establish what this product can
-credibly contribute. Research sharpens language and objections when available. It is not required
-for a useful first draft, and a vivid anecdote is not evidence of prevalence or efficacy.
-
-## Review and measurement
-
-Read the opening with its image or first frame: can the intended person recognise the subject,
-understand why it matters and see a worthwhile reason to continue? Confusion or a generic surprise
-is not a substitute for qualified interest. Neither shortness nor a curiosity device proves quality.
-
-Judge commercial results against the stated objective and measurement window. Do not assume lower
-awareness must mean worse conversion or cheaper reach. Read business outcomes before using hook
-and hold rates to investigate. Strong attention with weak sales can implicate qualification,
-expectation, argument, offer, destination, stock or tracking. Inspect the whole path.
-
-Comparing complete UWA and PDA executions can identify observed commercial differences; it does
-not isolate an awareness effect when audience, delivery, message or destination also varies. Use
-`31-controlled-tests.md` for narrower follow-up plans. The house profile's five-day review is a
-checkpoint, not automatic evidence of a winner.
-
-## Source status
-
-This reviewed guide supersedes the earlier ranked-hook, compulsory-stakes and fixed-reveal advice
-following the owner-approved Scientific Advertising integration on 2026-09-13. The historical corpus
-and source notes remain evidence to inspect, not higher-priority instructions or performance laws.
-
-------------------------------------------------------------------------------
 <!-- source: references/25-meta-benchmarks.md -->
 ------------------------------------------------------------------------------
 
@@ -3711,8 +2977,8 @@ Benchmark data for reading performance, not for writing. Loaded with the ops sta
 diagnosing a test, and deliberately not in the short shared core: a benchmark tells you
 whether a number is good, and it cannot help you write the next line.
 
-Split out of `12-meta-platform.md`, which keeps the specs, the policy, the hook data and the script
-structures. Provenance for every figure below is in the Sources section of that file.
+Split out of `12-meta-platform.md`, which keeps the specs, the policy, the hook data and the video
+length and retention data. Provenance for every figure below is in the Sources section of that file.
 
 Two standing cautions. Every figure here has a sample window and will age, so recheck before relying
 on one. And a benchmark is market evidence, never evidence about this brand's customers: a result in
@@ -3869,324 +3135,6 @@ exactly four ads for each initial NNT or INSPO batch, and the validity protocol 
 ---
 
 ------------------------------------------------------------------------------
-<!-- source: references/26-copywriting-standards.md -->
-------------------------------------------------------------------------------
-
-# Copywriting standards: the sixteen
-
-Sixteen rules for copy that reads like a person wrote it. Most of them were already enforced somewhere
-in this library. This file states all sixteen in one place, says how each one is checked, and settles
-the four that contradict each other or contradict the awareness model.
-
-A rule that cannot be checked is a preference. Each one below carries its check, and the column says
-where enforcement actually lives.
-
-## Precedence, when two of them collide
-
-The core development method is `29-moment-to-meaning.md`: move from a problem or desire into a
-recognisable moment, its consequence, personal meaning and desired experience, then establish the
-product's supported role. Apply it before writing and during editing across every copy format.
-These sixteen standards check the resulting execution. A depth check is mandatory; an emotional
-story is not. Facts and the current task remain the constraints on both.
-
-Apply the selling-usefulness check from `30-scientific-advertising.md`: select the likely buyer,
-provide useful selling information, support it and make the next step clear. Curiosity, emotion and
-stakes serve that job and are optional. Repair a weak payload rather than disguising it with a loop.
-A fact can be specific and persuasive even when competitors share it; exclusivity needs separate proof.
-
-Work down this list. The first rule that applies wins, and the loser gets named in the rationale.
-
-1. **Never invent a claim.** Absolute. No other rule on this page licenses a fabricated specific.
-2. **Truth constrains style.** Improve expression within the evidence. An accurate but off-brief
-   line still needs revision; a stronger-sounding overstatement does not ship.
-3. **Approved wording survives editing.** Concision never removes a qualifier that a regulated claim
-   depends on.
-4. **Awareness governs position when the brief specifies it.** A simple product brief does not need
-   a formal awareness diagnosis. When the stage is known, ordering follows it, per
-   `02-customer-state.md`. Rules about ordering yield to it.
-5. **Everything else is craft**, and craft judgement is arguable. Say which way you went.
-
-## The sixteen
-
-### 1. Sell the end state
-
-Identify what the person wants back or wants to experience, beyond just stopping a problem.
-Connect a product detail to a defensible use or payoff. Feature-led ads remain valid; do not force
-an emotional transformation or invent beliefs or results.
-
-**Prevents:** feature inventories, spec sheets, and copy that describes the object rather than the
-change.
-
-**The check:** name the end state in one sentence without using the product's name. If you cannot, the
-copy is selling an object.
-
-Separate what the person wants from what the product is known to do. Use the moment-to-meaning
-sequence to find relevance, never to promote a desired emotional or health outcome into a proven
-benefit. A practical end state can carry quiet satisfaction without explicit emotion language.
-
-**Position, not presence.** The complete ad conveys a desirable experience or practical payoff.
-Recognition or desired experience can lead at Problem Aware. At Unaware, establish relevance through
-a situation or desire before pitching the category. Neither pain-first nor benefit-first is universal.
-
-### 2. Pass the stranger test
-
-Every opening reads cold, to somebody with no prior exposure to the brand, the category or the
-previous ad.
-
-**Prevents:** setup before the claim, and openings that assume a returning viewer.
-
-**The check:** the subject and reason to care are understandable in the opening's visual context.
-An honest curiosity gap may leave its specific answer unresolved, not the ad's basic relevance.
-
-Already a non-negotiable in `20-hook-quality-standard.md` and a self-check in every contract.
-
-### 3. Cut, then cut again
-
-Develop the thought before shortening it. Then make a separate editorial pass: compare candidates
-against the chosen concept and rewrite the strongest. Cut words only while preserving that meaning.
-
-**Prevents:** padding, throat-clearing, and copy whose length came from effort rather than argument.
-
-**The check:** for each sentence, delete it and read the copy. If the argument survives, it stays
-deleted. State the word count before and after on long copy.
-
-**Bounded by rule 3 of precedence.** Cut words, never cut a qualifier a claim needs. A shorter line
-that overstates is not a better line. Also preserve necessary explanation, proof, offer conditions
-and the next action across the complete execution. There is no universal shortest winning length.
-
-### 4. Select your reader
-
-The copy should make the right person feel addressed and let the wrong person move on. A reader who is
-not sure the ad is for them scrolls.
-
-**Prevents:** copy pitched at everybody, which persuades nobody, and the qualification being left to
-the targeting.
-
-**The check:** can the intended reader recognise a relevant situation, desire, fact or offer from
-the opening and its visual context. A useful product descriptor can select as clearly as a scene.
-
-**Select by situation, not by label.** "If you're someone who struggles with sleep" is a label and
-`24-writing-for-low-awareness.md` bans it as spent setup. "The 4am wake-up where you do the mental
-maths on how much sleep is left" is a situation, and only the right reader recognises it. Situational
-recognition can make an abstract label concrete; use it when it helps this brief.
-
-### 5. No em dashes
-
-No em dashes and no en dashes, anywhere, always. Comma, colon, or two sentences.
-
-**Prevents:** the single most reliable machine-writing tell in English.
-
-**The check:** mechanical. `scripts/validate-package.py` scans for the characters. The only exemption
-is verbatim third-party ad copy in `corpus/`, recorded as it ran.
-
-### 6. Tone matches slot
-
-Each slot has a job. The hook earns relevant attention, the body explains, the headline makes the
-key idea legible and the CTA instructs. Adapt the register where useful, without forcing tonal
-changes. A direct explanation or offer may be the most useful opening.
-
-**Prevents:** hooks that read like body copy, which is the most common reason a good idea fails in the
-first second, and CTAs that hedge.
-
-**The check, per slot:**
-
-| Slot | Register | Fails when |
-|---|---|---|
-| Video hook, first 3 seconds | Relevant action or information, speakable | It wastes setup or attracts unrelated attention |
-| Primary text line one | Complete before truncation | It depends on line two |
-| Primary text body | Explanatory, sentences vary | It repeats line one at length |
-| Headline, length fits placement | Clear, one dominant idea | Compression removes the reason to care |
-| Description | Supporting, factual | It restates the headline |
-| CTA | Instruction, one action | It hedges, or offers two actions |
-| Static primary line | Legible at thumbnail | It needs the body to make sense |
-
-### 7. Kill empty hedges
-
-Remove qualifiers that drain the claim without adding accuracy.
-
-**Prevents:** "may potentially help support", which asserts nothing and reads as legal cover that
-provides none.
-
-**The check:** delete the hedge. If the line now says something untrue, the claim is the problem, not
-the hedge, and it goes back to the claim gate. If the line says the same thing more directly, the
-hedge was filler.
-
-**Register hedges are different and they stay.** A hedge inside quoted or first-person copy signals a
-real speaker, which is the mechanism behind the confession opening. `21-evidence-and-doctrine.md`
-carries the full resolution. Hedge lists are in `config/copy-lexicon.yml`.
-
-### 8. Angles, not synonyms
-
-Match the requested task. Concept exploration needs different arguments. Five headline options,
-rewrites or a controlled wording test can deliberately keep one concept while improving its
-expression. New punctuation alone is not a new strategic idea, but wording can matter.
-
-**Prevents:** cosmetic changes presented as new concepts, or an approved concept lost during rewriting.
-
-**The check:** can you identify what changed: concept, entry, expression or another test variable?
-Keep the requested count and concept. Revise weak options rather than misclassifying useful
-same-concept alternatives as duplicates or filling the set with unrelated benefits.
-
-Already mandatory in `contracts/hook-batch.md` and `contracts/ad-copy.md`, and scored as
-`distinctness` in the eval. This library says "route" where the rule says "angle".
-
-### 9. One idea each
-
-One central argument per ad. Facts, examples, benefits and objections may reinforce it. They do not
-become separate ads merely because the argument uses several details or a conjunction.
-
-**Prevents:** the reader arbitrating between two competing claims, which they resolve by scrolling.
-
-**The check:** state the central argument plainly, then identify how each supporting part helps it.
-
-### 10. Never invent claims
-
-No invented statistic, review count, testimonial, study, comparison, scarcity claim, timeframe or
-competitor fact. Ever, for any reason, including that the copy is better with one.
-
-**Prevents:** the failure that survives every other quality gate and cannot be fixed after publication.
-
-**The check:** every specific traces to supplied product facts or relevant evidence. Mark essential
-gaps in a brief only, never in finished image copy. **A marker names a gap
-and never wraps a guess.** `[STAT: needs a real figure]` is correct. An invented figure tagged for
-removal is still an invented figure: it reached the page, it reads as real, and somebody will ship it.
-
-Hard rule 1, the claim gate in `10-voice-and-claims.md`, and `placeholder_discipline` in the eval,
-which scores 0 for any invented specific.
-
-### 11. Truth beats style
-
-When the accurate version reads worse, ship the accurate version. Then keep working on the accurate
-version, because it usually can be made better within the truth.
-
-**Prevents:** a compelling line justified by its performance, which is how brands acquire claims they
-cannot defend.
-
-**The check:** for each claim, could the brand repeat this at scale, in writing, to a regulator. A
-compelling route never excuses an inaccurate claim.
-
-### 12. Benefit, not mechanism
-
-Lead with what the reader gets, not with how the product works.
-
-**Prevents:** machinery presented to somebody who has not yet agreed they want what it produces.
-
-**Read this one with the resolution in `21-evidence-and-doctrine.md`,** because taken flat it
-contradicts the awareness model, which makes mechanism the correct Solution Aware lead. The operative
-form:
-
-- A mechanism may lead, when the reader has already conceded the benefit.
-- A mechanism may never appear without the payoff it produces, at any awareness level.
-
-**The check:** every mechanism clause is followed by the "so that" it produces, stated or plainly
-implied. "Cold-pressed in small batches" is machinery. Add "so it still tastes like the fruit" and it
-is an argument.
-
-### 13. Numbers beat adjectives
-
-A supported quantity, duration, price, count or temperature can make a description more concrete.
-This is a writing preference, not a universal performance claim. "Three weeks" beats "quickly". "The 4am wake-up" beats "poor sleep".
-
-**Prevents:** inflated adjectives, which readers discount automatically because every competitor uses
-them.
-
-**The check:** circle every adjective doing persuasive work and try to replace it with a figure.
-
-**When no figure exists, do not reach for the adjective.** The order of preference is: a real figure,
-then a concrete situation with no number in it. Mark an essential missing figure in the brief only. The
-vague adjective is last and usually worse than all three. Rule 10 outranks this rule absolutely: the
-absence of a number is never a reason to produce one.
-
-### 14. Front-load the point
-
-The most important thing comes first, at every scale: first line of the ad, first clause of the
-sentence, first frame of the video.
-
-**Prevents:** buried leads, and copy that dies at truncation with the argument still ahead of it.
-
-**The check:** preview the actual placement. An 80-character cut is a useful stress test, not a
-universal character limit. Put the relevant point early and preserve the meaning and material terms.
-
-**The point is not always the product.** At Unaware the point is the situation, and
-`24-writing-for-low-awareness.md` holds the product name back deliberately. Front-loading orders by
-the reader's interest, not by the brand's.
-
-### 15. Sound unmistakably brand
-
-When a brand voice is supplied, make the copy identifiable without the logo. Without one, choose
-a suitable provisional voice; do not block creation or invent an established brand rule.
-
-**Prevents:** competent copy that any competitor could have run, which builds nothing across
-impressions.
-
-**The check:** compare against the supplied brand voice, product facts and visual identity.
-The competitor-name swap can reveal generic phrasing, but is not a pass/fail specificity test.
-Shared category facts can sell honestly. Do not invent an exclusive feature to sound distinctive.
-
-Voice comes from `context/voice.md` and `learning/approved-rules.yml` in the connected brand folder.
-Without a brand folder this rule cannot be fully met, and the honest response is to say so rather than
-to invent a voice. Note it as a gap.
-
-### 16. No AI lexicon
-
-Two tiers, because a blanket word ban is wrong and a blanket permission is worse.
-
-**Tier one, banned outright.** Constructions that never do useful work in an ad. "In today's world",
-"it's not just X, it's Y", "unlock the power of", "elevate your", "delve into", "when it comes to",
-"revolutionise". No brand voice earns these.
-
-**Tier two, flagged and justified.** Words a language model overuses that also have honest literal
-uses: seamless, robust, harness, transform, effortless, curated, elevate as a physical verb. "Seamless"
-is a lie in a brand promise and a fact in a garment description. Use one, say why in the rationale.
-
-**Prevents:** copy that reads as generated, which readers now detect and discount.
-
-**The check:** `scripts/check-copy-lexicon.py` scans frozen examples against
-`config/copy-lexicon.yml`. Tier one is an error, tier two is a report. The lists are data, so they can
-be extended without touching code.
-
-Beyond vocabulary, the structural tells: rule-of-three lists used as filler, stacked rhetorical
-questions, sentences opening "Whether you're", and paragraphs of uniform sentence length. Judge the
-line rather than the pattern, per `21-evidence-and-doctrine.md`.
-
-## Where each rule is enforced
-
-| # | Rule | Enforcement |
-|---|---|---|
-| 1 | Sell the end state | Contract self-check, `end_state` in the eval |
-| 2 | Pass the stranger test | `20-hook-quality-standard.md` non-negotiable, hard rule 8, eval |
-| 3 | Cut, then cut again | Contract self-check, `concision` in the eval |
-| 4 | Select your reader | Contract self-check, `reader_selection` in the eval |
-| 5 | No em dashes | Mechanical, `validate-package.py`, hard rule 12 |
-| 6 | Tone matches slot | Contract self-check against the slot table above |
-| 7 | Kill empty hedges | `config/copy-lexicon.yml`, `no_hedging` in the eval |
-| 8 | Angles, not synonyms | Contract requirement, `distinctness` in the eval |
-| 9 | One idea each | Hard rule 7, `no_chaos` in the eval |
-| 10 | Never invent claims | Hard rule 1, claim gate, `placeholder_discipline` in the eval |
-| 11 | Truth beats style | Claim gate, hard rules 3 and 4 |
-| 12 | Benefit, not mechanism | So What test, contract self-check |
-| 13 | Numbers beat adjectives | `specificity` in the eval, contract formatting rules |
-| 14 | Front-load the point | Truncation requirement, `front_loaded` in the eval |
-| 15 | Sound unmistakably brand | Brand folder voice rules, brand filter |
-| 16 | No AI lexicon | Mechanical over examples, `no_ai_lexicon` in the eval |
-
-## Running them
-
-Do not run sixteen checks in sequence on every line. Three passes:
-
-1. **Develop and write.** Use the moment-to-meaning sequence to find the relevant experience and
-   supported product bridge. Awareness sets the order when specified; choose one idea, a defensible
-   end state and a recognisable reader situation or practical payoff.
-2. **Deepen and cut.** Replace generic pain labels with useful concrete detail. Check why the moment
-   matters; do not merely add an emotion word. Apply rules 3, 7, 13 and 16, removing repeated agitation,
-   padding and any scene that does not advance the argument.
-3. **Verify.** Rules 10, 11 and 5. Every asserted fact traces, essential missing claims stay in the
-   brief, hypotheses are labelled in the rationale, the product bridge is defensible and the
-   characters are clean. No invented customer testimony or emotional result.
-
-Pass two is where the work is. Pass three is where the risk is.
-
-------------------------------------------------------------------------------
 <!-- source: references/27-image-ad-workflow.md -->
 ------------------------------------------------------------------------------
 
@@ -4291,7 +3239,10 @@ the limitation; ask for the source image only if faithful adaptation is essentia
 
 Use `contracts/static-spec.md`. The brief carries product facts used, main message, exact image copy,
 visual hierarchy, identity constraints, reference roles, paired output dimensions, generation route,
-platform copy and CTA if relevant, and checks. Test identifiers and belief maps are unnecessary
+platform copy and CTA if relevant, and checks. Write the image copy and platform copy with the
+playbook. Ad copy (hooks, scripts, headlines, primary text, descriptions, static ad copy) follows the DTC Ad
+Copywriting playbook: /Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy. Test identifiers and belief maps are unnecessary
 outside a requested governed campaign batch.
 
 Carry forward the decision table from `37-guided-image-development.md`. Present the completed
@@ -4384,8 +3335,8 @@ Preserve brand isolation. Use the existing learning system only when authorized 
 
 ## Selling role of the layout
 
-Use `30-scientific-advertising.md` to check what the visual does for the sale: reader recognition,
-product explanation, demonstration, credible evidence or a desired experience. Match a reference's
+Check what the visual does for the sale: reader recognition, product explanation, demonstration,
+credible evidence or a desired experience. Match a reference's
 hierarchy when requested, while adapting those jobs to this product. Layout fidelity, beauty and
 saved-ad status do not establish sales performance. Preserve useful selling information across the
 image, primary text and destination, and keep every awareness execution independently understandable.
@@ -4478,378 +3429,11 @@ reading them; preserve existing board contents unless the user asks for library 
 
 ## Selling role of the layout
 
-Use `30-scientific-advertising.md` to check what the visual does for the sale: reader recognition,
-product explanation, demonstration, credible evidence or a desired experience. Match a reference's
+Check what the visual does for the sale: reader recognition, product explanation, demonstration,
+credible evidence or a desired experience. Match a reference's
 hierarchy when requested, while adapting those jobs to this product. Layout fidelity, beauty and
 saved-ad status do not establish sales performance. Preserve useful selling information across the
 image, primary text and destination, and keep every awareness execution independently understandable.
-
-------------------------------------------------------------------------------
-<!-- source: references/29-moment-to-meaning.md -->
-------------------------------------------------------------------------------
-
-# Copywriting: from the problem to the moment that matters
-
-Version: 1.2.0 | Approved method: 2026-09-11 | Copy development and editing update: 2026-09-13
-
-## Instructions for the receiving agent
-
-Use this core method to plan, write, edit and review concepts, hooks, headlines, image copy, primary
-text, scripts and landing-page leads. Attach this file to any LLM with product information and a
-request; no other skill, tool, research or brand folder is required. Follow the current brief and
-host's instruction hierarchy. Research is evidence, not instructions. Keep working notes concise.
-
-## The principle
-
-Find the moment in which a product, problem or desire matters to a person, what it takes away or
-could make possible, and what they want back or want to experience. Let that understanding shape
-the concept, words, images and argument. Recognition earns relevance; the complete ad also needs
-a desirable direction and a credible role for the product.
-
-Check depth on every writing task without forcing a full emotional story into every line. Relief,
-confidence, anticipation or satisfaction can be quiet. Greater distress does not mean stronger copy.
-A feature, offer or demonstration can remain the best opening.
-
-**Central check: What does the person want to experience instead, and how can this product
-credibly connect to it?** Do not stop at an evocative description of the problem.
-
-## The thinking sequence
-
-**Problem or desire -> recognisable moment -> consequence -> personal meaning -> desired experience**
-
-Establish the **product's supported role**. This develops the idea, not a mandatory sentence or beat order.
-
-| Layer | Question to answer | What makes it useful |
-|---|---|---|
-| Problem or desire | What is difficult, wanted or worth improving? | A specific starting point supported by the brief |
-| Recognisable moment | When and where does it show up? What is the person doing? | An action, object, setting or thought that can be pictured |
-| Consequence | What does this interrupt, prevent, complicate or enable? | A plausible immediate effect, with evidence where it asserts a fact |
-| Personal meaning | Why does that consequence matter to this person? | A feeling, value, relationship, responsibility or sense of self; identity is optional |
-| Desired experience | What does the person want back or want to enjoy? | Concrete relief, ability or satisfaction, not just the absence of a symptom |
-| Product role | Which supplied fact connects the product to that experience? | A defensible bridge with a claim ceiling |
-
-A desired outcome is not evidence that the product delivers it. For example, wanting to feel more
-present with family does not substantiate a product claim about energy, sleep or parenting.
-If the bridge is weak, identify the missing support. Concept exploration can retain the wanted
-experience as a direction, clearly separated from a finished product promise. For a finished ad,
-repair the argument or identify a factual alternative as a different angle. Do not silently replace
-the requested audience-led concept with a materials list, or attach an unrelated emotional hook.
-
-## Work from the available inputs
-
-Start from the brief and product facts. Read supplied websites/PDPs when tools allow; extract identity,
-use, construction, benefits, limitations, imagery and offer terms. Brand promises are not independent proof.
-
-When research is available, look beyond complaint labels. Collect the situation, what happened,
-the consequence, the person's own interpretation, what they tried and what they wanted instead.
-Useful sources include customer interviews, reviews, support tickets and public community posts.
-Reddit is one possible source, not a prerequisite or a substitute for the brand's own customers.
-
-For each useful research excerpt, retain its source, date or access date, exact wording and surrounding
-context. Keep these categories separate:
-
-- **Customer evidence:** an actual customer account with a traceable source.
-- **Market evidence:** a competitor review or community account, not automatically this brand's customer.
-- **Creative hypothesis:** a plausible situation or interpretation proposed by the writer.
-
-An inferred emotion is not the speaker's testimony. One vivid comment does not establish prevalence;
-look for repetition, exceptions and conflicting experiences before calling a pattern recurring.
-
-Without research, draft from product facts and an everyday situation, marked as a creative hypothesis
-in the rationale, not the ad. Never invent customers, quotations, testimonials, founder experiences,
-diagnoses or results. First-person testimony needs a real account; an actor or generated person is
-not evidence. Otherwise use a brand narrator or clearly hypothetical scenario.
-
-## Writing and editing process
-
-**Develop the thought.** Start with the reader's situation, what they want instead, the chosen
-concept, the supported product role and the next useful action. A short working statement is enough;
-no belief map or research prerequisite. Choose one central argument. Supporting facts and stories
-reinforce it, rather than competing for attention. Five headlines for one concept preserve that
-concept; five new concepts or awareness angles are a different task.
-
-**Establish the answer.** Before writing a curiosity gap, state what the next beat or page actually
-delivers: a useful explanation, demonstration, advantage, proof or offer. Reveal enough subject and
-value to interest the intended reader. An unknown cause or thin setup explanation cannot repay a
-headline teasing why a life problem occurs. A direct line is useful when the fact is the argument.
-
-**Explore expression.** Recognition, desired experience, contrast, demonstration, proof or offer
-can lead. Product facts are raw material: ask what they let this reader do or understand. Ask what
-an abstract benefit means until it becomes a recognisable action, moment or decision. Draft several
-expressions before selecting; no fixed number of private drafts or compulsory device mix.
-
-**Make a separate editorial pass.** Read the candidate set as an editor after drafting. Identify
-the strongest thought, then rewrite weak expressions of it. Check what each line actually says:
-does it preserve the brief, establish understandable value, and earn any open question? A generic
-complaint followed by a product name is not automatically a persuasive bridge. Concision comes
-after meaning; cut filler and repetition, not the reason to care. A more curious version must
-retain the subject and lead to the same useful answer. Do not select the first acceptable lines
-merely because they satisfy the requested count.
-
-**Review in context.** Headline, visual, body and destination share the argument. Move necessary
-detail into the right slot rather than cramming it all into the headline or deleting it. Read
-scripts aloud; inspect image copy at its intended hierarchy. Check both literal and implied claims.
-Accuracy cannot compensate for losing the brief, and relevance cannot excuse an invented result.
-
-For developed copy, briefly explain the chosen thought, product bridge and editorial decision.
-For simple requests, perform these checks internally and return the requested copy. Scale the pass
-to the task; it requires neither another agent nor user approval. Examples and headline development
-are in `05-copy-craft.md`; source context is in `33-copywriting-source-notes.md` when available.
-
-## Apply it to the slot
-
-### Headline structure and rhythm
-
-The framework shapes meaning, not sentence count. Use one natural thought, expressed as a phrase,
-one sentence or two when that rhythm helps. Do not automatically split situation and consequence
-into two short sentences, enforce one sentence forever, or write a miniature script opening.
-Review concept explorations for distinct arguments. Review same-concept rewrites for stronger
-expression and natural cadence; punctuation changes alone do not improve the idea.
-
-A headline can express the desired experience while the image establishes the problem. A bedside
-clock can carry the night-waking context; the line can express the morning the person wants.
-Avoid making both repeat the same pain. Pain-led headlines remain useful when supporting copy
-provides a credible way forward. Review the complete ad, including its implied product promise.
-
-### Format application
-
-| Output | Application |
-|---|---|
-| Hook | Open on one understandable tension, action or practical payoff. Earn the next beat without withholding essential context. |
-| Headline | Compress the strongest moment or desired experience into one idea. It need not tell the whole story. |
-| Image ad | Share the work between visual, headline and support: recognition, desired change and credible product role. Check their combined claim. |
-| Primary text | Connect relevance and desired change to the product and evidence. Longer versions deepen the argument, not the agitation. |
-| Video script | Make the moment shootable. Let behaviour, sound, pacing or an object carry feeling. Each beat must advance recognition, explanation, demonstration, proof or action. |
-| Landing-page lead | Continue the experience or promise that earned the click, then give the explanation and substantiation needed to act. |
-
-Scripts may use moment, consequence, product role, demonstration or evidence, then next action.
-This is optional, not a five-beat template. Avoid repeated pain. Demonstrations prove only what
-they show, not an emotional or clinical outcome.
-
-Awareness changes the entry, not the obligation to make the message matter:
-
-- **Unaware:** establish relevance through a recognisable situation or desire before the category.
-- **Problem aware:** recognition or the desired experience can lead; provide a supportable route forward.
-- **Solution aware:** compare or demonstrate the route, connecting it to the relevant practical payoff.
-- **Product aware:** address the remaining objection with product-specific facts or evidence.
-- **Most aware:** make the verified offer and next step clear. Do not delay a purchase-ready reader
-  with unnecessary emotional setup.
-
-Awareness and emotional intensity are separate choices. Cold targeting or unfamiliarity with the
-brand does not establish problem unawareness. Someone wanting to stop waking at night is already
-problem-aware about sleep, even if grounding and Cadian are unfamiliar. Briefs calling this reader
-"unaware" need this distinction stated; do not silently pretend the symptom is unknown.
-
-## Worked examples
-
-The following are original writing exercises, not customer quotations or measured winning ads.
-
-### Desired-experience headline directions
-
-Joe approved these directions on 2026-09-12 as examples of the universal method:
-
-| Recognisable experience | What the person wants back | Headline direction |
-|---|---|---|
-| Counting hours until the alarm | An uninterrupted night | **Let the alarm be your first interruption.** |
-| Thinking about tomorrow's tasks at night | Permission to switch off | **Leave tomorrow until tomorrow.** |
-| Trying not to wake a partner | Rest for both | **A full night's rest for both of you.** |
-| Losing patience at breakfast | Capacity for relationships | **More patience for the people you love.** |
-| Going to bed early but feeling disappointed | A rewarding morning | **Enjoy the morning you went to bed early for.** |
-
-These are creative-direction approvals, not approved Cadian efficacy claims or customer findings.
-Paired with a product, they may imply sleep or daytime-function results. Use only where evidence
-supports that implication; otherwise change the execution. The reusable lesson is how to find
-what the customer wants, not a template or permission to promise these outcomes for any product.
-
-### Worked example: bedtime at Cadian
-
-Supplied facts for this example: a flat grounding underlay sits beneath the fitted sheet and
-connects to a properly grounded outlet. Recheck product facts before reuse.
-
-- Problem: a bedtime routine feels complicated.
-- Moment: checking lighting, temperature and phone settings before getting into bed.
-- Consequence: more attention is going into preparing for rest.
-- Personal meaning: bedtime feels like another thing to get right.
-- Desired relief: a simpler experience of getting ready for bed.
-- Product role: the grounding underlay fits into the existing bedding setup.
-- Evidence status: the situation and meaning are creative hypotheses. The setup is a supplied fact.
-
-Possible headline: **Bedtime has become another thing to get right.**
-
-Supporting product line: **Cadian's grounding underlay fits beneath your usual fitted sheet.**
-
-The headline should be paired with a simple bedding scene. It does not substantiate a promise of
-better sleep, fewer awakenings, improved energy or emotional recovery.
-
-An illustrative 20-second script:
-
-| Time | Visual | Spoken line | Job |
-|---|---|---|---|
-| 0-3s | Hand adjusts a lamp, then reaches for phone settings. | Bedtime has become another thing to get right. | Recognisable tension |
-| 3-6s | Phone placed down; cut to the bed. | Grounding can fit into the bedding you already use. | Practical direction |
-| 6-10s | Show the actual flat Cadian underlay and connector. | Cadian is a grounding underlay. | Product introduction |
-| 10-17s | Demonstrate the real connection and fitted-sheet placement accurately. | It sits beneath your fitted sheet and connects to a properly grounded outlet. | Supported setup |
-| 17-20s | Finished bed and product name. | See how it fits your bed. | One next action |
-
-### Simple product: six-loop cable organiser
-
-Supplied fact: six separate cable loops. Hypothesised moment: a charging cable slipping behind a
-desk. Meaning: irritation at interrupting a small task. Possible line: **Six cables. Each with its
-own place.** Pair it with an accurate demonstration. Practical order is enough; no identity crisis
-or unsupported promise about grip strength or productivity is needed.
-
-### Positive desire: a weekend picnic
-
-If a supplied bag has separate compartments, a possible moment is unpacking lunch with everything
-in its place. The emotional direction can be anticipation and satisfaction. Show the actual
-compartments and what fits. Do not invent insulation performance, capacity or leak protection.
-
-## Acceptance check
-
-Before presenting, ask:
-
-- Can a stranger understand the opening and picture the situation or practical payoff?
-- Does the specific detail help the argument, rather than merely make it sound vivid?
-- Is the consequence plausible, and is any asserted customer experience actually sourced?
-- Does the feeling arise from the moment instead of an added label or accusation?
-- Is the intensity proportionate, including when a quiet or positive approach is better?
-- Does the body deliver on the hook, with a supported role for this particular product?
-- Does the complete ad convey a desirable experience or practical payoff beyond recognising pain?
-- Are desire, testimony and proven product results clearly distinguished?
-- Does each word or beat earn its place in the requested format?
-- Does the headline read as a natural thought, with sentence count chosen deliberately rather than
-  copied from the framework? Does the batch avoid a repetitive setup-and-payoff cadence?
-
-Revise if the output only names a generic pain, escalates into invented shame or trauma, claims a
-result the product cannot support, or tells an emotional story unrelated to the offer. Do not reject
-a useful feature, demonstration or offer line simply because it contains no overt emotion word.
-
-## Origin and scope
-
-Joe approved this as a core writing method after reviewing an [Instagram discussion](https://www.instagram.com/reel/DdHfArWAhLX/)
-on moving from surface pain points into lived emotional consequences on 2026-09-11.
-On 2026-09-12 he approved natural headline syntax and desired-experience thinking for all concept
-development and copywriting. This method approval does not establish product efficacy or ad performance.
-
-This guide is an original operational synthesis and application of that principle, not a transcript
-or a claim that the speakers defined every step here. The examples and checks were developed for
-the marketing strategist. The method guides creative judgement; it does not prove conversion lift.
-
-## Selling usefulness after the depth check
-
-The owner-approved Scientific Advertising update (2026-09-13) adds a final question: does this
-execution give the likely buyer useful, supportable information and a clear next step? A desired
-experience supplies direction, not evidence that the product delivers it. Check headline, visual,
-body and destination together. Quiet practical detail can qualify without an emotional story or
-an exclusive mechanism. Curiosity must lead to a worthwhile answer; strengthen a thin answer first.
-See `30-scientific-advertising.md`. This applies equally when this file is handed to another agent.
-
-------------------------------------------------------------------------------
-<!-- source: references/30-scientific-advertising.md -->
-------------------------------------------------------------------------------
-
-# Salesmanship and qualified response
-
-Use for developed headlines, copy, concepts and revisions. This complements the moment-to-meaning
-method in `29-moment-to-meaning.md`. Work from supplied facts; research is an enhancement.
-
-## The selling-usefulness check
-
-Before polishing, identify the likely buyer, the wanted experience or practical payoff, the useful
-selling substance, its evidence and the appropriate next action. Check internally for a simple
-headline request. Do not return an intake worksheet instead of the requested copy.
-
-Ask whether the line would help a capable salesperson explain the product to an interested person.
-Plain product information can be persuasive. Style, emotion and novelty earn their place by making
-the relevant argument clearer or more compelling; none is a compulsory ingredient.
-
-## Headlines select a reader
-
-Read the headline with the image or first frame. A plausible buyer should recognise the subject
-and why it is worth their attention. Specificity can come from a situation, desired experience,
-product detail, demonstration, evidence or offer. Avoid withholding essential context merely to
-make a question harder to answer.
-
-Curiosity should concern an answer the execution can usefully supply. A direct benefit and an
-unresolved how may form one coherent opening. Do not force every headline into a question, a
-two-sentence setup, an emotional confession or an arbitrary word count. Shorten after the selling
-idea is clear. Keep qualifiers and material offer conditions when cutting.
-
-If the body has little substance, improve the explanation, demonstration, evidence or offer.
-Withholding a weak answer does not improve the proposition. Judge qualified interest and the
-handoff, rather than the mere presence of a curiosity device. Use `20-hook-quality-standard.md`.
-
-## Find a useful fact before inventing a new angle
-
-Use this bounded pass over the supplied PDP, product information or research:
-
-| Question | Decision |
-|---|---|
-| What verified detail is easy to overlook? | Select a concrete fact, not an adjective or invented number. |
-| What does it mean in use? | Connect it to a defensible practical payoff. |
-| What would a buyer want explained or demonstrated? | Turn the fact into useful selling substance. |
-| Is it common or distinctive? | Explain either honestly; reserve exclusivity for supported comparisons. |
-| What would change the claim? | Retain conditions and uncertainty that matter. |
-
-Specificity and differentiation are separate. An ordinary manufacturing step or common feature may
-be worth explaining even if competitors also have it. Do not fail concrete copy solely because a
-competitor could truthfully use it. Do not describe that shared fact as proprietary, first or unique.
-Brand voice and a demonstrated difference can add distinction without manufacturing exclusivity.
-
-Example: a six-loop cable organiser can show where six cables sit. It does not need an invented
-patented grip. A grounding underlay can demonstrate placement beneath a fitted sheet. That
-demonstration establishes setup, not better sleep or a clinical effect.
-
-## Enough selling information for the next action
-
-One dominant idea may have several supporting facts. Keep the information needed for the requested
-next step: what is offered, why it matters, a credible reason to believe, a material objection or
-condition when relevant, and what happens next. Length follows that job and the medium.
-
-For an image ad, divide the work deliberately:
-
-- Image and headline establish relevant interest.
-- Supporting copy identifies the product's role and supplies appropriate explanation or proof.
-- The destination continues the same promise and supplies decision information.
-
-Do not rely on a viewer seeing other awareness-stage ads. An educational ad can invite reading an
-explanation without fitting a full sales page into the image. It still needs enough context to make
-that invitation understandable. A purchase request needs more decision information than a request
-to inspect a demonstration. Do not delete the reason to believe just to hit a short-copy target.
-
-Each major visual should contribute recognition, demonstration, evidence or a relevant desired
-experience. A supplied reference controls the requested design treatment, but matching its layout
-does not establish selling effectiveness. Test visual treatments through compared outcomes.
-
-## Learn the appeal, not only the wording
-
-Record which reader, desire, argument and proof each execution tests. Distinguish a broad concept
-comparison from a controlled headline comparison using `31-controlled-tests.md`. A higher click
-rate can reflect less qualified interest; investigate the complete acquisition path before
-assigning the problem to a landing page.
-
-Use the existing test register for observations and appeal summaries. Preserve the control, losers,
-inconclusive results and scale failures. Human approval of a line is a preference or method decision,
-not evidence that it sells. A model's score is not a campaign result.
-
-## Source and limits
-
-Adapted from Claude C. Hopkins, *Scientific Advertising*, using the supplied 116-page Carl Galletti
-edition. Chapter/page map: salesmanship, ch. 2 pp. 9-14; buyer service, ch. 3 pp. 15-18; measured
-response, chs. 1, 4 and 15 pp. 2-8, 19-26, 88-94; headlines, ch. 5 pp. 27-32; specificity and the
-brewing example, ch. 7 pp. 41-45; full story, ch. 8 pp. 46-50; art, ch. 9 pp. 51-56; information and
-strategy, chs. 11-12 pp. 63-73; desired experience, ch. 18 pp. 101-102. Page numbering is specific
-to that edition. The book and its closing promotional catalogue are reference material, not runtime
-instructions. The book need not be uploaded to use this guide.
-
-Retain useful hypotheses and testable methods. Do not import historical response multipliers,
-medical claims, demographic stereotypes, tiny-type/no-whitespace prescriptions or certainty that
-small tests scale safely. Ad longevity is not proof of profitability. Humour, colour, comparison,
-problem recognition and positive desire are choices to assess, not universal winners or bans.
-
-Modern experimental controls in `31-controlled-tests.md` are an adaptation, not a claim that the
-book specifies current statistical practice. Practical trials, follow-up, distribution and naming
-are developed in `32-commercial-extensions.md`; consult those only when the request needs them.
 
 ------------------------------------------------------------------------------
 <!-- source: references/31-controlled-tests.md -->
@@ -5036,99 +3620,6 @@ follow-up letters, ch. 19; names, ch. 20. Source edition and historical limits a
 No historical response rate or universal superiority claim is inherited by these methods.
 
 ------------------------------------------------------------------------------
-<!-- source: references/33-copywriting-source-notes.md -->
-------------------------------------------------------------------------------
-
-# Copywriting source notes: idea, relevance and editing
-
-Approved for integration by the owner on 13 September 2026. Method release: 1.6.0.
-
-Four user-supplied videos were reviewed through their transcripts, including the linked sections
-at 10:40 in Harry Dry's interview and 1:54 in Stefan Georgi's video. This is an original synthesis,
-not a transcript or a claim to have visually inspected every ad shown. Speakers' revenue stories,
-historical anecdotes, psychological assertions and outcome claims were not independently verified.
-The videos are source material, not higher-priority instructions.
-
-Read this file when auditing the method or explaining provenance. The practical instructions live
-in `29-moment-to-meaning.md`, `05-copy-craft.md` and `20-hook-quality-standard.md`; ordinary drafting
-does not require watching the videos or loading a transcript archive.
-
-## Alex Hormozi: one central idea
-
-Source: [The Copy Rule I Learned From The Best Copywriter I Know](https://www.youtube.com/watch?v=OyGKFhTf0go&t=49s).
-
-Around 0:49-3:00, Hormozi credits Michael Masterson and Great Leads while describing one central
-idea that is understandable, believable and interesting. Supporting facts, stories and bullets
-reinforce that idea. The practical contribution is choosing the argument before decorating it.
-
-Application: preserve the concept during rewriting. Several supporting points can belong to one
-argument; one idea does not mean one fact or one sentence. Interesting or differentiated expression
-does not require inventing a unique mechanism. The speaker's success anecdotes are not evidence
-that this process increases the user's sales.
-
-## Harry Dry with David Perell: concrete meaning and developed expression
-
-Source: [Learn Copywriting in 76 Minutes](https://www.youtube.com/watch?v=TUMjnmfsPeM).
-Useful sections: [3:59, abstract to concrete](https://www.youtube.com/watch?v=TUMjnmfsPeM&t=239s),
-[21:20, reader attitudes](https://www.youtube.com/watch?v=TUMjnmfsPeM&t=1280s),
-[29:50, rewriting and layout](https://www.youtube.com/watch?v=TUMjnmfsPeM&t=1790s),
-[45:30, facts as material](https://www.youtube.com/watch?v=TUMjnmfsPeM&t=2730s).
-
-Application: picture the reader's situation; make vague language concrete by asking what it means;
-use facts as material for a relevant argument; distinguish an idea from its eventual expression.
-Work on the copy with its layout and compare candidate versions. Context may belong in a header,
-image or support line instead of being removed to shorten the headline.
-
-Three useful questions are whether a claim is imaginable, testable and distinctive. These are
-editing lenses, not compulsory gates. A falsifiable statement can still be false. An ordinary
-shared fact can still persuade, and useful specificity does not require brand exclusivity.
-
-## Stefan Georgi: response and prospect value
-
-Source: [Direct Response Copywriting 101](https://www.youtube.com/watch?v=pZ82pzVoAZo&t=114s).
-The linked opening discusses a defined response; [23:55 onward](https://www.youtube.com/watch?v=pZ82pzVoAZo&t=1435s)
-develops the value of continuing from the prospect's perspective.
-
-Application: define the useful next step and what the reader gets from taking it. A headline,
-first frame or opening line earns continued attention; the rest of the execution supplies the
-argument and action. An information promise can be worthwhile without pretending it is proof of
-a product outcome. Images and words can contribute different parts of the opening.
-
-The video's examples illustrate craft, not approved claims for this brand. A headline need not
-contain an explicit CTA, every benefit or the full sales case. A desired experience can lead
-without compulsory agitation.
-
-## Sabri Suby: relevant substance and qualified curiosity
-
-Source: [18 Years of Copywriting Advice in 93 Minutes](https://www.youtube.com/watch?v=bFR1y5_kAB4).
-Useful sections: [16:40, choosing what to say](https://www.youtube.com/watch?v=bFR1y5_kAB4&t=1000s),
-[40:51, qualified curiosity](https://www.youtube.com/watch?v=bFR1y5_kAB4&t=2451s),
-[57:20, headline and support](https://www.youtube.com/watch?v=bFR1y5_kAB4&t=3440s),
-[65:00, useful answer teasers](https://www.youtube.com/watch?v=bFR1y5_kAB4&t=3900s).
-
-Application: begin with a desire or conversation already present in the brief or source material.
-Use traceable customer language when available. Pair curiosity with a specific reason for the
-intended buyer to care, and let support expand the opening. Build a short teaser from an actual,
-worthwhile answer, not an invented revelation.
-
-Outcome-without-barrier, objection relief, lists and timeframes are optional forms that require
-appropriate facts. Research improves inputs without becoming a mandatory intake project. Do not
-import universal rules about sensational language, headline length, numbers or curiosity. Clicks
-alone are not the business objective; use the controlled testing and measurement guidance.
-
-## Integration and learning
-
-The existing moment-to-meaning method and Scientific Advertising principles remain the core.
-These additions supply a drafting and editorial process, with source conflicts resolved through
-evidence and the user's current task. The portable prompt summarises the process; the image bundle
-carries its core; the craft bundle includes the developed headline method; the knowledge bundle
-also carries these source notes.
-
-Evaluate actual outputs for brief fidelity, useful value, honest curiosity and natural expression.
-Keep writing preferences separate from campaign results. Approval to integrate a method does not
-approve every example as a product claim or establish that the method improves conversion.
-
-------------------------------------------------------------------------------
 <!-- source: references/34-art-direction-and-revisions.md -->
 ------------------------------------------------------------------------------
 
@@ -5239,96 +3730,6 @@ Retain prompts, referenced assets, selected and returned model IDs, settings, ou
 inspection status, including native dimensions and any export resizing or cropping. Save the final
 parameter table and exact prompt with the images. Separate generated, technically checked, owner-approved and commercially tested.
 Different models, prompts or manual finishing do not constitute a controlled model comparison.
-
-------------------------------------------------------------------------------
-<!-- source: references/35-creative-frameworks.md -->
-------------------------------------------------------------------------------
-
-# Creative framework menu
-
-Use when developing copy or scripts, or when the user asks for a named method. These are flexible
-argument structures, not mandatory templates or performance rankings. Ad formats are in
-`08-formats.md`; awareness, performer, visual treatment and aspect ratio are separate decisions.
-
-## Headline entries
-
-| Entry | Thought to develop | What must follow |
-|---|---|---|
-| Recognisable contradiction | The person does what is expected but still faces a specific friction | An explanation or product role that fits the tension |
-| Wanted value | A concrete experience the buyer wants in a recognisable context | A supported way the product matters |
-| Burden removal | The desired activity with less relevant effort | Actual setup or use that explains the convenience |
-| Useful question | The question blocking understanding or purchase | A direct, useful answer |
-| Concrete difference | A verified feature that changes practical use | The detail shown or explained accurately |
-| Proof or offer | Supplied evidence or a relevant buying term | Its actual scope, conditions and next step |
-
-Change the entry or expression while preserving the requested concept. A headline field, on-image
-lead, on-screen hook and speech caption have different jobs; do not apply one word count or case
-rule to all four. Use the active brand's conventions, natural connecting words and necessary context.
-
-## Primary text arguments
-
-| Method | Sequence |
-|---|---|
-| PAS | Recognisable problem, proportionate consequence, relevant solution and action |
-| AIDA | Attention, relevance, wanted experience with a reason to believe, action |
-| Objection to answer | Actual objection, answer, demonstration or evidence, invitation |
-| Feature to lived value | Concrete feature, practical advantage, recognisable use moment, action |
-| Customer language to argument | Genuine attributed phrase, context, product relevance, reason to act |
-| Reason to switch | Current friction, fair contrast, verified difference, invitation |
-
-Write connected prose with enough information to persuade. Two requested alternatives should have
-distinct entries or arguments, not merely adjective changes. Bullets and short benefit callouts are
-optional aids to scanning. A long explanation belongs in prose, not an overgrown callout. Do not
-impose a fixed body length, a question ban or an emoji pattern.
-
-Illustrative feature-to-value miniature, for a bottle with a verified locking lid:
-"Your bottle shares a bag with everything else your day depends on. This lid locks before you leave.
-Watch the closing action, then choose your colour." The bag gives use context; no leak-test result
-has been invented. Develop the value before shortening the words.
-
-## Script arguments
-
-| Method | Beat sequence |
-|---|---|
-| Demonstrate and explain | Visible action, relevance, operation, answered objection, action |
-| Problem to product | Recognisable moment, consequence, product entry, reason to believe, next step |
-| Question to understanding | Buyer question, direct answer, visual explanation, product fit, invitation |
-| Reason to switch | Current experience, friction, alternative, honest contrast, action |
-| Genuine story | Real starting situation, decision, documented experience, recommendation |
-| Choose with criteria | Buying decision, useful criteria, visible product evidence, fit/tradeoff, action |
-
-Choose the argument before deciding whether a founder, creator, customer or narrator delivers it.
-For founder/UGC, make the opening filmable with natural direct-to-camera speech, simple action and
-the actual product. UGC is a delivery style, not evidence of a personal result. An invented founder
-story is not made true by putting it in first person.
-
-Write visual, spoken line, screen headline and useful next beat together. For alternative hooks
-sharing one body, check that every opening reaches that body naturally. Distinguish the headline
-from accessibility captions. Preserve approved speech during a headline-only revision. Apply
-`20-hook-quality-standard.md` and the selected brand's approved headline preferences.
-
-For a finished script, supply exact speech through the close, approximate time, action, screen words
-and required product/proof assets. Every beat advances understanding or confidence. A beat outline
-is not a full script; a script is not a rendered video. Timing remains an estimate until performed.
-Keep the destination and offer consistent with the opening. A question about life outcomes cannot
-be repaid solely with installation instructions.
-
-## Static structures and devices
-
-Product hero, product plus reasons, native note/listicle, aligned comparison, evidence card and
-demonstration/detail are useful families. Use established names in `08-formats.md` when offering
-formats, then give distinct executions of the current concept. Do not introduce a second format
-catalogue through invented scene names.
-
-Select only devices that strengthen the argument: a useful question or pattern interrupt; genuine
-proof; a verified offer or gift stack; a list or detail explanation; fair contrast; native/editorial
-type; actual variants or newness. Several devices can coexist if their hierarchy is clear. A badge,
-quote, discount and headline should not compete as four separate leads.
-
-Historical brands can teach a mechanism: routine/value architecture, context-specific relevance,
-product tangibility or ownership confidence. Identify the transferable move, not a competitor claim,
-celebrity endorsement or unverified result. Use `34-art-direction-and-revisions.md` to turn the
-selected format into a concrete visual brief.
 
 ------------------------------------------------------------------------------
 <!-- source: references/36-creative-learning-practice.md -->
@@ -5442,6 +3843,11 @@ Work through the following order, skipping supplied, approved or irrelevant fiel
 6. Supporting copy, offer, proof and action: offer coherent complete sets when these are needed.
 7. Art direction: scene, light, palette and typography as one connected visual treatment.
 
+Steps 5 and 6 are ad copy. Ad copy (hooks, scripts, headlines, primary text, descriptions, static ad
+copy) follows the DTC Ad Copywriting playbook:
+/Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy. This file governs how the choices are offered and retained.
+
 For each meaningful open choice, give three numbered, deliberately distinct options and a short
 recommendation. Each option must be concrete enough to choose. Avoid three synonymous headlines,
 invented customer findings, unnecessary demographic details and vague labels such as "premium".
@@ -5546,167 +3952,6 @@ every future ad.
 # PART: OUTPUT CONTRACTS
 ==============================================================================
 
-
-------------------------------------------------------------------------------
-<!-- source: contracts/ad-copy.md -->
-------------------------------------------------------------------------------
-
-# Output Contract: Ad Copy
-locked: 2026-08-27
-version: 2.4.0
-
-Primary text, headlines, descriptions, and one Meta CTA for one approved ad execution.
-
-For simple requests, deliver the requested asset and count. Full production fields are for a
-detailed package; CONTST naming and destination exceptions apply only to the house campaign profile.
-
-## Artefact
-
-A Markdown block per ad. A batch may use a table only when every required field remains visible.
-
-## Sections, in order
-
-1. **Ad reference** - brand, market, product, coordinate key, CONTST test ID, source classification,
-   Who, Primary Problem, awareness code and job, messaging route, primary hook, media type, execution
-   format, destination, CTA and complete final ad name ending in `POSTIDXXX` before publication
-2. **The job** - the product message, practical benefit or response this copy communicates; a belief shift is optional
-3. **Proof, claims and production needs** - proof and claims required, approval status, and the
-   people, assets and location required
-4. **Lead route A** - named lead type, hook source, and body structure
-5. **Primary text A, Short version**
-6. **Primary text A, Medium version**
-7. **Primary text A, Long version**
-8. **Lead route B** - a meaningfully different named lead type, hook source, and body structure
-9. **Primary text B, Short version**
-10. **Primary text B, Medium version**
-11. **Primary text B, Long version**
-12. **Headlines** - five distinct options
-13. **Descriptions** - two distinct options
-14. **CTA button** - one standard Meta CTA, matching the ad reference
-15. **Rationale** - the lead routes, awareness fit, messaging route, proof, objection and destination logic
-16. **Claim check** - each claim, its approved wording or evidence, and approval status
-
-## Counts and length bands
-
-- Lead routes: 2 or more, each entering through a genuinely different argument
-- Short version: 30 to 60 words per route
-- Medium version: 80 to 140 words per route
-- Long version: 180 to 300 words per route
-- Headlines: 5 by default, 3 minimum. Produce as many as are independently useful and cut the rest
-- Descriptions: 2 by default, 1 minimum
-- CTA: exactly 1
-
-The user's requested count and asset type take precedence. Counts other than the CTA are guidance. Five headlines that repeat one idea are worth less than
-three that select different prospects, and padding to reach a number spends the attention that
-should have gone into choosing. Cut rather than pad, and say what you cut in the rationale.
-
-The three lengths within a route carry the same core argument at different depths. They are not
-three unrelated ideas. A justified format constraint may change a length band, but the rationale
-must state the reason and the actual word count.
-
-## Structural rules
-
-**Develop the moment before the routes.** Apply `references/29-moment-to-meaning.md` to primary text,
-headlines and descriptions. Name the moment, what the person wants back or wants to experience,
-chosen entry, evidence status and supported product bridge. Recognition or desired change can lead;
-the complete ad must progress beyond pain. For simple copy-only requests, check internally.
-Each slot has its own job; do not squeeze the full sequence or overt emotion into every line.
-
-**Line one is a complete hook.** It must survive mobile truncation without the reader expanding the
-copy. It may name the situation, make a supportable promise, open a curiosity gap, present proof, or
-answer an objection. A brand or offer can lead when it is already relevant to the reader; an
-unaware brief needs relevance established first.
-
-Every first line and every headline clears `references/20-hook-quality-standard.md`. State the
-opening approach in a detailed route header and check buyer relevance, useful selling substance,
-no prior context, immediacy and one legible idea. The body cashes the opening. A useful benefit and
-an honest explanation gap may share a line. Never hide a weak argument behind curiosity.
-
-**Route A and route B enter through different arguments.** A promise lead and a confession lead are
-meaningfully different. Two synonyms inside the same sentence are not.
-
-**Body structure is named.** Use a structure from `references/05-copy-craft.md`, adapted to the
-awareness state and length. Proof appears before the ask.
-
-**Enough selling information.** Preserve the facts, explanation, proof and material offer terms
-needed for this next step. Allocate them across image, body and destination. Shorter is better only
-when it preserves the argument; every execution stands alone. See `references/30-scientific-advertising.md`.
-
-**One close.** Give one instruction and one CTA. Do not add competing asks.
-
-**Headlines are independently useful.** Each selects the right prospect or completes a supportable
-idea. Do not repeat the primary text's first line five times.
-
-Use the development and separate editorial pass in `references/05-copy-craft.md`. Preserve the
-approved concept when the request is for headline options or rewrites; different expressions do
-not need different strategic arguments. Establish any useful answer before teasing it. Select and
-rewrite actual candidate lines with their image and support before returning the requested set.
-
-Choose headline syntax deliberately. The emotional framework does not prescribe a two-sentence
-setup and payoff. A single natural phrase or sentence can carry the moment and meaning. Use two
-sentences when they improve the line, and check the set for repetitive cadence without forcing
-cosmetic variation. This is a craft judgement, not a sentence-count rule.
-
-## Awareness rules
-
-| Awareness | Strong opening routes | Avoid |
-|---|---|---|
-| Unaware | situation, story, POV, unexpected observation | product name in line one |
-| Problem aware | desired experience, precise problem, supported route forward | generic pain or repeated agitation |
-| Solution aware | mechanism, comparison, demonstration | assuming category preference |
-| Product aware | proof, differentiation, objection | re-teaching the category |
-
-Most Aware is available for ordinary offer and product requests. Its job is to make the verified
-offer, material terms and next action easy to understand. The optional house launch profile retains
-its four named awareness executions.
-
-## Formatting rules
-
-- Write to one person, and let the wrong reader move on. Select by situation, not by label.
-- Prefer specific evidence and real numbers to adjectives. Where no figure exists, mark the gap or
-  use a concrete situation. Never substitute an adjective and never produce a number.
-- Use no em dashes or en dashes.
-- Apply `references/10-voice-and-claims.md` and approved brand-folder voice rules.
-- Brand voice may change style, never the claim gate.
-- Keep the important meaning early in every length.
-- Match the register to the slot: line one earns relevant attention, the body explains, the headline compresses, the
-  description supports, the CTA instructs. See the slot table in `references/26-copywriting-standards.md`.
-- Every mechanism clause carries the payoff it produces. Machinery without a "so that" is not an
-  argument.
-- Cut, then cut again. State the word count before and after on the long version.
-
-## Never
-
-- Invented statistics, testimonials, reviews, scarcity, or urgency
-- A regulated claim without approved wording
-- Two routes that are the same lead reworded
-- A long version padded with repetition
-- Emoji unless the approved brand voice permits it
-- Engagement bait, comment bait, or multiple CTAs
-
-## Self-check before presenting
-
-- [ ] At least 2 lead routes, each with a Short, Medium and Long version
-- [ ] The lead types differ strategically and are named
-- [ ] At least 3 headlines and 1 description, each independently useful, and exactly 1 CTA
-- [ ] Nothing included only to reach a count, and anything cut is named in the rationale
-- [ ] Every first line stands alone before truncation
-- [ ] Every route chooses an opening approach that earns qualified interest
-- [ ] Every first line and headline reads cold with no prior context and no setup
-- [ ] Every route's body cashes what its first line opened
-- [ ] Every body structure is named and proof precedes the ask
-- [ ] Every claim appears in the claim check
-- [ ] CONTST, source, Who, Primary Problem, awareness job and messaging route are explicit
-- [ ] Primary hook, media type, execution format, proof, destination and CTA agree
-- [ ] People, assets and location required are named
-- [ ] Complete final ad name uses the full ad-set name and ends in POSTIDXXX before publication
-- [ ] No banned vocabulary, em dashes, or en dashes
-- [ ] No tier-one machine-writing phrase from `config/copy-lexicon.yml`, and any flagged word justified
-- [ ] Every hedge either belongs to an approved claim or has been cut
-- [ ] The end state is present in every route, and nameable without using the product's name
-- [ ] Every mechanism clause states or plainly implies its payoff
-- [ ] Truncating each long version at 80 characters still leaves a complete proposition
-- [ ] The You Test and So What Test both pass
 
 ------------------------------------------------------------------------------
 <!-- source: contracts/ad-diagnosis.md -->
@@ -6150,11 +4395,12 @@ Each execution records: awareness code and job, messaging route, primary hook, m
 format, required proof and claims, destination, CTA, people, assets and location required, and the
 complete final ad name ending in `POSTIDXXX` before publication.
 
-Use `references/29-moment-to-meaning.md` to develop each argument: the recognisable moment, what
-the person wants back or wants to experience, the chosen entry and the supported product role.
-Capture this briefly in the execution rationale, not as new coordinate axes. A pain-led opening
-needs a credible way forward in the complete ad; a desired-experience opening needs a supported
-product connection. Category or brand unfamiliarity alone does not establish problem unawareness.
+Capture each execution's argument briefly in the execution rationale, not as new coordinate axes:
+the recognisable moment, what the person wants back or wants to experience and the supported product
+role. Category or brand unfamiliarity alone does not establish problem unawareness. The primary
+hook and any other words for the execution are ad copy. Ad copy (hooks, scripts, headlines, primary text, descriptions, static ad copy) follows the DTC Ad
+Copywriting playbook: /Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy.
 
 A deliberate deviation is permitted only when the execution and page remain congruent and the page
 maps to one controlled destination token: LP, PDP, HP or CP. Record the default, selected token,
@@ -6557,156 +4803,6 @@ product result. Treat draft execution labels as directions, not as approved fina
 - Did the response stay at the requested ideation scope?
 
 ------------------------------------------------------------------------------
-<!-- source: contracts/hook-batch.md -->
-------------------------------------------------------------------------------
-
-# Output Contract: Hook Batch
-locked: 2026-08-27
-version: 1.4.0
-
-For plain headline requests, follow the requested count and check quality internally. The detailed
-fields below apply when a full hook package is requested; house naming and traceability apply only
-to the selected house campaign profile.
-
-The diversity rules below apply to strategic exploration. For same-concept headline options or
-rewrites, preserve the thought and vary expression as requested. Use the development and separate
-editorial pass in `references/05-copy-craft.md`; do not reject useful wording alternatives solely
-because they share an argument. Establish the promised answer before opening a curiosity gap.
-
-A pre-production option set of strategically different openings for one approved execution. The six
-packages do not create six launch ads. Select one coherent opening for the execution.
-
-Every package clears the quality gate in `references/20-hook-quality-standard.md`. A package that
-fails a non-negotiable is replaced, not scored.
-
-## Required execution traceability
-
-Every hook package carries all of these fields, even when the values repeat across the batch:
-
-1. CONTST test ID and source classification: NNT, INSPO or ITR
-2. Who and Primary Problem
-3. Awareness code and job
-4. Messaging route and primary hook
-5. Hook format from `references/16-hook-formats.md`
-6. Media type
-7. Execution format from `references/08-formats.md`
-8. Controlled ad-name FORMAT token from `references/07-naming.md`
-9. Proof and claims required
-10. Destination and CTA
-11. People, assets and location required
-12. Complete final ad name ending in `POSTIDXXX` before publication
-
-## Batch size
-
-Produce as many hook packages as clear the quality gate and differ strategically. Six is the default for a full hook batch when no count is requested. The user's requested count
-takes precedence. Choose formats for the argument, not a quota.
-
-Forced counts produce filler. Four adequate options and one good one is a worse batch than three
-good ones, because the padding costs the attention that should have gone into selection. Cut a
-package rather than ship it to reach six, and say in the production order why it was cut.
-
-At six, the useful spread is:
-
-- 2 evidence-led safe hooks
-- 2 proven-pattern hooks adapted to the brand and concept
-- 1 aggressive hook inside the approved claim ceiling
-- 1 experimental wildcard
-
-In strategic exploration, every hook changes the route into the argument. New adjectives,
-punctuation, camera angles or opening questions alone do not create a new strategic route.
-
-Direct statements, open loops and benefit-plus-explanation openings are available, not mandatory
-quotas. For a controlled wording test, retain the appeal deliberately and label the test accordingly.
-
-## Sections, in order
-
-1. **Batch header** - brand, market, product, coordinate key, CONTST test ID, source, Who, Primary
-   Problem, awareness code and job, messaging route, media type, execution format, controlled FORMAT
-   token, destination, CTA, complete final ad name and production constraints
-2. **Evidence and claim gate** - proof available, approved language, prohibited language
-3. **Hook packages** - cards matching the requested count
-4. **Diversity matrix** - category, hook format, opening type, media type, execution format, lead
-   type, visual pattern, belief, evidence and risk
-5. **Recommended production order** - ranked with the learning value and effort
-
-## Hook package shape
-
-1. Hook number and category
-2. CONTST test ID, source, Who and Primary Problem
-3. Awareness code, awareness job and messaging route
-4. Hook format from `references/16-hook-formats.md`, such as Confession or Demonstration
-5. Primary hook, expressed as one coherent visual, spoken or written and on-screen idea
-6. Media type: VIDEO, STATIC or CAROUSEL
-7. Execution format from `references/08-formats.md`, such as Direct-to-camera UGC
-8. Controlled ad-name FORMAT token from `references/07-naming.md`, such as UGC
-9. Visual opening, frame by frame for the first three seconds when video
-10. Spoken opening or primary written line
-11. On-screen anchor: exact headline and emphasis, reviewed separately from speech captions under
-    `references/20-hook-quality-standard.md`. Apply approved brand voice rules; preserve approved
-    speech when only the headline is being revised.
-12. Body handoff that cashes the hook's promise
-13. Proof and claims required, with evidence IDs and approval status
-14. Destination and CTA
-15. People, assets and location required
-16. Complete final ad name ending in `POSTIDXXX` before publication
-17. Policy and claim risk: LOW, MEDIUM, or HIGH, with reason
-18. Why it fits the coordinate and how it differs from the other options
-19. Hook quality gate from `references/20-hook-quality-standard.md`: opening approach, intended buyer,
-    qualified reason to care, useful selling substance, body handoff, no prior context, immediacy
-    and legibility. Emotion, curiosity and stakes are optional devices, not required carriers.
-
-For a static hook, replace the three-second frames with feed object, hierarchy, primary line, and
-proof object. Do not pretend a static is a video storyboard.
-
-## Scoring
-
-Score each package from 1 to 5 on:
-
-- coordinate and execution fit;
-- qualified buyer interest;
-- clarity without context;
-- proof readiness;
-- brand fit;
-- production feasibility;
-- distinct learning value.
-
-The recommended order uses the scores and the test question. A high-risk hook cannot rank first
-unless its claim and policy burden are fully resolved.
-
-## Never
-
-- Rewordings of one lead presented as six new strategic concepts
-- A hook the body cannot deliver
-- An unverified review, number, result, comparison, or scarcity claim
-- An intrusive personal-attribute question
-- A proven competitor execution copied line for line
-- A visual opening that contradicts the spoken or written opening
-- An opening that assumes prior context or spends its first words on setup
-- Curiosity used to conceal a weak or unrelated selling argument
-- Editing energy or sensory overload standing in for a reason to keep watching
-
-## Self-check
-
-- [ ] Core depth check from `references/29-moment-to-meaning.md`: a recognisable moment or payoff,
-      why it matters, evidence status and a supported product bridge; no manufactured intensity
-- [ ] Requested count respected, with formats chosen for the argument
-- [ ] Nothing included only to reach a count, and any cut package is accounted for
-- [ ] Every hook has all nineteen fields and the complete traceability set
-- [ ] Hook format, media type, execution format and controlled FORMAT token are separate fields
-- [ ] Strategic exploration varies routes; a rewrite request preserves its chosen concept
-- [ ] Visual, spoken, and on-screen elements express one idea
-- [ ] Every hook earns qualified interest with a useful, supportable selling point
-- [ ] Opening approach suits the argument; devices are not forced
-- [ ] Every hook reads cold, gets to relevant information or action promptly and stays legible
-- [ ] Every body handoff can cash what its opening promised
-- [ ] Every proof burden has a real source or is marked unavailable
-- [ ] Diversity matrix distinguishes strategic routes when exploration is requested
-- [ ] Every opening earns relevant attention; a direct explanation is allowed when useful
-- [ ] No tier-one machine-writing phrase from `config/copy-lexicon.yml`
-- [ ] No hedge that weakens a claim, and any register hedge is deliberate voice
-- [ ] Production order balances learning value, readiness, and effort
-
-------------------------------------------------------------------------------
 <!-- source: contracts/learning-update.md -->
 ------------------------------------------------------------------------------
 
@@ -6813,13 +4909,18 @@ from automatic collection and from evidence of ad performance.
 ------------------------------------------------------------------------------
 
 # Output Contract: Static and Carousel Spec
-locked: 2026-09-17
-version: 2.5.0
+locked: 2026-10-01
+version: 2.6.0
 
 Product information and the request are sufficient. Brand folders, customer research, beliefs,
 awareness maps and campaign IDs are optional. New concepts default to the guided choices in
 `references/37-guided-image-development.md`; ready briefs, approved-master revisions and explicitly
 delegated creation proceed directly. Follow `references/27-image-ad-workflow.md`; keep deliveries concise.
+
+Ad copy (hooks, scripts, headlines, primary text, descriptions, static ad copy) follows the DTC Ad
+Copywriting playbook: /Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy. This contract governs the image, its layout and its
+checks; the words in section 4 come from the playbook.
 
 ## Artefact
 
@@ -6845,8 +4946,9 @@ actual settings, native/export dimensions and inspection results beside the fini
 3. **Layout**: subject and zones, one primary line, a separate composition for each requested ratio with breathing room.
    Recompose an upright reference rather than cropping away the message.
    Record the chosen reference ID, inspected media and layout features to retain, or mark an original layout.
-4. **Copy on the asset**: exact words and hierarchy. Keep Meta primary text, headline and CTA
-   separate from image text. Omit unknown price, review or offer details rather than filling gaps.
+4. **Copy on the asset**: exact words, written with the DTC Ad Copywriting playbook, and their
+   hierarchy. Keep Meta primary text, headline and CTA separate from image text. Omit unknown price,
+   review or offer details rather than filling gaps.
 5. **Visual direction and production needs**: references and product details to preserve. Use
    supplied brand visuals or select a provisional palette, type and style, labelled in the brief.
    Do not invent an official logo or packaging.
@@ -6863,25 +4965,18 @@ actual settings, native/export dimensions and inspection results beside the fini
 
 ## Layout and opening
 
-- Apply `references/29-moment-to-meaning.md` before choosing the primary line. The picture can carry
-  the frustration while the headline expresses the desired experience; avoid repeating pain in both.
-  The complete ad needs a credible product role, and the combined claim must be supported.
-  Preserve that idea across both ratios. A useful feature or offer can remain direct.
-- Make the core's separate editorial pass before rendering: compare candidate lines, preserve the
-  chosen concept and place detail in the image, headline or support where it helps. Any curiosity
-  gap leads to an actual useful answer; setup information cannot repay a promise about life outcomes.
+- Write the primary line and support with the DTC Ad Copywriting playbook before laying them out.
+  Give the picture and the words different jobs, keep the combined claim supported and preserve
+  the idea across both ratios.
 - Deliver both requested ratio versions for either model. Preserve message and product identity.
   Reflow the tall composition; do not stretch the square or crop essential copy.
 - Save clearly named pairs and check completeness. Do not treat four concepts as four total files.
 - One dominant idea and one readable primary line. Supporting detail must earn its space.
-- Default to 25 or fewer words in a static; a requested comparison or list may need more.
-  Counts are craft guidance, not a reason to shrink important text.
+- Keep the amount of text legible at phone size. How many words a static carries follows the
+  playbook; a layout never shrinks important text to fit.
 - Check at mobile viewing size and keep essential material away from edges. Check the placement
   preview before launch; the source ratio does not guarantee identical display in every placement.
 - Frame one works without later frames or an earlier ad.
-- Apply `references/26-copywriting-standards.md`. For a developed hook pass, use
-  `references/20-hook-quality-standard.md`. A feature ad need not manufacture customer beliefs
-  or drama to satisfy a hook label.
 
 ## Generated imagery check
 
@@ -6907,7 +5002,7 @@ Do not label an unverified draft policy-approved.
 - [ ] No fabricated proof, unknown product details or missing-fact markers in finished pixels
 - [ ] Provisional creative direction or illustration identified in the brief
 - [ ] Rendered text checked against copy; product and composition visually inspected
-- [ ] No tier-one machine-writing phrase from `config/copy-lexicon.yml` in rendered copy
+- [ ] Rendered words were written with the DTC Ad Copywriting playbook
 - [ ] Reference observations separated from interpretations; no unsupported winner claim
 - [ ] Selected layout matched deliberately; hierarchy and typography remain coherent across both ratios
 - [ ] Actual outputs displayed, or absence of rendering capability stated
@@ -6915,13 +5010,12 @@ Do not label an unverified draft policy-approved.
 
 ## Selling usefulness before rendering
 
-Check the primary line and visual for buyer relevance, a supportable selling point and a useful next
-step. A shared product fact can persuade without an exclusive claim. Emotion, high stakes and an
-open loop are optional; preserve natural headline syntax. Give the visual a selling job: recognition,
-product explanation, demonstration, credible proof or the desired experience. Decorative fidelity
-alone is not a reason to use it. Keep the necessary explanation, evidence and material terms across
-image, primary text and destination, without crowding every fact into the image. Each awareness
-execution stands alone. Use `references/30-scientific-advertising.md` for the full check.
+Check the visual for buyer relevance, a supportable selling point and a useful next step. Give it a
+selling job: recognition, product explanation, demonstration, credible proof or the desired
+experience. Decorative fidelity alone is not a reason to use it. Keep the necessary explanation,
+evidence and material terms across image, primary text and destination, without crowding every fact
+into the image. Each awareness execution stands alone. The words are checked against the DTC Ad
+Copywriting playbook.
 
 ------------------------------------------------------------------------------
 <!-- source: contracts/strategist-read.md -->
@@ -7016,161 +5110,6 @@ headline is not the constraint, say so and then answer the underlying need.
 - [ ] Nothing invented to sound specific
 - [ ] Assumptions are listed with what would change them
 - [ ] Shorter than the thing it is reading
-
-------------------------------------------------------------------------------
-<!-- source: contracts/video-script.md -->
-------------------------------------------------------------------------------
-
-# Output Contract: Video Script
-locked: 2026-08-27
-version: 1.5.0
-
-One script for one awareness execution.
-
-For simple requests, deliver the requested asset and count. Full production fields are for a
-detailed package; CONTST naming and destination exceptions apply only to the house campaign profile.
-
-## Artefact
-Markdown. Table-driven, shootable without a follow-up conversation.
-
-## Sections, in order
-
-1. **Header** - brand, market, product, coordinate key, CONTST test ID, source classification, Who,
-   Primary Problem, awareness code and job, messaging route, primary hook, media type, execution
-   format from the format library, target length, destination, CTA, complete final ad name ending in
-   `POSTIDXXX` before publication, and production difficulty
-2. **The job** - one line: the product message or practical benefit to communicate; a belief shift is optional
-3. **The three-part opening** - visual hook, spoken or written hook, on-screen anchor. All
-   three express one idea
-4. **Script table** - the body, beat by beat
-5. **Shot list and production needs** - people, assets and location required, followed by what has to
-   be captured in shooting order, not story order
-6. **Captions and on-screen text** - every text overlay with its timing
-7. **Proof and claim check** - every proof object and claim required, its evidence ID, approved
-   wording and status
-8. **Rationale** - the structure used and why, the proof placed and where, the objection
-   pre-empted
-
-## Script table, fixed columns
-
-| Time | Visual | Audio or VO | On-screen text | Beat |
-|---|---|---|---|---|
-
-"Beat" names the structural step: hook, problem, agitate, mechanism, proof, objection, offer,
-CTA. Every row has a beat. A row that cannot be named is a row that gets cut.
-
-## Counts and timing
-
-- Total length matches the format library range for the chosen format
-- The opening occupies the first 3 seconds and is specified frame by frame
-- Usually 5 to 9 beats; use the number needed for a complete argument within the requested format
-- One CTA, in the final beat
-- Proof appears before the ask, never after
-
-## Opening gate
-
-Use `references/29-moment-to-meaning.md` to develop the situation before drafting. In the rationale,
-name the moment, consequence or personal meaning, evidence status and supported product role.
-Make the moment shootable; emotion can be visible behaviour rather than a spoken label. Develop
-the argument across beats instead of repeating agitation. Never invent first-person experience
-for a testimonial, even when the speaker is an actor or generated person.
-
-Establish one central argument and the useful answer behind any teaser before drafting the hook.
-After drafting, make the core's separate editorial pass: check each beat advances that argument,
-the opening attracts the intended reader and the next beat earns continued attention. Rewrite the
-strongest expression, read it aloud, and cut repetition without removing explanation or proof.
-
-The three-part opening clears `references/20-hook-quality-standard.md` before the script is
-presented. Record the result under section 3:
-
-- Opening approach and the intended buyer's reason to care
-- Useful selling substance and where the body delivers it
-- No prior context, immediacy and legibility
-
-Relevant action, a direct explanation or a useful offer can open. Emotion, curiosity and stakes are
-optional, and a benefit may accompany a specific question. Never use a loop to disguise a weak body.
-Every awareness execution stands alone. Preserve the necessary explanation, proof and material terms
-across the script and destination; see `references/30-scientific-advertising.md`.
-
-## Awareness rules
-
-| Awareness | Opening job | Body job | Close |
-|---|---|---|---|
-| UWA | Reflect the experience, create curiosity | Build relevance before naming the category | Soft, to LP by default |
-| PRA | Name the problem precisely | Give a supported explanation or practical route forward | To LP by default |
-| SLA | Mechanism, comparison or demonstration | Why this route works and alternatives fall short | To PDP by default |
-| PDA | Proof or differentiation | Objection handling, offer terms | Direct, to PDP by default |
-
-Most Aware is available for ordinary offer and product requests. Its job is to make the verified
-offer, material terms and next action easy to understand. The optional house launch profile retains
-its four named awareness executions.
-
-## Destination defaults and exceptions
-
-| Awareness code | Default destination |
-|---|---|
-| UWA | LP |
-| PRA | LP |
-| SLA | PDP |
-| PDA | PDP |
-
-Every deviation from these defaults must remain congruent with the execution and be documented as
-a deliberate exception in the Destination Handoff. The selected page must map to exactly one
-controlled destination token: LP, PDP, HP or CP. If it cannot, the script is blocked from launch.
-
-## Formatting rules
-
-- Written to be read by a person holding a camera, not a strategist
-- Spoken lines are speakable. Read them aloud
-- Review the opening on-screen headline separately from spoken captions. Apply approved brand
-  headline preferences; any curiosity must lead to a relevant answer in the spoken line,
-  demonstration or next beat. Preserve approved speech during a headline-only revision.
-- For founder or UGC delivery, specify achievable presenter actions and natural direct-to-camera
-  lines. Do not invent personal results or founder history.
-- No em dashes
-- Register shifts by beat: the hook earns relevant attention, the body explains, the CTA instructs
-- Every mechanism beat carries the payoff it produces, not just the machinery
-- Every visual instruction is specific enough to shoot: "hands unboxing on a kitchen bench,
-  morning light", not "product shot"
-
-## Never
-
-- A hook the body does not deliver on
-- An opening that assumes prior context or spends its first words on setup
-- Curiosity hiding a weak or unrelated selling argument
-- Editing energy or sensory overload standing in for a reason to keep watching
-- A beat with no named structural job
-- Stock-footage vagueness in the visual column
-- An unapproved claim, spoken or on screen
-- More than one CTA
-- A script longer than the format library allows without a stated reason
-
-## Self-check before presenting
-
-- [ ] Moment-to-meaning check completed; the relevant experience and product bridge are coherent
-- [ ] Emotional intensity fits the evidence; desired relief is not treated as proven efficacy
-- [ ] Three-part opening present, all three expressing one idea
-- [ ] Opening approach earns qualified interest with supportable selling substance
-- [ ] Emotion, curiosity and stakes are used only when they help
-- [ ] Opening reads cold, begins promptly with relevant information or action and stays legible
-- [ ] The body cashes what the opening promised
-- [ ] Every script row has a named beat
-- [ ] Enough beats for the selling job, without padding or missing material terms
-- [ ] Proof lands before the ask
-- [ ] One CTA, in the final beat
-- [ ] Length inside the format range
-- [ ] Every claim in the claim check
-- [ ] Shot list is in shooting order and complete
-- [ ] Header carries CONTST, source, Who, Primary Problem, awareness job and messaging route
-- [ ] Primary hook, media type, execution format, proof, destination and CTA agree
-- [ ] Destination follows the awareness default or has a congruent documented Destination Handoff exception
-- [ ] People, assets and location required are explicit
-- [ ] Complete final ad name uses the full ad-set name and ends in POSTIDXXX before publication
-- [ ] No tier-one machine-writing phrase from `config/copy-lexicon.yml` in any spoken or on-screen line
-- [ ] No hedge that weakens a claim, and any register hedge is deliberate voice
-- [ ] Every mechanism beat states its payoff
-- [ ] The end state is nameable without using the product's name
-- [ ] Read aloud without stumbling
 
 ==============================================================================
 # PART: SCHEMA GUIDANCE
@@ -7832,9 +5771,10 @@ Gemini app and Grok are upload-only: they work from a generated bundle that some
 to build and rebuild, so a non-technical user needs a developer maintaining the folder. Grok Agents
 is an architecture spec for an agent you build yourself, not an install path.
 
-On an upload-only surface, prefer `dist/craft-bundle.md` over `dist/knowledge-bundle.md`. The full
-bundle ships every guide in this directory into the model's context, where it cannot act on any of
-them.
+On an upload-only surface, prefer `dist/image-ad-bundle.md` for image work over
+`dist/knowledge-bundle.md`. The full bundle ships every guide in this directory into the model's
+context, where it cannot act on any of them. Ad copy is not in either bundle; it follows the DTC Ad
+Copywriting playbook.
 
 ## Minimum connector set
 

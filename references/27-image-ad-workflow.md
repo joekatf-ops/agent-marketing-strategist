@@ -99,7 +99,10 @@ the limitation; ask for the source image only if faithful adaptation is essentia
 
 Use `contracts/static-spec.md`. The brief carries product facts used, main message, exact image copy,
 visual hierarchy, identity constraints, reference roles, paired output dimensions, generation route,
-platform copy and CTA if relevant, and checks. Test identifiers and belief maps are unnecessary
+platform copy and CTA if relevant, and checks. Write the image copy and platform copy with the
+playbook. Ad copy (hooks, scripts, headlines, primary text, descriptions, static ad copy) follows the DTC Ad
+Copywriting playbook: /Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy. Test identifiers and belief maps are unnecessary
 outside a requested governed campaign batch.
 
 Carry forward the decision table from `37-guided-image-development.md`. Present the completed
@@ -192,8 +195,8 @@ Preserve brand isolation. Use the existing learning system only when authorized 
 
 ## Selling role of the layout
 
-Use `30-scientific-advertising.md` to check what the visual does for the sale: reader recognition,
-product explanation, demonstration, credible evidence or a desired experience. Match a reference's
+Check what the visual does for the sale: reader recognition, product explanation, demonstration,
+credible evidence or a desired experience. Match a reference's
 hierarchy when requested, while adapting those jobs to this product. Layout fidelity, beauty and
 saved-ad status do not establish sales performance. Preserve useful selling information across the
 image, primary text and destination, and keep every awareness execution independently understandable.

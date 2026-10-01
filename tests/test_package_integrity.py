@@ -181,7 +181,6 @@ class PackageIntegrityTests(unittest.TestCase):
             "references/13-brand-folder.md",
             "references/14-learning-system.md",
             "references/15-connectors.md",
-            "references/16-hook-formats.md",
             "references/17-runtime-portability.md",
             "references/18-master-creative-strategy.md",
         }
@@ -212,14 +211,12 @@ class PackageIntegrityTests(unittest.TestCase):
     def test_v03_contracts_and_governance_guides_exist(self):
         required = {
             "contracts/brand-readiness.md",
-            "contracts/hook-batch.md",
             "contracts/learning-update.md",
             "contracts/campaign-launch-plan.md",
             "contracts/destination-handoff.md",
             "examples/brand-readiness.md",
             "examples/campaign-launch-plan.md",
             "examples/destination-handoff.md",
-            "examples/hook-batch.md",
             "examples/learning-update.md",
             "connectors/notion-composio.md",
         }
@@ -233,9 +230,6 @@ class PackageIntegrityTests(unittest.TestCase):
             "contracts/brand-readiness.md",
             "contracts/customer-intelligence.md",
             "contracts/concept-batch.md",
-            "contracts/hook-batch.md",
-            "contracts/ad-copy.md",
-            "contracts/video-script.md",
             "contracts/static-spec.md",
             "contracts/learning-update.md",
             "contracts/campaign-launch-plan.md",
@@ -885,25 +879,6 @@ class PackageIntegrityTests(unittest.TestCase):
         ]
         self.assertEqual([], policy_errors)
 
-    def test_ad_copy_contract_requires_length_variants(self):
-        contract = (ROOT / "contracts" / "ad-copy.md").read_text()
-
-        self.assertIn("Short version", contract)
-        self.assertIn("Medium version", contract)
-        self.assertIn("Long version", contract)
-
-    def test_option_counts_respect_the_request_with_useful_defaults(self):
-        # Forced counts produce filler. Only the CTA is fixed.
-        ad_copy = (ROOT / "contracts" / "ad-copy.md").read_text()
-        hook_batch = (ROOT / "contracts" / "hook-batch.md").read_text()
-
-        self.assertNotIn("Headlines: exactly 5", ad_copy)
-        self.assertNotIn("Lead routes: exactly 2", ad_copy)
-        self.assertIn("CTA: exactly 1", ad_copy)
-        self.assertIn("3 minimum", ad_copy)
-        self.assertNotIn("Create exactly six hook packages", hook_batch)
-        self.assertIn("The user's requested count", hook_batch)
-
     def test_concept_contract_requires_four_initial_awareness_ads(self):
         contract = (ROOT / "contracts" / "concept-batch.md").read_text()
 
@@ -933,7 +908,7 @@ class PackageIntegrityTests(unittest.TestCase):
 
         declared = (ROOT / "VERSION").read_text().strip()
         self.assertIn(f"**Version:** {declared}", readme)
-        self.assertIn("fourteen governed artefacts", readme)
+        self.assertIn("eleven governed artefacts", readme)
         self.assertIn("| Creative Audit |", readme)
         self.assertIn("Analyse these ads for <brand>", readme)
         self.assertIn("creative-audit", readme)
@@ -1037,61 +1012,7 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn('"learning":', example)
         self.assertIn('"memory_key":', example)
 
-    def test_frozen_hook_batch_uses_controlled_formats_and_selected_route(self):
-        hook_example = (ROOT / "examples" / "hook-batch.md").read_text()
-        hook_formats = [
-            line.split("**Hook format:**", 1)[1].strip()
-            for line in hook_example.splitlines()
-            if "**Hook format:**" in line
-        ]
-        execution_formats = [
-            line.split("**Execution format:**", 1)[1].strip()
-            for line in hook_example.splitlines()
-            if "**Execution format:**" in line
-        ]
-
-        self.assertEqual(
-            [
-                "Demonstration",
-                "Comparison",
-                "Confession",
-                "POV situation",
-                "Contrarian statement",
-                "Product in action",
-            ],
-            hook_formats,
-        )
-        self.assertEqual(
-            [
-                "Product demonstration",
-                "Comparison",
-                "Problem to solution narrative",
-                "Problem to solution narrative",
-                "Comparison",
-                "Product demonstration",
-            ],
-            execution_formats,
-        )
-
-        selected = hook_example.split("### Hook 2:", 1)[1].split("### Hook 3:", 1)[0]
-        package_routes = [
-            line.split("**Awareness and messaging route:**", 1)[1].strip()
-            for line in hook_example.splitlines()
-            if "**Awareness and messaging route:**" in line
-        ]
-        self.assertIn("Messaging route: proof that can be seen", hook_example)
-        self.assertEqual(
-            ["SLA, differentiation; proof that can be seen"] * 6,
-            package_routes,
-        )
-        self.assertIn(
-            "SLA, differentiation; proof that can be seen", selected
-        )
-        self.assertIn(
-            'Primary hook:** "Same six cables. Two very different ways to find one"',
-            selected,
-        )
-
+    def test_frozen_launch_and_handoff_share_the_selected_route(self):
         launch = (ROOT / "examples" / "campaign-launch-plan.md").read_text()
         destination = (ROOT / "examples" / "destination-handoff.md").read_text()
         sla_handoff = destination.split("## SLA handoff card", 1)[1].split(
@@ -1140,40 +1061,9 @@ class PackageIntegrityTests(unittest.TestCase):
                     self.assertIn(evidence_id, row[11])
 
     def test_standard_ad_contracts_exclude_most_aware_rows(self):
-        for relative in (
-            "contracts/ad-copy.md",
-            "contracts/hook-batch.md",
-            "contracts/video-script.md",
-            "contracts/static-spec.md",
-        ):
-            with self.subTest(relative=relative):
-                self.assertNotIn("| MWA |", (ROOT / relative).read_text())
-
-    def test_hook_contract_separates_hook_and_execution_formats(self):
-        contract = (ROOT / "contracts" / "hook-batch.md").read_text()
-
-        self.assertIn("Hook format from `references/16-hook-formats.md`", contract)
-        self.assertIn("Execution format from `references/08-formats.md`", contract)
-        self.assertIn("FORMAT token from `references/07-naming.md`", contract)
         self.assertNotIn(
-            "Media type and execution format from `references/16-hook-formats.md`",
-            contract,
+            "| MWA |", (ROOT / "contracts" / "static-spec.md").read_text()
         )
-
-    def test_video_contract_locks_destination_defaults_and_exceptions(self):
-        contract = (ROOT / "contracts" / "video-script.md").read_text()
-
-        for row in (
-            "| UWA | LP |",
-            "| PRA | LP |",
-            "| SLA | PDP |",
-            "| PDA | PDP |",
-        ):
-            self.assertIn(row, contract)
-        self.assertIn("Destination Handoff", contract)
-        self.assertIn("congruent", contract)
-        self.assertNotIn("to an educational destination", contract)
-        self.assertNotIn("To education or PDP", contract)
 
     def test_diagnosis_decisions_have_one_literal_top_level_action(self):
         reference = (ROOT / "references" / "09-testing-and-diagnosis.md").read_text()
@@ -1320,50 +1210,135 @@ class PackageIntegrityTests(unittest.TestCase):
             "VERSION must use major.minor.patch format, found '0.2.0'", errors
         )
 
-    CRAFT_STACK = (
+    CORE_ROUTE = (
         "references/00-working-core.md",
-        "references/26-copywriting-standards.md",
-        "references/29-moment-to-meaning.md",
+        "references/08-formats.md",
+        "references/27-image-ad-workflow.md",
+        "references/34-art-direction-and-revisions.md",
+        "references/37-guided-image-development.md",
         "references/02-customer-state.md",
+        "references/32-commercial-extensions.md",
+    )
+    PLAYBOOK = (
+        "/Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md"
+    )
+    RETIRED_COPY_FILES = (
         "references/05-copy-craft.md",
         "references/16-hook-formats.md",
         "references/20-hook-quality-standard.md",
-        "references/30-scientific-advertising.md",
-        "references/32-commercial-extensions.md",
+        "references/22-swipe-corpus.md",
         "references/24-writing-for-low-awareness.md",
+        "references/26-copywriting-standards.md",
+        "references/29-moment-to-meaning.md",
+        "references/30-scientific-advertising.md",
+        "references/33-copywriting-source-notes.md",
         "references/35-creative-frameworks.md",
-        "references/08-formats.md",
+        "contracts/ad-copy.md",
+        "contracts/hook-batch.md",
+        "contracts/video-script.md",
+        "examples/ad-copy.md",
+        "examples/hook-batch.md",
+        "examples/video-script.md",
+        "config/copy-lexicon.yml",
+        "dist/craft-bundle.md",
+        "scripts/build-craft-bundle.py",
+        "scripts/check-copy-lexicon.py",
+        "scripts/copy_lexicon.py",
+        "scripts/build-swipe-digest.py",
+        "evals/run.py",
+        "evals/rubric.py",
     )
 
-    def craft_stack_section(self):
+    def core_route_section(self):
         validator = load_validator()
-        return validator.markdown_section(
-            (ROOT / "SKILL.md").read_text(), "Core craft"
-        ) + validator.markdown_section(
-            (ROOT / "SKILL.md").read_text(), "Writing craft"
-        ) + validator.markdown_section(
-            (ROOT / "SKILL.md").read_text(), "Ad format recommendations"
+        skill = (ROOT / "SKILL.md").read_text()
+        return "".join(
+            validator.markdown_section(skill, heading)
+            for heading in (
+                "Core reference",
+                "Ad format recommendations",
+                "Image ads",
+                "Deeper library",
+            )
         )
 
-    def test_focused_writing_route_is_complete(self):
-        section = self.craft_stack_section()
+    def test_core_and_image_routes_are_complete(self):
+        section = self.core_route_section()
 
-        self.assertNotEqual("", section, "SKILL.md must declare the core and writing routes")
-        for relative in self.CRAFT_STACK:
+        self.assertNotEqual("", section, "SKILL.md must declare the core and image routes")
+        for relative in self.CORE_ROUTE:
             with self.subTest(relative=relative):
                 self.assertIn(relative, section)
                 self.assertTrue((ROOT / relative).is_file())
 
-    def test_craft_references_are_not_gated_behind_the_ops_stack(self):
+    def test_core_references_are_not_gated_behind_the_ops_stack(self):
         validator = load_validator()
         ops = validator.markdown_section(
             (ROOT / "SKILL.md").read_text(), "Operations, when relevant"
         )
 
         self.assertNotEqual("", ops)
-        for relative in self.CRAFT_STACK:
+        for relative in self.CORE_ROUTE:
             with self.subTest(relative=relative):
                 self.assertNotIn(relative, ops)
+
+    def test_ad_copy_routes_to_the_playbook(self):
+        # 1.9.0 moved every copy method out of the package. One home for copy is the point.
+        for relative in self.RETIRED_COPY_FILES:
+            with self.subTest(retired=relative):
+                self.assertFalse((ROOT / relative).exists())
+        for relative in (
+            "SKILL.md",
+            "AGENTS.md",
+            "PROMPT.md",
+            "README.md",
+            "START-HERE.md",
+            "OUTPUT-CONTRACT.md",
+            "dist/image-ad-bundle.md",
+            "contracts/static-spec.md",
+        ):
+            with self.subTest(entrypoint=relative):
+                self.assertIn(self.PLAYBOOK, (ROOT / relative).read_text())
+        skill = (ROOT / "SKILL.md").read_text()
+        frontmatter = skill.split("\n---\n", 1)[0]
+        self.assertIn("DTC Ad Copywriting playbook", frontmatter)
+        self.assertIn("does not write ad copy", frontmatter)
+
+    def test_nothing_routes_to_a_retired_copy_file(self):
+        names = [pathlib.PurePosixPath(path).name for path in self.RETIRED_COPY_FILES]
+        offenders = []
+        live = (
+            "SKILL.md", "AGENTS.md", "PROMPT.md", "README.md", "START-HERE.md",
+            "OUTPUT-CONTRACT.md",
+        )
+        sources = [ROOT / relative for relative in live]
+        for folder in ("references", "contracts", "connectors", "config", "scripts"):
+            sources.extend(sorted((ROOT / folder).glob("*.*")))
+        sources.extend((ROOT / "dist").glob("*.md"))
+        for path in sources:
+            text = path.read_text()
+            if path.name == "README.md" and path.parent == ROOT:
+                # The changelog names what 1.9.0 removed; that is history, not routing.
+                text = text.split("## Changelog", 1)[0]
+            if path.name == "validate-package.py":
+                continue
+            for name in names:
+                # The playbook's own filename ends in ad-copy.md, so match whole names only.
+                if re.search(r"(?<![\w-])" + re.escape(name), text):
+                    offenders.append(f"{path.relative_to(ROOT)} names {name}")
+        self.assertEqual([], offenders)
+
+    def test_validator_rejects_a_returning_copy_file(self):
+        validator = load_validator()
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        (root / "contracts").mkdir()
+        (root / "contracts" / "hook-batch.md").write_text("Hook batch\n")
+
+        errors = validator.validate(root)
+
+        self.assertIn("retired copy file is back: contracts/hook-batch.md", errors)
+        self.assertIn("SKILL.md does not route ad copy to the playbook", errors)
 
     def test_entrypoints_do_not_restrict_reference_loading(self):
         # The selective-loading rule is what kept the awareness model and the
@@ -1424,9 +1399,9 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertEqual(set(), contracts - examples - exempt)
 
     def test_the_worked_examples_share_one_execution(self):
-        # Hook batch, video script and ad copy cover the same SLA execution so the
-        # set reads as one case rather than three disconnected samples.
-        for name in ("hook-batch.md", "video-script.md", "ad-copy.md"):
+        # The static spec, launch plan and destination handoff cover one CONTST004 batch so
+        # the set reads as one case rather than disconnected samples.
+        for name in ("campaign-launch-plan.md", "destination-handoff.md"):
             with self.subTest(example=name):
                 text = (ROOT / "examples" / name).read_text()
                 self.assertIn("CONTST004", text)
@@ -1452,36 +1427,6 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertIn("## 1. The read", read)
         self.assertIn("the offer is the problem", read)
         self.assertIn("[UNSOURCED, strategist judgement]", read)
-
-    def test_craft_bundle_carries_the_stack_and_no_install_guides(self):
-        builder = load_module(ROOT / "scripts" / "build-craft-bundle.py", "build_craft")
-        bundle = builder.build()
-
-        for relative in self.CRAFT_STACK:
-            with self.subTest(relative=relative):
-                self.assertIn(f"<!-- source: {relative} -->", bundle)
-        self.assertIn("<!-- source: contracts/strategist-read.md -->", bundle)
-        self.assertIn("<!-- source: PROMPT.md -->", bundle)
-        # The point of the craft bundle is that it spends no context on setup.
-        for excluded in (
-            "connectors/runtime-chatgpt.md",
-            "references/17-runtime-portability.md",
-            "references/07-naming.md",
-            "references/19-ad-analysis-harness.md",
-        ):
-            with self.subTest(excluded=excluded):
-                self.assertNotIn(f"<!-- source: {excluded} -->", bundle)
-
-    def test_craft_bundle_reads_the_stack_from_the_skill(self):
-        builder = load_module(ROOT / "scripts" / "build-craft-bundle.py", "build_craft")
-
-        self.assertEqual(list(self.CRAFT_STACK), builder.craft_stack())
-
-    def test_craft_bundle_is_smaller_than_the_full_bundle(self):
-        craft = load_module(ROOT / "scripts" / "build-craft-bundle.py", "build_craft")
-        full = load_bundle_builder()
-
-        self.assertLess(len(craft.build()), len(full.build_body()))
 
     def load_corpus(self):
         path = ROOT / "corpus" / "swipe" / "entries.json"
@@ -1553,28 +1498,6 @@ class PackageIntegrityTests(unittest.TestCase):
         self.assertEqual(1, counts["added"])
         self.assertEqual(1, counts["annotations_kept"])
 
-    def test_swipe_digest_is_generated_and_current(self):
-        builder = load_module(ROOT / "scripts" / "build-swipe-digest.py", "build_digest")
-        entries = self.load_corpus()
-
-        self.assertEqual(
-            (ROOT / "references" / "22-swipe-corpus.md").read_text(),
-            builder.build_digest(entries),
-            "run scripts/build-swipe-digest.py",
-        )
-        self.assertEqual(
-            (ROOT / "corpus" / "swipe" / "REVIEW.md").read_text(),
-            builder.build_review(entries),
-            "run scripts/build-swipe-digest.py",
-        )
-
-    def test_swipe_digest_states_the_evidence_class(self):
-        digest = (ROOT / "references" / "22-swipe-corpus.md").read_text()
-
-        self.assertIn("behavioural evidence, never performance", digest)
-        self.assertIn("Awareness codes are a proxy", digest)
-        self.assertIn("never-named sentinel is unreliable", digest)
-
     def test_repository_contains_no_em_or_en_dashes(self):
         validator = load_validator()
 
@@ -1599,12 +1522,11 @@ class PackageIntegrityTests(unittest.TestCase):
         (root / "corpus" / "swipe").mkdir(parents=True)
         (root / "corpus" / "swipe" / "entries.json").write_text('{"copy": "as \u2014 it ran"}')
         (root / "references").mkdir()
-        (root / "references" / "22-swipe-corpus.md").write_text("quoted \u2014 hook\n")
-        (root / "references" / "05-copy-craft.md").write_text("our own \u2014 prose\n")
+        (root / "references" / "08-formats.md").write_text("our own \u2014 prose\n")
 
         errors = validator.dash_errors(root)
 
-        self.assertEqual(["references/05-copy-craft.md:1 contains an em dash"], errors)
+        self.assertEqual(["references/08-formats.md:1 contains an em dash"], errors)
 
     def test_invariant_reader_handles_quoted_values_and_missing_keys(self):
         validator = load_validator()

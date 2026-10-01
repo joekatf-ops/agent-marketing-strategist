@@ -198,7 +198,7 @@ def inputs_for(folder: pathlib.Path) -> list[Input]:
             "How the brand sounds",
             "context/voice.md",
             ("copy", "image"),
-            "Without it the copy is competent and anonymous, and rule 15 cannot be met.",
+            "Without it the copy is competent and anonymous, and cannot sound like the brand.",
             prose_is_filled(read_text(folder, "context/voice.md"), "context/voice.md"),
         ),
         Input(

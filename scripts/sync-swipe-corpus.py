@@ -260,7 +260,6 @@ def main(argv: list[str]) -> int:
         f"{counts['annotations_kept']} annotations kept"
     )
     print(f"{annotatable} annotatable, {reviewed} reviewed")
-    print("Run scripts/build-swipe-digest.py to regenerate the routed digest.")
     return 0
 
 

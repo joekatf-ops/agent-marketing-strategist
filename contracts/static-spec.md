@@ -1,11 +1,16 @@
 # Output Contract: Static and Carousel Spec
-locked: 2026-09-17
-version: 2.5.0
+locked: 2026-10-01
+version: 2.6.0
 
 Product information and the request are sufficient. Brand folders, customer research, beliefs,
 awareness maps and campaign IDs are optional. New concepts default to the guided choices in
 `references/37-guided-image-development.md`; ready briefs, approved-master revisions and explicitly
 delegated creation proceed directly. Follow `references/27-image-ad-workflow.md`; keep deliveries concise.
+
+Ad copy (hooks, scripts, headlines, primary text, descriptions, static ad copy) follows the DTC Ad
+Copywriting playbook: /Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy. This contract governs the image, its layout and its
+checks; the words in section 4 come from the playbook.
 
 ## Artefact
 
@@ -31,8 +36,9 @@ actual settings, native/export dimensions and inspection results beside the fini
 3. **Layout**: subject and zones, one primary line, a separate composition for each requested ratio with breathing room.
    Recompose an upright reference rather than cropping away the message.
    Record the chosen reference ID, inspected media and layout features to retain, or mark an original layout.
-4. **Copy on the asset**: exact words and hierarchy. Keep Meta primary text, headline and CTA
-   separate from image text. Omit unknown price, review or offer details rather than filling gaps.
+4. **Copy on the asset**: exact words, written with the DTC Ad Copywriting playbook, and their
+   hierarchy. Keep Meta primary text, headline and CTA separate from image text. Omit unknown price,
+   review or offer details rather than filling gaps.
 5. **Visual direction and production needs**: references and product details to preserve. Use
    supplied brand visuals or select a provisional palette, type and style, labelled in the brief.
    Do not invent an official logo or packaging.
@@ -49,25 +55,18 @@ actual settings, native/export dimensions and inspection results beside the fini
 
 ## Layout and opening
 
-- Apply `references/29-moment-to-meaning.md` before choosing the primary line. The picture can carry
-  the frustration while the headline expresses the desired experience; avoid repeating pain in both.
-  The complete ad needs a credible product role, and the combined claim must be supported.
-  Preserve that idea across both ratios. A useful feature or offer can remain direct.
-- Make the core's separate editorial pass before rendering: compare candidate lines, preserve the
-  chosen concept and place detail in the image, headline or support where it helps. Any curiosity
-  gap leads to an actual useful answer; setup information cannot repay a promise about life outcomes.
+- Write the primary line and support with the DTC Ad Copywriting playbook before laying them out.
+  Give the picture and the words different jobs, keep the combined claim supported and preserve
+  the idea across both ratios.
 - Deliver both requested ratio versions for either model. Preserve message and product identity.
   Reflow the tall composition; do not stretch the square or crop essential copy.
 - Save clearly named pairs and check completeness. Do not treat four concepts as four total files.
 - One dominant idea and one readable primary line. Supporting detail must earn its space.
-- Default to 25 or fewer words in a static; a requested comparison or list may need more.
-  Counts are craft guidance, not a reason to shrink important text.
+- Keep the amount of text legible at phone size. How many words a static carries follows the
+  playbook; a layout never shrinks important text to fit.
 - Check at mobile viewing size and keep essential material away from edges. Check the placement
   preview before launch; the source ratio does not guarantee identical display in every placement.
 - Frame one works without later frames or an earlier ad.
-- Apply `references/26-copywriting-standards.md`. For a developed hook pass, use
-  `references/20-hook-quality-standard.md`. A feature ad need not manufacture customer beliefs
-  or drama to satisfy a hook label.
 
 ## Generated imagery check
 
@@ -93,7 +92,7 @@ Do not label an unverified draft policy-approved.
 - [ ] No fabricated proof, unknown product details or missing-fact markers in finished pixels
 - [ ] Provisional creative direction or illustration identified in the brief
 - [ ] Rendered text checked against copy; product and composition visually inspected
-- [ ] No tier-one machine-writing phrase from `config/copy-lexicon.yml` in rendered copy
+- [ ] Rendered words were written with the DTC Ad Copywriting playbook
 - [ ] Reference observations separated from interpretations; no unsupported winner claim
 - [ ] Selected layout matched deliberately; hierarchy and typography remain coherent across both ratios
 - [ ] Actual outputs displayed, or absence of rendering capability stated
@@ -101,10 +100,9 @@ Do not label an unverified draft policy-approved.
 
 ## Selling usefulness before rendering
 
-Check the primary line and visual for buyer relevance, a supportable selling point and a useful next
-step. A shared product fact can persuade without an exclusive claim. Emotion, high stakes and an
-open loop are optional; preserve natural headline syntax. Give the visual a selling job: recognition,
-product explanation, demonstration, credible proof or the desired experience. Decorative fidelity
-alone is not a reason to use it. Keep the necessary explanation, evidence and material terms across
-image, primary text and destination, without crowding every fact into the image. Each awareness
-execution stands alone. Use `references/30-scientific-advertising.md` for the full check.
+Check the visual for buyer relevance, a supportable selling point and a useful next step. Give it a
+selling job: recognition, product explanation, demonstration, credible proof or the desired
+experience. Decorative fidelity alone is not a reason to use it. Keep the necessary explanation,
+evidence and material terms across image, primary text and destination, without crowding every fact
+into the image. Each awareness execution stands alone. The words are checked against the DTC Ad
+Copywriting playbook.

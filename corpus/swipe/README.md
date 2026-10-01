@@ -1,21 +1,20 @@
 # Swipe corpus
 
-Real ads with a reviewed teaching layer and an unreviewed draft queue. Only human-reviewed
-annotations enter the generated digest. At v1.1, zero entries are reviewed; the empty teaching
-digest is intentional and does not block creating original product-first ads.
+Real ads recorded as reference data for layout and reference analysis. Since 1.9.0 nothing in this
+package teaches from the corpus: the hook teaching digest and its review queue were retired when ad
+copy moved to the DTC Ad Copywriting playbook
+(/Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md). Opening
+annotations that already exist in `entries.json` are kept as data only.
 
 | File | What it is |
 |---|---|
 | `entries.json` | Source of truth. One object per ad, validated against `../../schemas/swipe-entry.schema.json` |
-| `REVIEW.md` | Generated. Drafted annotations awaiting human correction |
-| `../../references/22-swipe-corpus.md` | Generated. The digest the agent actually loads |
 | `ATTRIBUTION.md` | What is recorded, why, and how a brand can have entries removed |
 
 ## Workflow
 
 ```bash
 FOREPLAY_API_KEY=... python3 scripts/sync-swipe-corpus.py --board-id <id> --board-name best_ads
-python3 scripts/build-swipe-digest.py
 ```
 
 The sync refreshes fetched fields only. It never discards an annotation or a review flag, and it
@@ -23,12 +22,6 @@ never drops an entry that has left the board, because either would throw away hu
 
 `.github/workflows/sync-swipe-corpus.yml` runs this weekly and opens a pull request. It needs
 `FOREPLAY_API_KEY` as a repository secret.
-
-## Reviewing
-
-Every drafted annotation ships `"reviewed": false`. Correct anything wrong in `entries.json`, set
-`"reviewed": true`, and rebuild the digest. Correcting a wrong reading is far cheaper than writing
-one from blank, and the corrections are the asset.
 
 ## Two standing caveats
 

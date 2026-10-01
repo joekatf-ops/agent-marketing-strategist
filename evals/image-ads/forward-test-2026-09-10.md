@@ -1,5 +1,9 @@
 # Independent text-only forward test
 
+> Historical record. Copy references, contracts and tooling named below were removed in 1.9.0,
+> when ad copy moved to the DTC Ad Copywriting playbook. They are preserved at the
+> `pre-copy-consolidation-2026-10-01` tag.
+
 Date: 2026-09-10. Package: working v1.1.0. Runtime: Codex subagent, inherited model;
 exact model identifier not exposed in the result. Capability scope: local reading and text only.
 No live rendering, browsing or advertising-performance test. Two independent raw tasks were

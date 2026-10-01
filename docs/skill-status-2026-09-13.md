@@ -1,7 +1,11 @@
 # Marketing strategist: current state after the Scientific Advertising update
 
-Historical v1.5.0 snapshot. The subsequent copywriting integration is recorded in
-[Copywriting update: 1.6.0](copywriting-update-1.6.0.md); the results below remain the original audit.
+> Historical record. Copy references, contracts and tooling named below were removed in 1.9.0,
+> when ad copy moved to the DTC Ad Copywriting playbook. They are preserved at the
+> `pre-copy-consolidation-2026-10-01` tag.
+
+Historical v1.5.0 snapshot. The subsequent 1.6.0 copywriting integration was retired in 1.9.0; the
+results below remain the original audit.
 
 Date: 13 September 2026. Method version: 1.5.0. This describes implemented instructions and bounded
 validation, not a claim that the method increases conversion or works identically on every model.

@@ -1,8 +1,8 @@
 # Frozen Example: Static Spec
 
-The PRA execution from `CONTST004`, the second of the four ads in the batch. Read it alongside
-`examples/video-script.md` and `examples/ad-copy.md`, which cover the SLA execution: the same
-coordinate, a different awareness job.
+The PRA execution from `CONTST004`, the second of the four ads in the batch. The SLA execution of
+the same coordinate appears in `examples/campaign-launch-plan.md` and
+`examples/destination-handoff.md`.
 
 ## 1. Header
 

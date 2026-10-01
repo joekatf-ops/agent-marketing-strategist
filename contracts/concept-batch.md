@@ -74,11 +74,12 @@ Each execution records: awareness code and job, messaging route, primary hook, m
 format, required proof and claims, destination, CTA, people, assets and location required, and the
 complete final ad name ending in `POSTIDXXX` before publication.
 
-Use `references/29-moment-to-meaning.md` to develop each argument: the recognisable moment, what
-the person wants back or wants to experience, the chosen entry and the supported product role.
-Capture this briefly in the execution rationale, not as new coordinate axes. A pain-led opening
-needs a credible way forward in the complete ad; a desired-experience opening needs a supported
-product connection. Category or brand unfamiliarity alone does not establish problem unawareness.
+Capture each execution's argument briefly in the execution rationale, not as new coordinate axes:
+the recognisable moment, what the person wants back or wants to experience and the supported product
+role. Category or brand unfamiliarity alone does not establish problem unawareness. The primary
+hook and any other words for the execution are ad copy. Ad copy (hooks, scripts, headlines, primary text, descriptions, static ad copy) follows the DTC Ad
+Copywriting playbook: /Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy.
 
 A deliberate deviation is permitted only when the execution and page remain congruent and the page
 maps to one controlled destination token: LP, PDP, HP or CP. Record the default, selected token,

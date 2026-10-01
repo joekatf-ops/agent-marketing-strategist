@@ -1,12 +1,17 @@
 # agent-marketing-strategist
 
 A direct-response creative and marketing strategist for DTC ecommerce brands advertising on Meta.
-Hooks, primary text, headlines, video scripts, static concepts, angles, rewrites and creative reads.
-It works from a pasted transcript, a product description or a connected brand folder, and it marks
-what it cannot verify rather than inventing it or refusing to work.
+Image ads, static concepts, format recommendations, reference adaptation, customer research, concept
+and test planning, ad analysis and creative reads. It works from a product description, a website or
+a connected brand folder, and it marks what it cannot verify rather than inventing it or refusing to
+work.
+
+Ad copy (hooks, scripts, headlines, primary text, descriptions, static ad copy) follows the DTC Ad
+Copywriting playbook: /Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy.
 
 **If you are not going to run any of this yourself, read
-[`START-HERE.md`](START-HERE.md) instead.** It covers attaching a brand, asking for copy, getting an
+[`START-HERE.md`](START-HERE.md) instead.** It covers attaching a brand, getting an
 image ad made and getting research done, in plain sentences you can type. The rest of this file is
 for whoever maintains the package.
 
@@ -25,7 +30,7 @@ With Higgsfield connected, the skill can generate through Nano Banana Pro or Cha
 Every image concept gets both 1:1 and 9:16 versions, including edits and carousel frames, unless
 explicitly overridden. Four concepts normally produce eight files. With no image tool, it delivers
 exact copy, both layout briefs and prompts, honestly labelled as unrendered. For a text-only surface with no uploads,
-paste [`PROMPT.md`](PROMPT.md) alone. For richer writing, use the craft bundle.
+paste [`PROMPT.md`](PROMPT.md) alone.
 
 In Codex, Cursor or Claude Code, install the folder as a skill or point the agent at `SKILL.md`.
 [Multiple LLM support](#multiple-llm-support) describes capability differences. Instructions are
@@ -37,14 +42,14 @@ One universal method serves many brands. Each brand keeps its own connected fold
 coordinate history, test history, winners and approved learning. The method is brand-neutral; brand
 facts never transfer between brands.
 
-**Version:** 1.8.0
+**Version:** 1.9.0
 
-The core copywriting method connects a problem or desire to a recognisable moment, consequence,
-personal meaning and desired experience, then establishes the product's supported role. Find what
-the customer wants back; choose recognition or desired change as the entry. It governs
-hooks, headlines, scripts and image copy while keeping customer research optional. For a standalone
-agent handoff, attach [`references/29-moment-to-meaning.md`](references/29-moment-to-meaning.md).
-The same guide is included in the craft, image-ad and knowledge bundles.
+Version 1.9.0 removes the package's own copywriting method. Hooks, scripts, headlines, primary
+text, descriptions and the words on an image follow the DTC Ad Copywriting playbook named above.
+The copy references, the Hook Batch, Ad Copy and Video Script contracts, the copy lexicon, the craft
+bundle and the copy eval are gone. Image-ad building, research, concepts and naming, formats, testing
+and benchmarks, Meta platform notes and the learning system are unchanged. The last state that
+carried the copy method is tagged `pre-copy-consolidation-2026-10-01`.
 
 Version 1.8.0 makes new image concepts a guided creative process: one unresolved choice at a time,
 with approved decisions carried into a complete production brief. Ready briefs, revisions and
@@ -52,20 +57,12 @@ explicit delegation proceed directly. Actual font references, visual checks and 
 records preserve the selected direction. The installed skill, paste-in prompt and portable bundles
 share this routing. See the [release validation](docs/release-validation-1.8.0.md).
 
-Version 1.7.0 integrates photographic art direction and revision learning, established-format
-recommendations, coordinated video hooks and complete script structures. The selected brand
+Version 1.7.0 integrates photographic art direction and revision learning and established-format
+recommendations. The selected brand
 context supplies its own creative preferences and delivery ratios. Read the
 [integration map](docs/creative-learning-integration-1.7.0.md) and
 [release validation](docs/release-validation-1.7.0.md). Private brand records remain separate from
 this public, brand-neutral repository.
-
-Version 1.6.0 adds a separate editorial pass, answer-led curiosity, same-concept headline rewrites
-and worked edits. Reviewed source notes for Hormozi, Dry, Georgi and Suby are in
-[`references/33-copywriting-source-notes.md`](references/33-copywriting-source-notes.md).
-
-**Status:** implemented copywriting methods with package checks and bounded qualitative trials.
-These do not establish higher conversion or identical behavior across every LLM and image provider.
-See [the 1.6.0 update and validation](docs/copywriting-update-1.6.0.md) for the exact scope and limits.
 
 Version 1.1.0 makes product information the starting point and research an optional enhancement.
 It introduces the square image workflow, a standalone image bundle, reference-analysis records,
@@ -80,7 +77,7 @@ See [`evals/image-ads/README.md`](evals/image-ads/README.md) for behavior cases 
 ```text
 Universal strategist
 ├── canonical Master Creative Strategy method
-├── output contracts, naming, hook formats and research rules
+├── output contracts, naming, formats and research rules
 ├── optional connectors for research and read-only retrieval
 └── optional active brand folder per run
     ├── brand, product, offer, economics and approved claims
@@ -115,13 +112,12 @@ These records have different identities and lifecycles:
 
 Within the optional house campaign profile, every initial NNT or INSPO batch contains four standalone ads: UWA recognition, PRA diagnosis, SLA
 differentiation and PDA decision. Most Aware is conversion-environment guidance in that profile. Ordinary image ads may use any relevant awareness level, including Most Aware, and follow the requested count.
-Six hook packages are a pre-production option set for one approved execution, not six launch ads.
 
 ## What it produces
 
-The package has fourteen governed artefacts. They are output shapes available on request, not gates
-to pass through: a hook does not require a Concept Batch first, and no contract stands between a
-question and an answer.
+The package has eleven governed artefacts. They are output shapes available on request, not gates
+to pass through: an image ad does not require a Concept Batch first, and no contract stands between a
+question and an answer. Ad copy is not one of them; it follows the DTC Ad Copywriting playbook.
 
 | Artefact | What it does |
 |---|---|
@@ -129,9 +125,6 @@ question and an answer.
 | Brand Readiness | Checks identity, evidence, website freshness, claims, connectors, strategy state and mode limits |
 | Customer Intelligence | Prioritises possible Who definitions, primary Problems and pairing evidence while keeping evidence classes separate |
 | Concept Batch | Defines enduring coordinates separately from sequential NNT, INSPO or ITR test batches |
-| Hook Batch | Creates six strategically different pre-production openings across at least four hook formats |
-| Ad Copy | Creates two lead routes, each in short, medium and long form, plus five headlines, two descriptions and one CTA |
-| Video Script | Produces a shootable beat-by-beat script, coherent opening, shot list and claim check |
 | Reference Analysis | Separates inspected design observations, interpretation and performance evidence before paired-ratio adaptation |
 | Static and Carousel Spec | Produces an executable layout, exact copy, visual direction and claim check |
 | Campaign Launch Plan | Gives a human operator an exact manual Meta build, budget, naming, observation and scaling handoff |
@@ -152,7 +145,7 @@ python3 scripts/init-brand-folder.py /path/to/brands/example-brand \
   --slug example-brand
 ```
 
-A freshly initialised brand starts with `method_version: "1.8.0"` and can use controlled
+A freshly initialised brand starts with `method_version: "1.9.0"` and can use controlled
 persistence after its normal readiness checks. The migration section below applies only to existing
 v0.3 folders.
 
@@ -253,16 +246,13 @@ model-tokenizer measurements:
 | Bundle | Size | Use it when |
 |---|---|---|
 | `dist/image-ad-bundle.md` | about 22,000 tokens | Product-first image creation in both ratios, adaptation and revision |
-| `dist/craft-bundle.md` | about 49,000 tokens | A chat surface. Carries the craft stack and the output contracts, and nothing about installation |
 | `dist/knowledge-bundle.md` | about 126,000 tokens | A runtime that will act on the whole method, including naming, testing, brand folders, connectors and the analysis harness |
 
-All three ship in the repository, so the paste-in path needs no Python: open the file, copy it, paste it.
+Both ship in the repository, so the paste-in path needs no Python: open the file, copy it, paste it.
 They are generated, so CI checks they are not stale against their sources.
 
 ```bash
 python3 scripts/build-image-ad-bundle.py         # rebuild image bundle
-python3 scripts/build-craft-bundle.py            # rebuild
-python3 scripts/build-craft-bundle.py --check     # fail if stale
 python3 scripts/build-knowledge-bundle.py
 python3 scripts/build-knowledge-bundle.py --check
 python3 scripts/build-brand-bundle.py /path/to/brands/example-brand /path/to/example-brand-bundle.md
@@ -401,17 +391,17 @@ and needs human review.
 
 It does not attempt to detect contradictions in prose. An earlier version tried, using regex
 batteries over English sentences, and the approach failed in both directions: innocuous rewording
-broke the build, while a real contradiction went unnoticed for months, with
-`16-hook-formats.md` describing an 11-field hook package and `contracts/hook-batch.md` describing a
-19-field one. Semantic consistency is a review question and, for output quality, an evaluation
-question. It is not a regex question.
+broke the build, while a real contradiction went unnoticed for months, with the hook-format
+reference describing an 11-field hook package and the hook contract describing a 19-field one
+(both retired in 1.9.0). Semantic consistency is a review question and, for output quality, an
+evaluation question. It is not a regex question.
 
 ```bash
 python3 scripts/build-agents-md.py
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v
 python3 scripts/validate-package.py .
 python3 scripts/build-knowledge-bundle.py
-python3 scripts/build-craft-bundle.py
+python3 scripts/build-image-ad-bundle.py
 git diff --check
 ```
 
@@ -431,6 +421,7 @@ structure is the entire point. See [`corpus/swipe/ATTRIBUTION.md`](corpus/swipe/
 
 | Version | Date | Change |
 |---|---|---|
+| 1.9.0 | 2026-10-01 | Ad copy moves to the DTC Ad Copywriting playbook. Removed references 05, 16, 20, 22, 24, 26, 29, 30, 33 and 35, the Hook Batch, Ad Copy and Video Script contracts and examples, the copy lexicon and its checker, the craft bundle, the swipe teaching digest and the copy eval harness. Routing in every entrypoint and bundle now sends hooks, scripts, headlines, primary text, descriptions and image copy to the playbook. Static devices moved into the format library. Pre-change state tagged `pre-copy-consolidation-2026-10-01`. |
 | 1.8.0 | 2026-09-17 | Guided image development, retained creative selections, direct routing for ready briefs and revisions, typography references and saved production records across installed and portable editions. |
 | 1.7.0 | 2026-09-16 | Consolidates art direction, full-regeneration continuity, format recommendations and three-part hooks; adds complete script methods and creative-learning practice; loads scoped brand preferences and rebuilds portable editions. |
 | 1.6.0 | 2026-09-13 | Integrates four reviewed copywriting sources: one central argument, concrete meaning, useful next-step value, qualified curiosity and separate editorial selection. Resolves same-concept rewrite conflicts, adds worked edits, updates scoring semantics and rebuilds portable editions. |
@@ -447,16 +438,3 @@ structure is the entire point. See [`corpus/swipe/ATTRIBUTION.md`](corpus/swipe/
 | 0.3.0 | 2026-08-27 | Adopted `Who x Primary Problem`, four-ad CONTST batches, locked naming, manual ABO launch plans, destination handoffs, CBO scaling with real Post IDs, safe strategy registers and read-only Notion governance. |
 | 0.2.0 | 2026-08-26 | Added multi-brand folders, recurring website refresh, evidence classes, six-hook batches, copy lengths, approved-revision learning, upload bundles and seven runtime guides. |
 | 0.1.0 | 2026-08-26 | Initial strategist with research, concepts, creative production and diagnosis contracts. |
-
-## Scientific Advertising update: 1.5.0
-
-The method now checks useful salesmanship as well as recognisable moments and desired experience.
-It prioritises qualified buyer interest, honest specificity, complete selling information and
-coherent visual/body/page roles. It also provides a controlled comparison card and conditional
-trial, enquiry follow-up, education-cost, channel-incrementality and product-descriptor guidance.
-See references 30, 31 and 32. Historical book prescriptions are adapted, not treated as modern proof.
-
-The current eval uses scoring fingerprints to avoid false before/after comparisons when definitions
-change. Absent API configuration skips the paid CI eval explicitly; package checks remain available.
-Automated checks establish consistency, not conversion lift. Live campaign evidence, broader provider
-and model testing, and brand-specific claim substantiation remain separate work.

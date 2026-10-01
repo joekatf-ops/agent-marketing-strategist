@@ -1,5 +1,9 @@
 # Creative learning integration: 1.7.0
 
+> Historical record. Copy references, contracts and tooling named below were removed in 1.9.0,
+> when ad copy moved to the DTC Ad Copywriting playbook. They are preserved at the
+> `pre-copy-consolidation-2026-10-01` tag.
+
 Prepared 16 September 2026 at the owner's request to consolidate the reviewed methods, complete
 the final checks and prepare for GitHub. Pushing and release publication are separate actions.
 

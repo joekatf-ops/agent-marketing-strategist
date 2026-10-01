@@ -4,8 +4,8 @@ Benchmark data for reading performance, not for writing. Loaded with the ops sta
 diagnosing a test, and deliberately not in the short shared core: a benchmark tells you
 whether a number is good, and it cannot help you write the next line.
 
-Split out of `12-meta-platform.md`, which keeps the specs, the policy, the hook data and the script
-structures. Provenance for every figure below is in the Sources section of that file.
+Split out of `12-meta-platform.md`, which keeps the specs, the policy, the hook data and the video
+length and retention data. Provenance for every figure below is in the Sources section of that file.
 
 Two standing cautions. Every figure here has a sample window and will age, so recheck before relying
 on one. And a benchmark is market evidence, never evidence about this brand's customers: a result in

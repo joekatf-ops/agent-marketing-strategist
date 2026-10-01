@@ -27,7 +27,7 @@ specific explanation.
 A mechanism must be understandable, relevant and supportable. A technical label with no
 explanatory value is not a mechanism. Do not invent a cause or uniqueness. When a mechanism is
 unknown, sell supported construction, use or terms. A category-common fact may still be worth
-explaining; see `30-scientific-advertising.md`.
+explaining.
 
 ## Contrast
 

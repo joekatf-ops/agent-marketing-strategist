@@ -53,8 +53,5 @@ The bundle is the upload path: the generated file is what you paste into a chat 
 read a folder. Building it from this fixture is how that path stays tested.
 
 One scope note. `context/voice.md` lists rejected examples, and a rejected example necessarily
-quotes a banned phrase in order to reject it. `scripts/check-copy-lexicon.py` defaults to the
-top-level `examples/*.md` files and does not descend into this folder, which is why that is not a
-failure. Pointing the checker at this directory by hand will flag the rejected examples, and it is
-supposed to. The same reasoning is why the checker is not run across the whole repository:
-`config/copy-lexicon.yml` records it.
+quotes a banned phrase in order to reject it. That is intended. Ad copy itself is written with the
+DTC Ad Copywriting playbook, not checked by this package.

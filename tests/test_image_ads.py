@@ -123,19 +123,7 @@ class ImageRunTests(unittest.TestCase):
             self.assertEqual((25, 25), self.validator.dimensions(self.base / name))
 
 
-class SwipeTeachingTests(unittest.TestCase):
-    def test_unreviewed_annotation_does_not_enter_teaching_digest(self):
-        builder = load("build-swipe-digest")
-        entries = json.loads((ROOT / "corpus/swipe/entries.json").read_text())
-        if isinstance(entries, dict):
-            entries = entries["entries"]
-        entry = copy.deepcopy(next(e for e in entries if e.get("annotation")))
-        entry["content"]["headline"] = "UNREVIEWED_SENTINEL"
-        entry["reviewed"] = False
-        self.assertNotIn("UNREVIEWED_SENTINEL", builder.build_digest([entry]))
-        entry["reviewed"] = True
-        self.assertIn("UNREVIEWED_SENTINEL", builder.build_digest([entry]))
-
+class SwipeCorpusTests(unittest.TestCase):
     def test_sync_preserves_visual_inspection(self):
         sync = load("sync-swipe-corpus")
         entries = json.loads((ROOT / "corpus/swipe/entries.json").read_text())
@@ -153,6 +141,10 @@ class SwipeTeachingTests(unittest.TestCase):
         self.assertEqual(old["media"], merged[0]["media"])
 
 
+def builder_playbook():
+    return load("build-image-ad-bundle").PLAYBOOK
+
+
 class ImageBundleTests(unittest.TestCase):
     def test_committed_bundle_matches_all_sources(self):
         builder = load("build-image-ad-bundle")
@@ -165,7 +157,7 @@ class ImageBundleTests(unittest.TestCase):
         self.assertNotIn("DROP", image)
         self.assertIn("KEEP", image)
         self.assertIn("# Core", image)
-        self.assertEqual(sample.strip(), builder.image_excerpt("references/30-scientific-advertising.md", sample))
+        self.assertEqual(sample.strip(), builder.image_excerpt("references/34-art-direction-and-revisions.md", sample))
 
     def test_image_bundle_can_ship_in_git(self):
         result = subprocess.run(["git", "check-ignore", "dist/image-ad-bundle.md"], cwd=ROOT,
@@ -174,11 +166,17 @@ class ImageBundleTests(unittest.TestCase):
 
     def test_image_bundle_is_compact_and_brand_agnostic(self):
         body = load("build-image-ad-bundle").build()
-        # v1.4 includes the self-contained core copywriting guide. Keep the full
-        # image workflow below 90 KB instead of silently dropping that method.
+        # 1.9.0 removed the copywriting guide; the bundle routes ad copy to the playbook.
         self.assertLess(len(body.encode()), 90000)
         self.assertNotIn("# Cadian:", body)
-        self.assertIn("<!-- source: config/copy-lexicon.yml -->", body)
+        self.assertIn(builder_playbook(), body)
+        for retired in (
+            "references/26-copywriting-standards.md",
+            "references/29-moment-to-meaning.md",
+            "references/30-scientific-advertising.md",
+            "config/copy-lexicon.yml",
+        ):
+            self.assertNotIn(f"<!-- source: {retired} -->", body)
 
 
 if __name__ == "__main__":

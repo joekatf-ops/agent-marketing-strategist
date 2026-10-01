@@ -1,5 +1,9 @@
 # Release preparation validation: 1.7.0
 
+> Historical record. Copy references, contracts and tooling named below were removed in 1.9.0,
+> when ad copy moved to the DTC Ad Copywriting playbook. They are preserved at the
+> `pre-copy-consolidation-2026-10-01` tag.
+
 Validated locally on 16 September 2026. This is a prepared method release, not a GitHub publication
 or a claim of better advertising performance. See `creative-learning-integration-1.7.0.md` for the
 source-to-method mapping and scope decisions.

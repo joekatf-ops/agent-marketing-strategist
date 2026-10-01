@@ -254,7 +254,7 @@ class FixtureIsolationTests(unittest.TestCase):
     def test_the_fixture_never_reaches_a_shipped_bundle(self):
         # dist/ is what people paste into a chat surface. A fictional brand's claims arriving
         # there would be another brand's facts in the universal method, which is hard rule 5.
-        for relative in ("dist/craft-bundle.md", "dist/knowledge-bundle.md"):
+        for relative in ("dist/image-ad-bundle.md", "dist/knowledge-bundle.md"):
             with self.subTest(bundle=relative):
                 text = (ROOT / relative).read_text()
                 self.assertNotIn("Acme Trailworks", text)

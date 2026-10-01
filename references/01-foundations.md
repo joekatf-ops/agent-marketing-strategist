@@ -100,31 +100,13 @@ People buy outcomes and a version of themselves. Three directions:
 Identity is strongest when attached to real behaviour, community or progress. Empty flattery
 is not identity marketing.
 
-## Direct response principles by source
+## Applying the classics today
 
-**Hopkins.** Salesmanship in print. Offer buyer value, not self-congratulation. Be specific.
-Give a reason why. Length follows the selling job. Demonstrations reduce disbelief. Traced
-response decides, not internal opinion.
+The direct-response classics (Hopkins, Ogilvy, Halbert, Sugarman, Bird) shaped the laws above. Their
+copywriting craft is not restated here. Ad copy (hooks, scripts, headlines, primary text, descriptions, static ad copy) follows the DTC Ad
+Copywriting playbook: /Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy.
 
-**Ogilvy.** Research product, customer and language before writing. The headline promises a
-benefit, delivers news, or attracts the right prospect. Seek one big idea. Make the product
-the hero. Do not win a response by damaging long-term trust.
-
-**Halbert.** Choose a starving crowd before polishing the pitch. Write to one person in plain
-language. Study the market's own words. The opening must earn the next line. Strong offers
-and list quality outweigh stylistic brilliance.
-
-**Sugarman.** The sole purpose of the first sentence is to get the second read. Build a
-slippery slide. Plant curiosity the copy later resolves. Sell the emotional outcome, then
-give logical reasons that justify it.
-
-**Bird's two tests.**
-- **You Test:** does the copy talk mainly about the customer, or the company?
-- **So What Test:** after every claim ask "so what?" until it resolves into a customer benefit.
-
-## Applying Hopkins today
-
-Use `30-scientific-advertising.md` for the reviewed source and practical salesmanship check,
-`31-controlled-tests.md` for measured comparisons, and `32-commercial-extensions.md` for trials,
-follow-up, education cost, distribution and product descriptors. Length follows the selling job.
-Historical anecdotes and methods are hypotheses to adapt, not current performance benchmarks.
+Use `31-controlled-tests.md` for measured comparisons and `32-commercial-extensions.md` for trials,
+follow-up, education cost, distribution and product descriptors. Historical anecdotes and methods
+are hypotheses to adapt, not current performance benchmarks.

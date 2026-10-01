@@ -123,3 +123,20 @@ offer and conversion environment rather than a standard ad format.
 - **Native fluency**, match the visual grammar of the placement while keeping the message clear
 - **Contrast**, make before and after, old and new, problem and solution visually legible
 - **Distinctive assets**, use recognisable brand elements without turning the ad into a poster
+
+## Static devices
+
+Select only devices that strengthen the argument: a useful question or pattern interrupt, genuine
+proof, a verified offer or gift stack, a list or detail explanation, fair contrast, native or
+editorial type, or actual variants and newness. Several devices can coexist when their hierarchy is
+clear. A badge, quote, discount and headline should not compete as four separate leads.
+
+Historical brands can teach a mechanism: routine or value architecture, context-specific relevance,
+product tangibility or ownership confidence. Take the transferable move, never a competitor claim,
+celebrity endorsement or unverified result. Use `34-art-direction-and-revisions.md` to turn the
+selected format into a concrete visual brief.
+
+The words inside any format are ad copy. Ad copy (hooks, scripts, headlines, primary text,
+descriptions, static ad copy) follows the DTC Ad Copywriting playbook:
+/Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy.

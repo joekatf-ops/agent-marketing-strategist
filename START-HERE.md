@@ -1,16 +1,16 @@
 # Start here
 
 
-## Current release: 1.8.0
+## Current release: 1.9.0
 
-Use the image bundle for art direction and image production, the craft bundle for hooks and scripts,
-or the full knowledge bundle for the wider method. Attach the selected brand bundle as well when
-you want its saved preferences and approved examples. Files do not carry over between hosts unless
+Use the image bundle for art direction and image production, or the full knowledge bundle for the
+wider method. Attach the selected brand bundle as well when you want its saved preferences and
+approved examples. Files do not carry over between hosts unless
 they are actually attached or installed. Brand artwork references are separate media attachments.
 
-You can ask: "Give me three established formats, with three executions for each", "Write three
-founder hooks with visual, spoken, screen text and next beat", or "Regenerate this accepted ad with
-the requested change while preserving the light, colour and composition." Saved brand delivery
+You can ask: "Give me three established formats, with three executions for each", "Analyse these
+three ads we ran last month", or "Regenerate this accepted ad with the requested change while
+preserving the light, colour and composition." Saved brand delivery
 ratios apply unless your request overrides them.
 
 See the [guided image workflow](references/37-guided-image-development.md) for the new default and
@@ -32,7 +32,8 @@ For a text-only chat with no uploads, paste `PROMPT.md` and your request.
 
 Every image concept comes in **1:1 square and 9:16 vertical**, with either Nano Banana Pro or ChatGPT
 generation. Four concepts produce eight files. An explicit ratio request overrides this default.
-The skill guides or resolves the message, copy and art direction, according to the working mode.
+The skill guides or resolves the message and art direction, according to the working mode. The
+words on the image are written with the DTC Ad Copywriting playbook.
 Guided development establishes one master before the companion layout, unless you request all
 outputs now. You do not need to provide
 an awareness stage, belief map, campaign number or an approved visual system.
@@ -71,11 +72,6 @@ generated product details still need checking.
 
 ## Customer research improves the next version
 
-The core copywriting method asks where the problem appears in daily life, what it affects and why
-that matters, then connects the product through supported facts. It applies to headlines, scripts
-and image copy. For another agent, attach [`references/29-moment-to-meaning.md`](references/29-moment-to-meaning.md)
-with the product information and request. That guide works by itself and includes a Cadian example.
-
 Add real customer reviews, support questions, interviews or survey responses whenever available.
 
 > Use these customer reviews to improve the message. Keep the product details accurate.
@@ -100,7 +96,7 @@ reference candidate; measured performance needs actual comparable results.
 
 ## Keep improving
 
-> That line is too dramatic. Make it more direct and keep the same square design.
+> Make the product larger and keep the same square design.
 
 > Use this approved product photo and replace the illustration.
 
@@ -111,15 +107,20 @@ instructions control the task; conflicting stored facts are flagged rather than 
 
 ## Other work
 
-Use `dist/craft-bundle.md` for developed hooks and writing, or the full `dist/knowledge-bundle.md`
-for advanced research, governed ad analysis, learning records and manual campaign planning.
+Ad copy (hooks, scripts, headlines, primary text, descriptions, static ad copy) follows the DTC Ad
+Copywriting playbook: /Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy.
+
+Use the full `dist/knowledge-bundle.md` for advanced research, governed ad analysis, learning
+records and manual campaign planning.
 The optional house campaign profile has its own naming and test conventions. Those do not impose
 a four-ad batch, customer-research gate or budget floor on ordinary creative work.
 
-## Added in 1.5.0
+## Changed in 1.9.0
 
-The writing check now prioritises buyer relevance and useful, supportable selling information.
-Curiosity is optional and must lead somewhere worthwhile. Ordinary verified facts can persuade.
+Hooks, scripts, headlines, primary text and descriptions are no longer written by this skill. Ask
+for them through the DTC Ad Copywriting playbook named above. Everything else here is unchanged.
+
 For trials, enquiry follow-up, education cost, channel availability and product descriptors, ask for
 that task directly. For comparisons, ask for a controlled test card with the existing control and
 known constraints. A simple product brief still works without research, performance data or tools.

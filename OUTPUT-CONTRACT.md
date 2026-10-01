@@ -1,8 +1,14 @@
 # Output Contracts
 
-The strategist has fourteen governed artefacts. They are output shapes, available when the work
-calls for one or the user asks for one by name. They are not gates: a request for a hook does not
-require a Concept Batch first, and no contract is a precondition for answering a question.
+The strategist has eleven governed artefacts. They are output shapes, available when the work
+calls for one or the user asks for one by name. They are not gates: a request for an image ad does
+not require a Concept Batch first, and no contract is a precondition for answering a question.
+
+Ad copy is not one of them. Ad copy (hooks, scripts, headlines, primary text, descriptions, static ad
+copy) follows the DTC Ad Copywriting playbook:
+/Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy. The Hook Batch, Ad Copy and Video Script contracts were retired
+in 1.9.0.
 
 Load a contract in full before producing that artefact.
 
@@ -12,9 +18,6 @@ Load a contract in full before producing that artefact.
 | Brand Readiness | `contracts/brand-readiness.md` | When asked whether a brand is ready, or before a launch plan |
 | Customer Intelligence Brief | `contracts/customer-intelligence.md` | New brand, stale evidence, or research refresh |
 | Concept Batch | `contracts/concept-batch.md` | Governed house campaign planning only |
-| Hook Batch | `contracts/hook-batch.md` | Hook requests, directly from the available brief |
-| Ad Copy | `contracts/ad-copy.md` | Primary text, headlines, descriptions, and CTA |
-| Video Script | `contracts/video-script.md` | Any selected video execution |
 | Reference Analysis | `contracts/reference-analysis.md` | Supplied inspiration and paired-ratio adaptation |
 | Static and Carousel Spec | `contracts/static-spec.md` | Any selected static or carousel execution |
 | Campaign Launch Plan | `contracts/campaign-launch-plan.md` | Before a human builds or changes Meta campaigns |
@@ -55,10 +58,11 @@ flag factual conflicts without silently overwriting stored records. Every image 
     INSPO or ITR batch receives a new sequential CONTST ID.
 12. **Initial tests have four ads.** Every initial NNT or INSPO contains exactly UWA, PRA, SLA and
     PDA. Most Aware is handled by the conversion environment, not as a standard ad.
-13. **Production is traceable.** Every hook, copy, script and static output carries CONTST, source,
-    Who, Primary Problem, awareness code and job, messaging route, primary hook, media type,
-    execution format, proof and claims required, destination, CTA, people, assets and location
-    required, and the complete final ad name ending in `POSTIDXXX` before publication.
+13. **Production is traceable.** Every static output, and any launch-ad copy written with the
+    playbook, carries CONTST, source, Who, Primary Problem, awareness code and job, messaging
+    route, primary hook, media type, execution format, proof and claims required, destination,
+    CTA, people, assets and location required, and the complete final ad name ending in
+    `POSTIDXXX` before publication.
 14. **Destinations continue the argument.** UWA and PRA default to LP. SLA and PDA default to PDP.
     Every deliberate exception records why it remains congruent, its evidence, risk, owner and approval.
 15. **Launch is manual.** Creative testing is ABO with one CONTST batch per ad set, a $50 daily
@@ -74,9 +78,10 @@ flag factual conflicts without silently overwriting stored records. Every image 
 
 Two different questions, and both have to be answered before a release.
 
-**Is the output good?** Run `evals/` and compare against the recorded baseline. A release that
-leaves structure intact and makes the copy worse is a failed release. Structural conformity was
-never the point; it is the floor.
+**Is the output good?** Run the image-ad behaviour cases in `evals/image-ads/` and inspect the actual
+outputs. A release that leaves structure intact and makes the image work worse is a failed release.
+Structural conformity was never the point; it is the floor. Copy quality is judged against the DTC
+Ad Copywriting playbook, not inside this package.
 
 **Is it portable?** Run the same brief in at least two runtimes:
 
@@ -85,7 +90,7 @@ never the point; it is the floor.
 - an invented specific, a mixed brand, claimed connector access that was never preflighted, or a
   refusal where the brief was merely thin: fail.
 
-Record the runtime, bundle version, brand-bundle version, eval scores and validation result.
+Record the runtime, bundle version, brand-bundle version, behaviour-case results and validation result.
 
 A release is judged on the second test for safety and on the first test for quality. Passing
 portability alone tells you the filing system survived, not that the ads got better.

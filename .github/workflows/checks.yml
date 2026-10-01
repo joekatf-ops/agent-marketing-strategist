@@ -1,11 +1,11 @@
 name: Checks
 
 # The structural checks, on every push and pull request. These need no API key and no
-# secrets, so unlike the eval they run for everybody including forks.
+# secrets, so they run for everybody including forks.
 #
-# The eval measures whether the copy is any good. This measures whether the package is
-# internally consistent, which is the cheaper question and the one that catches most
-# mistakes.
+# This measures whether the package is internally consistent, which is the question that
+# catches most mistakes. Ad copy quality is not measured here: copy follows the DTC Ad
+# Copywriting playbook.
 
 on:
   push:
@@ -36,12 +36,8 @@ jobs:
       - name: Tests
         run: python3 -m unittest discover -s tests
 
-      - name: Copy lexicon, over the frozen examples
-        run: python3 scripts/check-copy-lexicon.py
-
       - name: The shipped bundles are generated, so they must be current
         run: |
           python3 scripts/build-image-ad-bundle.py --check
           python3 scripts/validate-image-ad.py examples/image-ad-run.json
-          python3 scripts/build-craft-bundle.py --check
           python3 scripts/build-knowledge-bundle.py --check

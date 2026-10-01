@@ -6,8 +6,11 @@ delivers 1:1 and 9:16; historical ratio comparisons below do not change that pro
 
 
 Researched 26 August 2026. This file is the platform-and-numbers layer only. The theory
-(awareness, sophistication, persuasion, offer, copy structures) lives in files 01 to 11 and is
-not repeated here.
+(awareness, sophistication, persuasion, offer) lives in files 01 to 11 and is not repeated here.
+The hook and script figures below are platform evidence for planning and diagnosis, not a writing
+method. Ad copy (hooks, scripts, headlines, primary text, descriptions, static ad copy) follows the DTC Ad
+Copywriting playbook: /Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy.
 
 Everything below carries a source. Anything unsourced is tagged. Platform specs and policy
 change without notice: re-verify anything load-bearing before a launch, and treat the dates in
@@ -391,8 +394,8 @@ From [RocketShip HQ, 8 June 2026](https://www.rocketshiphq.com/text-overlays-vid
 Motion describes an external production pattern of **10 concepts x 5 to 10 hook variations**, where
 the body, proof and offer are reused while openings vary. This is a benchmark observation, not the
 strategist's standard batch shape or an instruction to treat the hook as an isolated test variable.
-Under the governed method, six hook packages are a pre-production option set for an approved
-execution and one coherent opening is selected per launch ad. Motion's 25-hook catalogue
+Under the governed method, one coherent opening is selected per launch ad, and hook writing
+follows the DTC Ad Copywriting playbook. Motion's 25-hook catalogue
 ([source](https://motionapp.com/blog/best-dtc-meta-ad-hooks-2025)) remains a format menu: post-it
 reveal, sunglasses reflection, blurred-to-focus, phone screen text, remote-control SKU switch,
 chase sequence, fake text exchange, off-camera partner validation, reverse drop, jump out of phone,
@@ -401,7 +404,7 @@ man-on-the-street, story-time journal and multi-creator mashup.
 
 ---
 
-## 5. Video script structures, second by second
+## 5. Video length and retention data
 
 ### 5.1 The sourced backbone
 
@@ -419,129 +422,8 @@ Two cliffs. The first at **0 to 3s** (70 to 80% of impressions never reach 3s in
 
 **The single most important consequence: the offer and the brand name must be delivered before 15 seconds, because 94 to 97% of impressions never get there.**
 
-`[Everything in the timing columns below is PRACTITIONER CONVENTION unless a source is named. The beat sequences are extrapolated from Motion's six-beat backbone and the 2.5 words-per-second rate; the exact second boundaries are not published anywhere.]`
-
-### UGC direct-to-camera (15s cold prospecting default)
-
-| Sec | Beat | Fight the drop |
-|---|---|---|
-| 0.0 to 0.5 | Face already talking, mid-sentence. Caption card already on screen | No logo, no title card, no fade-in. First frame is a human face at conversational distance |
-| 0.5 to 3 | Hook line. The data favours **offer-only or confession**, not question | Cut on the beat at ~3s. A visual change at the 3s mark resets attention right where hook rate is measured |
-| 3 to 6 | Problem, stated behaviourally not demographically | Second cut. Introduce the product physically here even if not named |
-| 6 to 10 | Mechanism plus first proof (10s proof window) | Proof must be visual, not spoken |
-| 10 to 13 | Value prop, 2 to 3 differentiators max | |
-| 13 to 15 | Offer plus CTA | Brand name legible on screen, not only spoken |
-
-Drop points: 0 to 3s, and 6 to 8s where the pivot from problem to product happens. The pivot is where a scripted-sounding transition kills the ad. Bridge with a discovery line.
-
-### Problem-solution narrative (20 to 30s)
-
-| Sec | Beat |
-|---|---|
-| 0 to 3 | The problem shown, not described. Visual of the failure state |
-| 3 to 7 | Escalation. A second, worse instance of the same problem |
-| 7 to 9 | Turn. "Then I found..." |
-| 9 to 15 | Mechanism. Why this works when the other things did not |
-| 15 to 22 | Proof: demo, result, or third-party |
-| 22 to 30 | Offer, risk reversal, CTA |
-
-Drop: the 7 to 9s turn. Make the turn a **visual** cut, not a verbal one.
-
-### Founder talking head (20 to 40s)
-
-**Founder visual style hit rate: 8.57%, well above baseline.**
-
-| Sec | Beat |
-|---|---|
-| 0 to 3 | Confession or contrarian claim. Not "hi I'm the founder of" |
-| 3 to 6 | Credential established in one clause, in passing |
-| 6 to 12 | The thing the category does wrong |
-| 12 to 20 | What we built instead, held in hand |
-| 20 to 30 | Proof: manufacturing, ingredient, test, or numbers |
-| 30 to 40 | Direct ask |
-
-Drop: 3 to 6s if the credential is front-loaded. The credential arrives **after** the hook is paid off, never as the opener.
-
-### Product demo (10 to 20s)
-
-Three demo categories ([Motion](https://motionapp.com/blog/demonstration-ads-for-facebook-tiktok)): **dramatic**, **street test**, **simple scientific**.
-
-| Sec | Beat |
-|---|---|
-| 0 to 2 | The mess, the failure, the before state, in motion |
-| 2 to 5 | Product enters frame and acts |
-| 5 to 9 | The change happens on camera in one unbroken shot |
-| 9 to 13 | Repeat the demo from a second angle or surface |
-| 13 to 20 | Offer, CTA |
-
-Drop: 5 to 9s if the transformation is cut around rather than shown continuously. **One unbroken shot of the change is the whole asset.**
-
-### Comparison / us vs them (15 to 25s)
-
-Us-vs-them hit rate **6.52%**, above baseline but well below Letter and Founder.
-
-| Sec | Beat |
-|---|---|
-| 0 to 3 | Both options in frame simultaneously. The contrast IS the hook |
-| 3 to 8 | Old way fails, on camera |
-| 8 to 13 | New way succeeds, same test, same conditions |
-| 13 to 18 | Named difference (the mechanism) |
-| 18 to 25 | Offer |
-
-Drop: 8s. Keep the failing option **in frame** during the success shot rather than cutting away.
-
-**Policy note for health and beauty:** a side-by-side of a **person before and after** for weight loss or wrinkles is prohibited outright. A side-by-side of **two products or two conditions** is not. Keep the comparison off the body.
-
-### Listicle (20 to 40s)
-
-Listicle hook hit rate **5.45%**, listicle visual style **5.30%**. **Both at or below baseline. This format is measurably mediocre and is over-briefed.**
-
-| Sec | Beat |
-|---|---|
-| 0 to 3 | The count plus the payoff, together |
-| 3 to 9 | Item 1, strongest |
-| 9 to 15 | Item 2 |
-| 15 to 21 | Item 3 |
-| 21 to 30 | Offer |
-
-Drop: after item 1, at ~9s. Number on screen so the viewer sees how much is left, and put the strongest item first.
-
-### Green screen (15 to 25s)
-
-**Hit rate 4.87%, the lowest visual style in the dataset and below baseline. Recommend against unless there is account-level evidence to the contrary.**
-
-If used: 0 to 3s the reaction to what is behind you, 3 to 8s what the artefact is, 8 to 15s your read on it, 15 to 25s the product tie and offer. Drop at 3 to 5s when the viewer cannot read the artefact, which most green screen ads fail.
-
-### B-roll VSL (45 to 90s, warm and mid-funnel only)
-
-Exceeds the 5 to 15s window that qualifies for all placements. Will not serve In-Stream.
-
-| Sec | Beat |
-|---|---|
-| 0 to 3 | Hook over the single most arresting B-roll frame |
-| 3 to 10 | Problem, wide |
-| 10 to 20 | Failed alternatives |
-| 20 to 30 | Mechanism reveal |
-| 30 to 45 | Proof stack |
-| 45 to 60 | Offer construction |
-| 60 to 75 | Risk reversal |
-| 75 to 90 | CTA plus urgency |
-
-Cold hold rate for 30 to 60s prospecting is **8 to 18%, median ~12%**, roughly a third worse than 15 to 30s creative. **Do not run this cold.** Hard visual reset every 5 to 7 seconds, and plant a specific, dated open loop before 10s that only closes after 45s.
-
-### Testimonial (15 to 30s)
-
-UGC asset type hit rate **7.56%**; UGC overlay **6.73%**; UGC mashup **6.28%**.
-
-| Sec | Beat |
-|---|---|
-| 0 to 3 | The result stated as a number or a specific, with the speaker's face |
-| 3 to 7 | The skepticism admitted (the confession mechanic, 8.74% hit rate) |
-| 7 to 14 | What changed, concretely and datedly |
-| 14 to 22 | Sensory or usage detail that only a real user would say |
-| 22 to 30 | Recommendation plus offer |
-
-Drop: 3 to 7s. Fight it with the admitted doubt. **A testimonial that never concedes anything is read as an ad and dies at second 4.**
+Beat-by-beat script templates were removed from this file in 1.9.0. Script structure, beat timing
+and hook writing follow the DTC Ad Copywriting playbook named at the top of this file.
 
 ### 5.3 Published retention curve data
 

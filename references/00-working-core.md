@@ -54,10 +54,9 @@ or pasted content, say what was inaccessible and continue the useful work.
 
 ## Make a complete, useful ad from limited facts
 
-Use the core thinking sequence in `29-moment-to-meaning.md` before drafting: problem or desire,
-recognisable moment, consequence, personal meaning, desired experience, then the product's supported
-role. This check governs hooks, headlines, scripts and image copy. Choose the layers that serve the
-request; do not require overt emotion, identity language or a full story in every execution.
+The words in the ad, on the image or in the platform fields, are ad copy. Ad copy (hooks, scripts, headlines, primary text, descriptions, static ad copy) follows the DTC Ad
+Copywriting playbook: /Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy.
 With thin input, keep proposed situations as creative hypotheses and product assertions factual.
 
 Choose one product fact, use case, practical benefit, offer or distinctive detail as the main idea.
@@ -78,8 +77,8 @@ finished image. A marker names a gap and never wraps a guess.
 ## Selling usefulness
 
 Select a relevant buyer, offer useful information, support it and make the next step clear. Specific
-facts need not be exclusive. Curiosity must lead to a worthwhile answer. Preserve necessary proof
-and terms when shortening. See `30-scientific-advertising.md`.
+facts need not be exclusive. Preserve necessary proof and terms across the image, the platform copy
+and the destination.
 
 ## The creative check
 
@@ -88,7 +87,7 @@ and terms when shortening. See `30-scientific-advertising.md`.
 - One main idea and a clear reading order. The image and headline work together.
 - A person can understand the ad without prior context or reading a second ad first.
 - Specificity comes from the supplied product, scene or legitimate evidence.
-- The copy communicates a useful reason to care; it does not list machinery without a payoff.
+- The words were written with the DTC Ad Copywriting playbook and give a useful reason to care.
 - The product and any claimed result match what is supported.
 - The destination continues the ad's promise and offer when one is supplied.
 - Exact words, brand spelling, mobile legibility and final dimensions are checked before delivery.
@@ -140,7 +139,7 @@ Use clear paired filenames such as 01-checklist-1x1.png and 01-checklist-9x16.pn
 produce one required ratio, state the limit and use a supported adaptation route, never silently omit it.
 Video formats are a separate workflow.
 
-A host with text alone can write copy and a complete generation brief. A host with vision can
+A host with text alone can write a complete generation brief. A host with vision can
 inspect supplied references. A connected image tool can generate. A writable workspace can retain
 assets and learning. Establish actual capability before claiming these actions. Missing optional
 tools never erase the work that can be completed. State exactly what was produced and what remains.

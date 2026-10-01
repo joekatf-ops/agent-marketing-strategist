@@ -37,7 +37,7 @@ awareness, formats and naming in more detail.
 | 05. Meta Campaign and Ad Set Structure | `invariants.yml`, `contracts/campaign-launch-plan.md` |
 | 06. Naming Conventions | `references/07-naming.md`, `invariants.yml` |
 | 07. Testing, Measurement and Decisions | `references/09-testing-and-diagnosis.md`, plus the measurement levels in `23-commercial-context.md` |
-| 08. Advertising and Messaging Frameworks | `references/04-persuasion.md`, `05-copy-craft.md` |
+| 08. Advertising and Messaging Frameworks | `references/04-persuasion.md`. The copy half was retired in 1.9.0; ad copy follows the DTC Ad Copywriting playbook |
 | 09. Formats and Production Guidance | `references/08-formats.md` |
 | 10. Worked Example | Not integrated, then removed. Brand-specific, and the repository is deliberately brand-neutral. It belongs in a brand folder |
 

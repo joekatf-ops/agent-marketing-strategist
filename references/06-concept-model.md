@@ -42,12 +42,11 @@ The route must advance a coherent argument for the selected Who, Primary Problem
 The historical term angle may remain in migration records or general copy theory, but it must not
 appear in a new concept equation, concept card, name or register field.
 
-Develop the argument with `29-moment-to-meaning.md`: the recognisable experience, what it takes away
-or could make possible, what the person wants back, and the product's supported role. Recognition
-or desired experience can lead, depending on awareness and evidence. Do not stop at describing pain.
-Share these jobs across headline, visual and support; the whole execution must make sense.
-This thinking deepens the existing coordinate and messaging route; it does not add a concept axis
-or require a worksheet for ordinary headline requests.
+Develop the argument around the recognisable experience, what it takes away or could make possible,
+what the person wants back, and the product's supported role. Recognition or desired experience can
+lead, depending on awareness and evidence. This thinking deepens the existing coordinate and
+messaging route; it does not add a concept axis. The words that express it follow the DTC Ad
+Copywriting playbook.
 
 ## Source classification
 
@@ -87,24 +86,14 @@ prove that an isolated variable caused the outcome.
 
 ## Hook selection and delivery copy
 
-For an approved execution, the six-hook development system is a pre-production option set, not six
-launch ads. Build strategically different packages across at least four formats, then select one
-coherent opening per execution. Its visual hook, spoken or written hook and on-screen anchor all
-communicate the same idea, and the body fulfils that opening.
+Select one coherent opening per execution. Its visual hook, spoken or written hook and on-screen
+anchor all communicate the same idea, and the body fulfils that opening. Ad copy (hooks, scripts, headlines, primary text, descriptions, static ad copy) follows the DTC Ad
+Copywriting playbook: /Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy.
 
-Each selected execution also receives:
-
-- two or more strategically distinct lead routes;
-- short, medium and long primary text for each route;
-- headlines, five by default and three at minimum, each independently useful;
-- one or two descriptions;
-- exactly one CTA.
-
-Counts other than the CTA are guidance. `contracts/ad-copy.md` governs the shape, and padding to
-reach a number is worth less than cutting to the options that earn their place.
-
-These are delivery options linked to the execution. They do not create new coordinates or test IDs
-until they become part of a new launched batch.
+Hooks, primary text, headlines, descriptions and the CTA written for an execution are delivery
+options linked to it. They do not create new coordinates or test IDs until they become part of a
+new launched batch.
 
 ## Required execution traceability
 

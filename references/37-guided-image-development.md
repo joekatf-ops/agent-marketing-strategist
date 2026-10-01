@@ -41,6 +41,11 @@ Work through the following order, skipping supplied, approved or irrelevant fiel
 6. Supporting copy, offer, proof and action: offer coherent complete sets when these are needed.
 7. Art direction: scene, light, palette and typography as one connected visual treatment.
 
+Steps 5 and 6 are ad copy. Ad copy (hooks, scripts, headlines, primary text, descriptions, static ad
+copy) follows the DTC Ad Copywriting playbook:
+/Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md.
+Read it before writing any ad copy. This file governs how the choices are offered and retained.
+
 For each meaningful open choice, give three numbered, deliberately distinct options and a short
 recommendation. Each option must be concrete enough to choose. Avoid three synonymous headlines,
 invented customer findings, unnecessary demographic details and vague labels such as "premium".

@@ -15,8 +15,8 @@ Check actual pixels when a generator is used. Different wording is expected.
 and the named skill entrypoint, with generation and external writes disabled. Evaluate the actual
 response against `expected` afterwards, without providing those criteria to the test agent.
 
-The existing `evals/run.py` remains the Anthropic hook-writing runner. It is not a multi-provider
-image test. Image cases can be executed manually in other hosts without an API-specific harness.
+Image cases can be executed manually in any host without an API-specific harness. The former
+hook-writing runner was removed in 1.9.0 with the rest of the copy method.
 
 ## Evidence in v1.1
 
@@ -27,10 +27,10 @@ produced usable square briefs without asking for research, photos or a belief ma
 generation or inspection of an inaccessible reference. This is a bounded instruction-following check,
 not a provider comparison or proof of advertising performance.
 
-Automated tests measure PNG/JPEG/WebP headers, reject non-square results, detect fabricated completion
-records, preserve visual reference annotations during sync and keep unreviewed swipe annotations
-out of teaching. A header check cannot prove complete decodability, text accuracy or product fidelity;
-actual visual inspection remains required.
+Automated tests measure PNG/JPEG/WebP headers, reject non-square results, detect fabricated
+completion records and preserve visual reference annotations during sync. A header check cannot
+prove complete decodability, text accuracy or product fidelity; actual visual inspection remains
+required.
 
 Paid live rendering, broad cross-LLM evaluation and advertising outcomes were not tested in this
 implementation. Run the same cases in the desired host and model before claiming those capabilities

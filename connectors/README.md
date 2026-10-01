@@ -28,9 +28,10 @@ Gemini app and Grok are upload-only: they work from a generated bundle that some
 to build and rebuild, so a non-technical user needs a developer maintaining the folder. Grok Agents
 is an architecture spec for an agent you build yourself, not an install path.
 
-On an upload-only surface, prefer `dist/craft-bundle.md` over `dist/knowledge-bundle.md`. The full
-bundle ships every guide in this directory into the model's context, where it cannot act on any of
-them.
+On an upload-only surface, prefer `dist/image-ad-bundle.md` for image work over
+`dist/knowledge-bundle.md`. The full bundle ships every guide in this directory into the model's
+context, where it cannot act on any of them. Ad copy is not in either bundle; it follows the DTC Ad
+Copywriting playbook.
 
 ## Minimum connector set
 

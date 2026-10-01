@@ -50,9 +50,6 @@ V04_REQUIRED_FILES = (
     "contracts/brand-readiness.md",
     "contracts/customer-intelligence.md",
     "contracts/concept-batch.md",
-    "contracts/hook-batch.md",
-    "contracts/ad-copy.md",
-    "contracts/video-script.md",
     "contracts/static-spec.md",
     "contracts/learning-update.md",
     "contracts/campaign-launch-plan.md",
@@ -67,6 +64,36 @@ V04_REQUIRED_FILES = (
     "examples/ad-diagnosis-input-audit.md",
     "examples/ad-diagnosis-performance.csv",
     "examples/ad-diagnosis-test-register-patch.yml",
+)
+# Ad copy left this package in 1.9.0. It follows one playbook outside the package, and
+# these files must not come back, because a second copy method is how the two drift.
+PLAYBOOK_PATH = (
+    "/Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/write-dtc-ad-copy/write-dtc-ad-copy.md"
+)
+RETIRED_COPY_FILES = (
+    "references/05-copy-craft.md",
+    "references/16-hook-formats.md",
+    "references/20-hook-quality-standard.md",
+    "references/22-swipe-corpus.md",
+    "references/24-writing-for-low-awareness.md",
+    "references/26-copywriting-standards.md",
+    "references/29-moment-to-meaning.md",
+    "references/30-scientific-advertising.md",
+    "references/33-copywriting-source-notes.md",
+    "references/35-creative-frameworks.md",
+    "contracts/ad-copy.md",
+    "contracts/hook-batch.md",
+    "contracts/video-script.md",
+    "config/copy-lexicon.yml",
+    "dist/craft-bundle.md",
+)
+PLAYBOOK_ENTRYPOINTS = (
+    "SKILL.md",
+    "AGENTS.md",
+    "PROMPT.md",
+    "README.md",
+    "START-HERE.md",
+    "OUTPUT-CONTRACT.md",
 )
 CREATIVE_AUDIT_SECTIONS = (
     "Input coverage and limitations",
@@ -132,11 +159,10 @@ DIAGNOSIS_CONTROLLED_RESULT_FIELDS = frozenset(
 NETWORK_SCRIPTS = frozenset(
     {
         "scripts/sync-swipe-corpus.py",
-        "evals/run.py",
     }
 )
 # Sibling modules imported by path rather than installed.
-LOCAL_MODULES = frozenset({"rubric", "content_safety", "copy_lexicon"})
+LOCAL_MODULES = frozenset({"content_safety"})
 NETWORK_DEPENDENCIES = frozenset(
     {
         "ftplib",
@@ -313,11 +339,11 @@ DASH_EXTENSIONS = frozenset(
     {".md", ".py", ".yml", ".yaml", ".json", ".mjs", ".csv", ".txt"}
 )
 SKIP_DIRECTORIES = frozenset({".git", ".github", "dist", "__pycache__", ".worktrees"})
-# The ban governs copy this package writes. These two hold verbatim copy from other
+# The ban governs prose this package writes. The corpus holds verbatim copy from other
 # brands' live ads, recorded as it ran. Editing someone else's ad to satisfy our
 # house style would falsify the evidence, which is a worse outcome than the
 # exemption. Nothing else is exempt.
-VERBATIM_SOURCES = ("corpus", "references/22-swipe-corpus.md")
+VERBATIM_SOURCES = ("corpus",)
 
 
 def dash_errors(root: pathlib.Path) -> list[str]:
@@ -347,6 +373,23 @@ def dash_errors(root: pathlib.Path) -> list[str]:
                 if character in line:
                     errors.append(f"{relative}:{number} contains an {name}")
                     break
+    return errors
+
+
+def playbook_routing_errors(root: pathlib.Path) -> list[str]:
+    """Ad copy has one home, the DTC Ad Copywriting playbook, and the package must say so.
+
+    A retired copy file reappearing, or an entrypoint losing the pointer, would quietly give
+    an agent a second copy method again.
+    """
+    errors: list[str] = []
+    for relative in RETIRED_COPY_FILES:
+        if (root / relative).exists():
+            errors.append(f"retired copy file is back: {relative}")
+    for relative in PLAYBOOK_ENTRYPOINTS:
+        path = root / relative
+        if path.is_file() and PLAYBOOK_PATH not in path.read_text():
+            errors.append(f"{relative} does not route ad copy to the playbook")
     return errors
 
 
@@ -820,6 +863,8 @@ def validate(root: pathlib.Path) -> list[str]:
     for relative in V04_REQUIRED_FILES:
         if not (root / relative).is_file():
             errors.append(f"missing v0.4 required file: {relative}")
+
+    errors.extend(playbook_routing_errors(root))
 
     creative_example_path = root / "examples" / "creative-audit.md"
     creative_intake_path = root / "examples" / "ad-analysis-intake.json"
