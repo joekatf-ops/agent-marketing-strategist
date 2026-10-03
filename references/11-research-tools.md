@@ -1,5 +1,11 @@
 # Research tools and the intelligence pass
 
+Customer and market research follows the Creative Strategy Research playbook:
+/Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/research-creative-strategy/research-creative-strategy.md.
+Its toolbox and `tools/README.md` hold the review scrapers and the quote checker. This file covers
+the brand-folder intelligence pass, the evidence hierarchy and site crawls. Where the two differ, the
+playbook wins.
+
 Research begins with the active brand folder, not a blank search box. The goal is to separate what
 the brand knows, what the market suggests, what customers have actually said, and what the
 strategist is inferring.

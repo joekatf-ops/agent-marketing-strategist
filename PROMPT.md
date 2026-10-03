@@ -155,9 +155,11 @@ Use no em dashes or en dashes. Deliver the requested work, with concise assumpti
 
 ## Additional workflows
 
-Hooks, scripts and copy follow the DTC Ad Copywriting playbook. For customer intelligence, governed
-first-party ad analysis, learning records or a manual launch plan use the full knowledge bundle and
-the relevant contract. These advanced workflows are optional, not prerequisites for an image ad.
+Hooks, scripts and copy follow the DTC Ad Copywriting playbook. Customer and market research follows
+the Creative Strategy Research playbook:
+/Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/research-creative-strategy/research-creative-strategy.md;
+file its findings with the Customer Intelligence Brief contract. For governed first-party ad analysis,
+learning records or a manual launch plan use the full knowledge bundle and the relevant contract. These advanced workflows are optional, not prerequisites for an image ad.
 
 Analyse supplied ads with contracts/creative-audit.md or contracts/ad-diagnosis.md.
 For governed ad-analysis routing, use references/19-ad-analysis-harness.md, validate intake.json

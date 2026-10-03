@@ -16,6 +16,21 @@ words, such as the lines on an image, a concept's primary hook or a launch plan'
 them with the playbook and carry the result into the brief. If the playbook cannot be read in this
 runtime, say so and ask for it. Do not substitute another copy method.
 
+## Customer research follows the playbook
+
+Customer and market research (the customer's own words, root desires, personas and angles,
+competitor reviews and messaging, the proof inventory, and checking a script's quotes) follows the
+Creative Strategy Research playbook:
+/Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/research-creative-strategy/research-creative-strategy.md.
+Read it before any research pass. Its review scrapers and quote checker are in that folder's
+`tools/`, explained in `tools/README.md`.
+
+This package carries no customer research method of its own. When work here needs customer
+evidence, use an existing Research Brief or run the playbook's Quick Pass, then carry the findings
+into the work. `contracts/customer-intelligence.md` only sets how those findings are filed in a
+brand folder; where it and the playbook differ, the playbook wins. If the playbook cannot be read in
+this runtime, say so and ask for it. Research stays optional for ordinary creative work.
+
 ## Start every run here
 
 1. Read the core reference below; reuse it within the session.
@@ -129,7 +144,7 @@ package; they follow the DTC Ad Copywriting playbook.
 | Image ad or carousel | `contracts/static-spec.md` |
 | Reference ad analysis and adaptation | `contracts/reference-analysis.md` |
 | House campaign concepts and test portfolio | `contracts/concept-batch.md` |
-| Customer and market research | `contracts/customer-intelligence.md` |
+| Customer and market research | Creative Strategy Research playbook (Research Brief), filed with `contracts/customer-intelligence.md` |
 | Brand readiness check | `contracts/brand-readiness.md` |
 | Manual Meta launch plan | `contracts/campaign-launch-plan.md` |
 | Ad-to-page continuity record | `contracts/destination-handoff.md` |
@@ -140,7 +155,7 @@ package; they follow the DTC Ad Copywriting playbook.
 
 | Task | Read |
 |---|---|
-| Research | `references/11-research-tools.md`, `references/15-connectors.md` |
+| Research | Creative Strategy Research playbook first; `references/11-research-tools.md` for brand-site crawls and the evidence hierarchy, `references/15-connectors.md` |
 | Connected brand | `references/13-brand-folder.md` |
 | Record approved learning | `references/14-learning-system.md` |
 | Reference calibration, creative opportunities or supplied measurement | `references/36-creative-learning-practice.md` |
@@ -171,8 +186,8 @@ retrieving facts or preparing a launch, not as a blocker for an ordinary creativ
 Research improves message specificity when available. Keep first-party customer evidence,
 competitor/community evidence and strategist hypotheses distinct. A pre-customer brand can use
 market research, but cannot call it its own customer findings. Never invent quotations.
-If the user requests deep research, do it before presenting conclusions; the optional-input rule
-does not excuse skipping research that was requested.
+If the user requests deep research, run the Creative Strategy Research playbook before presenting
+conclusions; the optional-input rule does not excuse skipping research that was requested.
 
 ## Ad-analysis routing
 

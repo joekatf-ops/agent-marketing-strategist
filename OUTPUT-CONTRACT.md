@@ -10,13 +10,17 @@ copy) follows the DTC Ad Copywriting playbook:
 Read it before writing any ad copy. The Hook Batch, Ad Copy and Video Script contracts were retired
 in 1.9.0.
 
+Customer and market research follows the Creative Strategy Research playbook:
+/Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/research-creative-strategy/research-creative-strategy.md.
+The Customer Intelligence Brief only files its findings in a brand folder.
+
 Load a contract in full before producing that artefact.
 
 | Artefact | Contract | When |
 |---|---|---|
 | Strategist Read | `contracts/strategist-read.md` | Any request for judgement rather than production |
 | Brand Readiness | `contracts/brand-readiness.md` | When asked whether a brand is ready, or before a launch plan |
-| Customer Intelligence Brief | `contracts/customer-intelligence.md` | New brand, stale evidence, or research refresh |
+| Customer Intelligence Brief | `contracts/customer-intelligence.md` | Filing Creative Strategy Research playbook findings in a brand folder: new brand, stale evidence, or research refresh |
 | Concept Batch | `contracts/concept-batch.md` | Governed house campaign planning only |
 | Reference Analysis | `contracts/reference-analysis.md` | Supplied inspiration and paired-ratio adaptation |
 | Static and Carousel Spec | `contracts/static-spec.md` | Any selected static or carousel execution |

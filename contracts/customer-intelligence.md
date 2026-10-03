@@ -2,6 +2,11 @@
 locked: 2026-08-27
 version: 2.1.0
 
+Research method: the Creative Strategy Research playbook,
+/Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/research-creative-strategy/research-creative-strategy.md.
+Run the research with the playbook. This contract only sets how its findings are filed in a brand
+folder's `research/customer-intelligence.md`. Where the two differ, the playbook wins.
+
 The evidence base for strategy. Thin evidence produces a clearly limited brief, not invented certainty.
 
 ## Artefact

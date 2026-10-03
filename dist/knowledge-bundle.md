@@ -1303,6 +1303,12 @@ Em dashes and en dashes are banned everywhere and always. Use a comma, a colon, 
 
 # Research tools and the intelligence pass
 
+Customer and market research follows the Creative Strategy Research playbook:
+/Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/research-creative-strategy/research-creative-strategy.md.
+Its toolbox and `tools/README.md` hold the review scrapers and the quote checker. This file covers
+the brand-folder intelligence pass, the evidence hierarchy and site crawls. Where the two differ, the
+playbook wins.
+
 Research begins with the active brand folder, not a blank search box. The goal is to separate what
 the brand knows, what the market suggests, what customers have actually said, and what the
 strategist is inferring.
@@ -4534,6 +4540,11 @@ Zero ranked issues is valid when the supplied evidence supports no change.
 # Output Contract: Customer Intelligence Brief
 locked: 2026-08-27
 version: 2.1.0
+
+Research method: the Creative Strategy Research playbook,
+/Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/research-creative-strategy/research-creative-strategy.md.
+Run the research with the playbook. This contract only sets how its findings are filed in a brand
+folder's `research/customer-intelligence.md`. Where the two differ, the playbook wins.
 
 The evidence base for strategy. Thin evidence produces a clearly limited brief, not invented certainty.
 

@@ -42,7 +42,11 @@ One universal method serves many brands. Each brand keeps its own connected fold
 coordinate history, test history, winners and approved learning. The method is brand-neutral; brand
 facts never transfer between brands.
 
-**Version:** 1.9.0
+**Version:** 1.9.1
+
+Version 1.9.1 routes customer and market research to the Creative Strategy Research playbook:
+/Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/research-creative-strategy/research-creative-strategy.md.
+The Customer Intelligence Brief contract now only files its findings in a brand folder.
 
 Version 1.9.0 removes the package's own copywriting method. Hooks, scripts, headlines, primary
 text, descriptions and the words on an image follow the DTC Ad Copywriting playbook named above.
@@ -145,7 +149,7 @@ python3 scripts/init-brand-folder.py /path/to/brands/example-brand \
   --slug example-brand
 ```
 
-A freshly initialised brand starts with `method_version: "1.9.0"` and can use controlled
+A freshly initialised brand starts with `method_version: "1.9.1"` and can use controlled
 persistence after its normal readiness checks. The migration section below applies only to existing
 v0.3 folders.
 
@@ -421,6 +425,7 @@ structure is the entire point. See [`corpus/swipe/ATTRIBUTION.md`](corpus/swipe/
 
 | Version | Date | Change |
 |---|---|---|
+| 1.9.1 | 2026-10-03 | Customer and market research moves to the Creative Strategy Research playbook, which replaced the four retired research skills. SKILL.md, PROMPT.md, START-HERE.md, OUTPUT-CONTRACT.md, `references/11-research-tools.md` and the Customer Intelligence Brief contract route research to the playbook; the contract now only files its findings in a brand folder. Bundles rebuilt. |
 | 1.9.0 | 2026-10-01 | Ad copy moves to the DTC Ad Copywriting playbook. Removed references 05, 16, 20, 22, 24, 26, 29, 30, 33 and 35, the Hook Batch, Ad Copy and Video Script contracts and examples, the copy lexicon and its checker, the craft bundle, the swipe teaching digest and the copy eval harness. Routing in every entrypoint and bundle now sends hooks, scripts, headlines, primary text, descriptions and image copy to the playbook. Static devices moved into the format library. Pre-change state tagged `pre-copy-consolidation-2026-10-01`. |
 | 1.8.0 | 2026-09-17 | Guided image development, retained creative selections, direct routing for ready briefs and revisions, typography references and saved production records across installed and portable editions. |
 | 1.7.0 | 2026-09-16 | Consolidates art direction, full-regeneration continuity, format recommendations and three-part hooks; adds complete script methods and creative-learning practice; loads scoped brand preferences and rebuilds portable editions. |

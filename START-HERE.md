@@ -1,7 +1,7 @@
 # Start here
 
 
-## Current release: 1.9.0
+## Current release: 1.9.1
 
 Use the image bundle for art direction and image production, or the full knowledge bundle for the
 wider method. Attach the selected brand bundle as well when you want its saved preferences and
@@ -78,6 +78,9 @@ Add real customer reviews, support questions, interviews or survey responses whe
 
 > Research what buyers ask about products like this, then make three square concepts.
 
+Research itself follows the Creative Strategy Research playbook:
+/Users/joekatf/JOEKA OS/AI/AI Playbooks/Playbooks/research-creative-strategy/research-creative-strategy.md.
+
 The strategist should distinguish your customers from competitor or community evidence. It can
 propose a message from a plausible use case, but it cannot call that a research finding.
 Customer beliefs are useful when they explain a real buying obstacle; they are not required.
@@ -115,6 +118,11 @@ Use the full `dist/knowledge-bundle.md` for advanced research, governed ad analy
 records and manual campaign planning.
 The optional house campaign profile has its own naming and test conventions. Those do not impose
 a four-ad batch, customer-research gate or budget floor on ordinary creative work.
+
+## Changed in 1.9.1
+
+Customer and market research follows the Creative Strategy Research playbook named above. The
+Customer Intelligence Brief now only files its findings in a brand folder. Everything else is unchanged.
 
 ## Changed in 1.9.0
 

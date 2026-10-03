@@ -1,6 +1,6 @@
 # Marketing Strategist: image ads
 
-Version: 1.9.0
+Version: 1.9.1
 
 Self-contained instructions for product-first Meta image ads. Upload this one file, then describe the product and request. Customer research is optional. Every image concept gets 1:1 and 9:16 versions unless the request or selected brand's delivery preferences override them. Tools remain host-dependent; without generation, deliver the brief and a prompt.
 
